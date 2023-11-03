@@ -6,14 +6,13 @@ import {
   canMoveDown,
   canMoveLeft,
   canMoveRight,
-  canPlaceTetrimino,
+  canPlaceTetrimino, canRotate,
 } from './utils/constraints';
-import type { PlayerState } from './types/PlayerState';
+import type { PlayerStateDTO } from './types/PlayerState';
 
-import type { TetriminoPiece } from './constants/tetriminos';
 import { getRandomTetrimino } from './constants/tetriminos';
 import { ActionsEnum } from './enums/actions.enum';
-import { getShapeFromTetrimino } from './utils/tetriminoHelper';
+import {clockworkRotateTetrimino, getShapeFromTetrimino} from './utils/tetriminoHelper';
 
 export class PlayerGameState {
   public board: ColorEnum[][] = new Array(BOARD_HEIGHT)
@@ -35,13 +34,25 @@ export class PlayerGameState {
   constructor() {}
 
   private getRandomTetrimino(): Tetrimino {
-    let tetriminoPiece: TetriminoPiece = getRandomTetrimino();
-
     return {
       position_x: BOARD_WIDTH / 2 - 1,
       position_y: 0,
-      tetriminoPiece: tetriminoPiece,
+      tetriminoPiece: getRandomTetrimino(),
     };
+  }
+
+  private getShadowTetriminos() {
+    let copiedTetrimino = Object.assign({}, this.currentTetrimino);
+    copiedTetrimino.tetriminoPiece = Object.assign(
+        {},
+        this.currentTetrimino.tetriminoPiece
+    );
+    while (canMoveDown(copiedTetrimino, this.board)) {
+      copiedTetrimino.position_y++;
+    }
+
+    copiedTetrimino.tetriminoPiece.color = ColorEnum.SHADOW;
+    return copiedTetrimino;
   }
 
   private undrawShape(tetrimino: Tetrimino) {
@@ -86,17 +97,8 @@ export class PlayerGameState {
   }
 
   private rotate() {
-    let copiedTetrimino = Object.assign({}, this.currentTetrimino);
-    copiedTetrimino.tetriminoPiece = Object.assign(
-      {},
-      this.currentTetrimino.tetriminoPiece
-    );
-    copiedTetrimino.tetriminoPiece.rotation =
-      (copiedTetrimino.tetriminoPiece.rotation + 1) %
-      copiedTetrimino.tetriminoPiece.shape.length;
-
-    if (canPlaceTetrimino(copiedTetrimino, this.board)) {
-      this.currentTetrimino.tetriminoPiece = copiedTetrimino.tetriminoPiece;
+    if (canRotate(this.currentTetrimino, this.board)) {
+      clockworkRotateTetrimino(this.currentTetrimino);
     }
   }
 
@@ -166,21 +168,9 @@ export class PlayerGameState {
     this.nextTetriminos.push(this.getRandomTetrimino());
   }
 
-  private getShadowTetriminos() {
-    let copiedTetrimino = Object.assign({}, this.currentTetrimino);
-    copiedTetrimino.tetriminoPiece = Object.assign(
-        {},
-        this.currentTetrimino.tetriminoPiece
-    );
-    while (canMoveDown(copiedTetrimino, this.board)) {
-      copiedTetrimino.position_y++;
-    }
 
-    copiedTetrimino.tetriminoPiece.color = ColorEnum.SHADOW;
-    return copiedTetrimino;
-  }
 
-  getPlayerState(): PlayerState {
+  getPlayerState(): PlayerStateDTO {
     return {
       board: this.board,
       score: this.score,

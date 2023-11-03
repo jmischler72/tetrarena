@@ -15,7 +15,7 @@ export type TetriminoPiece = {
   rotation: number;
 };
 
-const tetriminoPieces: TetriminoPiece[] = [
+export const tetriminoPieces: TetriminoPiece[] = [
   {
     shape: T_SHAPE,
     color: ColorEnum.PURPLE,
