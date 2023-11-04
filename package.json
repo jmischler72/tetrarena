@@ -5,6 +5,7 @@
   "scripts": {
     "test": "jest"
   },
+  "main": "index.ts",
   "author": "jmischler72",
   "license": "ISC",
   "devDependencies": {

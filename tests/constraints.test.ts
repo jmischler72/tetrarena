@@ -1,8 +1,7 @@
-import {tetriminoPieces} from "../constants/tetriminos";
 import {BOARD_HEIGHT, BOARD_WIDTH} from "../constants/board";
 import {ColorEnum} from "../enums/color.enum";
 import {canMoveDown, canMoveLeft, canMoveRight} from "../utils/constraints";
-import {clockworkRotateTetrimino, getShapeFromTetrimino} from "../utils/tetriminoHelper";
+import {clockworkRotateTetrimino} from "../utils/tetriminoHelper";
 import {Tetrimino} from "../types/Tetrimino";
 import {T_SHAPE} from "../constants/shapes";
 

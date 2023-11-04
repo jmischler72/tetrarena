@@ -1,7 +1,7 @@
 import { PlayerGameState } from './PlayerGameState';
 import { ActionsEnum } from './enums/actions.enum';
 import { GAME_SPEED } from './constants/game';
-import { playerStateStore } from '../soloStore';
+import {PlayerGameStateUpdatedEvent} from "./constants/events";
 
 export class Game {
   private gameTimer: null | ReturnType<typeof setTimeout> = null;
@@ -9,23 +9,19 @@ export class Game {
 
   constructor() {
     this.updateGame();
-    console.log('Game Started');
-    window.onkeydown = this.handleKeydown.bind(this);
-  }
-
-  dispatchPlayerStateEvent() {
-    playerStateStore.update(() => this.playerGameState.getPlayerState());
-    this.playerGameState.deletedLines = [];
-    this.playerGameState.currentTetriminoFreezed = false;
+    console.log('Index Started');
   }
 
   handleKeydown(event: KeyboardEvent) {
-    if (event.defaultPrevented) {
-      return;
-    }
     this.playerGameState.handleInput(event.code);
     this.dispatchPlayerStateEvent();
-    event.preventDefault();
+  }
+
+  private dispatchPlayerStateEvent() {
+    const playerGameStateEvent = new CustomEvent(PlayerGameStateUpdatedEvent, { detail: this.playerGameState });
+    dispatchEvent(playerGameStateEvent);
+    this.playerGameState.deletedLines = [];
+    this.playerGameState.currentTetriminoFreezed = false;
   }
 
   private updateGame() {
