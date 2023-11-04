@@ -43,6 +43,9 @@ describe('test constraints', () => {
 
 
     test('canMoveRight should be false', () => {
+        while (canMoveRight(t_shape, board)){
+            t_shape.position_x++;
+        }
         expect(canMoveRight(t_shape, board)).toBe(false);
     });
 
