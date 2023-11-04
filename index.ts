@@ -9,7 +9,7 @@ export class Game {
 
   constructor() {
     this.updateGame();
-    console.log('Index Started');
+    console.log('Game Started');
   }
 
   handleKeydown(event: KeyboardEvent) {
