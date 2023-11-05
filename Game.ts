@@ -1,7 +1,7 @@
 import { PlayerGameState } from './PlayerGameState';
 import { ActionsEnum } from './enums/actions.enum';
 import { GAME_SPEED } from './constants/game';
-import {PlayerStateDTO} from "./types/PlayerState";
+import {PlayerStateDTO} from "./types/PlayerStateDTO";
 
 export class Game {
   private gameTimer: null | ReturnType<typeof setTimeout> = null;
@@ -17,8 +17,8 @@ export class Game {
     this.playerGameState.currentTetriminoFreezed = false;
   }
 
-  handleKeydown(event: KeyboardEvent) {
-    this.playerGameState.handleInput(event.code);
+  handleAction(action: ActionsEnum) {
+    this.playerGameState.handleAction(action);
     this.callbackOnPlayerStateUpdate();
   }
 
@@ -30,7 +30,7 @@ export class Game {
     this.gameTimer = setTimeout(this.updateGame.bind(this), GAME_SPEED); // https://stackoverflow.com/a/5911280
 
     if (!this.playerGameState.isGameOver) {
-      this.playerGameState.handleInput(ActionsEnum.ARROW_DOWN);
+      this.playerGameState.handleAction(ActionsEnum.GO_DOWN);
       this.callbackOnPlayerStateUpdate();
     } else {
       clearTimeout(this.gameTimer);

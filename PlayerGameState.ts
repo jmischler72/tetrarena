@@ -8,7 +8,7 @@ import {
   canMoveRight,
   canPlaceTetrimino, canRotate,
 } from './utils/constraints';
-import type { PlayerStateDTO } from './types/PlayerState';
+import type { PlayerStateDTO } from './types/PlayerStateDTO';
 
 import { getRandomTetrimino } from './constants/tetriminos';
 import { ActionsEnum } from './enums/actions.enum';
@@ -102,24 +102,24 @@ export class PlayerGameState {
     }
   }
 
-  public handleInput(input: string) {
+  public handleAction(action: ActionsEnum) {
     this.undrawShape(this.currentTetrimino);
     this.undrawShape(this.shadowTetrimino);
 
-    switch (input) {
-      case ActionsEnum.ARROW_LEFT:
+    switch (action) {
+      case ActionsEnum.GO_LEFT:
         this.moveLeft();
         break;
 
-      case ActionsEnum.ARROW_RIGHT:
+      case ActionsEnum.GO_RIGHT:
         this.moveRight();
         break;
 
-      case ActionsEnum.SPACE:
+      case ActionsEnum.ROTATE:
         this.rotate();
         break;
 
-      case ActionsEnum.ARROW_DOWN:
+      case ActionsEnum.GO_DOWN:
         this.moveDown();
         break;
 
