@@ -126,8 +126,8 @@ export class PlayerGameState {
                 break;
         }
         this.shadowTetrimino = this.getShadowTetriminos();
-        this.drawShape(this.currentTetrimino);
         this.drawShape(this.shadowTetrimino);
+        this.drawShape(this.currentTetrimino); // draw shadow before tetronimo so it is in front of the shadow
     }
 
     private instantPlaceTetrimino() {
