@@ -5,7 +5,7 @@
   "scripts": {
     "test": "jest"
   },
-  "main": "Game.ts",
+  "main": "index.ts",
   "author": "jmischler72",
   "license": "ISC",
   "devDependencies": {
