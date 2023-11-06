@@ -36,10 +36,6 @@ export class Game {
       clearTimeout(this.gameTimer);
     }
   }
-
-  public getPlayerGameState(){
-    this.playerGameState.getPlayerState();
-  }
 }
 
 
