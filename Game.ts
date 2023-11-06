@@ -12,6 +12,10 @@ export class Game {
   public updateGame(){
     this.playerGameState.handleAction(ActionsEnum.GO_DOWN);
   }
+
+  public getPlayerGameState(){
+    this.playerGameState.getPlayerState();
+  }
 }
 
 
