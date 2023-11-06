@@ -19,10 +19,10 @@ describe('test constraints', () => {
         t_shape = {
             position_x: 0,
             position_y: 0,
+            rotation: 0,
             tetriminoPiece: {
-                shape: T_SHAPE,
+                shapes: T_SHAPE,
                 color: ColorEnum.PURPLE,
-                rotation: 0,
             },
         }
     })
@@ -43,7 +43,7 @@ describe('test constraints', () => {
 
 
     test('canMoveRight should be false', () => {
-        while (canMoveRight(t_shape, board)){
+        while (canMoveRight(t_shape, board)) {
             t_shape.position_x++;
         }
         expect(canMoveRight(t_shape, board)).toBe(false);
@@ -54,7 +54,7 @@ describe('test constraints', () => {
     });
 
     test('piece at the bottom of board should not be able to go down', () => {
-        while (canMoveDown(t_shape, board)){
+        while (canMoveDown(t_shape, board)) {
             t_shape.position_y--;
         }
         expect(canMoveRight(t_shape, board)).toBe(false);

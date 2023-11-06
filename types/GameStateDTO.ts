@@ -5,7 +5,7 @@ export type TetriminoPieceDTO = {
     color: ColorEnum;
 }
 
-export type PlayerStateDTO = {
+export type GameStateDTO = {
     board: ColorEnum[][];
     score: number;
     nextTetriminos: TetriminoPieceDTO[];

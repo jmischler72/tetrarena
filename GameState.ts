@@ -8,13 +8,13 @@ import {
     canMoveRight,
     canPlaceTetrimino, canRotate,
 } from './utils/constraints';
-import type {PlayerStateDTO} from './types/PlayerStateDTO';
+import type {GameStateDTO} from './types/GameStateDTO';
 
 import {getRandomTetrimino} from './constants/tetriminos';
 import {ActionsEnum} from './enums/actions.enum';
 import {clockworkRotateTetrimino, getShapeFromTetrimino} from './utils/tetriminoHelper';
 
-export class PlayerGameState {
+export class GameState {
     public board: ColorEnum[][] = new Array(BOARD_HEIGHT)
         .fill(ColorEnum.NONE)
         .map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
@@ -35,6 +35,7 @@ export class PlayerGameState {
         return {
             position_x: BOARD_WIDTH / 2 - 1,
             position_y: 0,
+            rotation : 0,
             tetriminoPiece: getRandomTetrimino(),
         };
     }
@@ -100,7 +101,7 @@ export class PlayerGameState {
         }
     }
 
-    public handleAction(action: ActionsEnum) {
+    handleAction(action: ActionsEnum) {
         this.undrawShape(this.currentTetrimino);
         this.undrawShape(this.shadowTetrimino);
 
@@ -165,7 +166,7 @@ export class PlayerGameState {
         this.nextTetriminos.push(this.getRandomTetrimino());
     }
 
-    getPlayerState(): PlayerStateDTO {
+    getCurrentGameState(): GameStateDTO {
         return {
             board: this.board,
             score: this.score,

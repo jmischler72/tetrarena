@@ -1,24 +1,24 @@
-import { PlayerGameState } from './PlayerGameState';
+import { GameState } from './GameState';
 import { ActionsEnum } from './enums/actions.enum';
 import { GAME_SPEED } from './constants/game';
-import {PlayerStateDTO} from "./types/PlayerStateDTO";
+import {GameStateDTO} from "./types/GameStateDTO";
 
 export class Game {
   private gameTimer: null | ReturnType<typeof setTimeout> = null;
-  public readonly playerGameState: PlayerGameState = new PlayerGameState();
+  public readonly gameState: GameState = new GameState();
 
-  constructor(private callback: (playerState: PlayerStateDTO)=> void) {
+  constructor(private callback: (playerState: GameStateDTO)=> void) {
     console.log('Game Started');
   }
 
   private callbackOnPlayerStateUpdate() {
-    this.callback(this.playerGameState.getPlayerState());
-    this.playerGameState.deletedLines = [];
-    this.playerGameState.currentTetriminoFreezed = false;
+    this.callback(this.gameState.getCurrentGameState());
+    this.gameState.deletedLines = [];
+    this.gameState.currentTetriminoFreezed = false;
   }
 
   handleAction(action: ActionsEnum) {
-    this.playerGameState.handleAction(action);
+    this.gameState.handleAction(action);
     this.callbackOnPlayerStateUpdate();
   }
 
@@ -29,8 +29,8 @@ export class Game {
   private updateGame() {
     this.gameTimer = setTimeout(this.updateGame.bind(this), GAME_SPEED); // https://stackoverflow.com/a/5911280
 
-    if (!this.playerGameState.isGameOver) {
-      this.playerGameState.handleAction(ActionsEnum.GO_DOWN);
+    if (!this.gameState.isGameOver) {
+      this.gameState.handleAction(ActionsEnum.GO_DOWN);
       this.callbackOnPlayerStateUpdate();
     } else {
       clearTimeout(this.gameTimer);

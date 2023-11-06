@@ -10,46 +10,38 @@ import {
 } from './shapes';
 
 export type TetriminoPiece = {
-  shape: number[][][];
+  shapes: number[][][];
   color: ColorEnum;
-  rotation: number;
 };
 
 export const tetriminoPieces: TetriminoPiece[] = [
   {
-    shape: T_SHAPE,
+    shapes: T_SHAPE,
     color: ColorEnum.PURPLE,
-    rotation: 0,
   },
   {
-    shape: LL_SHAPE,
+    shapes: LL_SHAPE,
     color: ColorEnum.BLUE,
-    rotation: 0,
   },
   {
-    shape: LR_SHAPE,
+    shapes: LR_SHAPE,
     color: ColorEnum.ORANGE,
-    rotation: 0,
   },
   {
-    shape: I_SHAPE,
+    shapes: I_SHAPE,
     color: ColorEnum.LIGHT_BLUE,
-    rotation: 0,
   },
   {
-    shape: O_SHAPE,
+    shapes: O_SHAPE,
     color: ColorEnum.YELLOW,
-    rotation: 0,
   },
   {
-    shape: Z_SHAPE,
+    shapes: Z_SHAPE,
     color: ColorEnum.RED,
-    rotation: 0,
   },
   {
-    shape: S_SHAPE,
+    shapes: S_SHAPE,
     color: ColorEnum.GREEN,
-    rotation: 0,
   },
 ];
 
