@@ -3,9 +3,11 @@
   "version": "1.0.4",
   "description": "core game package for tetris-project",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "npx tsc",
+    "prepare": "npm run build"
   },
-  "main": "index.ts",
+  "main": "dist/index.js",
   "author": "jmischler72",
   "license": "ISC",
   "devDependencies": {
