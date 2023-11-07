@@ -1,5 +1,5 @@
-import {Game} from "../Game";
-import {GAME_SPEED} from "../constants/game";
+import {Game} from "../src/Game";
+import {GAME_SPEED} from "../src/constants/game";
 
 
 jest.useFakeTimers();

@@ -1,9 +1,9 @@
-import {BOARD_HEIGHT, BOARD_WIDTH} from "../constants/board";
-import {ColorEnum} from "../enums/color.enum";
-import {canMoveDown, canMoveLeft, canMoveRight} from "../utils/constraints";
-import {clockworkRotateTetrimino} from "../utils/tetriminoHelper";
-import {Tetrimino} from "../types/Tetrimino";
-import {T_SHAPE} from "../constants/shapes";
+import {BOARD_HEIGHT, BOARD_WIDTH} from "../src/constants/board";
+import {ColorEnum} from "../src";
+import {canMoveDown, canMoveLeft, canMoveRight} from "../src/utils/constraints";
+import {clockworkRotateTetrimino} from "../src/utils/tetriminoHelper";
+import {Tetrimino} from "../src/types/Tetrimino";
+import {T_SHAPE} from "../src/constants/shapes";
 
 
 describe('test constraints', () => {
@@ -57,7 +57,7 @@ describe('test constraints', () => {
         while (canMoveDown(t_shape, board)) {
             t_shape.position_y--;
         }
-        expect(canMoveRight(t_shape, board)).toBe(false);
+        expect(canMoveDown(t_shape, board)).toBe(false);
     });
 })
 

@@ -181,4 +181,9 @@ export class GameState {
             currentTetriminoFreezed: this.currentTetriminoFreezed,
         };
     }
+
+    clearOnDispatch(): void{
+        this.deletedLines = [];
+        this.currentTetriminoFreezed = false;
+    }
 }

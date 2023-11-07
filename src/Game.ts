@@ -13,8 +13,7 @@ export class Game {
 
   private callbackOnPlayerStateUpdate() {
     this.callback(this.gameState.getCurrentGameState());
-    this.gameState.deletedLines = [];
-    this.gameState.currentTetriminoFreezed = false;
+    this.gameState.clearOnDispatch();
   }
 
   handleAction(action: ActionsEnum) {
