@@ -10,49 +10,25 @@ import {
 } from './utils/constraints';
 import type {GameStateDTO} from './types/GameStateDTO';
 
-import {getRandomTetrimino} from './constants/tetriminos';
 import {ActionsEnum} from './enums/actions.enum';
-import {clockworkRotateTetrimino, getShapeFromTetrimino} from './utils/tetriminoHelper';
+import {clockworkRotateTetrimino, getShadowTetriminos, getShapeFromTetrimino, getRandomTetrimino} from './utils/tetriminoHelper';
 
 export class GameState {
     public board: ColorEnum[][] = new Array(BOARD_HEIGHT)
         .fill(ColorEnum.NONE)
         .map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
 
-    private currentTetrimino: Tetrimino = this.getRandomTetrimino();
-    private shadowTetrimino: Tetrimino = this.getShadowTetriminos();
+    private currentTetrimino: Tetrimino = getRandomTetrimino();
+    private shadowTetrimino: Tetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
 
     private nextTetriminos: Tetrimino[] = new Array(5)
         .fill({})
-        .map(() => this.getRandomTetrimino());
+        .map(() => getRandomTetrimino());
 
     public score: number = 0;
     public isGameOver: boolean = false;
     public deletedLines: number[] = [];
     public currentTetriminoFreezed: boolean = false;
-
-    private getRandomTetrimino(): Tetrimino {
-        return {
-            position_x: BOARD_WIDTH / 2 - 1,
-            position_y: 0,
-            rotation : 0,
-            tetriminoPiece: getRandomTetrimino(),
-        };
-    }
-
-    private getShadowTetriminos() {
-        let copiedTetrimino = Object.assign({}, this.currentTetrimino);
-        copiedTetrimino.tetriminoPiece = Object.assign(
-            {},
-            this.currentTetrimino.tetriminoPiece
-        );
-        while (canMoveDown(copiedTetrimino, this.board)) {
-            copiedTetrimino.position_y++;
-        }
-
-        copiedTetrimino.tetriminoPiece.color = ColorEnum.SHADOW;
-        return copiedTetrimino;
-    }
 
     private undrawShape(tetrimino: Tetrimino) {
         for (let j = 0; j < getShapeFromTetrimino(tetrimino).length; j++) {
@@ -101,36 +77,6 @@ export class GameState {
         }
     }
 
-    handleAction(action: ActionsEnum) {
-        this.undrawShape(this.currentTetrimino);
-        this.undrawShape(this.shadowTetrimino);
-
-        switch (action) {
-            case ActionsEnum.GO_LEFT:
-                this.moveLeft();
-                break;
-
-            case ActionsEnum.GO_RIGHT:
-                this.moveRight();
-                break;
-
-            case ActionsEnum.ROTATE:
-                this.rotate();
-                break;
-
-            case ActionsEnum.GO_DOWN:
-                this.moveDown();
-                break;
-
-            case ActionsEnum.INSTANT_PLACE:
-                this.instantPlaceTetrimino();
-                break;
-        }
-        this.shadowTetrimino = this.getShadowTetriminos();
-        this.drawShape(this.shadowTetrimino);
-        this.drawShape(this.currentTetrimino); // draw shadow before tetronimo so it is in front of the shadow
-    }
-
     private instantPlaceTetrimino() {
         while (canMoveDown(this.currentTetrimino, this.board)) {
             this.currentTetrimino.position_y++;
@@ -163,7 +109,37 @@ export class GameState {
     private switchCurrentTetrimino() {
         this.currentTetriminoFreezed = true;
         this.currentTetrimino = this.nextTetriminos.shift()!; // ! is a non-null assertion operator since shift() can return undefined if the array is empty
-        this.nextTetriminos.push(this.getRandomTetrimino());
+        this.nextTetriminos.push(getRandomTetrimino());
+    }
+
+    handleAction(action: ActionsEnum) {
+        this.undrawShape(this.currentTetrimino);
+        this.undrawShape(this.shadowTetrimino);
+
+        switch (action) {
+            case ActionsEnum.GO_LEFT:
+                this.moveLeft();
+                break;
+
+            case ActionsEnum.GO_RIGHT:
+                this.moveRight();
+                break;
+
+            case ActionsEnum.ROTATE:
+                this.rotate();
+                break;
+
+            case ActionsEnum.GO_DOWN:
+                this.moveDown();
+                break;
+
+            case ActionsEnum.INSTANT_PLACE:
+                this.instantPlaceTetrimino();
+                break;
+        }
+        this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
+        this.drawShape(this.shadowTetrimino);
+        this.drawShape(this.currentTetrimino); // draw shadow before tetronimo so it is in front of the shadow
     }
 
     getCurrentGameState(): GameStateDTO {

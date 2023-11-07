@@ -45,6 +45,6 @@ export const tetriminoPieces: TetriminoPiece[] = [
   },
 ];
 
-export function getRandomTetrimino(): TetriminoPiece {
+export function getRandomTetriminoPiece(): TetriminoPiece {
   return tetriminoPieces[Math.floor(Math.random() * tetriminoPieces.length)];
 }
