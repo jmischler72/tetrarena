@@ -8,31 +8,51 @@ import {
     canMoveRight,
     canPlaceTetrimino, canRotate,
 } from './utils/constraints';
+import type {GameStateDTO} from './types/GameStateDTO';
 
+import {getRandomTetrimino} from './constants/tetriminos';
 import {ActionsEnum} from './enums/actions.enum';
-import {
-    clockworkRotateTetrimino,
-    getShapeFromTetrimino,
-    getRandomTetrimino,
-    getShadowTetriminos
-} from './utils/tetriminoHelper';
+import {clockworkRotateTetrimino, getShapeFromTetrimino} from './utils/tetriminoHelper';
 
 export class GameState {
-    protected board: ColorEnum[][] = new Array(BOARD_HEIGHT)
+    public board: ColorEnum[][] = new Array(BOARD_HEIGHT)
         .fill(ColorEnum.NONE)
         .map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
 
-    protected currentTetrimino: Tetrimino = getRandomTetrimino();
-    protected shadowTetrimino: Tetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
+    private currentTetrimino: Tetrimino = this.getRandomTetrimino();
+    private shadowTetrimino: Tetrimino = this.getShadowTetriminos();
 
-    protected nextTetriminos: Tetrimino[] = new Array(5)
+    private nextTetriminos: Tetrimino[] = new Array(5)
         .fill({})
-        .map(() => getRandomTetrimino());
+        .map(() => this.getRandomTetrimino());
 
-    protected score: number = 0;
-    protected isGameOver: boolean = false;
-    protected deletedLines: number[] = [];
-    protected currentTetriminoFreezed: boolean = false;
+    public score: number = 0;
+    public isGameOver: boolean = false;
+    public deletedLines: number[] = [];
+    public currentTetriminoFreezed: boolean = false;
+
+    private getRandomTetrimino(): Tetrimino {
+        return {
+            position_x: BOARD_WIDTH / 2 - 1,
+            position_y: 0,
+            rotation : 0,
+            tetriminoPiece: getRandomTetrimino(),
+        };
+    }
+
+    private getShadowTetriminos() {
+        let copiedTetrimino = Object.assign({}, this.currentTetrimino);
+        copiedTetrimino.tetriminoPiece = Object.assign(
+            {},
+            this.currentTetrimino.tetriminoPiece
+        );
+        while (canMoveDown(copiedTetrimino, this.board)) {
+            copiedTetrimino.position_y++;
+        }
+
+        copiedTetrimino.tetriminoPiece.color = ColorEnum.SHADOW;
+        return copiedTetrimino;
+    }
 
     private undrawShape(tetrimino: Tetrimino) {
         for (let j = 0; j < getShapeFromTetrimino(tetrimino).length; j++) {
@@ -106,7 +126,7 @@ export class GameState {
                 this.instantPlaceTetrimino();
                 break;
         }
-        this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
+        this.shadowTetrimino = this.getShadowTetriminos();
         this.drawShape(this.shadowTetrimino);
         this.drawShape(this.currentTetrimino); // draw shadow before tetronimo so it is in front of the shadow
     }
@@ -143,6 +163,27 @@ export class GameState {
     private switchCurrentTetrimino() {
         this.currentTetriminoFreezed = true;
         this.currentTetrimino = this.nextTetriminos.shift()!; // ! is a non-null assertion operator since shift() can return undefined if the array is empty
-        this.nextTetriminos.push(getRandomTetrimino());
+        this.nextTetriminos.push(this.getRandomTetrimino());
+    }
+
+    getCurrentGameState(): GameStateDTO {
+        return {
+            board: this.board,
+            score: this.score,
+            nextTetriminos: this.nextTetriminos.map(tetrimino => {
+                return {
+                    shape: getShapeFromTetrimino(tetrimino),
+                    color: tetrimino.tetriminoPiece.color,
+                };
+            }),
+            isGameOver: this.isGameOver,
+            deletedLines: this.deletedLines,
+            currentTetriminoFreezed: this.currentTetriminoFreezed,
+        };
+    }
+
+    clearOnDispatch(): void{
+        this.deletedLines = [];
+        this.currentTetriminoFreezed = false;
     }
 }

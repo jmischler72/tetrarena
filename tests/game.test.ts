@@ -1,5 +1,5 @@
+import {Game} from "../src/Game";
 import {GAME_SPEED} from "../src/constants/game";
-import {SinglePlayerGame} from "../src";
 
 
 jest.useFakeTimers();
@@ -7,7 +7,7 @@ jest.useFakeTimers();
 test('game should callback according to gamespeed', () => {
     const mockCallback = jest.fn();
 
-    let game = new SinglePlayerGame(mockCallback);
+    let game = new Game(mockCallback);
     game.startGame();
 
     expect(mockCallback).toHaveBeenCalledTimes(1);

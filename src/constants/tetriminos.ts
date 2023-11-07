@@ -14,7 +14,7 @@ export type TetriminoPiece = {
   color: ColorEnum;
 };
 
-const tetriminoPieces: TetriminoPiece[] = [
+export const tetriminoPieces: TetriminoPiece[] = [
   {
     shapes: T_SHAPE,
     color: ColorEnum.PURPLE,
@@ -45,6 +45,6 @@ const tetriminoPieces: TetriminoPiece[] = [
   },
 ];
 
-export function getRandomTetriminoPiece(): TetriminoPiece {
+export function getRandomTetrimino(): TetriminoPiece {
   return tetriminoPieces[Math.floor(Math.random() * tetriminoPieces.length)];
 }

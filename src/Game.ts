@@ -1,29 +1,39 @@
 import { GameState } from './GameState';
+import { ActionsEnum } from './enums/actions.enum';
+import { GAME_SPEED } from './constants/game';
 import {GameStateDTO} from "./types/GameStateDTO";
-import {getShapeFromTetrimino} from "./utils/tetriminoHelper";
 
-export class Game extends GameState{
-  protected readonly gameState: GameState = new GameState();
+export class Game {
+  private gameTimer: null | ReturnType<typeof setTimeout> = null;
+  public readonly gameState: GameState = new GameState();
 
-  getCurrentGameState(): GameStateDTO {
-    return {
-      board: this.board,
-      score: this.score,
-      nextTetriminos: this.nextTetriminos.map(tetrimino => {
-        return {
-          shape: getShapeFromTetrimino(tetrimino),
-          color: tetrimino.tetriminoPiece.color,
-        };
-      }),
-      isGameOver: this.isGameOver,
-      deletedLines: this.deletedLines,
-      currentTetriminoFreezed: this.currentTetriminoFreezed,
-    };
+  constructor(private callback: (playerState: GameStateDTO)=> void) {
+    console.log('Game Started');
   }
 
-  clearOnDispatch(): void{
-    this.deletedLines = [];
-    this.currentTetriminoFreezed = false;
+  private callbackOnPlayerStateUpdate() {
+    this.callback(this.gameState.getCurrentGameState());
+    this.gameState.clearOnDispatch();
+  }
+
+  handleAction(action: ActionsEnum) {
+    this.gameState.handleAction(action);
+    this.callbackOnPlayerStateUpdate();
+  }
+
+  startGame(){
+    this.updateGame();
+  }
+
+  private updateGame() {
+    this.gameTimer = setTimeout(this.updateGame.bind(this), GAME_SPEED); // https://stackoverflow.com/a/5911280
+
+    if (!this.gameState.isGameOver) {
+      this.gameState.handleAction(ActionsEnum.GO_DOWN);
+      this.callbackOnPlayerStateUpdate();
+    } else {
+      clearTimeout(this.gameTimer);
+    }
   }
 }
 
