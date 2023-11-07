@@ -20,10 +20,10 @@ you can use the ```handleAction``` function with an ```ActionsEnum``` action.
 ## Exported Classes
 ### Classes
 
-- Game : <strong>Used to instantiate a game</strong>
+- SinglePlayerGame : <strong>Used to instantiate a game</strong>
   - Is used for the client to instantiate singleplayer games
-- GameState : <strong> The state of the game at any given point</strong>
-  - expose two functions handleAction and getGameState to interact
+- Game : <strong> The state of the game at any given point</strong>
+  - expose two functions handleAction, getGameState and clearOnDispatch to interact
   - Is used for the server to control multiple gamestate
 ### Types
 
