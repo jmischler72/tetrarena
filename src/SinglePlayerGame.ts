@@ -3,7 +3,7 @@ import { ActionsEnum } from './enums/actions.enum';
 import { GAME_SPEED } from './constants/game';
 import {GameStateDTO} from "./types/GameStateDTO";
 
-export class Game {
+export class SinglePlayerGame {
   private gameTimer: null | ReturnType<typeof setTimeout> = null;
   public readonly gameState: GameState = new GameState();
 
