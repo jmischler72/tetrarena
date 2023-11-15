@@ -10,6 +10,7 @@
   "main": "dist/index.js",
   "author": "jmischler72",
   "license": "ISC",
+  "repository":"https://github.com/jmischler72/core_tetris",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
