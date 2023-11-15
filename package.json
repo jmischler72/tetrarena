@@ -12,7 +12,7 @@
   "license": "ISC",
   "repository":"https://github.com/jmischler72/core_tetris",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com/jmischler72"
   },
   "devDependencies": {
     "@types/jest": "^29.5.7",
