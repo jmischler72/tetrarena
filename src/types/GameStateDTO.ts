@@ -11,5 +11,6 @@ export type GameStateDTO = {
     nextTetriminos: TetriminoPieceDTO[];
     isGameOver: boolean;
     deletedLines: number[];
+    numberAddedLines: number;
     currentTetriminoFreezed: boolean;
 };

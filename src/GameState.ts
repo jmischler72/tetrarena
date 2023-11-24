@@ -11,7 +11,12 @@ import {
 import type {GameStateDTO} from './types/GameStateDTO';
 
 import {ActionsEnum} from './enums/actions.enum';
-import {clockworkRotateTetrimino, getShadowTetriminos, getShapeFromTetrimino, getRandomTetrimino} from './utils/tetriminoHelper';
+import {
+    clockworkRotateTetrimino,
+    getShadowTetriminos,
+    getShapeFromTetrimino,
+    getRandomTetrimino
+} from './utils/tetriminoHelper';
 
 export class GameState {
     public board: ColorEnum[][] = new Array(BOARD_HEIGHT)
@@ -28,6 +33,7 @@ export class GameState {
     public score: number = 0;
     public isGameOver: boolean = false;
     public deletedLines: number[] = [];
+    public numberAddedLines: number = 0;
     public currentTetriminoFreezed: boolean = false;
 
     private undrawShape(tetrimino: Tetrimino) {
@@ -154,12 +160,14 @@ export class GameState {
             }),
             isGameOver: this.isGameOver,
             deletedLines: this.deletedLines,
+            numberAddedLines: this.numberAddedLines,
             currentTetriminoFreezed: this.currentTetriminoFreezed,
         };
     }
 
-    clearOnDispatch(): void{
+    clearOnDispatch(): void {
         this.deletedLines = [];
+        this.numberAddedLines = 0;
         this.currentTetriminoFreezed = false;
     }
 }

@@ -30,7 +30,6 @@ export class SinglePlayerGame {
 
     if (!this.gameState.isGameOver) {
       this.gameState.handleAction(ActionsEnum.GO_DOWN);
-      this.callbackOnPlayerStateUpdate();
     } else {
       clearTimeout(this.gameTimer);
     }
