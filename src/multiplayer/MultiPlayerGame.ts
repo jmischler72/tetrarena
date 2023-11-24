@@ -46,7 +46,6 @@ export class MultiPlayerGame {
         this.gameTimer = setTimeout(this.updateGame.bind(this), GAME_SPEED); // https://stackoverflow.com/a/5911280
 
         for (const [id, gameState] of this.gameStates.entries()) {
-            console.log(id)
             if (!gameState.isGameOver) {
                 this.handleAction(id, ActionsEnum.GO_DOWN);
             } else {
