@@ -1,8 +1,8 @@
-import {GameState} from "../GameState";
-import {ActionsEnum} from "../enums/actions.enum";
-import {ColorEnum} from "../enums/color.enum";
+import {ActionsEnum} from "../../enums/actions.enum";
+import {ColorEnum} from "../../enums/color.enum";
+import {Game} from "../Game";
 
-export class Player extends GameState {
+export class Player extends Game {
     private opponent: Player;
 
     constructor() {
@@ -13,7 +13,15 @@ export class Player extends GameState {
         this.opponent = opponent;
     }
 
-    addLines(lines: number) {
+    handleAction(action: ActionsEnum): boolean {
+        let hasActionBeenDone = super.handleAction(action);
+
+        this.opponent.addLines(this.deletedLines.length);
+
+        return hasActionBeenDone;
+    }
+
+    private addLines(lines: number) {
         this.opponent.numberAddedLines = lines;
 
         for (let i = 0; i < lines; i++) {
@@ -25,11 +33,5 @@ export class Player extends GameState {
             this.board.push(list);
             console.log(this.board.length);
         }
-    }
-
-    handleAction(action: ActionsEnum) {
-        super.handleAction(action);
-
-        this.opponent.addLines(this.deletedLines.length);
     }
 }

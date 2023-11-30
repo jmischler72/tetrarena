@@ -1,12 +1,11 @@
-import {MultiPlayerGame} from "../src";
-
+import {MultiPlayerInstance} from "../src";
 
 jest.useFakeTimers();
 
 test('game should callback according to gamespeed', () => {
     const mockCallback = jest.fn();
 
-    let game = new MultiPlayerGame(["player1", "player2"], mockCallback);
+    let game = new MultiPlayerInstance(["player1", "player2"], mockCallback);
 
     expect(game.gameStates.size).toBe(2);
 

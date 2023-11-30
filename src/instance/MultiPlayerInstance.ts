@@ -1,9 +1,9 @@
 import {ActionsEnum} from '../enums/actions.enum';
 import {GAME_SPEED} from '../constants/game';
 import {GameStateDTO} from "../types/GameStateDTO";
-import {Player} from "./Player";
+import {Player} from "../game/multiplayer/Player";
 
-export class MultiPlayerGame {
+export class MultiPlayerInstance {
     private gameTimer: null | ReturnType<typeof setTimeout> = null;
     public readonly gameStates: Map<string, Player> = new Map<
         string,
@@ -28,9 +28,12 @@ export class MultiPlayerGame {
         return this.gameStates.get(id);
     }
 
-    private callbackOnGameStateUpdate(id: string) {
-        this.callback(id, this.gameStates.get(id).getCurrentGameState());
-        this.gameStates.get(id).clearOnDispatch();
+    startGame() {
+        this.updateGame();
+    }
+
+    stopGame() {
+        clearTimeout(this.gameTimer);
     }
 
     handleAction(id: string, action: ActionsEnum) {
@@ -38,8 +41,9 @@ export class MultiPlayerGame {
         this.callbackOnGameStateUpdate(id);
     }
 
-    startGame() {
-        this.updateGame();
+    private callbackOnGameStateUpdate(id: string) {
+        this.callback(id, this.gameStates.get(id).getCurrentGameState());
+        this.gameStates.get(id).clearOnDispatch();
     }
 
     private updateGame() {
@@ -49,7 +53,7 @@ export class MultiPlayerGame {
             if (!gameState.isGameOver) {
                 this.handleAction(id, ActionsEnum.GO_DOWN);
             } else {
-                clearTimeout(this.gameTimer);
+                this.stopGame();
             }
         }
     }
