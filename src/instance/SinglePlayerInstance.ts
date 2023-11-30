@@ -1,0 +1,48 @@
+import {ActionsEnum} from '../enums/actions.enum';
+import {GAME_SPEED} from '../constants/game';
+import {GameStateDTO} from "../types/GameStateDTO";
+import {Game} from "../game/Game";
+
+export class SinglePlayerInstance {
+    private gameTimer: null | ReturnType<typeof setTimeout> = null;
+    public readonly game: Game = new Game();
+
+    constructor(private callback: (playerState: GameStateDTO) => void) {
+        console.log('Game Started');
+    }
+
+    handleAction(action: ActionsEnum) {
+        this.game.handleAction(action);
+
+        this.callbackOnPlayerStateUpdate();
+    }
+
+    startGame() {
+        this.updateGame();
+    }
+
+    stopGame() {
+        clearTimeout(this.gameTimer);
+    }
+
+    private callbackOnPlayerStateUpdate() {
+        this.callback(this.game.getCurrentGameState());
+        this.game.clearOnDispatch();
+    }
+
+    private updateGame() {
+        this.gameTimer = setTimeout(this.updateGame.bind(this), GAME_SPEED); // https://stackoverflow.com/a/5911280
+
+        console.log(this.game.isGameOver);
+
+        if (!this.game.isGameOver) {
+            this.handleAction(ActionsEnum.GO_DOWN);
+        } else {
+            this.stopGame();
+        }
+    }
+}
+
+
+
+

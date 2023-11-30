@@ -15,11 +15,16 @@ export function clockworkRotateTetrimino(tetrimino: Tetrimino) {
         tetrimino.tetriminoPiece.shapes.length;
 }
 
+export function checkIfLineIsFull(row: ColorEnum[]) {
+    const nonPlayableColors = [ColorEnum.NONE, ColorEnum.SHADOW];
+    return row.filter(block => nonPlayableColors.includes(block)).length === 0;
+}
+
 export function getRandomTetrimino(): Tetrimino {
     return {
         position_x: BOARD_WIDTH / 2 - 1,
         position_y: 0,
-        rotation : 0,
+        rotation: 0,
         tetriminoPiece: getRandomTetriminoPiece(),
     };
 }
