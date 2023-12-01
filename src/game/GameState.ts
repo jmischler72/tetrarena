@@ -104,7 +104,7 @@ export class GameState {
                 break;
         }
 
-        if (action === ActionsEnum.GO_DOWN && !hasActionBeenDone) {
+        if ((action === ActionsEnum.GO_DOWN && !hasActionBeenDone) || action === ActionsEnum.INSTANT_PLACE ) {
             this.drawShape(this.currentTetrimino);
             this.checkBreakLine();
             this.checkForGameOver();
