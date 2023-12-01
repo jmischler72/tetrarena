@@ -97,7 +97,6 @@ export class GameState {
 
             case ActionsEnum.GO_DOWN:
                 hasActionBeenDone = Actions.moveDown(this.currentTetrimino, this.board);
-
                 break;
 
             case ActionsEnum.INSTANT_PLACE:
@@ -105,14 +104,15 @@ export class GameState {
                 break;
         }
 
-        this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
-        this.drawShape(this.shadowTetrimino);
-        this.drawShape(this.currentTetrimino); // draw shadow before tetronimo so it is in front of the shadow
-
-        if ([ActionsEnum.INSTANT_PLACE, ActionsEnum.GO_DOWN].includes(action) && !hasActionBeenDone) {
+        if (action === ActionsEnum.GO_DOWN && !hasActionBeenDone) {
+            this.drawShape(this.currentTetrimino);
             this.checkBreakLine();
             this.checkForGameOver();
         }
+
+        this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
+        this.drawShape(this.shadowTetrimino);
+        this.drawShape(this.currentTetrimino); // draw shadow before tetronimo so it is in front of the shadow
 
         return hasActionBeenDone;
     }

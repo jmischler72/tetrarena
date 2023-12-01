@@ -13,7 +13,6 @@ export class SinglePlayerInstance {
 
     handleAction(action: ActionsEnum) {
         this.game.handleAction(action);
-
         this.callbackOnPlayerStateUpdate();
     }
 
