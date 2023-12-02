@@ -1,7 +1,7 @@
 import {ActionsEnum} from '../enums/actions.enum';
 import {GAME_SPEED} from '../constants/game';
-import {GameStateDTO} from "../types/GameStateDTO";
 import {Player} from "../game/multiplayer/Player";
+import {ActionDTO} from "../types/multiplayer/ActionDTO";
 
 export class MultiPlayerInstance {
     private gameTimer: null | ReturnType<typeof setTimeout> = null;
@@ -10,7 +10,7 @@ export class MultiPlayerInstance {
         Player
     >();
 
-    constructor(private ids: string[], private readonly callback: (id: string, playerState: GameStateDTO) => void) {
+    constructor(private ids: string[], private readonly callback: (id: string, actionDTO: ActionDTO) => void) {
         console.log('Game Started');
 
         ids.forEach((id) => {
@@ -37,12 +37,17 @@ export class MultiPlayerInstance {
     }
 
     handleAction(id: string, action: ActionsEnum) {
-        this.gameStates.get(id).handleAction(action);
-        this.callbackOnGameStateUpdate(id);
+        let hasActionBeenDone = this.gameStates.get(id).handleAction(action);
+        if(hasActionBeenDone){
+            let actionDTO: ActionDTO = {
+                action : action
+            }
+            this.callbackOnGameStateUpdate(id, actionDTO);
+        }
     }
 
-    private callbackOnGameStateUpdate(id: string) {
-        this.callback(id, this.gameStates.get(id).getCurrentGameState());
+    private callbackOnGameStateUpdate(id: string, actionDTO: ActionDTO) {
+        this.callback(id, actionDTO);
         this.gameStates.get(id).clearOnDispatch();
     }
 

@@ -13,6 +13,7 @@ import {
 } from '../utils/tetriminoHelper';
 import {Actions} from "./Actions";
 import {getRandomTetriminoPiece, TetriminoPiece} from "../constants/tetriminos";
+import {SyncGameStateDTO} from "../types/multiplayer/SyncGameStateDTO";
 
 export class GameState {
     protected board: ColorEnum[][] = new Array(BOARD_HEIGHT)
@@ -65,8 +66,16 @@ export class GameState {
         }
     }
 
-    handleAction(action: ActionsEnum): boolean {
+    setGameState(gamestate: SyncGameStateDTO){
+        this.board = gamestate.board;
+        this.currentTetrimino = gamestate.currentTetrimino;
+        this.shadowTetrimino = gamestate.shadowTetrimino;
+        this.nextTetriminos = gamestate.nextTetriminos;
+        this.isGameOver = gamestate.isGameOver;
+        this.score = gamestate.score;
+    }
 
+    handleAction(action: ActionsEnum): boolean {
         let hasActionBeenDone: boolean = false;
 
         switch (action) {
