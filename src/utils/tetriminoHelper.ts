@@ -1,6 +1,6 @@
 import type {Tetrimino} from '../types/Tetrimino';
 import {BOARD_WIDTH} from "../constants/board";
-import {getRandomTetriminoPiece} from "../constants/tetriminos";
+import {TetriminoPiece} from "../constants/tetriminos";
 import {ColorEnum} from "../enums/color.enum";
 import {canMoveDown} from "./constraints";
 
@@ -20,12 +20,12 @@ export function checkIfLineIsFull(row: ColorEnum[]) {
     return row.filter(block => nonPlayableColors.includes(block)).length === 0;
 }
 
-export function getRandomTetrimino(): Tetrimino {
+export function getNewTetriminoFromTetriminoPiece(tetriminoPiece: TetriminoPiece): Tetrimino {
     return {
         position_x: BOARD_WIDTH / 2 - 1,
         position_y: 0,
         rotation: 0,
-        tetriminoPiece: getRandomTetriminoPiece(),
+        tetriminoPiece: tetriminoPiece,
     };
 }
 
