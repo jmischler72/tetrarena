@@ -10,11 +10,27 @@ export class Game extends GameState {
     getCurrentGameState(): GameStateDTO {
         return {
             board: this.board,
+            currentTetrimino: {
+                position_x: this.currentTetrimino.position_x,
+                position_y: this.currentTetrimino.position_y,
+                tetriminoPiece: {
+                    shape: getShapeFromTetrimino(this.currentTetrimino),
+                    color: this.currentTetrimino.tetriminoPiece.color
+                },
+            },
+            shadowTetrimino: {
+                position_x: this.shadowTetrimino.position_x,
+                position_y: this.shadowTetrimino.position_y,
+                tetriminoPiece: {
+                    shape: getShapeFromTetrimino(this.shadowTetrimino),
+                    color: this.shadowTetrimino.tetriminoPiece.color
+                },
+            },
             score: this.score,
             nextTetriminos: this.nextTetriminos.map(tetrimino => {
                 return {
-                    shape: getShapeFromTetrimino(tetrimino),
-                    color: tetrimino.tetriminoPiece.color,
+                    shape: tetrimino.shapes[0],
+                    color: tetrimino.color,
                 };
             }),
             isGameOver: this.isGameOver,

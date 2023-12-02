@@ -7,23 +7,24 @@ import {canPlaceTetrimino,} from '../utils/constraints';
 import {ActionsEnum} from '../enums/actions.enum';
 import {
     checkIfLineIsFull,
-    getRandomTetrimino,
+    getNewTetriminoFromTetriminoPiece,
     getShadowTetriminos,
     getShapeFromTetrimino
 } from '../utils/tetriminoHelper';
 import {Actions} from "./Actions";
+import {getRandomTetriminoPiece, TetriminoPiece} from "../constants/tetriminos";
 
 export class GameState {
     protected board: ColorEnum[][] = new Array(BOARD_HEIGHT)
         .fill(ColorEnum.NONE)
         .map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
 
-    protected currentTetrimino: Tetrimino = getRandomTetrimino();
+    protected currentTetrimino: Tetrimino = getNewTetriminoFromTetriminoPiece(getRandomTetriminoPiece());
     protected shadowTetrimino: Tetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
 
-    protected nextTetriminos: Tetrimino[] = new Array(5)
+    protected nextTetriminos: TetriminoPiece[] = new Array(5)
         .fill({})
-        .map(() => getRandomTetrimino());
+        .map(() => getRandomTetriminoPiece());
 
     protected score: number = 0;
     public isGameOver: boolean = false;
@@ -31,17 +32,7 @@ export class GameState {
     protected numberAddedLines: number = 0;
     protected currentTetriminoFreezed: boolean = false;
 
-    private undrawShape(tetrimino: Tetrimino) {
-        for (let j = 0; j < getShapeFromTetrimino(tetrimino).length; j++) {
-            for (let k = 0; k < getShapeFromTetrimino(tetrimino)[j].length; k++) {
-                if (getShapeFromTetrimino(tetrimino)[j][k] === 1)
-                    this.board[tetrimino.position_y + j][tetrimino.position_x + k] =
-                        ColorEnum.NONE;
-            }
-        }
-    }
-
-    private drawShape(tetrimino: Tetrimino) {
+    private drawShapeOnBoard(tetrimino: Tetrimino) {
         for (let j = 0; j < getShapeFromTetrimino(tetrimino).length; j++) {
             for (let k = 0; k < getShapeFromTetrimino(tetrimino)[j].length; k++) {
                 if (getShapeFromTetrimino(tetrimino)[j][k] === 1)
@@ -63,22 +54,18 @@ export class GameState {
     }
 
     private checkForGameOver() {
-        if (canPlaceTetrimino(this.nextTetriminos[0], this.board)) {
-            this.switchCurrentTetrimino();
+        let newTetrimino = getNewTetriminoFromTetriminoPiece(this.nextTetriminos.shift());
+
+        if (canPlaceTetrimino(newTetrimino, this.board)) {
+            this.currentTetriminoFreezed = true;
+            this.currentTetrimino = newTetrimino;
+            this.nextTetriminos.push(getRandomTetriminoPiece());
         } else {
             this.isGameOver = true;
         }
     }
 
-    private switchCurrentTetrimino() {
-        this.currentTetriminoFreezed = true;
-        this.currentTetrimino = this.nextTetriminos.shift()!; // ! is a non-null assertion operator since shift() can return undefined if the array is empty
-        this.nextTetriminos.push(getRandomTetrimino());
-    }
-
     handleAction(action: ActionsEnum): boolean {
-        this.undrawShape(this.currentTetrimino);
-        this.undrawShape(this.shadowTetrimino);
 
         let hasActionBeenDone: boolean = false;
 
@@ -104,16 +91,13 @@ export class GameState {
                 break;
         }
 
-        if ((action === ActionsEnum.GO_DOWN && !hasActionBeenDone) || action === ActionsEnum.INSTANT_PLACE ) {
-            this.drawShape(this.currentTetrimino);
+        if ((action === ActionsEnum.GO_DOWN && !hasActionBeenDone) || action === ActionsEnum.INSTANT_PLACE) {
+            this.drawShapeOnBoard(this.currentTetrimino);
             this.checkBreakLine();
             this.checkForGameOver();
         }
 
         this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
-        this.drawShape(this.shadowTetrimino);
-        this.drawShape(this.currentTetrimino); // draw shadow before tetronimo so it is in front of the shadow
-
         return hasActionBeenDone;
     }
 }

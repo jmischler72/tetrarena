@@ -4,4 +4,4 @@ export {MultiPlayerInstance} from "./instance/MultiPlayerInstance";
 export {ActionsEnum} from "./enums/actions.enum";
 export {ColorEnum} from "./enums/color.enum";
 
-export {GameStateDTO, TetriminoPieceDTO} from "./types/GameStateDTO";
+export {GameStateDTO, TetriminoPieceDTO, TetriminoDTO} from "./types/GameStateDTO";
