@@ -3,7 +3,7 @@ import {ColorEnum} from "../../enums/color.enum";
 import {Game} from "../Game";
 
 export class Player extends Game {
-    private opponent: Player;
+    private opponent?: Player;
 
     constructor() {
         super();
@@ -16,13 +16,13 @@ export class Player extends Game {
     handleAction(action: ActionsEnum): boolean {
         let hasActionBeenDone = super.handleAction(action);
 
-        this.opponent.addLines(this.deletedLines.length);
+        this.opponent?.addLines(this.deletedLines.length);
 
         return hasActionBeenDone;
     }
 
     private addLines(lines: number) {
-        this.opponent.numberAddedLines = lines;
+        if (this.opponent) this.opponent.numberAddedLines = lines;
 
         for (let i = 0; i < lines; i++) {
             console.log(this.board.length);

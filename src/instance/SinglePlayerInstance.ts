@@ -21,7 +21,7 @@ export class SinglePlayerInstance {
     }
 
     stopGame() {
-        clearTimeout(this.gameTimer);
+        if (this.gameTimer) clearTimeout(this.gameTimer);
     }
 
     private callbackOnPlayerStateUpdate() {

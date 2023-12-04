@@ -1,4 +1,3 @@
-import {ActionsEnum} from '../enums/actions.enum';
 import {GameStateDTO} from "../types/GameStateDTO";
 import {Player} from "../game/multiplayer/Player";
 import {SyncGameStateDTO} from "../types/multiplayer/SyncGameStateDTO";
@@ -17,7 +16,8 @@ export class PilotedMultiPlayerInstance {
         })
 
         ids.forEach((id) => {
-            this.gameStates.get(id).switchOpponent(this.getRandomOppIdForPlayer(id))
+            let player = this.getRandomOppIdForPlayer(id)
+            if (player) this.gameStates.get(id)?.switchOpponent(player)
         })
     }
 
@@ -27,19 +27,20 @@ export class PilotedMultiPlayerInstance {
         return this.gameStates.get(id);
     }
 
-    syncGameState(clientId: string, gameState: SyncGameStateDTO){
-        this.gameStates.get(clientId).setGameState(gameState);
+    syncGameState(clientId: string, gameState: SyncGameStateDTO) {
+        this.gameStates.get(clientId)?.setGameState(gameState);
     }
 
-    handleAction(id: string, action: ActionsEnum) {
-        this.gameStates.get(id).handleAction(action);
-        this.callbackOnGameStateUpdate(id);
-    }
-
-    private callbackOnGameStateUpdate(id: string) {
-        this.callback(id, this.gameStates.get(id).getCurrentGameState());
-        this.gameStates.get(id).clearOnDispatch();
-    }
+    //
+    // handleAction(id: string, action: ActionsEnum) {
+    //     this.gameStates.get(id)?.handleAction(action);
+    //     this.callbackOnGameStateUpdate(id);
+    // }
+    //
+    // private callbackOnGameStateUpdate(id: string) {
+    //     this.callback(id, this.gameStates.get(id).getCurrentGameState());
+    //     this.gameStates.get(id)?.clearOnDispatch();
+    // }
 }
 
 

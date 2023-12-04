@@ -18,7 +18,8 @@ export class MultiPlayerInstance {
         })
 
         ids.forEach((id) => {
-            this.gameStates.get(id).switchOpponent(this.getRandomOppIdForPlayer(id))
+            let player = this.getRandomOppIdForPlayer(id)
+            if (player) this.gameStates.get(id)?.switchOpponent(player)
         })
     }
 
@@ -33,14 +34,14 @@ export class MultiPlayerInstance {
     }
 
     stopGame() {
-        clearTimeout(this.gameTimer);
+        if (this.gameTimer) clearTimeout(this.gameTimer);
     }
 
     handleAction(id: string, action: ActionsEnum) {
-        let hasActionBeenDone = this.gameStates.get(id).handleAction(action);
-        if(hasActionBeenDone){
+        let hasActionBeenDone = this.gameStates.get(id)?.handleAction(action);
+        if (hasActionBeenDone) {
             let actionDTO: ActionDTO = {
-                action : action
+                action: action
             }
             this.callbackOnGameStateUpdate(id, actionDTO);
         }
@@ -48,7 +49,7 @@ export class MultiPlayerInstance {
 
     private callbackOnGameStateUpdate(id: string, actionDTO: ActionDTO) {
         this.callback(id, actionDTO);
-        this.gameStates.get(id).clearOnDispatch();
+        this.gameStates.get(id)?.clearOnDispatch();
     }
 
     private updateGame() {

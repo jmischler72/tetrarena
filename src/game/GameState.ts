@@ -55,7 +55,7 @@ export class GameState {
     }
 
     private checkForGameOver() {
-        let newTetrimino = getNewTetriminoFromTetriminoPiece(this.nextTetriminos.shift());
+        let newTetrimino = getNewTetriminoFromTetriminoPiece(this.nextTetriminos.shift()!);
 
         if (canPlaceTetrimino(newTetrimino, this.board)) {
             this.currentTetriminoFreezed = true;
@@ -66,7 +66,7 @@ export class GameState {
         }
     }
 
-    setGameState(gamestate: SyncGameStateDTO){
+    setGameState(gamestate: SyncGameStateDTO) {
         this.board = gamestate.board;
         this.currentTetrimino = gamestate.currentTetrimino;
         this.shadowTetrimino = gamestate.shadowTetrimino;
