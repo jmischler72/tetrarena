@@ -1,6 +1,7 @@
 import {ActionsEnum} from "../../enums/actions.enum";
 
 export type ActionDTO = {
-    action: ActionsEnum;
+    action?: ActionsEnum;
+    gameOver?: boolean;
 }
 

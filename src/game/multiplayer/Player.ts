@@ -3,9 +3,9 @@ import {ColorEnum} from "../../enums/color.enum";
 import {Game} from "../Game";
 
 export class Player extends Game {
-    private opponent?: Player;
+    public opponent?: Player;
 
-    constructor() {
+    constructor(public id: string) {
         super();
     }
 

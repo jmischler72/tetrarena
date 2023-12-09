@@ -14,20 +14,20 @@ export class MultiPlayerInstance {
         console.log('Game Started');
 
         ids.forEach((id) => {
-            this.gameStates.set(id, new Player());
+            this.gameStates.set(id, new Player(id));
         })
 
-        ids.forEach((id) => {
-            let player = this.getRandomOppIdForPlayer(id)
-            if (player) this.gameStates.get(id)?.switchOpponent(player)
-        })
+        // ids.forEach((id) => {
+        //     let player = this.getRandomOppIdForPlayer(id)
+        //     if (player) this.gameStates.get(id)?.switchOpponent(player)
+        // })
     }
 
-    private getRandomOppIdForPlayer(playerId: string) {
-        let ids = this.ids.filter((id) => id !== playerId);
-        let id = ids[Math.floor(Math.random() * ids.length)];
-        return this.gameStates.get(id);
-    }
+    // private getRandomOppIdForPlayer(playerId: string) {
+    //     let ids = this.ids.filter((id) => id !== playerId);
+    //     let id = ids[Math.floor(Math.random() * ids.length)];
+    //     return this.gameStates.get(id);
+    // }
 
     startGame() {
         this.updateGame();
@@ -38,18 +38,13 @@ export class MultiPlayerInstance {
     }
 
     handleAction(id: string, action: ActionsEnum) {
-        let hasActionBeenDone = this.gameStates.get(id)?.handleAction(action);
-        if (hasActionBeenDone) {
-            let actionDTO: ActionDTO = {
-                action: action
-            }
-            this.callbackOnGameStateUpdate(id, actionDTO);
+        let gamestate = this.gameStates.get(id);
+        if (!gamestate) {
+            return
         }
-    }
+        let hasActionBeenDone = this.gameStates.get(id)!.handleAction(action);
 
-    private callbackOnGameStateUpdate(id: string, actionDTO: ActionDTO) {
-        this.callback(id, actionDTO);
-        this.gameStates.get(id)?.clearOnDispatch();
+        if (hasActionBeenDone) this.callback(id, {action: action});
     }
 
     private updateGame() {
@@ -59,7 +54,8 @@ export class MultiPlayerInstance {
             if (!gameState.isGameOver) {
                 this.handleAction(id, ActionsEnum.GO_DOWN);
             } else {
-                this.stopGame();
+                this.gameStates.delete(id);
+                this.callback(id, {gameOver: true})
             }
         }
     }

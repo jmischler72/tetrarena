@@ -1,5 +1,6 @@
 export {SinglePlayerInstance} from "./instance/SinglePlayerInstance";
 export {MultiPlayerInstance} from "./instance/MultiPlayerInstance";
+export {PilotedMultiPlayerInstance} from "./instance/PilotedMultiPlayerInstance";
 
 export {ActionsEnum} from "./enums/actions.enum";
 export {ColorEnum} from "./enums/color.enum";
