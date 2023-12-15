@@ -2,10 +2,11 @@ import {GameState} from "./GameState";
 import {GameStateDTO, TetriminoDTO} from "../types/GameStateDTO";
 import {getShapeFromTetrimino} from "../utils/tetriminoHelper";
 import {Tetrimino} from "../types/Tetrimino";
+import {TetriminoPiece} from "../constants/tetriminos";
 
 export class Game extends GameState {
-    constructor() {
-        super();
+    constructor(currentTetrimino?: Tetrimino, nextTetriminos?: TetriminoPiece[]) {
+        super(currentTetrimino, nextTetriminos);
     }
 
     private getTetriminoDTO(tetrimino: Tetrimino): TetriminoDTO {
