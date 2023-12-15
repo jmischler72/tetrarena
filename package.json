@@ -4,9 +4,10 @@
   "description": "core game package for tetris-project",
   "scripts": {
     "test": "jest",
-    "build": "run-script-os",
-    "build:darwin:linux": "rimraf dist && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && ./fixup-linux",
-    "build:win32": "rimraf dist && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && fixup-win.bat",
+    "build": "rimraf dist && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && npm run copy",
+    "copy": "run-script-os",
+    "copy:darwin:linux": "cp ./package-cjs.json dist/cjs/package.json && cp ./package-mjs.json dist/mjs/package.json",
+    "copy:win32": "xcopy \".\\package-cjs.json\" \"dist\\cjs\\package.json*\" && xcopy \".\\package-mjs.json\" \"dist\\mjs\\package.json*\"",
     "updateLink": "npm run build & npm link",
     "prepare": "npm run build"
   },
