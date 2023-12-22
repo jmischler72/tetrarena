@@ -1,13 +1,13 @@
-export {SinglePlayerInstance} from "./instance/SinglePlayerInstance.ts";
+export {SinglePlayerInstance} from "./instance/SinglePlayerInstance";
 
-export {MultiplayerGame} from "./game/multiplayer/MultiplayerGame.ts";
-export {PilotedMultiplayerGame} from "./game/multiplayer/PilotedMultiplayerGame.ts"
+export {MultiplayerGame} from "./game/multiplayer/MultiplayerGame";
+export {PilotedMultiplayerGame} from "./game/multiplayer/PilotedMultiplayerGame"
 
-export {ActionsEnum} from "./enums/actions.enum.ts";
-export {ColorEnum} from "./enums/color.enum.ts";
+export {ActionsEnum} from "./enums/actions.enum";
+export {ColorEnum} from "./enums/color.enum";
 
-export {GameStateDTO, TetriminoPieceDTO, TetriminoDTO} from "./types/GameStateDTO.ts";
-export {PlayerState} from "./types/multiplayer/PlayerState.ts";
-export {GameEvent} from "./types/multiplayer/GameEvent.ts";
+export {GameStateDTO, TetriminoPieceDTO, TetriminoDTO} from "./types/GameStateDTO";
+export {PlayerState} from "./types/multiplayer/PlayerState";
+export {GameEvent} from "./types/multiplayer/GameEvent";
 
-export {GAME_SPEED} from "./constants/game.ts"
+export {GAME_SPEED} from "./constants/game"
