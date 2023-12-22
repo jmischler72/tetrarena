@@ -11,7 +11,7 @@ export class SinglePlayerInstance {
     }
 
     handleAction(action: ActionsEnum) {
-        this.game.handleAction(action);
+        this.game.updateGameState(action);
     }
 
     startGame() {

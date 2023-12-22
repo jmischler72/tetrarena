@@ -1,8 +1,11 @@
-import {ColorEnum} from "../../enums/color.enum";
-import {Game} from "../Game";
-import {InitPlayerDTO} from "../../types/multiplayer/InitPlayerDTO";
+import {ActionsEnum} from "../../enums/actions.enum";
+import {getRandomTetriminoPiece} from "../../constants/tetriminos";
+import {GameEvent} from "../../types/multiplayer/GameEvent";
+import {getShadowTetriminos} from "../../utils/tetriminoHelper";
+import {PlayerState} from "../../types/multiplayer/PlayerState";
+import {GameState} from "../GameState";
 
-export class MultiplayerGame extends Game {
+export class MultiplayerGame extends GameState {
 
     constructor(public id: string, public opponentId: string) {
         super();
@@ -12,26 +15,35 @@ export class MultiplayerGame extends Game {
         this.opponentId = opponentId;
     }
 
-    getInitPlayerDTO(): InitPlayerDTO{
+    getCurrentPlayerState(isInitialization: boolean): PlayerState {
         return {
             id: this.id,
             opponentId: this.opponentId,
-            currentTetrimino: this.currentTetrimino.tetriminoPiece,
-            nextTetriminos: this.nextTetriminos
+            currentTetrimino: this.currentTetrimino,
+            nextTetriminos: this.nextTetriminos,
+            board: isInitialization ? undefined : this.board,
+            score: isInitialization ? undefined : this.score,
         }
     }
 
-    addLines(lines: number) {
-        this.numberAddedLines = lines;
+    updateGameState(action: ActionsEnum): GameEvent | null {
+        let hasActionBeenDone = this.handleAction(action);
+        let nextTetrimino = undefined;
 
-        for (let i = 0; i < lines; i++) {
-            console.log(this.board.length);
-            const list = Array.from({length: this.board[0].length}, () => ColorEnum.BLOCK);
-
-            list[Math.floor(Math.random() * list.length)] = ColorEnum.NONE;
-
-            this.board.push(list);
-            console.log(this.board.length);
+        if ((action === ActionsEnum.GO_DOWN && !hasActionBeenDone) || action === ActionsEnum.INSTANT_PLACE) {
+            this.drawShapeOnBoard(this.currentTetrimino);
+            this.checkBreakLine();
+            nextTetrimino = getRandomTetriminoPiece();
+            this.checkForGameOver(nextTetrimino);
         }
+
+        this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
+        if (hasActionBeenDone || nextTetrimino) {
+            return {
+                action: action,
+                nextTetrimino: nextTetrimino
+            }
+        }
+        return null;
     }
 }

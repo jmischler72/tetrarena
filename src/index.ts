@@ -7,6 +7,7 @@ export {ActionsEnum} from "./enums/actions.enum";
 export {ColorEnum} from "./enums/color.enum";
 
 export {GameStateDTO, TetriminoPieceDTO, TetriminoDTO} from "./types/GameStateDTO";
-export {InitPlayerDTO} from "./types/multiplayer/InitPlayerDTO";
+export {PlayerState} from "./types/multiplayer/PlayerState";
+export {GameEvent} from "./types/multiplayer/GameEvent";
 
 export {GAME_SPEED} from "./constants/game"

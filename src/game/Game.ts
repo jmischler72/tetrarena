@@ -9,17 +9,6 @@ export class Game extends GameState {
         super(currentTetrimino, nextTetriminos);
     }
 
-    private getTetriminoDTO(tetrimino: Tetrimino): TetriminoDTO {
-        return {
-            position_x: tetrimino.position_x,
-            position_y: tetrimino.position_y,
-            tetriminoPiece: {
-                shape: getShapeFromTetrimino(tetrimino),
-                color: tetrimino.tetriminoPiece.color
-            },
-        }
-    }
-
     getCurrentGameState(): GameStateDTO {
         let gamestate = {
             board: this.board,
@@ -47,4 +36,14 @@ export class Game extends GameState {
         this.currentTetriminoFreezed = false;
     }
 
+    private getTetriminoDTO(tetrimino: Tetrimino): TetriminoDTO {
+        return {
+            position_x: tetrimino.position_x,
+            position_y: tetrimino.position_y,
+            tetriminoPiece: {
+                shape: getShapeFromTetrimino(tetrimino),
+                color: tetrimino.tetriminoPiece.color
+            },
+        }
+    }
 }

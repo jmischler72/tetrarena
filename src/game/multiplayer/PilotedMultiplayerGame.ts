@@ -1,31 +1,24 @@
-import {ColorEnum} from "../../enums/color.enum";
 import {Game} from "../Game";
-import {InitPlayerDTO} from "../../types/multiplayer/InitPlayerDTO";
-import {getNewTetriminoFromTetriminoPiece} from "../../utils/tetriminoHelper";
+import {PlayerState} from "../../types/multiplayer/PlayerState";
 
 export class PilotedMultiplayerGame extends Game {
     public opponentId: string;
-    constructor(initPlayerDTO: InitPlayerDTO) {
-        super(getNewTetriminoFromTetriminoPiece(initPlayerDTO.currentTetrimino), initPlayerDTO.nextTetriminos);
 
-        this.opponentId = initPlayerDTO.opponentId;
+    constructor(playerState: PlayerState) {
+        super(playerState.currentTetrimino, playerState.nextTetriminos);
+
+        this.opponentId = playerState.opponentId;
+    }
+
+    setPlayerState(playerState: PlayerState) {
+        this.opponentId = playerState.opponentId;
+        this.currentTetrimino = playerState.currentTetrimino;
+        this.nextTetriminos = playerState.nextTetriminos;
+        if (playerState.board) this.board = playerState.board;
+        if (playerState.score) this.score = playerState.score;
     }
 
     switchOpponent(opponentId: string) {
         this.opponentId = opponentId;
-    }
-
-    private addLines(lines: number) {
-        this.numberAddedLines = lines;
-
-        for (let i = 0; i < lines; i++) {
-            console.log(this.board.length);
-            const list = Array.from({length: this.board[0].length}, () => ColorEnum.BLOCK);
-
-            list[Math.floor(Math.random() * list.length)] = ColorEnum.NONE;
-
-            this.board.push(list);
-            console.log(this.board.length);
-        }
     }
 }
