@@ -1,8 +1,40 @@
 {
-  "extends": "./tsconfig-base.json",
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+  ],
   "compilerOptions": {
+    "baseUrl": "./",
+    "declaration": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "forceConsistentCasingInFileNames": false,
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "module": "esnext",
-    "outDir": "dist/mjs",
-    "target": "esnext"
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "paths": {
+      "@": [
+        "./"
+      ],
+      "*": [
+        "src/*",
+        "node_modules/*"
+      ]
+    },
+    "rootDir": "./src",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es6"
   }
 }
