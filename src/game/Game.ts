@@ -1,7 +1,7 @@
 import {GameState} from "./GameState";
-import {GameStateDTO, TetriminoDTO} from "types/GameStateDTO";
-import {getShapeFromTetrimino} from "utils/tetriminoHelper";
-import {Tetrimino} from "types/Tetrimino";
+import {GameStateDTO, TetriminoDTO} from "../types/GameStateDTO";
+import {getShapeFromTetrimino} from "../utils/tetriminoHelper";
+import {Tetrimino} from "../types/Tetrimino";
 
 export class Game extends GameState {
 

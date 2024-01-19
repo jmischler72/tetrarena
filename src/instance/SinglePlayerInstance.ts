@@ -1,6 +1,6 @@
-import {ActionsEnum} from 'enums/actions.enum';
-import {GAME_SPEED} from 'constants/game';
-import {Game} from "game/Game";
+import {ActionsEnum} from '../enums/actions.enum';
+import {GAME_SPEED} from '../constants/game';
+import {Game} from "../game/Game";
 
 export class SinglePlayerInstance {
     private gameTimer: null | ReturnType<typeof setTimeout> = null;

@@ -1,18 +1,18 @@
-import type {Tetrimino} from 'types/Tetrimino';
+import type {Tetrimino} from '../types/Tetrimino';
 
-import {BOARD_HEIGHT, BOARD_WIDTH} from 'constants/board';
-import {ColorEnum} from 'enums/color.enum';
-import {canPlaceTetrimino,} from 'utils/constraints';
+import {BOARD_HEIGHT, BOARD_WIDTH} from '../constants/board';
+import {ColorEnum} from '../enums/color.enum';
+import {canPlaceTetrimino,} from '../utils/constraints';
 
-import {ActionsEnum} from 'enums/actions.enum';
+import {ActionsEnum} from '../enums/actions.enum';
 import {
     checkIfLineIsFull,
     getNewTetriminoFromTetriminoPiece,
     getShadowTetriminos,
     getShapeFromTetrimino
-} from 'utils/tetriminoHelper';
+} from '../utils/tetriminoHelper';
 import {Actions} from "./Actions";
-import {getRandomTetriminoPiece, TetriminoPiece} from "constants/tetriminos";
+import {getRandomTetriminoPiece, TetriminoPiece} from "../constants/tetriminos";
 
 export class GameState {
     protected board: ColorEnum[][] = new Array(BOARD_HEIGHT)
