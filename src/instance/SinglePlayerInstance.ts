@@ -1,6 +1,6 @@
-import {ActionsEnum} from '../enums/actions.enum';
-import {GAME_SPEED} from '../constants/game';
-import {Game} from "../game/Game";
+import {ActionsEnum} from 'enums/actions.enum';
+import {GAME_SPEED} from 'constants/game';
+import {Game} from "game/Game";
 
 export class SinglePlayerInstance {
     private gameTimer: null | ReturnType<typeof setTimeout> = null;
@@ -24,8 +24,6 @@ export class SinglePlayerInstance {
 
     private updateGame() {
         this.gameTimer = setTimeout(this.updateGame.bind(this), GAME_SPEED); // https://stackoverflow.com/a/5911280
-
-        console.log(this.game.isGameOver);
 
         if (!this.game.isGameOver) {
             this.handleAction(ActionsEnum.GO_DOWN);

@@ -1,7 +1,7 @@
-import {canMoveDown, canMoveLeft, canMoveRight, canRotate} from "../utils/constraints";
-import {clockworkRotateTetrimino} from "../utils/tetriminoHelper";
-import {Tetrimino} from "../types/Tetrimino";
-import {ColorEnum} from "../enums/color.enum";
+import {canMoveDown, canMoveLeft, canMoveRight, canRotate} from "utils/constraints";
+import {clockworkRotateTetrimino} from "utils/tetriminoHelper";
+import {Tetrimino} from "types/Tetrimino";
+import {ColorEnum} from "enums/color.enum";
 
 export class Actions {
     static rotate(currentTetrimino: Tetrimino, board: ColorEnum[][]): boolean {
