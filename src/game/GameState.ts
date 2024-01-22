@@ -5,26 +5,21 @@ import {ColorEnum} from '../enums/color.enum';
 import {canPlaceTetrimino,} from '../utils/constraints';
 
 import {ActionsEnum} from '../enums/actions.enum';
-import {
-    checkIfLineIsFull,
-    getNewTetriminoFromTetriminoPiece,
-    getShadowTetriminos,
-    getShapeFromTetrimino
-} from '../utils/tetriminoHelper';
+import {checkIfLineIsFull, getNewTetrimino, getShadowTetriminos, getShapeFromTetrimino} from '../utils/tetriminoHelper';
 import {Actions} from "./Actions";
-import {getRandomTetriminoPiece, TetriminoPiece} from "../constants/tetriminos";
+import {getRandomColor} from "../constants/tetriminos";
 
 export class GameState {
     protected board: ColorEnum[][] = new Array(BOARD_HEIGHT)
         .fill(ColorEnum.NONE)
         .map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
 
-    protected currentTetrimino: Tetrimino = getNewTetriminoFromTetriminoPiece(getRandomTetriminoPiece());
+    protected currentTetrimino: Tetrimino = getNewTetrimino(getRandomColor());
     protected shadowTetrimino: Tetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
 
-    protected nextTetriminos: TetriminoPiece[] = new Array(5)
+    protected nextTetriminos: ColorEnum[] = new Array(5)
         .fill({})
-        .map(() => getRandomTetriminoPiece());
+        .map(() => getRandomColor());
 
     protected score: number = 0;
     public isGameOver: boolean = false;
@@ -37,7 +32,7 @@ export class GameState {
             for (let k = 0; k < getShapeFromTetrimino(tetrimino)[j].length; k++) {
                 if (getShapeFromTetrimino(tetrimino)[j][k] === 1)
                     this.board[tetrimino.position_y + j][tetrimino.position_x + k] =
-                        tetrimino.tetriminoPiece.color;
+                        tetrimino.color;
             }
         }
         this.currentTetriminoFreezed = true;
@@ -54,12 +49,12 @@ export class GameState {
         });
     }
 
-    protected checkForGameOver(nextTetrimino: TetriminoPiece) {
-        let newTetrimino = getNewTetriminoFromTetriminoPiece(this.nextTetriminos.shift()!);
+    protected checkForGameOver() {
+        let newTetrimino = getNewTetrimino(this.nextTetriminos.shift()!);
 
         if (canPlaceTetrimino(newTetrimino, this.board)) {
             this.currentTetrimino = newTetrimino;
-            this.nextTetriminos.push(nextTetrimino);
+            this.nextTetriminos.push(getRandomColor());
         } else {
             this.isGameOver = true;
         }
@@ -88,18 +83,20 @@ export class GameState {
             case ActionsEnum.INSTANT_PLACE:
                 hasActionBeenDone = Actions.instantPlaceTetrimino(this.currentTetrimino, this.board);
                 break;
+
         }
 
         return hasActionBeenDone;
     }
 
     updateGameState(action: ActionsEnum): void {
+        if (this.isGameOver) return;
         let hasActionBeenDone = this.handleAction(action);
 
         if ((action === ActionsEnum.GO_DOWN && !hasActionBeenDone) || action === ActionsEnum.INSTANT_PLACE) {
             this.drawShapeOnBoard(this.currentTetrimino);
             this.checkBreakLine();
-            this.checkForGameOver(getRandomTetriminoPiece());
+            this.checkForGameOver();
         }
 
         this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);

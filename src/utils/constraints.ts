@@ -1,9 +1,6 @@
 import type {Tetrimino} from '../types/Tetrimino';
 import {ColorEnum} from '../enums/color.enum';
-import {
-    clockworkRotateTetrimino,
-    getShapeFromTetrimino,
-} from './tetriminoHelper';
+import {clockworkRotateTetrimino, getShapeFromTetrimino,} from './tetriminoHelper';
 
 export const canMoveDown = (tetrimino: Tetrimino, board: ColorEnum[][]) => {
     const copiedTetriminos = Object.assign({}, tetrimino);
@@ -28,10 +25,7 @@ export const canMoveRight = (tetrimino: Tetrimino, board: ColorEnum[][]) => {
 
 export const canRotate = (tetrimino: Tetrimino, board: ColorEnum[][]) => {
     let copiedTetrimino = Object.assign({}, tetrimino);
-    copiedTetrimino.tetriminoPiece = Object.assign(
-        {},
-        tetrimino.tetriminoPiece
-    );
+
     clockworkRotateTetrimino(copiedTetrimino);
     return canPlaceTetrimino(copiedTetrimino, board);
 }
