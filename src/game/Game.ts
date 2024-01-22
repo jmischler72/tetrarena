@@ -1,6 +1,5 @@
 import {GameState} from "./GameState";
 import {GameStateDTO, TetriminoDTO} from "../types/GameStateDTO";
-import {getShapeFromTetrimino} from "../utils/tetriminoHelper";
 import {Tetrimino} from "../types/Tetrimino";
 
 export class Game extends GameState {
@@ -11,12 +10,7 @@ export class Game extends GameState {
             currentTetrimino: this.getTetriminoDTO(this.currentTetrimino),
             shadowTetrimino: this.getTetriminoDTO(this.shadowTetrimino),
             score: this.score,
-            nextTetriminos: this.nextTetriminos.map(tetrimino => {
-                return {
-                    shape: tetrimino.shapes[0],
-                    color: tetrimino.color,
-                };
-            }),
+            nextTetriminos: this.nextTetriminos.map(tetrimino => tetrimino.color),
             isGameOver: this.isGameOver,
             deletedLines: this.deletedLines,
             numberAddedLines: this.numberAddedLines,
@@ -36,10 +30,8 @@ export class Game extends GameState {
         return {
             position_x: tetrimino.position_x,
             position_y: tetrimino.position_y,
-            tetriminoPiece: {
-                shape: getShapeFromTetrimino(tetrimino),
-                color: tetrimino.tetriminoPiece.color
-            },
+            rotation: tetrimino.rotation,
+            shape: tetrimino.tetriminoPiece.color
         }
     }
 }

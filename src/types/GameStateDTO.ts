@@ -1,14 +1,10 @@
 import type {ColorEnum} from "../enums/color.enum";
 
-export type TetriminoPieceDTO = {
-    shape: number[][];
-    color: ColorEnum;
-}
-
 export type TetriminoDTO = {
     position_x: number;
     position_y: number;
-    tetriminoPiece: TetriminoPieceDTO;
+    rotation: number,
+    shape: ColorEnum,
 }
 
 export type GameStateDTO = {
@@ -16,7 +12,7 @@ export type GameStateDTO = {
     currentTetrimino: TetriminoDTO;
     shadowTetrimino: TetriminoDTO;
     score: number;
-    nextTetriminos: TetriminoPieceDTO[];
+    nextTetriminos: ColorEnum[];
     isGameOver: boolean;
     deletedLines: number[];
     numberAddedLines: number;
