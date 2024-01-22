@@ -3,7 +3,6 @@ import {ColorEnum} from "../src";
 import {canMoveDown, canMoveLeft, canMoveRight} from "../src/utils/constraints";
 import {clockworkRotateTetrimino} from "../src/utils/tetriminoHelper";
 import {Tetrimino} from "../src/types/Tetrimino";
-import {T_SHAPE} from "../src/constants/shapes";
 
 
 describe('test constraints', () => {
@@ -20,10 +19,7 @@ describe('test constraints', () => {
             position_x: 0,
             position_y: 0,
             rotation: 0,
-            tetriminoPiece: {
-                shapes: T_SHAPE,
-                color: ColorEnum.PURPLE,
-            },
+            color: ColorEnum.PURPLE,
         }
     })
 

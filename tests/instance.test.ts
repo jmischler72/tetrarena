@@ -1,5 +1,4 @@
-import {SinglePlayerInstance} from "../src";
-import {GAME_SPEED} from "../src";
+import {GAME_SPEED, SinglePlayerInstance} from "../src";
 
 
 jest.useFakeTimers();
@@ -10,13 +9,11 @@ test('game should callback according to gamespeed', () => {
 
     const myMethodSpy = jest.spyOn(game, 'handleAction');
 
-    game.startGame();
-
-    expect(myMethodSpy).toHaveBeenCalledTimes(1);
 
     // Fast-forward time
     jest.advanceTimersByTime(GAME_SPEED);
-
+    expect(myMethodSpy).toHaveBeenCalledTimes(1);
+    jest.advanceTimersByTime(GAME_SPEED);
     expect(myMethodSpy).toHaveBeenCalledTimes(2);
 
 })

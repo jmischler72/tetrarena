@@ -2,7 +2,7 @@ import type {Tetrimino} from '../types/Tetrimino';
 import {BOARD_WIDTH} from "../constants/board";
 import {ColorEnum} from "../enums/color.enum";
 import {canMoveDown} from "./constraints";
-import {getTetriminoPieceFromColor} from "constants/tetriminos";
+import {getTetriminoPieceFromColor} from "../constants/tetriminos";
 
 export function getShapeFromTetrimino(tetrimino: Tetrimino): number[][] {
     let piece = getTetriminoPieceFromColor(tetrimino.color);
