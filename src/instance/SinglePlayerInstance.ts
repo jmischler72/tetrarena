@@ -8,14 +8,11 @@ export class SinglePlayerInstance {
 
     constructor() {
         console.log('Game Started');
+        this.updateGame();
     }
 
     handleAction(action: ActionsEnum) {
         this.game.updateGameState(action);
-    }
-
-    startGame() {
-        this.updateGame();
     }
 
     stopGame() {
