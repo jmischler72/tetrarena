@@ -1,16 +1,15 @@
 import {GameState} from "./GameState";
-import {GameStateDTO, TetriminoDTO} from "../types/GameStateDTO";
-import {Tetrimino} from "../types/Tetrimino";
+import {GameStateDTO} from "../types/GameStateDTO";
 
 export class Game extends GameState {
 
     getCurrentGameState(): GameStateDTO {
         let gamestate = {
             board: this.board,
-            currentTetrimino: this.getTetriminoDTO(this.currentTetrimino),
-            shadowTetrimino: this.getTetriminoDTO(this.shadowTetrimino),
+            currentTetrimino: this.currentTetrimino,
+            shadowTetrimino: this.shadowTetrimino,
             score: this.score,
-            nextTetriminos: this.nextTetriminos.map(tetrimino => tetrimino.color),
+            nextTetriminos: this.nextTetriminos,
             isGameOver: this.isGameOver,
             deletedLines: this.deletedLines,
             numberAddedLines: this.numberAddedLines,
@@ -24,14 +23,5 @@ export class Game extends GameState {
         this.deletedLines = [];
         this.numberAddedLines = 0;
         this.currentTetriminoFreezed = false;
-    }
-
-    private getTetriminoDTO(tetrimino: Tetrimino): TetriminoDTO {
-        return {
-            position_x: tetrimino.position_x,
-            position_y: tetrimino.position_y,
-            rotation: tetrimino.rotation,
-            shape: tetrimino.tetriminoPiece.color
-        }
     }
 }
