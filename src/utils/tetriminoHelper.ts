@@ -1,18 +1,21 @@
 import type {Tetrimino} from '../types/Tetrimino';
 import {BOARD_WIDTH} from "../constants/board";
-import {TetriminoPiece} from "../constants/tetriminos";
 import {ColorEnum} from "../enums/color.enum";
 import {canMoveDown} from "./constraints";
+import {getTetriminoPieceFromColor} from "constants/tetriminos";
 
 export function getShapeFromTetrimino(tetrimino: Tetrimino): number[][] {
-    let piece = tetrimino.tetriminoPiece;
+    let piece = getTetriminoPieceFromColor(tetrimino.color);
+    if (!piece) return [];
     return piece.shapes[tetrimino.rotation];
 }
 
 export function clockworkRotateTetrimino(tetrimino: Tetrimino) {
+    let piece = getTetriminoPieceFromColor(tetrimino.color);
+    if (!piece) return;
     tetrimino.rotation =
         (tetrimino.rotation + 1) %
-        tetrimino.tetriminoPiece.shapes.length;
+        piece.shapes.length;
 }
 
 export function checkIfLineIsFull(row: ColorEnum[]) {
@@ -20,26 +23,22 @@ export function checkIfLineIsFull(row: ColorEnum[]) {
     return row.filter(block => nonPlayableColors.includes(block)).length === 0;
 }
 
-export function getNewTetriminoFromTetriminoPiece(tetriminoPiece: TetriminoPiece): Tetrimino {
+export function getNewTetrimino(shape: ColorEnum): Tetrimino {
     return {
         position_x: BOARD_WIDTH / 2 - 1,
         position_y: 0,
         rotation: 0,
-        tetriminoPiece: tetriminoPiece,
+        color: shape,
     };
 }
 
 export function getShadowTetriminos(currentTetrimino: Tetrimino, board: ColorEnum[][]) {
     let copiedTetrimino = Object.assign({}, currentTetrimino);
-    copiedTetrimino.tetriminoPiece = Object.assign(
-        {},
-        currentTetrimino.tetriminoPiece
-    );
+
     while (canMoveDown(copiedTetrimino, board)) {
         copiedTetrimino.position_y++;
     }
 
-    copiedTetrimino.tetriminoPiece.color = ColorEnum.SHADOW;
     return copiedTetrimino;
 }
 
