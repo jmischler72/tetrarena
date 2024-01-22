@@ -48,3 +48,7 @@ export const tetriminoPieces: TetriminoPiece[] = [
 export function getRandomTetriminoPiece(): TetriminoPiece {
   return tetriminoPieces[Math.floor(Math.random() * tetriminoPieces.length)];
 }
+
+export function getTetriminoPieceFromColor(color: ColorEnum){
+  tetriminoPieces.filter((tetriminoPiece)=> tetriminoPiece.color === color);
+}

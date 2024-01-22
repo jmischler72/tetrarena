@@ -32,7 +32,7 @@ export class GameState {
     protected numberAddedLines: number = 0;
     protected currentTetriminoFreezed: boolean = false;
 
-    private drawShapeOnBoard(tetrimino: Tetrimino) {
+    protected drawShapeOnBoard(tetrimino: Tetrimino) {
         for (let j = 0; j < getShapeFromTetrimino(tetrimino).length; j++) {
             for (let k = 0; k < getShapeFromTetrimino(tetrimino)[j].length; k++) {
                 if (getShapeFromTetrimino(tetrimino)[j][k] === 1)
@@ -40,9 +40,10 @@ export class GameState {
                         tetrimino.tetriminoPiece.color;
             }
         }
+        this.currentTetriminoFreezed = true;
     }
 
-    private checkBreakLine() {
+    protected checkBreakLine() {
         this.board.forEach((row, index) => {
             if (checkIfLineIsFull(row)) {
                 this.deletedLines.push(index);
@@ -53,20 +54,18 @@ export class GameState {
         });
     }
 
-    private checkForGameOver() {
-        let newTetrimino = getNewTetriminoFromTetriminoPiece(this.nextTetriminos.shift());
+    protected checkForGameOver(nextTetrimino: TetriminoPiece) {
+        let newTetrimino = getNewTetriminoFromTetriminoPiece(this.nextTetriminos.shift()!);
 
         if (canPlaceTetrimino(newTetrimino, this.board)) {
-            this.currentTetriminoFreezed = true;
             this.currentTetrimino = newTetrimino;
-            this.nextTetriminos.push(getRandomTetriminoPiece());
+            this.nextTetriminos.push(nextTetrimino);
         } else {
             this.isGameOver = true;
         }
     }
 
-    handleAction(action: ActionsEnum): boolean {
-
+    protected handleAction(action: ActionsEnum): boolean {
         let hasActionBeenDone: boolean = false;
 
         switch (action) {
@@ -91,13 +90,30 @@ export class GameState {
                 break;
         }
 
+        return hasActionBeenDone;
+    }
+
+    updateGameState(action: ActionsEnum): void {
+        let hasActionBeenDone = this.handleAction(action);
+
         if ((action === ActionsEnum.GO_DOWN && !hasActionBeenDone) || action === ActionsEnum.INSTANT_PLACE) {
             this.drawShapeOnBoard(this.currentTetrimino);
             this.checkBreakLine();
-            this.checkForGameOver();
+            this.checkForGameOver(getRandomTetriminoPiece());
         }
 
         this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
-        return hasActionBeenDone;
+    }
+
+    addLines(lines: number) {
+        this.numberAddedLines = lines;
+
+        for (let i = 0; i < lines; i++) {
+            const list = Array.from({length: this.board[0].length}, () => ColorEnum.BLOCK);
+
+            list[Math.floor(Math.random() * list.length)] = ColorEnum.NONE;
+
+            this.board.push(list);
+        }
     }
 }

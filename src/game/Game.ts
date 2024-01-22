@@ -1,31 +1,15 @@
 import {GameState} from "./GameState";
-import {GameStateDTO} from "../types/GameStateDTO";
+import {GameStateDTO, TetriminoDTO} from "../types/GameStateDTO";
 import {getShapeFromTetrimino} from "../utils/tetriminoHelper";
+import {Tetrimino} from "../types/Tetrimino";
 
 export class Game extends GameState {
-    constructor() {
-        super();
-    }
 
     getCurrentGameState(): GameStateDTO {
-        return {
+        let gamestate = {
             board: this.board,
-            currentTetrimino: {
-                position_x: this.currentTetrimino.position_x,
-                position_y: this.currentTetrimino.position_y,
-                tetriminoPiece: {
-                    shape: getShapeFromTetrimino(this.currentTetrimino),
-                    color: this.currentTetrimino.tetriminoPiece.color
-                },
-            },
-            shadowTetrimino: {
-                position_x: this.shadowTetrimino.position_x,
-                position_y: this.shadowTetrimino.position_y,
-                tetriminoPiece: {
-                    shape: getShapeFromTetrimino(this.shadowTetrimino),
-                    color: this.shadowTetrimino.tetriminoPiece.color
-                },
-            },
+            currentTetrimino: this.getTetriminoDTO(this.currentTetrimino),
+            shadowTetrimino: this.getTetriminoDTO(this.shadowTetrimino),
             score: this.score,
             nextTetriminos: this.nextTetriminos.map(tetrimino => {
                 return {
@@ -38,6 +22,8 @@ export class Game extends GameState {
             numberAddedLines: this.numberAddedLines,
             currentTetriminoFreezed: this.currentTetriminoFreezed,
         };
+        this.clearOnDispatch();
+        return gamestate;
     }
 
     clearOnDispatch(): void {
@@ -46,4 +32,14 @@ export class Game extends GameState {
         this.currentTetriminoFreezed = false;
     }
 
+    private getTetriminoDTO(tetrimino: Tetrimino): TetriminoDTO {
+        return {
+            position_x: tetrimino.position_x,
+            position_y: tetrimino.position_y,
+            tetriminoPiece: {
+                shape: getShapeFromTetrimino(tetrimino),
+                color: tetrimino.tetriminoPiece.color
+            },
+        }
+    }
 }
