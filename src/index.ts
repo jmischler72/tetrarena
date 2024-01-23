@@ -1,17 +1,40 @@
+import express from "express";
+import { createServer } from "http";
+import { Server } from "colyseus";
+import { MyRoom } from "./rooms/MyRoom";
+import {playground} from "@colyseus/playground";
+import {monitor} from "@colyseus/monitor";
+
+const app = express();
+app.use(express.json());
+
+
 /**
- * IMPORTANT:
- * ---------
- * Do not manually edit this file if you'd like to host your server on Colyseus Cloud
- *
- * If you're self-hosting (without Colyseus Cloud), you can manually
- * instantiate a Colyseus Server as documented here:
- *
- * See: https://docs.colyseus.io/server/api/#constructor-options
+ * Use @colyseus/playground
+ * (It is not recommended to expose this route in a production environment)
  */
-import { listen } from "@colyseus/tools";
+if (process.env.NODE_ENV !== "production") {
+    app.use("/", playground);
+}
 
-// Import Colyseus config
-import app from "./app.config";
+/**
+ * Use @colyseus/monitor
+ * It is recommended to protect this route with a password
+ * Read more: https://docs.colyseus.io/tools/monitor/#restrict-access-to-the-panel-using-a-password
+ */
+app.use("/colyseus", monitor());
 
-// Create and listen on 2567 (or PORT environment variable.)
-listen(app);
+
+const gameServer = new Server({
+    server: createServer(app),
+    // transport: new uWebSocketsTransport(),
+    // driver: new RedisDriver(),
+    // presence: new RedisPresence(),
+});
+
+/**
+ * Define your room handlers:
+ */
+gameServer.define("my_room", MyRoom);
+
+gameServer.listen(2567);
