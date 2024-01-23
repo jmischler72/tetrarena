@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite dev",
+    "dev": "vite dev --force",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -33,7 +33,6 @@
   },
   "type": "module",
   "dependencies": {
-    "@jmischler72/core-tetris": "^1.2.2",
     "@tweenjs/tween.js": "^21.0.0",
     "colyseus.js": "^0.15.16",
     "pixi.js": "^7.2.4"

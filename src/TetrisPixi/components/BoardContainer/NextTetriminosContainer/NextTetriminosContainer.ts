@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import TetriminoContainer from './TetriminoContainer';
 import type {ColorEnum} from "@jmischler72/core-tetris";
 import {SMALL_BLOCK_SIZE} from "./constants";
+import {newTetriminoTween} from "./NextTetriminosContainerAnimation";
 
 const PADDING = 5;
 const CONTAINER_SIZE = SMALL_BLOCK_SIZE * 3 + PADDING;
@@ -23,6 +24,9 @@ export default class NextTetriminosContainer extends PIXI.Container {
 
         this.tetriminosContainers.push(tetriminoContainer);
         this.addChild(tetriminoContainer);
+
+        newTetriminoTween(tetriminoContainer).start();
+
     }
 
     private compareArrays(liste1: ColorEnum[], liste2: ColorEnum[]) {
@@ -50,8 +54,6 @@ export default class NextTetriminosContainer extends PIXI.Container {
         }
 
         // console.log(this.currentTetriminos.toString() + ":" + nextTetriminos.toString());
-        console.log("f");
-
 
         //Second Check : If there are no current Tetriminos and there are new ones we render all of them
         if (!this.currentTetriminos.length && nextTetriminos.length) {
@@ -88,5 +90,6 @@ export default class NextTetriminosContainer extends PIXI.Container {
             this.tetriminosContainers.length,
             color
         );
+
     }
 }

@@ -47,10 +47,11 @@ export default class BoardContainer extends PIXI.Container {
     updatePlayerBoard(gameState: GameStateDTO) {
         if (
             this.currentGameState != null &&
-            gameState === this.currentGameState
+            JSON.stringify(gameState) === JSON.stringify(this.currentGameState)
         ) {
             return;
         }
+        console.log("dddd");
 
         let offset = 10;
 

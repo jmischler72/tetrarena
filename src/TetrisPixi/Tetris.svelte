@@ -34,7 +34,6 @@
     const instance: SinglePlayerInstance = new SinglePlayerInstance();
 
     onMount(() => {
-
         window.onkeydown = (e) => handleKeyDown(e, instance);
         Manager.initialize(0x2e2e2e);
         Manager.changeScene(new SinglePlayerGameScene(instance));

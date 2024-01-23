@@ -1,7 +1,8 @@
 import GameScene from "./GameScene";
 import BoardContainer from "../components/BoardContainer/BoardContainer";
 import * as TWEEN from "@tweenjs/tween.js";
-import type {GameStateDTO, SinglePlayerInstance} from "@jmischler72/core-tetris";
+import type {GameStateDTO} from "@jmischler72/core-tetris";
+import {SinglePlayerInstance} from "@jmischler72/core-tetris";
 import type {IScene} from "../Manager";
 
 export default class SinglePlayerGameScene extends GameScene implements IScene {
@@ -17,7 +18,9 @@ export default class SinglePlayerGameScene extends GameScene implements IScene {
         this.stats.begin();
         TWEEN.update();
         let gameStateDTO: GameStateDTO = this.instance.game.getCurrentGameState();
-        if (gameStateDTO) {
+        if (gameStateDTO.isGameOver) {
+            this.instance.restartGame();
+        } else {
             this.playerBoard.updatePlayerBoard(gameStateDTO);
         }
         this.stats.end();
