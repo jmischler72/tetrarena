@@ -51,7 +51,6 @@ export default class BoardContainer extends PIXI.Container {
         ) {
             return;
         }
-        console.log("dddd");
 
         let offset = 10;
 

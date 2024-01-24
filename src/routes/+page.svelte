@@ -1,7 +1,8 @@
 <script>
-    import Tetris from "../TetrisPixi/Tetris.svelte";
+    import LobbyForm from "./multiplayer/LobbyForm.svelte";
 
 
 </script>
 
-<Tetris></Tetris>
+<LobbyForm></LobbyForm>
+<!--<Tetris></Tetris>-->

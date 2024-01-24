@@ -1,73 +1,36 @@
 <script lang="ts">
-    import {Room} from "colyseus.js";
+    import {Client} from "colyseus.js";
+    import type {RoomAvailable} from "colyseus.js";
     import {onMount} from "svelte";
-    import {Client} from 'colyseus.js'
-    import {RoomState} from "./types/RoomState";
-    import {get} from "svelte/store";
-    import {clientIdStore, multiPlayerStore} from "./multiPlayerStore";
-    import MultiplayerTetris from "../../TetrisPixi/MultiplayerTetris.svelte";
-    import {toGameStateDTO} from "./types/utils";
-    import {ActionsEnum} from "@jmischler72/core-tetris";
 
-    let room: Room<RoomState> | null = null;
+    let rooms: RoomAvailable[] = [];
+    let client: Client = new Client('ws://localhost:2567');
 
-    async function connect() {
-        let client: Client = new Client('ws://localhost:2567');
-        room = await client.joinOrCreate("my_room", { /* options */});
-        clientIdStore.set(room.sessionId);
-    }
+    async function createLobby() {
+        try {
+            const room = await client.create("my_room", {/* options */});
+            console.log("joined successfully", room);
 
-    function handleKeydown(event: KeyboardEvent) {
-        if (event.defaultPrevented) {
-            return;
+        } catch (e) {
+            console.error("join error", e);
         }
-
-        let action: ActionsEnum | null = null;
-        switch (event.code) {
-            case "ArrowDown":
-                action = ActionsEnum.GO_DOWN;
-                break;
-            case "ArrowLeft":
-                action = ActionsEnum.GO_LEFT;
-                break;
-            case "ArrowRight":
-                action = ActionsEnum.GO_RIGHT;
-                break;
-            case "Space":
-                action = ActionsEnum.ROTATE;
-                break;
-            case "ShiftLeft":
-                action = ActionsEnum.INSTANT_PLACE;
-                break;
-        }
-        if (action) onInput(action);
     }
-
 
     onMount(async () => {
-        window.onkeydown = handleKeydown;
-
-        await connect();
-        if (room)
-            room.state.players.onAdd((player, key) => {
-                console.log(player, "has been added at", key);
-                // add your player entity to the game world!
-                // If you want to track changes on a child object inside a map, this is a common pattern:
-                player.onChange(() => {
-                    let playersStore = get(multiPlayerStore);
-                    playersStore.set(key, toGameStateDTO(player));
-                    console.log(key + "changed");
-                })
-            });
+        rooms = await client.getAvailableRooms("my_room");
     })
-
-
-    function onInput(action: ActionsEnum) {
-        if (room) {
-            console.log("input")
-            room.send("down", {x: 1});
-        }
-    }
 </script>
 
-<MultiplayerTetris></MultiplayerTetris>
+<button on:click={() => createLobby()}>Create duo lobby</button>
+<ul>
+
+    {#each rooms as room}
+        <li>
+            <p>{room.roomId}</p>
+            <!--            <button on:click={() => onJoinLobby(lobby.lobbyId)}>-->
+            <!--                <LobbyCard {lobby}></LobbyCard>-->
+            <!--            </button>-->
+        </li>
+    {/each}
+</ul>
+
