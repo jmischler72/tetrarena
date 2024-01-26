@@ -1,53 +1,73 @@
 <script>
+    import {goto} from "$app/navigation";
 </script>
 
-<div class="card h-[100px] w-[100px]">
-    <div class="shine"></div>
-    <div class="background opacity-30">
-        <div class="tiles">
-            <div class="tile tile-1"></div>
-            <div class="tile tile-2"></div>
-            <div class="tile tile-3"></div>
-            <div class="tile tile-4"></div>
+<div class="flex flex-col items-center text-gray-200 gap-4 text-6xl">
+    <div class="flex flex-col gap-4">
+        <div class="flex flex-row gap-4">
+            <button class="card h-[300px] w-[300px]" on:click={()=> goto('/game')}>
+                <div class="flex justify-center items-center z-10">
+                    <span class="material-symbols-outlined material-icons">person</span>
+                </div>
+                <div class="shine"></div>
+                <div class="background">
+                    <div class="tiles">
+                        <div class="tile tile-1"></div>
+                        <div class="tile tile-2"></div>
+                        <div class="tile tile-3"></div>
+                        <div class="tile tile-4"></div>
 
-            <div class="tile tile-5"></div>
-            <div class="tile tile-6"></div>
-            <div class="tile tile-7"></div>
-            <div class="tile tile-8"></div>
+                        <div class="tile tile-5"></div>
+                        <div class="tile tile-6"></div>
+                        <div class="tile tile-7"></div>
+                        <div class="tile tile-8"></div>
 
-            <div class="tile tile-9"></div>
-            <div class="tile tile-10"></div>
+                        <div class="tile tile-9"></div>
+                        <div class="tile tile-10"></div>
+                    </div>
+
+                    <div class="line line-1"></div>
+                    <div class="line line-2"></div>
+                    <div class="line line-3"></div>
+                </div>
+            </button>
+            <div class="card h-[300px] w-[300px]">
+                <div class="flex justify-center items-center z-10">
+                    <span class="material-symbols-outlined material-icons">group</span>
+                </div>
+
+                <div class="shine"></div>
+                <div class="background">
+                    <div class="tiles">
+                        <div class="tile tile-1"></div>
+                        <div class="tile tile-2"></div>
+                        <div class="tile tile-3"></div>
+                        <div class="tile tile-4"></div>
+
+                        <div class="tile tile-5"></div>
+                        <div class="tile tile-6"></div>
+                        <div class="tile tile-7"></div>
+                        <div class="tile tile-8"></div>
+
+                        <div class="tile tile-9"></div>
+                        <div class="tile tile-10"></div>
+                    </div>
+
+                    <div class="line line-1"></div>
+                    <div class="line line-2"></div>
+                    <div class="line line-3"></div>
+                </div>
+            </div>
         </div>
+        <div class="card h-[200px] w-full">
+            <div class="flex justify-center items-center z-10">
+                <span class="material-symbols-outlined material-icons">settings</span>
+            </div>
 
-        <div class="line line-1"></div>
-        <div class="line line-2"></div>
-        <div class="line line-3"></div>
+            <div class="shine"></div>
+        </div>
     </div>
 </div>
-
-<div class="card h-[95%] w-[80%]">
-    <div class="background opacity-30">
-        <div class="tiles">
-            <div class="tile tile-1"></div>
-            <div class="tile tile-2"></div>
-            <div class="tile tile-3"></div>
-            <div class="tile tile-4"></div>
-
-            <div class="tile tile-5"></div>
-            <div class="tile tile-6"></div>
-            <div class="tile tile-7"></div>
-            <div class="tile tile-8"></div>
-
-            <div class="tile tile-9"></div>
-            <div class="tile tile-10"></div>
-        </div>
-
-        <div class="line line-1"></div>
-        <div class="line line-2"></div>
-        <div class="line line-3"></div>
-    </div>
-</div>
-
 <style lang="scss">
   .material-icons {
     font-size: 70px !important;
@@ -86,45 +106,32 @@
     --card-hover-icon-border-color: rgba(52, 211, 153, 0.2);
 
     --blur-opacity: .01;
-
-
-    &.toggle .grid * {
-      transition-duration: 0s !important;
-    }
   }
 
 
   .card {
     background-color: var(--box-background-color);
+    box-shadow: 0px var(--card-box-shadow-1-y) var(--card-box-shadow-1-blur) var(--card-box-shadow-1), 0px var(--card-box-shadow-2-y) var(--card-box-shadow-2-blur) var(--card-box-shadow-2), 0 0 0 1px var(--card-border-color);
     border-radius: 15px;
+    cursor: pointer;
     position: relative;
     transition: box-shadow .25s;
     display: flex;
     justify-content: center;
     color: var(--card-icon-color);
 
-    .shine {
-      border-radius: inherit;
+    &:hover {
+      .icon {
+        color: var(--card-hover-icon-color);
+      }
+    }
+
+    &::before {
+      content: '';
       position: absolute;
       inset: 0;
-      z-index: 1;
-      overflow: hidden;
-      opacity: 1;
-      transition: opacity .5s;
-
-      &:before {
-        content: '';
-        width: 150%;
-        padding-bottom: 150%;
-        border-radius: 50%;
-        position: absolute;
-        left: 50%;
-        bottom: 55%;
-        filter: blur(35px);
-        opacity: var(--card-shine-opacity);
-        transform: translateX(-50%);
-        background-image: var(--card-shine-gradient);
-      }
+      border-radius: 15px;
+      background-color: var(--card-background-color);
     }
 
     .shine {
@@ -358,8 +365,8 @@
       }
     }
 
-    & {
-      box-shadow: 0px 3px 6px var(--card-hover-box-shadow-1), 0px var(--card-hover-box-shadow-2-y) var(--card-hover-box-shadow-2-blur) var(--card-hover-box-shadow-2);
+    &:hover {
+      box-shadow: 0px 3px 6px var(--card-hover-box-shadow-1), 0px var(--card-hover-box-shadow-2-y) var(--card-hover-box-shadow-2-blur) var(--card-hover-box-shadow-2), 0 0 0 1px var(--card-hover-border-color);
 
       .shine {
         opacity: 1;

@@ -1,0 +1,104 @@
+<div class="background-login">
+    {#each [0, 1, 2, 3] as number}
+        <div class={'offset-'+ number}>
+            {#each [1, 2, 3, 4, 5, 6] as number2}
+                <div
+                        class={'item item-'+ number2}>
+<!--                    <img alt="bg-img" src={"image-"+ number2+".png"}/>-->
+                    <img alt="bg-img" src={"favicon.png"}/>
+                </div>
+            {/each}
+        </div>
+    {/each}
+</div>
+
+<style lang="scss">
+
+    .background-login{
+        position: absolute;
+        width: 100%;
+        height: 200px;
+        transform: translate(-20%) rotate(-45deg);
+
+        .item{
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            opacity: 80%;
+        }
+
+        .item-1 {
+            left: 0;
+        }
+        .item-2 {
+            left: 20%;
+        }
+        .item-3 {
+            left: 40%;
+        }
+        .item-4 {
+            left: 60%;
+        }
+
+        .item-5 {
+            left: 80%;
+        }
+
+        .item-6 {
+            left: 100%;
+        }
+
+        .offset-0{
+            animation: diagonal-move-anim-offset-0 20s linear infinite;
+        }
+
+        .offset-1{
+            animation: diagonal-move-anim-offset-1 20s linear infinite;
+        }
+
+        .offset-2{
+            animation: diagonal-move-anim-offset-2 20s linear infinite;
+        }
+
+        .offset-3{
+            animation: diagonal-move-anim-offset-3 20s linear infinite;
+        }
+
+        @keyframes diagonal-move-anim-offset-0 {
+            0% {
+                transform: translate(0, -35vh) rotate(45deg);
+            }
+            100% {
+                transform: translate(0,15vh) rotate(45deg);
+            }
+        }
+
+        @keyframes diagonal-move-anim-offset-1 {
+            0% {
+                transform: translate(0, 15vh) rotate(45deg);
+            }
+            100% {
+                transform: translate(0,65vh) rotate(45deg);
+            }
+        }
+
+        @keyframes diagonal-move-anim-offset-2 {
+            0% {
+                transform: translate(0, 65vh) rotate(45deg);
+            }
+            100% {
+                transform: translate(0,115vh) rotate(45deg);
+            }
+        }
+
+        @keyframes diagonal-move-anim-offset-3 {
+            0% {
+                transform: translate(0, 115vh) rotate(45deg);
+            }
+            100% {
+                transform: translate(0,165vh) rotate(45deg);
+            }
+        }
+    }
+
+</style>

@@ -12,7 +12,7 @@ export default class BoardContainer extends PIXI.Container {
     private readonly board: Board;
     private readonly scoreText: PIXI.Text;
     private readonly nextTetriminosContainer: NextTetriminosContainer;
-    private currentGameState: GameStateDTO | null = null;
+    private currentGameState: string = "";
     private initialPosition: number | null = null;
 
     constructor() {
@@ -47,15 +47,16 @@ export default class BoardContainer extends PIXI.Container {
     updatePlayerBoard(gameState: GameStateDTO) {
         if (
             this.currentGameState != null &&
-            JSON.stringify(gameState) === JSON.stringify(this.currentGameState)
+            JSON.stringify(gameState) === this.currentGameState
         ) {
+            console.log("d");
             return;
         }
 
         let offset = 10;
 
         if (gameState.deletedLines.length > 0) {
-            offset = offset + gameState.deletedLines.length * 5;
+            offset = 20;
             // this.hitAnimation();
             gameState.deletedLines.forEach(line => {
                 this.board.animateLineBreak(line);
@@ -74,7 +75,7 @@ export default class BoardContainer extends PIXI.Container {
         this.board.updateTetrimino(gameState.currentTetrimino, gameState.currentTetrimino.color);
 
         this.nextTetriminosContainer.renderTetriminoContainers(gameState.nextTetriminos);
-        this.currentGameState = gameState;
+        this.currentGameState = JSON.stringify(gameState);
     }
 
     gameOverAnimation() {

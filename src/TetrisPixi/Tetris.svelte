@@ -35,7 +35,7 @@
 
     onMount(() => {
         window.onkeydown = (e) => handleKeyDown(e, instance);
-        Manager.initialize(0x2e2e2e);
+        Manager.initialize(0x1a1a1a);
         Manager.changeScene(new SinglePlayerGameScene(instance));
     });
 
