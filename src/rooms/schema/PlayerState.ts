@@ -1,5 +1,5 @@
 import {ArraySchema, Schema, type} from "@colyseus/schema";
-import {Game, GameStateDTO, Tetrimino as TetriminoDTO} from "@jmischler72/core-tetris";
+import {ActionsEnum, Game, GameStateDTO, Tetrimino as TetriminoDTO} from "@jmischler72/core-tetris";
 import {matrixToBlocks} from "./utils";
 
 export class Block extends Schema {
@@ -34,6 +34,11 @@ export class Player extends Schema {
     @type("boolean") currentTetriminoFreezed: boolean;
 
     game: Game = new Game();
+
+    handleAction(action: ActionsEnum) {
+        this.game.updateGameState(action);
+        this.updateFromGameStateDTO(this.game.getCurrentGameState());
+    }
 
     updateFromGameStateDTO(gameState: GameStateDTO) {
         this.board = new ArraySchema<Block>(...matrixToBlocks(gameState.board));

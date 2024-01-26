@@ -1,9 +1,10 @@
 import express from "express";
-import { createServer } from "http";
-import { Server } from "colyseus";
-import { MyRoom } from "./rooms/MyRoom";
+import {createServer} from "http";
+import {Server} from "colyseus";
+import {MyRoom} from "./rooms/MyRoom";
 import {playground} from "@colyseus/playground";
 import {monitor} from "@colyseus/monitor";
+import pino from "pino";
 
 const app = express();
 app.use(express.json());
@@ -27,6 +28,10 @@ app.use("/colyseus", monitor());
 
 const gameServer = new Server({
     server: createServer(app),
+    logger: pino({
+        level: 'debug',
+        msgPrefix: '[HTTP] '
+    })
     // transport: new uWebSocketsTransport(),
     // driver: new RedisDriver(),
     // presence: new RedisPresence(),

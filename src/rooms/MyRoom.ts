@@ -1,50 +1,73 @@
-import {Client, Room} from "@colyseus/core";
+import {Client, Room, logger} from "@colyseus/core";
 import {RoomState} from "./schema/RoomState";
 import {Player} from "./schema/PlayerState";
-import {ActionsEnum} from "@jmischler72/core-tetris";
+import {ActionsEnum, GAME_SPEED} from "@jmischler72/core-tetris";
+import {Delayed} from "colyseus";
 
 
 export class MyRoom extends Room<RoomState> {
-    maxClients = 4;
+    maxClients = 2;
+    public gameTimer!: Delayed;
+
 
     onCreate(options: any) {
         this.setState(new RoomState());
 
-        this.onMessage("down", (client, data) => {
-            const player = this.state.players.get(client.sessionId);
-            player.game.updateGameState(ActionsEnum.GO_DOWN);
-
-            this.updatePlayer(client);
+        this.onMessage("action", (client, data: ActionsEnum) => {
+            if (this.state.isPlaying) {
+                logger.debug("handle action: " + data + " for client: " + client.sessionId)
+                const player = this.state.players.get(client.sessionId);
+                player.handleAction(data);
+            }
         })
 
-        // this.onMessage("move", (client, data) => {
-        //     const player = this.state.players.get(client.sessionId);
-        //     console.log(data.x);
-        //
-        //     player.x += data.x;
-        //     // player.y += data.y;
-        //     console.log(client.sessionId + " at, x: " + player.x, "y: " + player.y);
-        // });
+        this.clock.setTimeout(() => {
+            if (this.clients.length < this.maxClients) {
+                logger.info("timeout room: " + this.roomId);
+                this.disconnect();
+            }
+        }, 50000);
     }
 
     onJoin(client: Client, options: any) {
-        console.log(client.sessionId, "joined!");
+        logger.info("client: " + client.sessionId + " joined room: " + this.roomId);
         this.state.players.set(client.sessionId, new Player());
-        this.updatePlayer(client);
+        if (this.clients.length === this.maxClients) this.startGame();
     }
 
     onLeave(client: Client, consented: boolean) {
-        console.log(client.sessionId, "left!");
-        this.state.players.delete(client.sessionId);
+        logger.info("client: " + client.sessionId + " left room: " + this.roomId);
+        // this.state.players.delete(client.sessionId);
     }
 
     onDispose() {
-        console.log("room", this.roomId, "disposing...");
+        logger.info("disposing room: " + this.roomId);
     }
 
-    updatePlayer(client: Client) {
-        const player = this.state.players.get(client.sessionId);
-        player.updateFromGameStateDTO(player.game.getCurrentGameState());
+    private startGame() {
+        logger.info("starting game in room: " + this.roomId);
+
+        this.state.isPlaying = true;
+
+        // start the clock ticking
+        this.clock.start();
+
+        // Set an interval and store a reference to it
+        // so that we may clear it later
+        this.gameTimer = this.clock.setInterval(() => {
+            logger.debug("Game Clock " + this.clock.elapsedTime);
+            this.state.players.forEach(player => {
+                player.handleAction(ActionsEnum.GO_DOWN)
+                if (player.isGameOver) this.stopGame();
+            });
+        }, GAME_SPEED);
+    }
+
+    private stopGame() {
+        logger.info("stopping game in room: " + this.roomId);
+
+        this.gameTimer.clear();
+        this.state.isPlaying = false;
     }
 
 }
