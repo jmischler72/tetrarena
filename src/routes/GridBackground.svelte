@@ -2,48 +2,22 @@
 
     import {onMount} from "svelte";
 
+    const shapes = ["square"];
+    const colors = ["red", "yellow", "green", "blue"];
+    let columns = 30; //gets from css custom property
+    const rows = 25;
+
+    const getX = (id, cols = columns) => {//default to global columns
+        return id % cols;
+    }
+    const getY = (id, cols = columns) => {//default to global columns
+        return Math.floor(id / cols);
+    }
+    const getDistance = (a, b) => {
+        return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1])
+    }
+
     onMount(() => {
-
-        let columns = 10; //gets from css custom property
-        const rows = 20;
-
-        const shapes = ["square"];
-        const colors = ["red", "yellow", "green", "blue"];
-
-        function drawBg() {
-            let bg_container = document.querySelector("#bg-container");
-
-            while (bg_container.firstChild) {
-                bg_container.removeChild(bg_container.lastChild);
-            }
-
-            for (let i = 0; i < (columns * rows); i++) {
-                let new_shape = document.createElement("div");
-
-                new_shape.classList.add(
-                    "shape",
-                    shapes[Math.floor(Math.random() * shapes.length)],
-                    colors[Math.floor(Math.random() * colors.length)]
-                )
-
-                new_shape.id = i.toString();
-
-                document.querySelector("#bg-container")?.appendChild(new_shape);
-            }
-
-            attachAnimations();
-        }
-
-        const getX = (id, cols = columns) => {//default to global columns
-            return id % cols;
-        }
-        const getY = (id, cols = columns) => {//default to global columns
-            return Math.floor(id / cols);
-        }
-        const getDistance = (a, b) => {
-            return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1])
-        }
-
         const cancelAnims = (element) => {
             const animations = element.getAnimations();
 
@@ -69,8 +43,6 @@
                 const curr_pos = [getX(curr_shape.id), getY(curr_shape.id)]
 
                 const dist = getDistance(target_pos, curr_pos);
-
-                const offset = 0.2;
 
                 const anim_offset = 0.2 * dist;
 
@@ -170,7 +142,7 @@
                             {opacity: 0.1}
                         ], {
                             // timing options
-                            duration: 1000,
+                            duration: 300,
                         })
 
                     }
@@ -178,62 +150,57 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-
-            let root = document.documentElement;
-            columns = getComputedStyle(root).getPropertyValue('--col-count');
-            drawBg()
-
-        });
+        attachAnimations();
 
     })
 
 </script>
+
 <main id="bg-container">
+    {#each {length: columns * rows} as _, i}
+        <div id="{i}" class={"shape " +
+        shapes[Math.floor(Math.random() * shapes.length)] + " "+
+        colors[Math.floor(Math.random() * colors.length)]}>
+        </div>
+    {/each}
 </main>
 
-<style lang="scss">
+{#if false}
+    <div class="shape square yellow red blue"></div>
+{/if}
+
+<style lang="scss" global>
   //colors
   $red: #E14860;
   $yellow: #FBC020;
   $green: #2FC566;
   $blue: #56AFEA;
 
-  :global(body) {
-    --col-count: 15;
-  }
   main {
-    background-color: red;
     padding: 0;
     margin: 0;
     color: #121212;
     font-family: sans-serif;
     position: relative;
     display: grid;
-    grid-template-columns: repeat(var(--col-count), 1fr);
-    row-gap: 10px;
-    column-gap: 10px;
+    grid-template-columns: repeat(30, 1fr);
+    //row-gap: 10px;
+    //column-gap: 10px;
     place-items: center;
     width: 100%;
     height: 100%;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Catamaran', sans-serif;
-  }
-
   .shape {
     aspect-ratio: 1 / 1;
     background: red;
-    border: 1px solid white;
-    cursor: pointer;
     opacity: 0.1;
     transition: .2s;
     width: 100%;
   }
 
   .square {
-    border-radius: 8%;
+    //border-radius: 8%;
   }
 
   .circle {
@@ -262,23 +229,5 @@
     background-color: $yellow;
   }
 
-  .randomise {
-    background-color: #414141;
-    border: 1px solid white;
-    border-radius: 8px;
-    bottom: 1rem;
-    color: white;
-    cursor: pointer;
-    left: 50%;
-    padding: .5rem 2rem;
-    position: fixed;
-    transform: translateX(-50%);
-    z-index: 2;
-    transition: .2s;
-
-    &:hover {
-      background-color: #595959;
-    }
-  }
 
 </style>
