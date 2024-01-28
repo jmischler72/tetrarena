@@ -7,8 +7,7 @@ import {Delayed} from "colyseus";
 
 export class MyRoom extends Room<RoomState> {
     maxClients = 2;
-    public gameTimer!: Delayed;
-
+    private gameTimer!: Delayed;
 
     onCreate(options: any) {
         this.setState(new RoomState());
