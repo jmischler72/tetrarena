@@ -1,23 +1,20 @@
 # First build
-FROM node:14 as build
+FROM node:18-alpine
 
 ENV PORT 8080
 
 WORKDIR /usr/src/app
 COPY package*.json ./
 
-RUN --mount=type=secret,id=NODE_AUTH_TOKEN npm config set //npm.pkg.github.com/:_authToken $(cat /run/secrets/NODE_AUTH_TOKEN) && \
-    npm ci
+RUN cat package-lock.json
+RUN --mount=type=secret,id=NODE_AUTH_TOKEN npm config set //npm.pkg.github.com/:_authToken $(cat /run/secrets/NODE_AUTH_TOKEN)
+RUN cat ~/.npmrc
 
-COPY test .
+RUN npm ci
 
-RUN npm run build
+RUN rm ~/.npmrc
+COPY . .
 
-# Second build
-FROM node:14
-WORKDIR /usr/src/app
-
-COPY --from=build /usr/src/app /usr/src/app
+EXPOSE 8080
 
 CMD [ "npm", "run", "start" ]
-EXPOSE 8080
