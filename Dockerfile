@@ -7,8 +7,8 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY .npmrc ~/.npmrc
 
-RUN cat package-lock.json
 RUN --mount=type=secret,id=NODE_AUTH_TOKEN npm config set //npm.pkg.github.com/:_authToken $(cat /run/secrets/NODE_AUTH_TOKEN)
+RUN echo "@jmischler72:registry=https://npm.pkg.github.com/" >> ~/.npmrc
 RUN cat ~/.npmrc
 
 RUN npm ci
