@@ -5,7 +5,7 @@ ENV PORT 8080
 
 WORKDIR /usr/src/app
 COPY package*.json ./
-COPY .npmrc ~/
+COPY .npmrc ~/.npmrc
 
 RUN cat package-lock.json
 RUN --mount=type=secret,id=NODE_AUTH_TOKEN npm config set //npm.pkg.github.com/:_authToken $(cat /run/secrets/NODE_AUTH_TOKEN)
