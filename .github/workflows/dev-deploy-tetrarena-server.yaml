@@ -1,4 +1,4 @@
-name: tetrarena-server - Build Docker Image and Push to GHCR and deploy to Oracle
+name: dev tetrarena-server - Build Docker Image and Push to GHCR and deploy to Oracle
 
 on:
   push:
@@ -54,9 +54,9 @@ jobs:
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.KEY_DEV }}
           port: ${{ secrets.PORT }}
           allenvs: true
           script: |
