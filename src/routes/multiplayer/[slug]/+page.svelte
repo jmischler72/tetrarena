@@ -4,8 +4,8 @@
     import {Client} from 'colyseus.js'
     import {RoomState} from "./types/RoomState";
     import {get} from "svelte/store";
-    import {clientIdStore, clientStore, multiPlayerStore} from "./multiPlayerStore";
-    import MultiplayerTetris from "../../TetrisPixi/MultiplayerTetris.svelte";
+    import {clientIdStore, clientStore, multiPlayerStore} from "../multiPlayerStore";
+    import MultiplayerTetris from "../../../TetrisPixi/MultiplayerTetris.svelte";
     import {toGameStateDTO} from "./types/utils";
     import {ActionsEnum} from "@jmischler72/core-tetris";
 

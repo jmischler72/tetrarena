@@ -2,9 +2,11 @@
     import {Client} from "colyseus.js";
     import type {RoomAvailable} from "colyseus.js";
     import {onMount} from "svelte";
+    import {clientStore} from "./multiPlayerStore";
 
     let rooms: RoomAvailable[] = [];
-    let client: Client = new Client('ws://localhost:2567');
+    let client: Client = new Client(import.meta.env.VITE_BACKEND_URL);
+    clientStore.set(client);
 
     async function createLobby() {
         try {

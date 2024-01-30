@@ -38,6 +38,8 @@
   },
   "type": "module",
   "dependencies": {
+    "@jmischler72/core-tetris": "^1.2.2",
+    "@sveltejs/adapter-netlify": "^4.1.0",
     "@tweenjs/tween.js": "^21.0.0",
     "colyseus.js": "^0.15.16",
     "pixi.js": "^7.2.4"
