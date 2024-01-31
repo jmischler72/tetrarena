@@ -5,7 +5,6 @@ import {MyRoom} from "./rooms/MyRoom";
 import {playground} from "@colyseus/playground";
 import {monitor} from "@colyseus/monitor";
 import pino from "pino";
-import cors from "cors";
 
 const app = express();
 app.use(express.json());
@@ -25,7 +24,7 @@ if (process.env.NODE_ENV !== "production") {
  * Read more: https://docs.colyseus.io/tools/monitor/#restrict-access-to-the-panel-using-a-password
  */
 app.use("/colyseus", monitor());
-app.use(cors());
+
 
 const gameServer = new Server({
     server: createServer(app),
