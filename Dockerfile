@@ -1,8 +1,6 @@
 # First build
 FROM node:18-alpine
 
-ENV PORT 8080
-
 WORKDIR /usr/src/app
 COPY package*.json ./
 
@@ -12,6 +10,8 @@ RUN npm ci
 
 RUN rm ~/.npmrc
 COPY . .
+
+ENV PORT=8080 NODE_ENV=production
 
 EXPOSE 8080
 
