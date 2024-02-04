@@ -4,7 +4,7 @@ import * as TWEEN from '@tweenjs/tween.js';
 import {get} from 'svelte/store';
 
 import type {IScene} from "../Manager";
-import {clientIdStore, multiPlayerStore} from "../../routes/multiplayer/multiPlayerStore";
+import {clientIdStore, gameStatesStore} from "../../routes/multiplayer/multiplayerStore";
 import type {GameStateDTO} from "../../../../../core-tetris";
 
 export default class MultiPlayerGameScene extends GameScene implements IScene {
@@ -28,7 +28,7 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
         this.stats.begin();
         TWEEN.update();
 
-        let gameStates: Map<string, GameStateDTO> = get(multiPlayerStore);
+        let gameStates: Map<string, GameStateDTO> = get(gameStatesStore);
 
         if (gameStates && !this.isGameOver) {
             gameStates.forEach((value: GameStateDTO, key: string) => {

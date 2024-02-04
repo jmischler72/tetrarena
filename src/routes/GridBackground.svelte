@@ -183,7 +183,7 @@
     font-family: sans-serif;
     position: relative;
     display: grid;
-    grid-template-columns: repeat(30, 1fr);
+    grid-template-columns: repeat(30, 80px);
     //row-gap: 10px;
     //column-gap: 10px;
     place-items: center;

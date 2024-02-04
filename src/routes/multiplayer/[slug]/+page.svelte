@@ -1,21 +1,19 @@
 <script lang="ts">
-    import {Room} from "colyseus.js";
     import {onMount} from "svelte";
-    import {Client} from 'colyseus.js'
-    import {RoomState} from "./types/RoomState";
+    import {Client, Room} from 'colyseus.js'
     import {get} from "svelte/store";
-    import {clientIdStore, clientStore, multiPlayerStore} from "../multiPlayerStore";
+    import { clientStore, gameStatesStore, roomStore} from "../multiplayerStore";
     import MultiplayerTetris from "../../../TetrisPixi/MultiplayerTetris.svelte";
     import {toGameStateDTO} from "./types/utils";
     import {ActionsEnum} from "@jmischler72/core-tetris";
+    import type {RoomState} from "./types/RoomState";
 
-    let room: Room<RoomState> | null = null;
 
     async function connect() {
         let client: Client | null = get(clientStore);
         if (!client) return;
-        room = await client.joinOrCreate("my_room", { /* options */});
-        clientIdStore.set(room.sessionId);
+        const room: Room<RoomState> = await client.joinById("my_room", { /* options */});
+        roomStore.set(room);
     }
 
     function handleKeydown(event: KeyboardEvent) {
@@ -47,22 +45,24 @@
     onMount(async () => {
         window.onkeydown = handleKeydown;
 
-        await connect();
-        if (room) {
-            room.state.players.onAdd((player, key) => {
+        if ($roomStore === null) {
+            await connect();
+        } else {
+            $roomStore.state.players.onAdd((player, key) => {
                 console.log(player, "has been added at", key);
                 // add your player entity to the game world!
                 // If you want to track changes on a child object inside a map, this is a common pattern:
                 player.onChange(() => {
-                    let playersStore = get(multiPlayerStore);
-                    playersStore.set(key, toGameStateDTO(player));
+                    let gameStates = get(gameStatesStore);
+                    gameStates.set(key, toGameStateDTO(player));
                     console.log(key + "changed");
                 })
             });
-            room.onLeave((code) => {
+            $roomStore.onLeave(() => {
                 console.log("client left the room");
             });
         }
+
 
     })
 
@@ -74,8 +74,8 @@
     }
 </script>
 
-{#if room}
-    <p>{room.sessionId} - {room.state.isPlaying}</p>
+{#if $roomStore}
+    <p>{$roomStore.sessionId} - {$roomStore.state.isPlaying}</p>
     <MultiplayerTetris></MultiplayerTetris>
 {/if}
 

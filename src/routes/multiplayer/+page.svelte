@@ -2,7 +2,8 @@
     import {Client} from "colyseus.js";
     import type {RoomAvailable} from "colyseus.js";
     import {onMount} from "svelte";
-    import {clientStore} from "./multiPlayerStore";
+    import {clientStore} from "./multiplayerStore";
+    import LobbiesList from "./LobbiesList.svelte";
 
     let rooms: RoomAvailable[] = [];
     let client: Client = new Client(import.meta.env.VITE_BACKEND_URL);
@@ -23,16 +24,17 @@
     })
 </script>
 
-<button on:click={() => createLobby()}>Create duo lobby</button>
-<ul>
+<!--<button on:click={() => createLobby()}>Create duo lobby</button>c-->
+<LobbiesList></LobbiesList>
+<!--<ul>-->
 
-    {#each rooms as room}
-        <li>
-            <p>{room.roomId}</p>
-            <!--            <button on:click={() => onJoinLobby(lobby.lobbyId)}>-->
-            <!--                <LobbyCard {lobby}></LobbyCard>-->
-            <!--            </button>-->
-        </li>
-    {/each}
-</ul>
+<!--    {#each rooms as room}-->
+<!--        <li>-->
+<!--            <p>{room.roomId}</p>-->
+<!--            &lt;!&ndash;            <button on:click={() => onJoinLobby(lobby.lobbyId)}>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <LobbyCard {lobby}></LobbyCard>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </button>&ndash;&gt;-->
+<!--        </li>-->
+<!--    {/each}-->
+<!--</ul>-->
 
