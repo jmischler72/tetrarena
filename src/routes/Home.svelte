@@ -19,13 +19,13 @@
                 <div class="shine"></div>
             </button>
         </div>
-        <div class="card h-[200px] w-full">
+        <button class="card h-[200px] w-full" on:click={()=> goto('/settings')}>
             <div class="flex justify-center items-center z-10">
                 <span class="material-symbols-outlined material-icons">settings</span>
             </div>
 
             <div class="shine"></div>
-        </div>
+        </button>
     </div>
 </div>
 <style lang="scss">
