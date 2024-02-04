@@ -68,8 +68,8 @@
 
 
     function onInput(action: ActionsEnum) {
-        if (room) {
-            room.send("action", action);
+        if ($roomStore) {
+            $roomStore.send("action", action);
         }
     }
 </script>
