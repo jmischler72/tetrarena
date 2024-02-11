@@ -24,9 +24,8 @@
 </script>
 
 <!--<button on:click={() => createLobby()}>Create duo lobby</button>c-->
-<MenuContainer>
+<MenuContainer menuInfo="{['Create Room', 'add_circle']}">
     <LobbyForm></LobbyForm>
-
 </MenuContainer>
 <!--<ul>-->
 
