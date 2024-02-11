@@ -5,8 +5,8 @@
     import {clientStore} from "./multiplayerStore";
     import LobbiesList from "./LobbiesList.svelte";
     import MenuContainer from "../MenuContainer.svelte";
+    import LobbyForm from "./LobbyForm.svelte";
 
-    let rooms: RoomAvailable[] = [];
     let client: Client = new Client(import.meta.env.VITE_BACKEND_URL);
     clientStore.set(client);
 
@@ -20,14 +20,12 @@
         }
     }
 
-    onMount(async () => {
-        rooms = await client.getAvailableRooms("my_room");
-    })
+
 </script>
 
 <!--<button on:click={() => createLobby()}>Create duo lobby</button>c-->
 <MenuContainer>
-    <LobbiesList></LobbiesList>
+    <LobbyForm></LobbyForm>
 
 </MenuContainer>
 <!--<ul>-->
