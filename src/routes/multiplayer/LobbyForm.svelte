@@ -3,7 +3,7 @@
 // https://v0.dev/t/1Sj1DliUkuo
 -->
 
-<div class="mt-auto p-4">
+<div class="w-full p-4 text-white">
     <div class="rounded-lg border border-gray-500 text-card-foreground shadow-sm" data-v0-t="card">
         <div class="p-6 flex flex-row space-y-0 items-start gap-2">
             <div class="grid gap-1"><h3

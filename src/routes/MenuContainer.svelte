@@ -1,8 +1,8 @@
 <script>
 </script>
 
-<div class="card h-[90%] w-[90%]">
-    <div class="flex justify-center items-center z-10">
+<div class="card h-[100%] w-[90%]">
+    <div class="p-4">
         <slot></slot>
     </div>
 </div>
@@ -13,8 +13,6 @@
     border-radius: 5px;
     position: relative;
     transition: box-shadow .25s;
-    display: flex;
-    justify-content: center;
     color: var(--card-icon-color);
 
     &::before {

@@ -10,21 +10,21 @@
 <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
 
-<div class="flex flex-col bg-gray-700 h-[100vh] overflow-hidden items-center">
+<div class="flex flex-col bg-gray-800 h-[100vh] overflow-hidden items-center">
     {#if $page.url.pathname !== '/'}
-        <nav class=" h-[100px] flex text-gray-200 text-5xl justify-center items-end mt-5 pb-4 pt-10 bg-[rgba(100,100,100,0.5)] overflow-hidden relative z-10 animation">
+        <nav class=" h-[100px] flex text-gray-200 text-5xl justify-center items-end mt-16 pb-4 pt-10 bg-none overflow-hidden relative z-10 animation">
             <h1 class="title">tetrarena</h1>
-            <button class="absolute left-16 bottom-0 text-3xl mb-4 cursor-pointer" on:click={()=>goto('/')}><span
+            <button class="absolute left-[200px] bottom-0 text-3xl mb-4 cursor-pointer animation-text" on:click={()=>goto('/')}><span
                     class="material-symbols-outlined !text-[60px] arrow">chevron_left</span>back
             </button>
 
 
-            <h1 class="absolute right-16 bottom-0 text-3xl mb-4">
+            <h1 class="absolute right-[200px] bottom-0 text-3xl mb-4 animation-text">
                 {$page.url.pathname}
             </h1>
         </nav>
     {:else}
-        <nav class="w-auto px-8 h-[100px] flex text-gray-200 text-5xl justify-center items-end mt-5 pb-4 pt-10 bg-[rgba(100,100,100,0.5)] overflow-hidden relative z-10">
+        <nav class="w-auto px-8 h-[100px] flex text-gray-200 text-5xl justify-center items-end mt-16 pb-4 pt-10 bg-none overflow-hidden relative z-10">
             <h1 class="title">tetrarena</h1>
 
         </nav>
@@ -48,12 +48,25 @@
   }
 
   .animation {
-    animation: 0.6s ease-out slidein forwards;
+    animation: 0.4s ease-out slidein forwards;
+  }
+
+  .animation-text {
+    animation: 0.4s ease-out opacityin forwards;
+  }
+  
+  @keyframes opacityin {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   @keyframes slidein {
     from {
-      width: 40%;
+      width: 80%;
     }
     to {
       width: 100%;

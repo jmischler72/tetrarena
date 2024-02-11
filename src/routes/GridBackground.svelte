@@ -60,7 +60,7 @@
                         offset: 0.6,
                         easing: 'ease-in'
                     },
-                    {opacity: 0.1}
+                    {opacity: 0}
                 ], {
                     // timing options
                     duration: 400,
@@ -71,7 +71,7 @@
                 // Detect when the animation has finished
                 anim.onfinish = function () {
                     // Set the final styles of the element
-                    curr_shape.style.opacity = 0.1;
+                    curr_shape.style.opacity = 0;
                 };
 
 
@@ -83,12 +83,12 @@
             for (let i = 0; i < shapes.length; i++) {
                 let shape = shapes[i]
 
-                shape.addEventListener('mousedown', (e) => {
-                    ripple(e)
-                });
-                shape.addEventListener('touchend', (e) => {
-                    ripple(e)
-                });
+                // shape.addEventListener('mousedown', (e) => {
+                //     ripple(e)
+                // });
+                // shape.addEventListener('touchend', (e) => {
+                //     ripple(e)
+                // });
 
                 shape.addEventListener('mouseenter', (e) => {
                     const index = parseInt(e.target.id);
@@ -139,7 +139,7 @@
                                 offset: 0.6,
                                 easing: 'ease-in'
                             },
-                            {opacity: 0.1}
+                            {opacity: 0}
                         ], {
                             // timing options
                             duration: 300,
@@ -151,23 +151,17 @@
         }
 
         attachAnimations();
-
     })
 
 </script>
 
 <main id="bg-container">
     {#each {length: columns * rows} as _, i}
-        <div id="{i}" class={"shape " +
-        shapes[Math.floor(Math.random() * shapes.length)] + " "+
+        <div id="{i}" class={"shape square " +
         colors[Math.floor(Math.random() * colors.length)]}>
         </div>
     {/each}
 </main>
-
-{#if false}
-    <div class="shape square yellow red blue"></div>
-{/if}
 
 <style lang="scss" global>
   //colors
@@ -179,7 +173,6 @@
   main {
     padding: 0;
     margin: 0;
-    color: #121212;
     font-family: sans-serif;
     position: relative;
     display: grid;
@@ -194,23 +187,9 @@
   .shape {
     aspect-ratio: 1 / 1;
     background: red;
-    opacity: 0.1;
+    opacity: 0;
     transition: .2s;
     width: 100%;
-  }
-
-  .square {
-    //border-radius: 8%;
-  }
-
-  .circle {
-    border-radius: 100%;
-  }
-
-  .diamond {
-    // true scale is (0.7071067812);
-    transform: rotate(45deg) scale(0.8);
-    border-radius: 20%;
   }
 
   .red {
