@@ -6,6 +6,7 @@ import {playground} from "@colyseus/playground";
 import {monitor} from "@colyseus/monitor";
 import pino from "pino";
 import basicAuth from "express-basic-auth";
+import {logger} from "@colyseus/core";
 
 const app = express();
 app.use(express.json());
@@ -53,3 +54,5 @@ const gameServer = new Server({
 gameServer.define("my_room", MyRoom);
 
 gameServer.listen(process.env.PORT);
+
+logger.info("Server istening on :" + process.env.PORT)

@@ -11,6 +11,7 @@ export class MyRoom extends Room<RoomState> {
 
     onCreate(options: any) {
         this.setState(new RoomState());
+        this.setMetadata(options);
 
         this.onMessage("action", (client, data: ActionsEnum) => {
             if (this.state.isPlaying) {
