@@ -10,21 +10,24 @@
     let client: Client = new Client(import.meta.env.VITE_BACKEND_URL);
     clientStore.set(client);
 
-    async function createLobby() {
-        try {
-            const room = await client.create("my_room", {/* options */});
-            console.log("joined successfully", room);
-
-        } catch (e) {
-            console.error("join error", e);
-        }
-    }
+    // async function createLobby() {
+    //     try {
+    //         const room = await client.create("my_room", {/* options */});
+    //         console.log("joined successfully", room);
+    //
+    //     } catch (e) {
+    //         console.error("join error", e);
+    //     }
+    // }
 
 
 </script>
 
 <!--<button on:click={() => createLobby()}>Create duo lobby</button>c-->
-<MenuContainer menuInfo="{['Create Room', 'add_circle']}">
+<MenuContainer menus="{[
+    {text: 'Rooms List', icon: 'list', selected: true},
+    {text: 'Create Room', icon: 'add_circle', selected: false},
+    ]}">
     <LobbyForm></LobbyForm>
 </MenuContainer>
 <!--<ul>-->

@@ -1,11 +1,12 @@
-<script>
+<script lang="ts">
     import MenuHeader from "./MenuHeader.svelte";
+    import type {Menu} from "./Menu";
 
-    export let menuInfo;
+    export let menus: Menu[];
 </script>
 
 <div class="card h-[90%] w-[90%] z-10 overflow-hidden">
-    <MenuHeader menuText="{menuInfo[0]}" menuIcon="{menuInfo[1]}"></MenuHeader>
+    <MenuHeader menus="{menus}"></MenuHeader>
     <div class="p-4">
         <slot></slot>
     </div>
