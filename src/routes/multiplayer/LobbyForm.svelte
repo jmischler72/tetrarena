@@ -1,5 +1,27 @@
-<script>
+<script lang="ts">
     import RoomIconPicker from "./RoomIconPicker.svelte";
+    import {clickOutside} from './clickOutside.js';
+    import {clientStore, roomStore} from "./multiplayerStore";
+    import type {Room} from "colyseus.js";
+    import type {RoomState} from "./[slug]/types/RoomState";
+
+
+    let selectedIcon: number = 0;
+    let randomString: string = (Math.random() + 1).toString(36).substring(2);
+
+    let roomIconPickerOpen = false;
+
+    async function createLobby() {
+        try {
+            if (!$roomStore) {
+                const room: Room<RoomState> | undefined = await $clientStore?.create("my_room", {/* options */});
+                if (room) roomStore.set(room);
+                console.log("joined successfully", room);
+            }
+        } catch (e) {
+            console.error("join error", e);
+        }
+    }
 </script>
 
 <!--
@@ -20,14 +42,20 @@
                         class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-base "
                         for="room-name">
                     Room Name
-                </label><input
-                    class="flex h-full w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    id="room-name" placeholder="Room Name" type="text"></div>
-            <div class="absolute top-0">
-                <RoomIconPicker></RoomIconPicker>
-
+                </label>
+                <button on:click={()=>roomIconPickerOpen = true}>
+                    <svg
+                            class="bg-white" width="80"
+                            height="80" data-jdenticon-value="{randomString + selectedIcon}"></svg>
+                </button>
+                <h1>{selectedIcon}</h1>
+                {#if roomIconPickerOpen}
+                    <div class="absolute top-0" use:clickOutside on:click_outside={()=> roomIconPickerOpen = false}>
+                        <RoomIconPicker bind:selectedIcon={selectedIcon}
+                                        bind:randomString={randomString}></RoomIconPicker>
+                    </div>
+                {/if}
             </div>
-
             <div class="w-full grid gap-4 md:gap-6">
                 <div class="grid gap-2"><label
                         class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-base"
@@ -47,7 +75,9 @@
             </div>
         </div>
 
-        <button class="w-full mt-6 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium border border-gray-500 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8">
+        <button
+                on:click={() => createLobby()}
+                class="w-full mt-6 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium border border-gray-500 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8">
             Add Room
         </button>
     </form>

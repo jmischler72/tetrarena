@@ -1,5 +1,9 @@
 <script lang="ts">
-    let selected = 0;
+    export let selectedIcon: number = 0;
+    export let randomString: string = '';
+    //
+    // let r = (Math.random() + 1).toString(36).substring(2);
+    // console.log("random", r);
 </script>
 
 <svelte:head>
@@ -11,11 +15,13 @@
 
 <div class="bg-gray-600 p-4 rounded-lg grid-container" id="identiconPlaceholder">
     {#each {length: 9} as _, i}
-        <button on:click={()=> selected = i} class=" box-border m-2 h-auto w-auto border-black"
-                class:border-4={selected === i} class:hover:border-2={!(selected === i)}>
-            <svg class="bg-white" width="80" height="80" data-jdenticon-value="John{i}"></svg>
-
-        </button>
+        {#if randomString !== ''}
+            <button on:click={()=> selectedIcon = i}>
+                <svg class="box-border bg-white border-gray-800"
+                     class:border-4={selectedIcon === i} class:hover:border-2={!(selectedIcon === i)} width="80"
+                     height="80" data-jdenticon-value="{randomString + i}"></svg>
+            </button>
+        {/if}
     {/each}
 </div>
 
