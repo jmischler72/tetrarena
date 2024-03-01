@@ -4,6 +4,7 @@
     import {clientStore, roomStore} from "./multiplayerStore";
     import type {Room} from "colyseus.js";
     import type {RoomState} from "./[slug]/types/RoomState";
+    import jdenticon from "jdenticon/standalone";
 
 
     let selectedIcon: number = 0;
@@ -22,6 +23,16 @@
             console.error("join error", e);
         }
     }
+
+    jdenticon.configure({ backColor: '#fff'});
+    $: if(selectedIcon){
+        roomIconPickerOpen = false;
+        let placeholder = document.getElementById("identiconPlaceholder");
+        placeholder.innerHTML = jdenticon.toSvg(randomString + selectedIcon, 80);
+    }
+    $: randomString || selectedIcon && console.log(randomString + " , "+ selectedIcon);
+
+
 </script>
 
 <!--
@@ -35,22 +46,23 @@
     <!--                class="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">Add Room</h3>-->
     <!--            <p class="text-sm text-muted-foreground">Enter the details of the new room.</p></div>-->
     <!--    </div>-->
-    <form class="w-full h-full justify-center">
+    <form class="w-full h-full flex flex-col justify-evenly">
         <div class="flex h-[50%] flex-row gap-8 items-center">
             <div class="w-[40%] h-full relative">
                 <label
                         class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-base "
-                        for="room-name">
-                    Room Name
+                        for="identiconPlaceholder">
+                    Room Icon
                 </label>
-                <button on:click={()=>roomIconPickerOpen = true}>
-                    <svg
-                            class="bg-white" width="80"
-                            height="80" data-jdenticon-value="{randomString + selectedIcon}"></svg>
+                <button on:click={()=>roomIconPickerOpen = true} id="identiconPlaceholder">
+                    {#key randomString }
+                        <svg
+                                class="bg-white" width="80"
+                                height="80" data-jdenticon-value="{randomString + selectedIcon}"></svg>
+                    {/key}
                 </button>
-                <h1>{selectedIcon}</h1>
                 {#if roomIconPickerOpen}
-                    <div class="absolute top-0" use:clickOutside on:click_outside={()=> roomIconPickerOpen = false}>
+                    <div class="absolute top-0 right-[-50px]" use:clickOutside on:click_outside={()=> roomIconPickerOpen = false}>
                         <RoomIconPicker bind:selectedIcon={selectedIcon}
                                         bind:randomString={randomString}></RoomIconPicker>
                     </div>
