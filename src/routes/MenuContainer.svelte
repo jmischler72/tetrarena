@@ -5,7 +5,7 @@
     export let menus: Menu[];
 </script>
 
-<div class="flex flex-col card h-[90%] w-[90%] z-10 overflow-hidden">
+<div class="flex flex-col card h-[90%] w-[80%] z-10 overflow-hidden">
     <MenuHeader menus="{menus}"></MenuHeader>
     <div class="h-full p-4">
         <slot></slot>

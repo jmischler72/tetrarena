@@ -7,6 +7,8 @@
     import jdenticon from "jdenticon/standalone";
 
 
+    const ICON_SIZE = 200;
+
     let selectedIcon: number = 0;
     let randomString: string = (Math.random() + 1).toString(36).substring(2);
 
@@ -24,13 +26,13 @@
         }
     }
 
-    jdenticon.configure({ backColor: '#fff'});
-    $: if(selectedIcon){
+    jdenticon.configure({backColor: '#fff'});
+    $: if (selectedIcon) {
         roomIconPickerOpen = false;
         let placeholder = document.getElementById("identiconPlaceholder");
-        placeholder.innerHTML = jdenticon.toSvg(randomString + selectedIcon, 80);
+        placeholder.innerHTML = jdenticon.toSvg(randomString + selectedIcon, ICON_SIZE);
     }
-    $: randomString || selectedIcon && console.log(randomString + " , "+ selectedIcon);
+    $: randomString || selectedIcon && console.log(randomString + " , " + selectedIcon);
 
 
 </script>
@@ -46,29 +48,25 @@
     <!--                class="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">Add Room</h3>-->
     <!--            <p class="text-sm text-muted-foreground">Enter the details of the new room.</p></div>-->
     <!--    </div>-->
-    <form class="w-full h-full flex flex-col justify-evenly">
-        <div class="flex h-[50%] flex-row gap-8 items-center">
-            <div class="w-[40%] h-full relative">
-                <label
-                        class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-base "
-                        for="identiconPlaceholder">
-                    Room Icon
-                </label>
+    <form class="w-full h-full flex flex-col justify-evenly px-16">
+        <div class="flex h-[50%] flex-row gap-8 items-center justify-center">
+            <div class="w-[30%] h-full relative flex justify-center items-center">
                 <button on:click={()=>roomIconPickerOpen = true} id="identiconPlaceholder">
                     {#key randomString }
                         <svg
-                                class="bg-white" width="80"
-                                height="80" data-jdenticon-value="{randomString + selectedIcon}"></svg>
+                            class="bg-white" width="{ICON_SIZE}"
+                            height="{ICON_SIZE}" data-jdenticon-value="{randomString + selectedIcon}"></svg>
                     {/key}
                 </button>
                 {#if roomIconPickerOpen}
-                    <div class="absolute top-0 right-[-50px]" use:clickOutside on:click_outside={()=> roomIconPickerOpen = false}>
+                    <div class="absolute top-0 right-[-50px]" use:clickOutside
+                         on:click_outside={()=> roomIconPickerOpen = false}>
                         <RoomIconPicker bind:selectedIcon={selectedIcon}
                                         bind:randomString={randomString}></RoomIconPicker>
                     </div>
                 {/if}
             </div>
-            <div class="w-full grid gap-4 md:gap-6">
+            <div class="w-[40%] grid gap-4 md:gap-6">
                 <div class="grid gap-2"><label
                         class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-base"
                         for="room-name">
