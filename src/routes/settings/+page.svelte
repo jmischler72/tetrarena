@@ -1,11 +1,11 @@
 <script>
-    import MenuContainer from "../MenuContainer.svelte";
+    import MenuContainer from "../MenuComponents/MenuContainer.svelte";
     import ControlsEditor from "./ControlsEditor.svelte";
+
 </script>
 
 <MenuContainer menus="{[
     {text: 'Controls', icon: 'keyboard', selected: true},
-    {text: 'Create Room', icon: 'add_circle', selected: false},
     ]}">
-    <ControlsEditor></ControlsEditor>
+    <ControlsEditor ></ControlsEditor>
 </MenuContainer>

@@ -1,7 +1,7 @@
 <script lang="ts">
     import {Client} from "colyseus.js";
     import {clientStore} from "./multiplayerStore";
-    import MenuContainer from "../MenuContainer.svelte";
+    import MenuContainer from "../MenuComponents/MenuContainer.svelte";
     import LobbyForm from "./LobbyForm.svelte";
     import {roomStore} from "./multiplayerStore";
     import {goto} from "$app/navigation";
