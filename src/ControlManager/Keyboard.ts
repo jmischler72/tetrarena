@@ -48,23 +48,23 @@ import {defaultPreset} from './presets/default';
 //         this.repeatsCount = 0;
 //     }
 // }
-
-
-class Key {
-    _pressed: { [key in string]: boolean } = {};
-
-    isDown(keyCode: string) {
-        return this._pressed[keyCode];
-    }
-
-    onKeyDown(event: KeyboardEvent) {
-        this._pressed[event.key] = true;
-    }
-
-    onKeyUp(event: KeyboardEvent) {
-        delete this._pressed[event.key];
-    }
-}
+//
+//
+// class Key {
+//     _pressed: { [key in string]: boolean } = {};
+//
+//     isDown(keyCode: string) {
+//         return this._pressed[keyCode];
+//     }
+//
+//     onKeyDown(event: KeyboardEvent) {
+//         this._pressed[event.key] = true;
+//     }
+//
+//     onKeyUp(event: KeyboardEvent) {
+//         delete this._pressed[event.key];
+//     }
+// }
 
 /**
  * Handles keyboard controls for known keys
@@ -91,7 +91,6 @@ export default class Keyboard {
             // let key = this.keys.get(evt.key);
             // if (key) {
             //     key.onPress();
-            //     if (key.trigger()) this.callback(key.action);
             // }
         });
         // window.addEventListener('keyup', evt => {
