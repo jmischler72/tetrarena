@@ -1,44 +1,72 @@
 <script lang="ts">
     import {ActionsEnum} from "@jmischler72/core-tetris";
     import {keybindStore} from "../controlsStore";
+    import {onMount} from "svelte";
+    import type {Preset} from "../../ControlManager/presets/preset";
 
+    let tempKeybind: Preset = structuredClone($keybindStore);
 
-    let controls = [
+    let isWaitingForKey: ActionsEnum | null = null;
+
+    let controls: [string, ActionsEnum][] = [
         ["Move to the left", ActionsEnum.GO_LEFT],
         ["Move to the right", ActionsEnum.GO_RIGHT],
         ["Rotate", ActionsEnum.ROTATE],
         ["Soft Drop", ActionsEnum.GO_DOWN],
         ["Hard Drop", ActionsEnum.INSTANT_PLACE]
     ];
-    console.log($keybindStore[ActionsEnum.GO_DOWN]);
+
+    function saveKeybinds() {
+        $keybindStore = tempKeybind;
+    }
+
+    function handleKeyPress(event: KeyboardEvent) {
+        if (!isWaitingForKey) return;
+        // console.log(Object.values(tempKeybind).filter((key) => key === event.key).length > 0);
+        if (!(Object.values(tempKeybind.keys).filter((key) => key === event.key).length > 0)) {
+            tempKeybind.keys[isWaitingForKey] = event.key;
+        }
+        isWaitingForKey = null;
+        event.preventDefault();
+    }
+
+    onMount(() => {
+        window.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyPress);
+        };
+    });
 </script>
 
-
-<!--
-// v0 by Vercel.
-// https://v0.dev/t/ITF4CuZybVv
--->
-<div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full" data-v0-t="card">
-
-    <div class="p-6 flex flex-col space-y-4 ">
+<div class="rounded-lg border bg-card shadow-sm w-full h-full">
+    <div class="p-6 flex flex-col space-y-4 h-[70%] overflow-y-scroll">
         {#each controls as control}
-            <div class="grid grid-cols-3 items-center space-x-4"><label
-                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center space-x-2"
-                    for="move-up"><span>{control[0]}</span></label><input
-                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    id="move-up" placeholder="{$keybindStore[control[1]]}">
-                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3">
-                    Modifier
+            <div class="grid grid-cols-2 mx-12 bg-gray-700 rounded  px-[10%] p-6">
+                <h1
+                        class="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center space-x-2"
+                ><span>{control[0]}</span></h1>
+                <button
+                        class="flex bg-gray-200 h-10 w-[50%] rounded-md border-2 border-gray-800 px-8 py-2 text-sm text-gray-800 focus-visible:outline-gray-400 "
+                        on:click={()=> isWaitingForKey = control[1]}
+                >
+                    {#if (isWaitingForKey === control[1])}
+                        <span>Press a key...</span>
+                    {:else}
+                        {#if (tempKeybind.keys[control[1]] === " ")}
+                            Space
+                        {/if}
+                        {(tempKeybind.keys[control[1]]).toUpperCase() || "Not set"}
+                    {/if}
                 </button>
             </div>
         {/each}
     </div>
-    <div class="flex items-center p-6">
+    <div class="flex items-center justify-center p-6 mt-10">
         <div class="flex justify-end space-x-2">
-            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-                Réinitialiser
-            </button>
-            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+            <button on:click={()=> saveKeybinds()}
+                    disabled="{ JSON.stringify($keybindStore) === JSON.stringify(tempKeybind) }"
+                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
                 Enregistrer
             </button>
         </div>

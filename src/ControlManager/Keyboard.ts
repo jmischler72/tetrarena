@@ -85,8 +85,8 @@ export default class Keyboard {
 
         window.addEventListener('keydown', evt => {
             // console.log(evt.key as ActionsEnum);
-            console.log("test" + defaultPreset[evt.key]);
-            this.callback(this.currentPreset[evt.key]);
+            // console.log("test" + defaultPreset[evt.code]);
+            this.callback(this.currentPreset[evt.code]);
 
             // let key = this.keys.get(evt.key);
             // if (key) {

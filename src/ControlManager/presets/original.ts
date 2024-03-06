@@ -1,12 +1,12 @@
 import type {Preset} from "./preset";
 
-export const defaultPreset: Preset = {
-    name : "Default",
+export const originalPreset: Preset = {
+    name : "Original",
     keys : {
         GoLeft: "ArrowLeft",
         GoRight: "ArrowRight",
-        InstantPlace: "LeftShift",
-        Rotate: "Space",
+        InstantPlace: "Space",
+        Rotate: "ArrowUp",
         GoDown: 'ArrowDown'
     }
 }

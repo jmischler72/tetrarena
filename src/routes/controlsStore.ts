@@ -1,9 +1,9 @@
-import type {ActionsEnum} from '@jmischler72/core-tetris';
 import {writable} from 'svelte/store'
-import {defaultPreset} from "../ControlManager/presets/default";
 import {browser} from "$app/environment"
+import type {Preset} from "../ControlManager/presets/preset";
+import {defaultPreset} from "../ControlManager/presets/default";
 
-export const keybindStore = writable<{ [key in ActionsEnum]: string }>(browser && JSON.parse(localStorage.getItem('keybind') || '""') || defaultPreset)
+export const keybindStore = writable<Preset>((browser && JSON.parse(localStorage.getItem('keybind') || '""')) || defaultPreset)
 
 keybindStore.subscribe((value) => {
     if (!browser) return;
