@@ -1,12 +1,6 @@
-<script lang="ts">
-    import MenuHeader from "./MenuHeader.svelte";
-    import type {Menu} from "./Menu";
-
-    export let menus: Menu[];
-</script>
-
 <div class="flex flex-col card h-[90%] w-[80%] z-10 overflow-hidden">
-    <MenuHeader menus="{menus}"></MenuHeader>
+    <slot name="header" class="w-full h-[10%] bg-gray-700/75 pl-10 items-center flex gap-6">
+    </slot>
     <div class="h-full p-4">
         <slot></slot>
     </div>

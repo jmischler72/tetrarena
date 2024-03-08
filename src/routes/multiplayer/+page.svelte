@@ -5,18 +5,32 @@
     import LobbyForm from "./LobbyForm.svelte";
     import {roomStore} from "./multiplayerStore";
     import {goto} from "$app/navigation";
+    import MenuHeader from "../MenuHeader.svelte";
+    import LobbiesList from "./LobbiesList.svelte";
 
     let client: Client = new Client(import.meta.env.VITE_BACKEND_URL);
     clientStore.set(client);
 
+    let currentMenu = "create";
+
     $: if ($roomStore) goto('/multiplayer/' + $roomStore?.roomId);
+
+    $: console.log(currentMenu);
 </script>
 
 
-<MenuContainer menus="{[
-    {text: 'Rooms List', icon: 'list', selected: true},
-    {text: 'Create Room', icon: 'add_circle', selected: false},
-    ]}">
-    <LobbyForm></LobbyForm>
+<MenuContainer>
+    <div slot="header" class="w-full h-[10%] bg-gray-700/75 pl-10 items-center flex gap-6">
+        <MenuHeader on:click={()=> currentMenu = 'list'}
+                    menu="{{text: 'Rooms List', icon: 'list', selected: currentMenu === 'list'}}"></MenuHeader>
+        <MenuHeader on:click={()=> currentMenu = 'create'}
+                    menu="{{text: 'Create Room', icon: 'add_circle', selected: currentMenu === 'create'}}"></MenuHeader>
+    </div>
+    {#if currentMenu === 'create' }
+        <LobbyForm></LobbyForm>
+    {:else }
+        <LobbiesList></LobbiesList>
+    {/if}
+
 </MenuContainer>
 
