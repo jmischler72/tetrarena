@@ -4,6 +4,7 @@
     import {clientStore, roomStore} from "./multiplayerStore";
     import type {Room} from "colyseus.js";
     import type {RoomState} from "./[slug]/types/RoomState";
+    import {onMount} from "svelte";
 
     const ICON_SIZE = 200;
 
@@ -29,16 +30,18 @@
     }
     $: randomString || selectedIcon && console.log(randomString + " , " + selectedIcon);
 
-</script>
+    onMount(()=>{
+        // setup jdenticon programmatically -> module needed for picker (data-jdenticon-value cant be used with nodejs module)
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js';
+        script.async = true;
+        script.integrity = "sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M";
+        script.crossOrigin = "anonymous";
+        document.head.appendChild(script);
+        window["jdenticon_config"] = { replaceMode: "observe" }
+    })
 
-<svelte:head>
-    <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
-            integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
-            crossorigin="anonymous"
-            on:load={window.jdenticon_config = { replaceMode: "observe" }}
-    >
-    </script>
-</svelte:head>
+</script>
 
 <div class="w-full h-full p-4 text-white">
     <!--    <div class="p-6 flex flex-row space-y-0 items-start gap-2">-->

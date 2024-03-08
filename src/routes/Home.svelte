@@ -4,24 +4,19 @@
 
 <div class="flex flex-col items-center text-gray-200 gap-4 text-6xl mb-16">
     <div class="flex flex-row gap-4">
-        <button class="card h-[300px] w-[300px]" on:click={()=> goto('/game')}>
-            <div class="flex justify-center items-center z-10">
-                <span class="material-symbols-outlined material-icons">person</span>
-            </div>
+        <button class="card h-[300px] w-[300px] flex justify-center items-center z-10" on:click={()=> goto('/game')}>
+            <span class="material-symbols-outlined material-icons">person</span>
             <div class="shine"></div>
         </button>
-        <button class="card h-[300px] w-[300px]" on:click={()=>goto('/multiplayer')}>
-            <div class="flex justify-center items-center z-10">
-                <span class="material-symbols-outlined material-icons">group</span>
-            </div>
+        <button class="card h-[300px] w-[300px] flex justify-center items-center z-10"
+                on:click={()=>goto('/multiplayer')}>
+            <span class="material-symbols-outlined material-icons">group</span>
 
             <div class="shine"></div>
         </button>
     </div>
-    <button class="card h-[200px] w-full" on:click={()=> goto('/settings')}>
-        <div class="flex justify-center items-center z-10">
-            <span class="material-symbols-outlined material-icons">settings</span>
-        </div>
+    <button class="card h-[200px] w-full flex justify-center items-center z-10" on:click={()=> goto('/settings')}>
+        <span class="material-symbols-outlined material-icons">settings</span>
 
         <div class="shine"></div>
     </button>
