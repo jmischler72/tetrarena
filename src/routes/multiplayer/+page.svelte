@@ -1,11 +1,11 @@
 <script lang="ts">
     import {Client} from "colyseus.js";
     import {clientStore} from "./multiplayerStore";
-    import MenuContainer from "../MenuContainer.svelte";
+    import MenuContainer from "../MenuComponents/MenuContainer.svelte";
     import LobbyForm from "./LobbyForm.svelte";
     import {roomStore} from "./multiplayerStore";
     import {goto} from "$app/navigation";
-    import MenuHeader from "../MenuHeader.svelte";
+    import MenuHeader from "../MenuComponents/MenuHeader.svelte";
     import LobbiesList from "./LobbiesList.svelte";
 
     let client: Client = new Client(import.meta.env.VITE_BACKEND_URL);

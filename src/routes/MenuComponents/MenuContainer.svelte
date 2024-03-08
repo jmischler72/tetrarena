@@ -1,7 +1,7 @@
 <div class="flex flex-col card h-[90%] w-[80%] z-10 overflow-hidden">
-    <slot name="header" class="w-full h-[10%] bg-gray-700/75 pl-10 items-center flex gap-6">
+    <slot name="header" >
     </slot>
-    <div class="h-full p-4">
+    <div class="h-[90%] p-4">
         <slot></slot>
     </div>
 </div>

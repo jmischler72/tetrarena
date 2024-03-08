@@ -3,38 +3,13 @@
     import {Manager} from "./Manager";
     import SinglePlayerGameScene from "./scenes/SinglePlayerGameScene";
     import {SinglePlayerInstance, ActionsEnum} from "@jmischler72/core-tetris";
-
-    function handleKeyDown(event: KeyboardEvent, game: SinglePlayerInstance) {
-        if (event.defaultPrevented) {
-            return;
-        }
-        if (game.game.isGameOver) {
-            return;
-        }
-        switch (event.code) {
-            case "ArrowDown":
-                game.handleAction(ActionsEnum.GO_DOWN);
-                break;
-            case "ArrowLeft":
-                game.handleAction(ActionsEnum.GO_LEFT);
-                break;
-            case "ArrowRight":
-                game.handleAction(ActionsEnum.GO_RIGHT);
-                break;
-            case "Space":
-                game.handleAction(ActionsEnum.ROTATE);
-                break;
-            case "ShiftLeft":
-                game.handleAction(ActionsEnum.INSTANT_PLACE);
-                break;
-        }
-        event.preventDefault();
-    }
+    import Keyboard from "../ControlManager/Keyboard";
 
     const instance: SinglePlayerInstance = new SinglePlayerInstance();
 
     onMount(() => {
-        window.onkeydown = (e) => handleKeyDown(e, instance);
+        new Keyboard((action) => instance.handleAction(action));
+
         Manager.initialize(0x1a1a1a);
         Manager.changeScene(new SinglePlayerGameScene(instance));
     });
