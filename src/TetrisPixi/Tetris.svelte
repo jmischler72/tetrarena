@@ -1,22 +1,23 @@
 <script lang="ts">
-    import {onDestroy, onMount} from "svelte";
+    import {onMount} from "svelte";
     import {Manager} from "./Manager";
     import SinglePlayerGameScene from "./scenes/SinglePlayerGameScene";
-    import {SinglePlayerInstance, ActionsEnum} from "@jmischler72/core-tetris";
-    import Keyboard from "../ControlManager/Keyboard";
+    import {SinglePlayerInstance} from "@jmischler72/core-tetris";
+    import InputManager from "./input-manager/InputManager";
 
     const instance: SinglePlayerInstance = new SinglePlayerInstance();
 
     onMount(() => {
-        new Keyboard((action) => instance.handleAction(action));
+        new InputManager((action) => instance.handleAction(action));
 
         Manager.initialize(0x1a1a1a);
         Manager.changeScene(new SinglePlayerGameScene(instance));
+
+        return () => {
+            instance.stopGame()
+        };
     });
 
-    onDestroy(() => {
-        instance.stopGame();
-    });
 </script>
 
 <canvas id="pixi-canvas"></canvas>

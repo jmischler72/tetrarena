@@ -1,7 +1,7 @@
 import {writable} from 'svelte/store'
 import {browser} from "$app/environment"
-import type {Preset} from "../ControlManager/presets/preset";
-import {defaultPreset} from "../ControlManager/presets/default";
+import type {Preset} from "../TetrisPixi/input-manager/presets/preset";
+import {defaultPreset} from "../TetrisPixi/input-manager/presets/default";
 
 export const keybindStore = writable<Preset>((browser && JSON.parse(localStorage.getItem('keybind') || '""')) || defaultPreset)
 

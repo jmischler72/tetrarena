@@ -2,11 +2,12 @@
     import {ActionsEnum} from "@jmischler72/core-tetris";
     import {keybindStore} from "../controlsStore";
     import {onMount} from "svelte";
-    import type {Preset} from "../../ControlManager/presets/preset";
+    import type {Preset} from "../../TetrisPixi/input-manager/presets/preset";
+    import {isKeyInPreset, setActionKey} from "../../TetrisPixi/input-manager/InputHelper";
 
     let tempKeybind: Preset = structuredClone($keybindStore);
 
-    let isWaitingForKey: ActionsEnum | null = null;
+    let actionWaitingForKey: ActionsEnum | null = null;
 
     let controls: [string, ActionsEnum][] = [
         ["Move to the left", ActionsEnum.GO_LEFT],
@@ -21,12 +22,11 @@
     }
 
     function handleKeyPress(event: KeyboardEvent) {
-        if (!isWaitingForKey) return;
-        // console.log(Object.values(tempKeybind).filter((key) => key === event.key).length > 0);
-        if (!(Object.values(tempKeybind.keys).filter((key) => key === event.key).length > 0)) {
-            tempKeybind.keys[isWaitingForKey] = event.key;
+        if (!actionWaitingForKey) return;
+        if (!(isKeyInPreset(event.key, tempKeybind))) {
+            setActionKey(actionWaitingForKey, event.key, tempKeybind);
         }
-        isWaitingForKey = null;
+        actionWaitingForKey = null;
         event.preventDefault();
     }
 
@@ -48,13 +48,13 @@
                 ><span>{control[0]}</span></h1>
                 <button
                         class="flex bg-gray-200 h-10 w-[50%] rounded-md border-2 border-gray-800 px-8 py-2 text-sm text-gray-800 focus-visible:outline-gray-400 "
-                        on:click={()=> isWaitingForKey = control[1]}
+                        on:click={()=> actionWaitingForKey = control[1]}
                 >
-                    {#if (isWaitingForKey === control[1])}
+                    {#if (actionWaitingForKey === control[1])}
                         <span>Press a key...</span>
                     {:else}
                         {#if (tempKeybind.keys[control[1]] === " ")}
-                            Space
+                            SPACE
                         {/if}
                         {(tempKeybind.keys[control[1]]).toUpperCase() || "Not set"}
                     {/if}
