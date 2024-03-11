@@ -12,6 +12,7 @@ export class SinglePlayerInstance {
     }
 
     restartGame() {
+        this.stopGame();
         this.game = new Game();
         this.updateGame();
     }
