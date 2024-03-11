@@ -4,10 +4,15 @@ import {Game} from "../game/Game";
 
 export class SinglePlayerInstance {
     private gameTimer: null | ReturnType<typeof setTimeout> = null;
-    public readonly game: Game = new Game();
+    public game: Game = new Game();
 
     constructor() {
         console.log('Game Started');
+        this.updateGame();
+    }
+
+    restartGame() {
+        this.game = new Game();
         this.updateGame();
     }
 
