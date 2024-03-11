@@ -1,7 +1,7 @@
 <script>
-    import MenuContainer from "../MenuComponents/MenuContainer.svelte";
+    import MenuContainer from "../menu-components/MenuContainer.svelte";
     import ControlsEditor from "./ControlsEditor.svelte";
-    import MenuHeader from "../MenuComponents/MenuHeader.svelte";
+    import MenuHeader from "../menu-components/MenuHeader.svelte";
 
     let currentMenu = 'controls';
 </script>
