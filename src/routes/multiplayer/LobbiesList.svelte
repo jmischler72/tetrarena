@@ -7,9 +7,7 @@
     let rooms: RoomAvailable[] = [];
 
     onMount(async () => {
-        if ($clientStore instanceof Client) {
-            rooms = await $clientStore.getAvailableRooms("my_room");
-        }
+        rooms = await $clientStore.getAvailableRooms("my_room");
     })
 </script>
 
@@ -70,8 +68,8 @@
         <!--    {/each}-->
         {#each rooms as room}
             <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">{room.name}</td>
-                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{room.id}</td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">{room.metadata?.name}</td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{room.roomId}</td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{room.clients}</td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">Active</td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 flex justify-end gap-2">
