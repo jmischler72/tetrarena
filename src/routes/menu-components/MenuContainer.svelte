@@ -1,4 +1,4 @@
-<div class="flex flex-col card h-[90%] w-[80%] z-10 overflow-hidden">
+<div class="flex flex-col card h-[80%] w-[80%] z-10 overflow-hidden">
     <slot name="header" >
     </slot>
     <div class="h-[90%] p-4">
