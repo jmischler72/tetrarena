@@ -24,11 +24,13 @@
     function handleKeyPress(event: KeyboardEvent) {
         if (!actionWaitingForKey) return;
         if (!(isKeyInPreset(event.key, tempKeybind))) {
-            setActionKey(actionWaitingForKey, event.key, tempKeybind);
+            tempKeybind = setActionKey(actionWaitingForKey, event.key, tempKeybind);
         }
         actionWaitingForKey = null;
         event.preventDefault();
     }
+
+    $: console.log(tempKeybind, $keybindStore);
 
     onMount(() => {
         window.addEventListener('keydown', handleKeyPress);

@@ -11,12 +11,19 @@
     let selectedIcon: number = 0;
     let randomString: string = (Math.random() + 1).toString(36).substring(2);
 
+    let roomIcon = "";
+
     let roomIconPickerOpen = false;
 
     async function createLobby() {
         try {
             if (!$roomStore) {
-                const room: Room<RoomState> | undefined = await $clientStore?.create("my_room", {/* options */});
+                const room: Room<RoomState> | undefined = await $clientStore?.create("my_room",
+                    {
+                        roomName: "my_room",
+                        roomIcon: roomIcon,
+                    }
+                );
                 if (room) $roomStore = room;
                 console.log("joined successfully", room);
             }
@@ -25,10 +32,11 @@
         }
     }
 
+    $: roomIcon = randomString + selectedIcon;
     $: if (selectedIcon) {
         roomIconPickerOpen = false;
     }
-    $: randomString || selectedIcon && console.log(randomString + " , " + selectedIcon);
+    $: console.log(randomString + " , " + selectedIcon);
 
     onMount(()=>{
         // setup jdenticon programmatically -> module needed for picker (data-jdenticon-value cant be used with nodejs module)
@@ -55,7 +63,7 @@
                 <button on:click={()=>roomIconPickerOpen = true}>
                     <svg
                             class="bg-white" width="{ICON_SIZE}"
-                            height="{ICON_SIZE}" data-jdenticon-value="{randomString + selectedIcon}"></svg>
+                            height="{ICON_SIZE}" data-jdenticon-value="{roomIcon}"></svg>
                 </button>
                 {#if roomIconPickerOpen}
                     <div class="absolute top-0 right-[-50px]" use:clickOutside
@@ -71,16 +79,8 @@
                         for="room-name">
                     Room Name
                 </label><input
-                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        class="flex h-10 w-full text-black rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         id="room-name" placeholder="Room Name" type="text"></div>
-                <div class="grid gap-2"><label
-                        class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-base"
-                        for="capacity">
-                    Capacity
-                </label><input
-                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        id="capacity" placeholder="Capacity" type="number"></div>
-
             </div>
         </div>
 
