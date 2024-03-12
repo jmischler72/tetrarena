@@ -1,16 +1,27 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { Manager } from "./Manager";
-  import MultiPlayerGameScene from "./scenes/MultiPlayerGameScene";
-  import { ActionsEnum } from "@jmischler72/core-tetris";
+    import {onMount} from "svelte";
+    import {Manager} from "./Manager";
+    import MultiPlayerGameScene from "./scenes/MultiPlayerGameScene";
+    import {ActionsEnum} from "@jmischler72/core-tetris";
+    import {roomStore} from "../routes/multiplayer/multiplayerStore";
+    import InputManager from "./input-manager/InputManager";
+    import {inGame} from "../routes/controlsStore";
 
-  onMount(() => {
-    Manager.initialize(0x2e2e2e);
+    function onInput(action: ActionsEnum) {
+        if ($roomStore) $roomStore.send("action", action);
+    }
 
+    onMount(() => {
+        $inGame = true;
+        new InputManager((action) => onInput(action));
 
-    Manager.changeScene(new MultiPlayerGameScene());
+        Manager.initialize(0x2e2e2e);
+        Manager.changeScene(new MultiPlayerGameScene());
 
-  });
+        return (() => {
+            $inGame = false;
+        })
+    });
 </script>
 
 <canvas id="pixi-canvas"></canvas>

@@ -4,16 +4,21 @@
     import SinglePlayerGameScene from "./scenes/SinglePlayerGameScene";
     import {SinglePlayerInstance} from "@jmischler72/core-tetris";
     import InputManager from "./input-manager/InputManager";
+    import {inGame} from "../routes/controlsStore";
 
     const instance: SinglePlayerInstance = new SinglePlayerInstance();
+    $inGame = true;
+
 
     onMount(() => {
+        $inGame = true;
         new InputManager((action) => instance.handleAction(action));
 
         Manager.initialize(0x1a1a1a);
         Manager.changeScene(new SinglePlayerGameScene(instance));
 
         return () => {
+            $inGame = false;
             instance.stopGame()
         };
     });
