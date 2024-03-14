@@ -1,20 +1,37 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import type {RoomAvailable} from "colyseus.js";
-    import {clientStore} from "./multiplayerStore.js";
-    import {Client} from "colyseus.js";
+    import {clientStore, roomStore} from "./multiplayerStore.js";
+    import {Room} from "colyseus.js";
+    import {RoomState} from "./[slug]/types/RoomState";
 
     let rooms: RoomAvailable[] = [];
 
-    onMount(async () => {
-        rooms = await $clientStore.getAvailableRooms("my_room");
+    async function joinRoom(roomId: string) {
+        try {
+            const room: Room<RoomState> | undefined = await $clientStore.joinById(roomId, {/* options */});
+            if (room) $roomStore = room;
+            console.log("joined successfully", room);
+
+        } catch (e) {
+            console.error("join error", e);
+        }
+    }
+
+    onMount(() => {
+        $clientStore.getAvailableRooms("my_room").then((r) => {
+            rooms = r;
+        });
+
+        let interval = setInterval(async () => {
+            console.log("f");
+            rooms = await $clientStore.getAvailableRooms("my_room")
+        }, 5000);
+
+        return () => clearInterval(interval);
     })
 </script>
 
-<!--
-// v0 by Vercel.
-// https://v0.dev/t/Q4VbeM6svsY
--->
 <div class="w-full  text-white p-4 overflow-scroll">
     <table class="w-full caption-bottom text-sm ">
         <thead class="[&amp;_tr]:border-b bg-gray-700">
@@ -67,7 +84,8 @@
         <!--</tr>-->
         <!--    {/each}-->
         {#each rooms as room}
-            <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+            <tr on:click={() => joinRoom(room.roomId)}
+                class="border-b transition-colors cursor-pointer hover:bg-gray-600 ">
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">{room.metadata?.name}</td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{room.roomId}</td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{room.clients}</td>
