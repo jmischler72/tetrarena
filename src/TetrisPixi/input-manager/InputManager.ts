@@ -19,7 +19,7 @@ export default class InputManager {
             // console.log(evt.key as ActionsEnum);
             // console.log(Object.keys(this.currentPreset.keys).find(key => this.currentPreset.keys[key as ActionsEnum] === evt.code));
             // console.log("test" + defaultPreset[evt.code]);
-            let action = Object.keys(this.currentPreset.keys).find(key => this.currentPreset.keys[key as ActionsEnum] === evt.code);
+            let action = Object.keys(this.currentPreset.keys).find(key => this.currentPreset.keys[key as ActionsEnum] === evt.key);
             if(action !== undefined) this.callback(action as ActionsEnum);
 
             // let key = this.keys.get(evt.key);
