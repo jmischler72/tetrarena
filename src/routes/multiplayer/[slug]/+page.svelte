@@ -1,13 +1,10 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import {Room} from 'colyseus.js'
-    import {get} from "svelte/store";
-    import {clientStore, gameStatesStore, roomStore} from "../multiplayerStore";
-    import {toGameStateDTO} from "./types/utils";
+    import {clientStore, roomStore} from "../multiplayerStore";
     import type {RoomState} from "./types/RoomState";
-    import WaitingLobby from "./WaitingLobby.svelte";
-    import {goto} from "$app/navigation";
-    import MultiplayerTetris from "../../../TetrisPixi/MultiplayerTetris.svelte";
+    import RoomWaiting from "./RoomWaiting.svelte";
+    import MultiplayerTetris from "./MultiplayerTetris.svelte";
     import {inGame} from "../../controlsStore";
 
     export let data;
@@ -29,29 +26,13 @@
         console.log("page mounted");
 
         $roomStore.state.listen("isPlaying", (currentValue, previousValue) => {
-            if(currentValue === previousValue) return;
+            if (currentValue === previousValue) return;
             console.log("isPlaying changed", currentValue);
-            if(currentValue===true) $inGame = true;
+            if (currentValue === true) $inGame = true;
             isPlaying = currentValue;
-        }, true);
+        });
 
-        $roomStore.state.players.onAdd((player, key) => {
-            console.log(key, "has been added to the room");
-            // add your player entity to the game world!
-            // If you want to track changes on a child object inside a map, this is a common pattern:
-            player.onChange(() => {
-                let gameStates = get(gameStatesStore);
-                gameStates.set(key, toGameStateDTO(player));
-            })
-        });
-        $roomStore.onError((code, message) => {
-            console.log("oops, error ocurred:", code, message);
-        });
-        $roomStore.onLeave(() => {
-            console.log("client left the room");
-            $roomStore = null;
-            goto('/multiplayer/');
-        });
+
     })
 </script>
 
@@ -59,8 +40,7 @@
     {#if isPlaying}
         <MultiplayerTetris></MultiplayerTetris>
     {:else}
-        <p>{$roomStore.roomId} - {isPlaying}</p>
-        <WaitingLobby></WaitingLobby>
+        <RoomWaiting></RoomWaiting>
     {/if}
 {/if}
 
