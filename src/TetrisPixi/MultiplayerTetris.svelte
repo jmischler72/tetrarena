@@ -12,7 +12,6 @@
     }
 
     onMount(() => {
-        $inGame = true;
         new InputManager((action) => onInput(action));
 
         Manager.initialize(0x2e2e2e);

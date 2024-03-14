@@ -7,8 +7,12 @@
     import type {RoomState} from "./types/RoomState";
     import WaitingLobby from "./WaitingLobby.svelte";
     import {goto} from "$app/navigation";
+    import MultiplayerTetris from "../../../TetrisPixi/MultiplayerTetris.svelte";
+    import {inGame} from "../../controlsStore";
 
     export let data;
+
+    let isPlaying: boolean = false;
 
     async function connect() {
         if (!$clientStore) return;
@@ -22,6 +26,15 @@
             await connect();
         }
         if (!$roomStore) return;
+        console.log("test");
+
+        $roomStore.state.listen("isPlaying", (currentValue, previousValue) => {
+            if(currentValue === previousValue) return;
+            console.log("isPlaying changed", currentValue);
+            if(currentValue===true) $inGame = true;
+            isPlaying = currentValue;
+        }, true);
+
         $roomStore.state.players.onAdd((player, key) => {
             console.log(key, "has been added to the room");
             // add your player entity to the game world!
@@ -32,6 +45,9 @@
                 console.log(key + "changed");
             })
         });
+        $roomStore.onError((code, message) => {
+            console.log("oops, error ocurred:", code, message);
+        });
         $roomStore.onLeave(() => {
             console.log("client left the room");
             $roomStore = null;
@@ -41,8 +57,11 @@
 </script>
 
 {#if $roomStore}
-    <p>{$roomStore.roomId} - {$roomStore.state.isPlaying}</p>
-    <WaitingLobby></WaitingLobby>
-    <!--    <MultiplayerTetris></MultiplayerTetris>-->
+    {#if isPlaying}
+        <MultiplayerTetris></MultiplayerTetris>
+    {:else}
+        <p>{$roomStore.roomId} - {isPlaying}</p>
+        <WaitingLobby></WaitingLobby>
+    {/if}
 {/if}
 
