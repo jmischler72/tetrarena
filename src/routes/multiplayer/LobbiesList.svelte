@@ -24,7 +24,6 @@
         });
 
         let interval = setInterval(async () => {
-            console.log("f");
             rooms = await $clientStore.getAvailableRooms("my_room")
         }, 5000);
 

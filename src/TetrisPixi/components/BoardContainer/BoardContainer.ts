@@ -49,7 +49,6 @@ export default class BoardContainer extends PIXI.Container {
             this.currentGameState != null &&
             JSON.stringify(gameState) === this.currentGameState
         ) {
-            console.log("d");
             return;
         }
 

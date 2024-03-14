@@ -26,7 +26,7 @@
             await connect();
         }
         if (!$roomStore) return;
-        console.log("test");
+        console.log("page mounted");
 
         $roomStore.state.listen("isPlaying", (currentValue, previousValue) => {
             if(currentValue === previousValue) return;
@@ -42,7 +42,6 @@
             player.onChange(() => {
                 let gameStates = get(gameStatesStore);
                 gameStates.set(key, toGameStateDTO(player));
-                console.log(key + "changed");
             })
         });
         $roomStore.onError((code, message) => {
