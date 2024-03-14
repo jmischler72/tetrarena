@@ -5,7 +5,7 @@ import {get} from 'svelte/store';
 
 import type {IScene} from "../Manager";
 import {gameStatesStore, roomStore} from "../../routes/multiplayer/multiplayerStore";
-import type {GameStateDTO} from "../../../../../core-tetris";
+import type {GameStateDTO} from "@jmischler72/core-tetris";
 
 export default class MultiPlayerGameScene extends GameScene implements IScene {
     private readonly playerBoard: BoardContainer;
@@ -28,7 +28,7 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
         this.stats.begin();
         TWEEN.update();
 
-        let gameStates: Map<string, GameStateDTO> = get(gameStatesStore);
+        const gameStates: Map<string, GameStateDTO> = get(gameStatesStore);
 
         if (gameStates && !this.isGameOver) {
             gameStates.forEach((value: GameStateDTO, key: string) => {

@@ -5,8 +5,8 @@ export const defaultPreset: Preset = {
     keys : {
         GoLeft: "ArrowLeft",
         GoRight: "ArrowRight",
-        InstantPlace: "LeftShift",
-        Rotate: "Space",
+        InstantPlace: "Shift",
+        Rotate: " ",
         GoDown: 'ArrowDown'
     }
 }

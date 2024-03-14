@@ -13,7 +13,7 @@
 
 
         <h1 class="absolute right-[200px] bottom-0 text-3xl mb-4 animation-text">
-            {$page.url.pathname}
+            /{$page.url.pathname.split('/')[1]}
         </h1>
     </nav>
 {:else}

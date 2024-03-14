@@ -17,7 +17,7 @@ export function addBlocksTexturesToCache() {
 export function getBlocksTexturesFromCache() {
     const texture = PIXI.Texture.from(spritesheet);
 
-    let textures = [Texture.EMPTY]
+    const textures = [Texture.EMPTY]
     for (let i = 0; i < 9; i++) {
         textures.push(new PIXI.Texture(texture.baseTexture, new PIXI.Rectangle(i * 45, 0, 45, 45)));
     }
