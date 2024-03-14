@@ -7,8 +7,8 @@
     {#each {length: 9} as _, i}
         {#if randomString !== ''}
             <button on:click={()=> selectedIcon = i}>
-                <svg class="box-border bg-white border-gray-800"
-                     class:border-4={selectedIcon === i} class:hover:border-2={!(selectedIcon === i)} width="80"
+                <svg class="box-border  bg-white border-gray-700"
+                     class:border-4={selectedIcon === i} class:hover:border-4={!(selectedIcon === i)} width="80"
                      height="80" data-jdenticon-value="{randomString + i}"></svg>
             </button>
         {/if}
