@@ -1,10 +1,10 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {Manager} from "./Manager";
-    import SinglePlayerGameScene from "./scenes/SinglePlayerGameScene";
+    import {Manager} from "../../TetrisPixi/Manager";
+    import SinglePlayerGameScene from "../../TetrisPixi/scenes/SinglePlayerGameScene";
     import {SinglePlayerInstance} from "@jmischler72/core-tetris";
-    import InputManager from "./input-manager/InputManager";
-    import {inGame} from "../routes/controlsStore";
+    import InputManager from "../../TetrisPixi/input-manager/InputManager";
+    import {inGame} from "../controlsStore";
 
     const instance: SinglePlayerInstance = new SinglePlayerInstance();
     $inGame = true;

@@ -1,5 +1,5 @@
 <script>
-    import Tetris from "../../TetrisPixi/Tetris.svelte";
+    import SingleplayerTetris from "./SingleplayerTetris.svelte";
 </script>
 
-<Tetris></Tetris>
+<SingleplayerTetris></SingleplayerTetris>
