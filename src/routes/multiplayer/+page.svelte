@@ -1,12 +1,12 @@
 <script lang="ts">
     import MenuContainer from "../menu-components/MenuContainer.svelte";
-    import LobbyForm from "./LobbyForm.svelte";
+    import RoomCreateForm from "./RoomCreateForm.svelte";
     import MenuHeader from "../menu-components/MenuHeader.svelte";
-    import LobbiesList from "./LobbiesList.svelte";
+    import RoomsList from "./RoomsList.svelte";
     import {roomStore} from "./multiplayerStore";
     import {goto} from "$app/navigation";
 
-    let currentMenu = "create";
+    let currentMenu = "list";
 
     $: if ($roomStore) goto('/multiplayer/' + $roomStore?.roomId);
 
@@ -22,9 +22,9 @@
                     menu="{{text: 'Create Room', icon: 'add_circle', selected: currentMenu === 'create'}}"></MenuHeader>
     </div>
     {#if currentMenu === 'create' }
-        <LobbyForm></LobbyForm>
+        <RoomCreateForm></RoomCreateForm>
     {:else }
-        <LobbiesList></LobbiesList>
+        <RoomsList></RoomsList>
     {/if}
 
 </MenuContainer>
