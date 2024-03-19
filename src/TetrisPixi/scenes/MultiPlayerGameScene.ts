@@ -22,6 +22,8 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
             this.playerBoard.y
         );
         this.addChild(this.playerBoard, this.oppBoard);
+
+        this.playerBoard.renderPlayerBorder();
     }
 
     update(): void {
@@ -52,13 +54,16 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
     }
 
     resize(screenWidth: number, screenHeight: number): void {
+
+        const GAMES_CONTAINER_GAP: number = 60;
+
         this.playerBoard.position.set(
-            screenWidth / 2 - this.playerBoard.width / 2 - this.oppBoard.width / 2 - 15,
+            screenWidth / 2 - this.playerBoard.width / 2 - this.oppBoard.width / 2 - GAMES_CONTAINER_GAP,
             screenHeight / 2 - this.playerBoard.height / 2
         );
 
         this.oppBoard.position.set(
-            screenWidth / 2 - this.oppBoard.width / 2 + this.playerBoard.width / 2 + 15,
+            screenWidth / 2 - this.oppBoard.width / 2 + this.playerBoard.width / 2 + GAMES_CONTAINER_GAP,
             screenHeight / 2 - this.oppBoard.height / 2
         );
     }
