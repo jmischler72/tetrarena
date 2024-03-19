@@ -23,7 +23,19 @@ export default class Board extends PIXI.Container {
         this.textures = getBlocksTexturesFromCache();
 
         this.renderBoardSprites();
+
+        this.renderBackground();
         this.renderGrid();
+    }
+
+    private renderBackground(){
+        let board_bg = new PIXI.Graphics();
+        board_bg.beginFill(0x3b3b3b);
+        board_bg.drawRect(0, 0, this.width, this.height);
+        board_bg.zIndex = -2;
+        board_bg.position.set(0, 0);
+
+        this.addChild(board_bg);
     }
 
     private renderBoardSprites() {
@@ -48,7 +60,7 @@ export default class Board extends PIXI.Container {
     private renderGrid() {
         let grid = new PIXI.Graphics();
         grid.lineStyle(1, 0x54555c, 0.8);
-        grid.zIndex = -2;
+        grid.zIndex = -1;
 
         for (let i = 1; i < BOARD_WIDTH; i++) {
             grid.moveTo(i * BLOCK_SIZE, 0);
