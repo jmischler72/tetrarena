@@ -57,3 +57,34 @@ export function placedTetriminosTween(boardContainer: PIXI.Container, initialPos
     placedAnimationIn.chain(placedAnimationOut);
     return placedAnimationIn;
 }
+
+type currentPlayerBorderTweenType = { height_multiplier: number, width_multiplier: number, opacity: number };
+
+export function currentPlayerBorderTween(rectangle: PIXI.Graphics): TWEEN.Tween<currentPlayerBorderTweenType> {
+    let multiplier: currentPlayerBorderTweenType = {
+        height_multiplier: 1.3,
+        width_multiplier: 1.6,
+        opacity: 1
+    }
+
+    let initial_x = rectangle.x;
+    let initial_y = rectangle.y;
+    let initial_width = rectangle.width;
+    let initial_height = rectangle.height;
+
+    return new TWEEN.Tween(multiplier)
+        .delay(200)
+        .to({
+            height_multiplier: 1,
+            width_multiplier: 1,
+            opacity: 0.25
+        }, 2000)
+        .easing(TWEEN.Easing.Exponential.Out)
+        .onUpdate(() => {
+            rectangle.alpha = multiplier.opacity;
+            rectangle.x = initial_x + (initial_width - initial_width * multiplier.width_multiplier) / 2;
+            rectangle.y = initial_y + (initial_height - initial_height * multiplier.height_multiplier) / 2;
+            rectangle.width = initial_width * multiplier.width_multiplier;
+            rectangle.height = initial_height * multiplier.height_multiplier;
+        });
+}

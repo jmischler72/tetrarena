@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import Board from '../Board/Board';
-import * as TWEEN from '@tweenjs/tween.js';
 import {
+    currentPlayerBorderTween,
     placedTetriminosTween,
     scoreAnimationTween,
 } from './BoardContainerAnimation';
@@ -21,12 +21,6 @@ export default class BoardContainer extends PIXI.Container {
 
         this.board = new Board();
 
-        let bg = new PIXI.Graphics();
-        bg.beginFill(0x3b3b3b);
-        bg.drawRect(0, 0, this.board.width, this.board.height);
-        bg.zIndex = -1;
-        bg.position.set(0, 0);
-
         this.scoreText = new PIXI.Text('0', {
             fontSize: 30,
             stroke: '#000',
@@ -37,11 +31,29 @@ export default class BoardContainer extends PIXI.Container {
         this.scoreText.anchor.set(0.5, 0.5);
 
         this.scoreText.position.set(this.board.width / 2, 0);
+        this.scoreText.zIndex = 2;
 
         this.nextTetriminosContainer = new NextTetriminosContainer();
-        this.nextTetriminosContainer.position.set(this.board.width, 0);
+        this.nextTetriminosContainer.position.set(this.board.width + 10, 0);
 
-        this.addChild(this.board, this.scoreText, bg, this.nextTetriminosContainer);
+        this.addChild(this.board, this.scoreText, this.nextTetriminosContainer);
+
+        // this.renderBorder();
+    }
+
+    renderPlayerBorder() {
+        const graphics = new PIXI.Graphics();
+        graphics.beginFill('rgba(0,0,0,0)');
+        // set the line style to have a width of 5 and set the color to red
+        graphics.lineStyle(3, 0xFF0000);
+        graphics.alpha = 0.3;
+        // draw a rectangle
+        graphics.drawRect(0, 0, this.width, this.height-this.scoreText.height/2);
+        graphics.zIndex = 1;
+
+        this.addChild(graphics);
+
+        currentPlayerBorderTween(graphics).start();
     }
 
     updatePlayerBoard(gameState: GameStateDTO) {
@@ -77,26 +89,26 @@ export default class BoardContainer extends PIXI.Container {
         this.currentGameState = JSON.stringify(gameState);
     }
 
-    gameOverAnimation() {
-        let position = {
-            x: this.position.x,
-        };
-        let shaking = new TWEEN.Tween(position)
-            .to({x: this.position.x + 20}, 100)
-            .onUpdate(() => {
-                this.position.x = position.x;
-            })
-            .yoyo(true)
-            .repeat(5);
-        shaking.start();
-    }
+    // gameOverAnimation() {
+    //     let position = {
+    //         x: this.position.x,
+    //     };
+    //     let shaking = new TWEEN.Tween(position)
+    //         .to({x: this.position.x + 20}, 100)
+    //         .onUpdate(() => {
+    //             this.position.x = position.x;
+    //         })
+    //         .yoyo(true)
+    //         .repeat(5);
+    //     shaking.start();
+    // }
 
-    posedAnimation(offset: number) {
+    private posedAnimation(offset: number) {
         if (!this.initialPosition) this.initialPosition = this.position.y;
         placedTetriminosTween(this, this.initialPosition, offset).start();
     }
 
-    scoreAnimation(score: number) {
+    private scoreAnimation(score: number) {
         scoreAnimationTween(this.scoreText)
             .onStart(() => {
                 this.scoreText.text = score;
