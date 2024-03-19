@@ -4,6 +4,7 @@ import * as TWEEN from "@tweenjs/tween.js";
 import type {GameStateDTO} from "@jmischler72/core-tetris";
 import {SinglePlayerInstance} from "@jmischler72/core-tetris";
 import type {IScene} from "../Manager";
+import * as PIXI from "pixi.js";
 
 export default class SinglePlayerGameScene extends GameScene implements IScene {
     private readonly playerBoard: BoardContainer;
@@ -11,7 +12,16 @@ export default class SinglePlayerGameScene extends GameScene implements IScene {
     constructor(private readonly instance: SinglePlayerInstance) {
         super();
         this.playerBoard = new BoardContainer();
-        this.addChild(this.playerBoard);
+
+        let quitGameText = new PIXI.Text('Press ESC to return home', {
+            fontSize: 30,
+            stroke: '#000',
+            strokeThickness: 2,
+            fill: 0xffffff,
+            align: 'center',
+        });
+
+        this.addChild(this.playerBoard, quitGameText );
     }
 
     update(): void {
