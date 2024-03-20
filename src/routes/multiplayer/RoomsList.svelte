@@ -35,7 +35,10 @@
     <table class="w-full caption-bottom text-sm ">
         <thead class="[&amp;_tr]:border-b bg-gray-700">
         <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-[150px]">
+            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 ">
+                Lobby Avatar
+            </th>
+            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 ">
                 Lobby Name
             </th>
             <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
@@ -85,7 +88,11 @@
         {#each rooms as room}
             <tr on:click={() => joinRoom(room.roomId)}
                 class="border-b transition-colors cursor-pointer hover:bg-gray-600 ">
-                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">{room.metadata?.name}</td>
+                <td class="p-4 align-middle justify-center flex [&amp;:has([role=checkbox])]:pr-0 font-medium">
+                    <svg
+                            class="bg-white" width="60"
+                            height="60" data-jdenticon-value="{room.metadata?.roomIcon}"></svg></td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">{room.metadata?.roomName}</td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{room.roomId}</td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{room.clients}</td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">Active</td>

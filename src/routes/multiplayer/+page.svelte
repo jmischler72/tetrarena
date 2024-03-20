@@ -5,12 +5,26 @@
     import RoomsList from "./RoomsList.svelte";
     import {roomStore} from "./multiplayerStore";
     import {goto} from "$app/navigation";
+    import {onMount} from "svelte";
 
     let currentMenu = "list";
 
     $: if ($roomStore) goto('/multiplayer/' + $roomStore?.roomId);
 
     $: console.log(currentMenu);
+
+
+
+    onMount(()=>{
+        // setup jdenticon programmatically -> module needed for picker (data-jdenticon-value cant be used with nodejs module)
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js';
+        script.async = true;
+        script.integrity = "sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M";
+        script.crossOrigin = "anonymous";
+        document.head.appendChild(script);
+        window["jdenticon_config"] = { replaceMode: "observe" }
+    })
 </script>
 
 
