@@ -7,6 +7,7 @@ import {monitor} from "@colyseus/monitor";
 import pino from "pino";
 import basicAuth from "express-basic-auth";
 import {logger} from "@colyseus/core";
+import {WebSocketTransport} from "@colyseus/ws-transport";
 
 const app = express();
 app.use(express.json());
@@ -36,14 +37,15 @@ const basicAuthMiddleware = basicAuth({
 });
 app.use("/colyseus", basicAuthMiddleware, monitor());
 
+const server = createServer(app); // create the http server manually
 
 const gameServer = new Server({
-    server: createServer(app),
     logger: pino({
         level: 'debug',
-        msgPrefix: '[HTTP] '
+    }),
+    transport: new WebSocketTransport({
+        server // provide the custom server for `WebSocketTransport`
     })
-    // transport: new uWebSocketsTransport(),
     // driver: new RedisDriver(),
     // presence: new RedisPresence(),
 });
@@ -53,6 +55,7 @@ const gameServer = new Server({
  */
 gameServer.define("my_room", MyRoom);
 
-gameServer.listen(process.env.PORT);
-
-logger.info("Server istening on :" + process.env.PORT)
+const port = Number(process.env.PORT) || 8080;
+gameServer.listen(port).then(() => {
+    logger.info("Server is listening on port: " + port);
+});
