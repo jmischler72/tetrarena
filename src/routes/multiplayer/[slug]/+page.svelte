@@ -6,6 +6,7 @@
     import RoomWaiting from "./RoomWaiting.svelte";
     import MultiplayerTetris from "./MultiplayerTetris.svelte";
     import {inGame} from "../../controlsStore";
+    import {goto} from "$app/navigation";
 
     export let data;
 
@@ -14,6 +15,14 @@
     async function connect() {
         if (!$clientStore) return;
         const room: Room<RoomState> = await $clientStore.joinById(data.slug, { /* options */});
+        room.onError((code, message) => {
+            console.log("oops, error ocurred:", code, message);
+        });
+        room.onLeave(() => {
+            console.log("client left the room");
+            $roomStore = null;
+            goto('/multiplayer/');
+        });
         console.log("joined room", room.id);
         roomStore.set(room);
     }

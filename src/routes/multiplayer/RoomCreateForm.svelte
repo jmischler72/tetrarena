@@ -5,6 +5,7 @@
     import type {Room} from "colyseus.js";
     import type {RoomState} from "./[slug]/types/RoomState";
     import {onMount} from "svelte";
+    import {goto} from "$app/navigation";
 
     const ICON_SIZE = 200;
 
@@ -12,6 +13,7 @@
     let randomString: string = (Math.random() + 1).toString(36).substring(2);
 
     let roomIcon = "";
+    let roomName = "";
 
     let roomIconPickerOpen = false;
 
@@ -20,11 +22,19 @@
             if (!$roomStore) {
                 const room: Room<RoomState> | undefined = await $clientStore?.create("my_room",
                     {
-                        roomName: "my_room",
+                        roomName: roomName || "New Room",
                         roomIcon: roomIcon,
                     }
                 );
-                if (room) $roomStore = room;
+                room.onError((code, message) => {
+                    console.log("oops, error ocurred:", code, message);
+                });
+                room.onLeave(() => {
+                    console.log("client left the room");
+                    $roomStore = null;
+                    goto('/multiplayer/');
+                });
+                roomStore.set(room);
                 console.log("joined successfully", room);
             }
         } catch (e) {
@@ -37,17 +47,6 @@
         roomIconPickerOpen = false;
     }
     $: console.log(randomString + " , " + selectedIcon);
-
-    onMount(()=>{
-        // setup jdenticon programmatically -> module needed for picker (data-jdenticon-value cant be used with nodejs module)
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js';
-        script.async = true;
-        script.integrity = "sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M";
-        script.crossOrigin = "anonymous";
-        document.head.appendChild(script);
-        window["jdenticon_config"] = { replaceMode: "observe" }
-    })
 
 </script>
 
@@ -80,7 +79,7 @@
                     Room Name
                 </label><input
                         class="flex h-10 w-full text-black rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        id="room-name" placeholder="Room Name" type="text"></div>
+                        id="room-name" placeholder="New Room" type="text" bind:value={roomName}></div>
             </div>
         </div>
 

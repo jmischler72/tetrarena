@@ -31,21 +31,11 @@
                 gameStates.set(key, toGameStateDTO(player));
             })
         });
-        $roomStore.onError((code, message) => {
-            console.log("oops, error ocurred:", code, message);
-        });
-        $roomStore.onLeave(() => {
-            console.log("client left the room");
-            $roomStore = null;
-            goto('/multiplayer/');
-        });
     }
 
     onMount(() => {
         initMultiplayerGame();
-
         onPlayersChange();
-
         return (() => {
             $inGame = false;
         })
