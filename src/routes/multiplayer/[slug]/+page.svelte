@@ -1,9 +1,10 @@
 <script lang="ts">
-    import {joinRoom} from "../RoomService";
+    import {joinRoom, leaveRoom} from "../RoomService";
     import {roomStore} from "../multiplayerStore";
     import {inGame} from "../../controlsStore";
     import MultiplayerTetris from "./MultiplayerTetris.svelte";
     import RoomWaiting from "./RoomWaiting.svelte";
+    import {onDestroy} from "svelte";
 
     export let data;
 
@@ -12,9 +13,15 @@
     $: $roomStore?.state.listen("isPlaying", (currentValue, previousValue) => {
         if (currentValue === previousValue) return;
         console.log("isPlaying changed", currentValue);
-        if (currentValue === true) $inGame = true;
+        // if (currentValue === true) $inGame = true;
         isPlaying = currentValue;
     });
+
+    onDestroy(() => {
+        console.log("destroying room");
+        leaveRoom();
+    });
+
 </script>
 
 {#await joinRoom(data.slug)}

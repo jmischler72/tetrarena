@@ -69,10 +69,15 @@ export async function createRoom(name: string, icon: string) {
 
         addErrorHandling(room);
         roomStore.set(room);
-
-        return room;
-
     } catch (e) {
         console.error("join error", e);
+    }
+}
+
+export async function leaveRoom() {
+    const room = get(roomStore);
+    if (room) {
+        await room.leave();
+        roomStore.set(null);
     }
 }

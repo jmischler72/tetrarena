@@ -1,10 +1,8 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import type {RoomAvailable} from "colyseus.js";
-    import {clientStore, roomStore} from "./multiplayerStore.js";
-    import {Room} from "colyseus.js";
-    import {RoomState} from "./[slug]/types/RoomState";
-    import {joinRoom} from "./RoomService";
+    import {clientStore} from "./multiplayerStore.js";
+    import {goto} from "$app/navigation";
 
     let rooms: RoomAvailable[] = [];
 
@@ -76,7 +74,7 @@
         <!--</tr>-->
         <!--    {/each}-->
         {#each rooms as room}
-            <tr on:click={() => joinRoom(room.roomId)}
+            <tr on:click={() => goto('/multiplayer/' + room.roomId)}
                 class="border-b transition-colors cursor-pointer hover:bg-gray-600 ">
                 <td class="p-4 align-middle justify-center flex [&amp;:has([role=checkbox])]:pr-0 font-medium">
                     <svg

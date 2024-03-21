@@ -8,7 +8,6 @@
     import {inGame} from "../../controlsStore";
     import {get} from "svelte/store";
     import {toGameStateDTO} from "./types/utils";
-    import {goto} from "$app/navigation";
 
     function onInput(action: ActionsEnum) {
         if ($roomStore) $roomStore.send("action", action);

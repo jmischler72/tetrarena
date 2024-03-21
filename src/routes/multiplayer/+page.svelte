@@ -6,13 +6,13 @@
     import {roomStore} from "./multiplayerStore";
     import {goto} from "$app/navigation";
     import {onMount} from "svelte";
+    import {browser} from "$app/environment";
 
     let currentMenu = "list";
 
-    $: if ($roomStore) goto('/multiplayer/' + $roomStore?.roomId);
+    $: if ($roomStore && browser) goto('/multiplayer/' + $roomStore?.roomId);
 
     $: console.log(currentMenu);
-
 
 
     onMount(()=>{
