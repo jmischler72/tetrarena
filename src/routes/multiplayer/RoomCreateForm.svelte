@@ -1,11 +1,7 @@
 <script lang="ts">
     import RoomIconPicker from "./RoomIconPicker.svelte";
     import {clickOutside} from './clickOutside.js';
-    import {clientStore, roomStore} from "./multiplayerStore";
-    import type {Room} from "colyseus.js";
-    import type {RoomState} from "./[slug]/types/RoomState";
-    import {onMount} from "svelte";
-    import {goto} from "$app/navigation";
+    import {createRoom} from "./RoomService";
 
     const ICON_SIZE = 200;
 
@@ -16,31 +12,6 @@
     let roomName = "";
 
     let roomIconPickerOpen = false;
-
-    async function createLobby() {
-        try {
-            if (!$roomStore) {
-                const room: Room<RoomState> | undefined = await $clientStore?.create("my_room",
-                    {
-                        roomName: roomName || "New Room",
-                        roomIcon: roomIcon,
-                    }
-                );
-                room.onError((code, message) => {
-                    console.log("oops, error ocurred:", code, message);
-                });
-                room.onLeave(() => {
-                    console.log("client left the room");
-                    $roomStore = null;
-                    goto('/multiplayer/');
-                });
-                roomStore.set(room);
-                console.log("joined successfully", room);
-            }
-        } catch (e) {
-            console.error("join error", e);
-        }
-    }
 
     $: roomIcon = randomString + selectedIcon;
     $: if (selectedIcon) {
@@ -84,7 +55,7 @@
         </div>
 
         <button
-                on:click={() => createLobby()}
+                on:click={() => createRoom(roomName, roomIcon)}
                 class="w-full mt-6 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium border border-gray-500 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8">
             Add Room
         </button>

@@ -4,19 +4,9 @@
     import {clientStore, roomStore} from "./multiplayerStore.js";
     import {Room} from "colyseus.js";
     import {RoomState} from "./[slug]/types/RoomState";
+    import {joinRoom} from "./RoomService";
 
     let rooms: RoomAvailable[] = [];
-
-    async function joinRoom(roomId: string) {
-        try {
-            const room: Room<RoomState> | undefined = await $clientStore.joinById(roomId, {/* options */});
-            if (room) $roomStore = room;
-            console.log("joined successfully", room);
-
-        } catch (e) {
-            console.error("join error", e);
-        }
-    }
 
     onMount(() => {
         $clientStore.getAvailableRooms("my_room").then((r) => {
