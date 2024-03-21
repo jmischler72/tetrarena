@@ -16,6 +16,11 @@ export class MyRoom extends Room<RoomState> {
             roomIcon: options.roomIcon,
         });
 
+        this.onMessage("ping", (client) => {
+            console.log(client.sessionId, "sent ping request ");
+            client.send("pong", {time: Date.now()});
+        });
+
         this.onMessage("action", (client, data: ActionsEnum) => {
             if (this.state.isPlaying) {
                 logger.debug("handle action: " + data + " for client: " + client.sessionId)
