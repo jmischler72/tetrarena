@@ -8,12 +8,14 @@ import {Delayed} from "colyseus";
 export class MyRoom extends Room<RoomState> {
     maxClients = 2;
     private gameTimer!: Delayed;
+    private createdAt: number = Date.now();
 
     onCreate(options: any) {
         this.setState(new RoomState());
         this.setMetadata({
             roomName: options.roomName,
             roomIcon: options.roomIcon,
+            createdAt: this.createdAt
         });
 
         this.onMessage("ping", (client) => {
@@ -39,7 +41,7 @@ export class MyRoom extends Room<RoomState> {
 
     onJoin(client: Client, options: any) {
         logger.info("client: " + client.sessionId + " joined room: " + this.roomId);
-        this.state.players.set(client.sessionId, new Player());
+        this.state.players.set(client.sessionId, new Player(this.createdAt));
         if (this.clients.length === this.maxClients) this.startGame();
     }
 

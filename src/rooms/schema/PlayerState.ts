@@ -33,7 +33,12 @@ export class Player extends Schema {
     @type("number") numberAddedLines: number;
     @type("boolean") currentTetriminoFreezed: boolean;
 
-    private game: Game = new Game();
+    constructor(createdAt: number) {
+        super();
+        this.game = new Game(createdAt);
+    }
+
+    private game: Game;
 
     handleAction(action: ActionsEnum) {
         this.game.updateGameState(action);
