@@ -14,18 +14,29 @@ export class GameState {
         .fill(ColorEnum.NONE)
         .map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
 
-    protected currentTetrimino: Tetrimino = getNewTetrimino(getRandomColor());
-    protected shadowTetrimino: Tetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
+    private readonly seed: number;
 
-    protected nextTetriminos: ColorEnum[] = new Array(5)
-        .fill({})
-        .map(() => getRandomColor());
+    protected currentTetrimino: Tetrimino;
+    protected shadowTetrimino: Tetrimino;
+    protected nextTetriminos: ColorEnum[];
 
     protected score: number = 0;
     public isGameOver: boolean = false;
     protected deletedLines: number[] = [];
     protected numberAddedLines: number = 0;
     protected currentTetriminoFreezed: boolean = false;
+
+    constructor(seed?: number) {
+        this.seed = seed || Date.now();
+
+        this.currentTetrimino = getNewTetrimino(getRandomColor(this.seed));
+        this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
+
+        this.nextTetriminos = new Array(5)
+            .fill({})
+            .map(() => getRandomColor(this.seed));
+
+    }
 
     protected drawShapeOnBoard(tetrimino: Tetrimino) {
         for (let j = 0; j < getShapeFromTetrimino(tetrimino).length; j++) {
@@ -54,7 +65,7 @@ export class GameState {
 
         if (canPlaceTetrimino(newTetrimino, this.board)) {
             this.currentTetrimino = newTetrimino;
-            this.nextTetriminos.push(getRandomColor());
+            this.nextTetriminos.push(getRandomColor(this.seed));
         } else {
             this.isGameOver = true;
         }
