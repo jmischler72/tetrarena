@@ -7,14 +7,13 @@ import {canPlaceTetrimino,} from '../utils/constraints';
 import {ActionsEnum} from '../enums/actions.enum';
 import {checkIfLineIsFull, getNewTetrimino, getShadowTetriminos, getShapeFromTetrimino} from '../utils/tetriminoHelper';
 import {Actions} from "./Actions";
-import {getRandomColor} from "../constants/tetriminos";
+import {tetriminoPieces} from "../constants/tetriminos";
+import {MersenneTwister19937, Random} from "random-js";
 
 export class GameState {
     protected board: ColorEnum[][] = new Array(BOARD_HEIGHT)
         .fill(ColorEnum.NONE)
         .map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
-
-    private readonly seed: number;
 
     protected currentTetrimino: Tetrimino;
     protected shadowTetrimino: Tetrimino;
@@ -26,15 +25,18 @@ export class GameState {
     protected numberAddedLines: number = 0;
     protected currentTetriminoFreezed: boolean = false;
 
-    constructor(seed?: number) {
-        this.seed = seed || Date.now();
+    private random: Random;
 
-        this.currentTetrimino = getNewTetrimino(getRandomColor(this.seed));
+
+    constructor(seed?: number) {
+        this.random = new Random(MersenneTwister19937.seed(seed || Date.now()));
+
+        this.currentTetrimino = getNewTetrimino(this.getRandomColor());
         this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
 
         this.nextTetriminos = new Array(5)
             .fill({})
-            .map(() => getRandomColor(this.seed));
+            .map(() => this.getRandomColor());
 
     }
 
@@ -65,7 +67,7 @@ export class GameState {
 
         if (canPlaceTetrimino(newTetrimino, this.board)) {
             this.currentTetrimino = newTetrimino;
-            this.nextTetriminos.push(getRandomColor(this.seed));
+            this.nextTetriminos.push(this.getRandomColor());
         } else {
             this.isGameOver = true;
         }
@@ -123,5 +125,9 @@ export class GameState {
 
             this.board.push(list);
         }
+    }
+
+    private getRandomColor(): ColorEnum {
+        return tetriminoPieces[this.random.integer(0, tetriminoPieces.length - 1)].color;
     }
 }

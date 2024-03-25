@@ -1,6 +1,5 @@
 import {ColorEnum} from '../enums/color.enum';
 import {I_SHAPE, LL_SHAPE, LR_SHAPE, O_SHAPE, S_SHAPE, T_SHAPE, Z_SHAPE,} from './shapes';
-import {MersenneTwister19937, Random} from "random-js";
 
 export type TetriminoPiece = {
     shapes: number[][][];
@@ -38,10 +37,6 @@ export const tetriminoPieces: TetriminoPiece[] = [
     },
 ];
 
-export function getRandomColor(seed: number): ColorEnum {
-    const random: Random = new Random(MersenneTwister19937.seed(seed));
-    return tetriminoPieces[random.integer(0, tetriminoPieces.length - 1)].color;
-}
 
 export function getTetriminoPieceFromColor(color: ColorEnum): TetriminoPiece | null {
     return tetriminoPieces.find((tetriminoPiece) => tetriminoPiece.color === color) || null;
