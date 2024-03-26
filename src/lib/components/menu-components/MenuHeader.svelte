@@ -1,6 +1,5 @@
 <script lang="ts">
     import type {Menu} from "./Menu";
-
     export let menu: Menu;
 
 </script>

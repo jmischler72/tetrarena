@@ -1,6 +1,5 @@
 import {Room} from "colyseus.js";
-import {RoomState} from "./[slug]/types/RoomState";
-import {clientStore,  roomStore} from "./multiplayerStore";
+import {clientStore, roomStore} from "$lib/stores/multiplayerStore";
 import {goto} from "$app/navigation";
 import {get} from "svelte/store";
 
@@ -29,7 +28,7 @@ import {get} from "svelte/store";
 //     });
 // }
 
-function addErrorHandling(room: Room<RoomState>) {
+function addErrorHandling(room: Room) {
     room.onMessage("pong", (message) => {
         console.log("message received from server", message);
         console.log(Date.now() - message.time);
@@ -46,9 +45,9 @@ function addErrorHandling(room: Room<RoomState>) {
 }
 
 export async function joinRoom(roomId: string) {
-    if(get(roomStore)) return;
+    if (get(roomStore)) return;
     try {
-        const room: Room<RoomState> | undefined = await get(clientStore).joinById(roomId);
+        const room: Room | undefined = await get(clientStore).joinById(roomId);
         if (room) {
             addErrorHandling(room);
             roomStore.set(room);
@@ -58,9 +57,10 @@ export async function joinRoom(roomId: string) {
     }
 
 }
+
 export async function createRoom(name: string, icon: string) {
     try {
-        const room: Room<RoomState> | undefined = await get(clientStore).create("my_room",
+        const room: Room | undefined = await get(clientStore).create("my_room",
             {
                 roomName: name,
                 roomIcon: icon,
@@ -75,9 +75,8 @@ export async function createRoom(name: string, icon: string) {
 }
 
 export async function leaveRoom() {
-    const room = get(roomStore);
-    if (room) {
-        await room.leave();
+    await get(roomStore)?.leave().then((t: number) => {
+        console.log("left room", t);
         roomStore.set(null);
-    }
+    });
 }

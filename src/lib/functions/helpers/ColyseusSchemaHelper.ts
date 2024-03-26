@@ -1,4 +1,4 @@
-import {Block, Player, Tetrimino} from "./PlayerState";
+import {Block, Player, Tetrimino} from "../types/PlayerState";
 import {ColorEnum} from "@jmischler72/core-tetris";
 import type {GameStateDTO, Tetrimino as TetriminoDTO} from "@jmischler72/core-tetris";
 
