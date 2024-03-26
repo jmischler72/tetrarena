@@ -4,15 +4,16 @@ import {Player} from "./schema/PlayerState";
 import {ActionsEnum, GAME_SPEED} from "@jmischler72/core-tetris";
 import {Delayed} from "colyseus";
 
-
 export class MyRoom extends Room<RoomState> {
     maxClients = 2;
     private gameTimer!: Delayed;
     private createdAt: number = Date.now();
 
     onCreate(options: any) {
+        logger.info("created room: "+ this.roomId);
+
         this.setState(new RoomState());
-        this.setMetadata({
+        void this.setMetadata({
             roomName: options.roomName,
             roomIcon: options.roomIcon,
             createdAt: this.createdAt
@@ -34,7 +35,9 @@ export class MyRoom extends Room<RoomState> {
         this.clock.setTimeout(() => {
             if (this.clients.length < this.maxClients) {
                 logger.info("timeout room: " + this.roomId);
-                this.disconnect();
+                this.disconnect().then((r) => {
+                    logger.debug(r);
+                });
             }
         }, 50000);
     }
