@@ -1,7 +1,7 @@
 <script lang="ts">
     import RoomIconPicker from "./RoomIconPicker.svelte";
-    import {clickOutside} from './clickOutside.js';
-    import {createRoom} from "./RoomService";
+    import {clickOutside} from '$lib/functions/directives/clickOutside.js';
+    import {createRoom} from "$lib/functions/services/RoomService";
 
     const ICON_SIZE = 200;
 
@@ -37,7 +37,7 @@
                 </button>
                 {#if roomIconPickerOpen}
                     <div class="absolute top-0 right-[-50px]" use:clickOutside
-                         on:click_outside={()=> roomIconPickerOpen = false}>
+                         on:clickOutside={()=> roomIconPickerOpen = false}>
                         <RoomIconPicker bind:selectedIcon={selectedIcon}
                                         bind:randomString={randomString}></RoomIconPicker>
                     </div>
@@ -55,7 +55,7 @@
         </div>
 
         <button
-                on:click={() => createRoom(roomName, roomIcon)}
+                on:click={() => createRoom(roomName || "New Room", roomIcon)}
                 class="w-full mt-6 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium border border-gray-500 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8">
             Add Room
         </button>
