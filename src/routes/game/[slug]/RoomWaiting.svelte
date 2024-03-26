@@ -1,25 +1,27 @@
-<script>
+<script lang="ts">
 
-    import {roomStore} from "../multiplayerStore";
-    import MenuContainer from "../../menu-components/MenuContainer.svelte";
+    import {roomStore} from "$lib/stores/multiplayerStore";
+    import MenuContainer from "$lib/components/menu-components/MenuContainer.svelte";
 
-    $: console.log($roomStore.state.players.keys());
+    let players: string[] = [];
+
+    $: $roomStore?.state.listen("players", (currentValue) => {
+        players = Array.from(currentValue.keys());
+    });
 </script>
 
 <MenuContainer>
-    <div slot="header" class="w-full h-[14%] bg-gray-700/75 text-2xl items-center justify-center flex ">
-        <h1>Room - {$roomStore.roomId}</h1>
-
+    <div slot="header" class="w-full h-[14%] bg-gray-700/75 text-2xl items-center justify-center flex relative ">
+        <h1>Room - {$roomStore?.roomId}</h1>
+        <h2 class="absolute right-4 text-sm text-gray-300">Room - {$roomStore?.roomId}</h2>
     </div>
     <h1>Waiting for players<span class="ani-ellipsis ani-ellipsis-jump"><span>.</span></span></h1>
 
     <li>
-        {#each $roomStore.state.players.keys() as player}
+        {#each players as player}
             <ul>{player}</ul>
         {/each}
     </li>
-
-
 </MenuContainer>
 
 <style lang="scss">
