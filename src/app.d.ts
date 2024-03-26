@@ -11,6 +11,8 @@ declare global {
 		// interface Platform {}
 	}
 
+	declare const __APP_VERSION__: string
+
 	declare namespace svelteHTML {
 		interface HTMLAttributes<T> {
 			'on:clickOutside'?: CompositionEventHandler<T>;

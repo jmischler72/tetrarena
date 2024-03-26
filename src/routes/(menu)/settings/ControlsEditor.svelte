@@ -41,7 +41,7 @@
     });
 </script>
 
-<div class="rounded-lg border bg-card shadow-sm w-full h-full">
+<div class="rounded-lg border shadow-sm w-full h-full">
     <div class="p-6 flex flex-col space-y-4 h-[70%] overflow-y-scroll">
         {#each controls as control}
             <div class="grid grid-cols-2 mx-12 bg-gray-700 rounded  px-[10%] p-6">
