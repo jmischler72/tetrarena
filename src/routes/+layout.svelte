@@ -1,37 +1,27 @@
 <script>
     import "../app.css";
-    import GridBackground from "./GridBackground.svelte";
-    import Navbar from "./Navbar.svelte";
-    import {inGame} from "./controlsStore";
+    import {onMount} from "svelte";
+
+    onMount(()=>{
+        // setup jdenticon programmatically -> module needed for picker (data-jdenticon-value cant be used with nodejs module)
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js';
+        script.async = true;
+        script.integrity = "sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M";
+        script.crossOrigin = "anonymous";
+        document.head.appendChild(script);
+        window["jdenticon_config"] = { replaceMode: "observe" }
+    })
 </script>
 
-{#if !$inGame}
-    <div class="flex flex-col bg-gray-800 h-[100vh] overflow-hidden items-center">
-        <Navbar></Navbar>
-        <div class="main relative">
-            <div class="absolute w-full">
-                <GridBackground></GridBackground>
-            </div>
-            <slot/>
-        </div>
-    </div>
-{:else}
+<div class="h-[100vh] w-[100vw] bg-gray-800 flex justify-center items-center">
     <slot/>
-{/if}
+</div>
 
 <style lang="scss">
   @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-  :global(body){
+  :global(body) {
     font-family: 'Press Start 2P', system-ui;
   }
-
-  .main {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-
 </style>

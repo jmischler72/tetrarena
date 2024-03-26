@@ -3,12 +3,10 @@
     import {Manager} from "../../../TetrisPixi/Manager";
     import MultiPlayerGameScene from "../../../TetrisPixi/scenes/MultiPlayerGameScene";
     import {ActionsEnum} from "@jmischler72/core-tetris";
-    import {gameStatesStore, roomStore} from "../multiplayerStore";
+    import {gameStatesStore, roomStore} from "$lib/stores/multiplayerStore";
     import InputManager from "../../../TetrisPixi/input-manager/InputManager";
-    import {inGame} from "../../controlsStore";
+    import {toGameStateDTO} from "$lib/functions/helpers/ColyseusSchemaHelper";
     import {get} from "svelte/store";
-    import {toGameStateDTO} from "./types/utils";
-    import {goto} from "$app/navigation";
 
     function onInput(action: ActionsEnum) {
         if ($roomStore) $roomStore.send("action", action);
@@ -36,9 +34,6 @@
     onMount(() => {
         initMultiplayerGame();
         onPlayersChange();
-        return (() => {
-            $inGame = false;
-        })
     });
 </script>
 

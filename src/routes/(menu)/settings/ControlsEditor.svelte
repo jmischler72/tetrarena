@@ -1,9 +1,9 @@
 <script lang="ts">
     import {ActionsEnum} from "@jmischler72/core-tetris";
-    import {keybindStore} from "../controlsStore";
+    import {keybindStore} from "$lib/stores/controlsStore";
     import {onMount} from "svelte";
-    import type {Preset} from "../../TetrisPixi/input-manager/presets/preset";
-    import {isKeyInPreset, setActionKey} from "../../TetrisPixi/input-manager/InputHelper";
+    import type {Preset} from "$lib/data/presets/preset";
+    import {isKeyInPreset, setActionKey} from "$lib/functions/helpers/InputHelper";
 
     let tempKeybind: Preset = structuredClone($keybindStore);
 

@@ -1,22 +1,10 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import type {RoomAvailable} from "colyseus.js";
-    import {clientStore, roomStore} from "./multiplayerStore.js";
-    import {Room} from "colyseus.js";
-    import {RoomState} from "./[slug]/types/RoomState";
+    import {clientStore} from "$lib/stores/multiplayerStore";
+    import {goto} from "$app/navigation";
 
     let rooms: RoomAvailable[] = [];
-
-    async function joinRoom(roomId: string) {
-        try {
-            const room: Room<RoomState> | undefined = await $clientStore.joinById(roomId, {/* options */});
-            if (room) $roomStore = room;
-            console.log("joined successfully", room);
-
-        } catch (e) {
-            console.error("join error", e);
-        }
-    }
 
     onMount(() => {
         $clientStore.getAvailableRooms("my_room").then((r) => {
@@ -31,7 +19,7 @@
     })
 </script>
 
-<div class="w-full  text-white p-4 overflow-scroll">
+<div class="w-full text-white p-4 overflow-scroll">
     <table class="w-full caption-bottom text-sm ">
         <thead class="[&amp;_tr]:border-b bg-gray-700">
         <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
@@ -86,7 +74,7 @@
         <!--</tr>-->
         <!--    {/each}-->
         {#each rooms as room}
-            <tr on:click={() => joinRoom(room.roomId)}
+            <tr on:click={() => goto('/game/' + room.roomId)}
                 class="border-b transition-colors cursor-pointer hover:bg-gray-600 ">
                 <td class="p-4 align-middle justify-center flex [&amp;:has([role=checkbox])]:pr-0 font-medium">
                     <svg

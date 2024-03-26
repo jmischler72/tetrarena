@@ -1,6 +1,6 @@
 import {ActionsEnum} from "@jmischler72/core-tetris";
-import {keybindStore} from "../../routes/controlsStore";
-import type {Preset} from "./presets/preset";
+import {keybindStore} from "$lib/stores/controlsStore";
+import type {Preset} from "$lib/data/presets/preset";
 import { get } from "svelte/store";
 
 export default class InputManager {
