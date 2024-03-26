@@ -1,41 +1,67 @@
-<script>
+<script lang="ts">
     import {page} from '$app/stores';
-    import {goto} from "$app/navigation";
+    import {afterNavigate, goto} from "$app/navigation";
+
+    let previousPage: string = '/'
+    afterNavigate(({from}) => {
+        previousPage = from?.url.pathname || previousPage;
+    })
 </script>
 
-<nav class="h-[100px] flex text-gray-200 text-5xl justify-center items-center bg-none overflow-hidden z-10 animation">
-    <button class="w-1/3 text-3xl cursor-pointer animation-left "
-            on:click={()=>goto('/')}>
-        &#60;back
-    </button>
-    <div class="w-1/3 flex justify-center animation-up">
-        <h1 class="text-gray-200 text-3xl border-solid border-2 border-white p-1">tetrarena</h1>
-    </div>
-    <h1 class="w-1/3 text-3xl animation-right flex justify-center">
-        /{$page.url.pathname.split('/')[1]}
-    </h1>
-</nav>
+<div class="bg-black/[.6]">
+    <nav class="h-[100px] flex text-gray-200 bg-gray-700/75 rounded text-5xl justify-center items-center bg-none overflow-hidden z-10 animation">
+        <div class="w-1/3 flex justify-center">
+            {#if $page.url.pathname.split('/')[1] === 'game'}
+                <button class="!text-3xl cursor-pointer items-center flex group"
+                        class:animation-left={previousPage === '/'}
+                        on:click={()=>goto('/multiplayer')}>
+                    <span class="translate-x-[-2px] group-hover:translate-x-[-6px] transition opacity-40">x</span>quit
+                </button>
+
+            {:else}
+                <button class="!text-3xl cursor-pointer items-center flex group"
+                        class:animation-left={previousPage === '/'}
+                        on:click={()=>goto('/')}>
+                    <span class="translate-x-[-2px] translate-y-[1px] group-hover:translate-x-[-6px] transition opacity-40">&#60;</span>back
+                </button>
+            {/if}
+        </div>
+
+        <div class="w-1/3 flex justify-center"
+             class:animation-up={previousPage === '/'}
+        >
+            <h1 class="text-gray-200 text-3xl border-solid border-2 border-white p-1">tetrarena</h1>
+        </div>
+        <h1 class="w-1/3 text-3xl flex justify-center"
+            class:animation-right={previousPage === '/'}
+        >
+            /{$page.url.pathname.split('/')[1]}
+        </h1>
+    </nav>
+</div>
 
 <style lang="scss">
-
-  :global(body) {
-    --animation-duration: 0.45s
+  .material-icons {
+    font-size: 33px !important;
+    transform: scale(-1, 1);
   }
 
   nav {
     font-family: 'Press Start 2P', system-ui;
   }
 
+  $animation-duration: 0.45s;
+
   .animation-up {
-    animation: var(--animation-duration) ease-out translate_up forwards, var(--animation-duration) ease-out opacityin forwards;
+    animation: $animation-duration ease-out translate_up forwards, $animation-duration ease-out opacityin forwards;
   }
 
   .animation-left {
-    animation: var(--animation-duration) ease-out translate_left forwards, var(--animation-duration) ease-out opacityin forwards;
+    animation: $animation-duration ease-out translate_left forwards, $animation-duration ease-out opacityin forwards;
   }
 
   .animation-right {
-    animation: var(--animation-duration) ease-out translate_right forwards, var(--animation-duration) ease-out opacityin forwards;
+    animation: $animation-duration ease-out translate_right forwards, $animation-duration ease-out opacityin forwards;
   }
 
   @keyframes translate_up {
