@@ -2,6 +2,7 @@
 
     import {roomStore} from "$lib/stores/multiplayerStore";
     import MenuContainer from "$lib/components/menu-components/MenuContainer.svelte";
+    import MenuHeader from "$lib/components/menu-components/MenuHeader.svelte";
 
     let players: string[] = [];
 
@@ -11,17 +12,24 @@
 </script>
 
 <MenuContainer>
-    <div slot="header" class="w-full h-[14%] bg-gray-700/75 text-2xl items-center justify-center flex relative ">
-        <h1>Room - {$roomStore?.roomId}</h1>
-        <h2 class="absolute right-4 text-sm text-gray-300">Room - {$roomStore?.roomId}</h2>
-    </div>
-    <h1>Waiting for players<span class="ani-ellipsis ani-ellipsis-jump"><span>.</span></span></h1>
+    <MenuHeader slot="header">
+        <div class="w-full text-2xl items-center justify-center flex">
+            <h1>Room - {$roomStore?.roomId}</h1>
+        </div>
+<!--        <h2 class="absolute right-4 text-sm text-gray-300">Room - {$roomStore?.roomId}</h2>-->
+    </MenuHeader>
+    <div class="flex flex-col justify-center items-center gap-6 p-8">
+        <h1>Waiting for players<span
+                class="ani-ellipsis ani-ellipsis-jump"><span>.</span></span></h1>
 
-    <li>
-        {#each players as player}
-            <ul>{player}</ul>
-        {/each}
-    </li>
+        <div class="flex flex-col justify-center items-center">
+            <ul class="list-none">
+                {#each players as player}
+                    <li class="p-2 rounded bg-gray-600">{player}</li>
+                {/each}
+            </ul>
+        </div>
+    </div>
 </MenuContainer>
 
 <style lang="scss">
