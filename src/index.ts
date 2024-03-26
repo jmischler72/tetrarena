@@ -8,9 +8,19 @@ import pino from "pino";
 import basicAuth from "express-basic-auth";
 import {logger} from "@colyseus/core";
 import {WebSocketTransport} from "@colyseus/ws-transport";
+import pkg from "../package.json";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
+
+/**
+ * Get version of the server
+ */
+app.get('/version', (req, res) => {
+    res.status(200).json({version: pkg.version});
+});
 
 /**
  * Use @colyseus/playground
@@ -27,12 +37,9 @@ if (process.env.NODE_ENV !== "production") {
  */
 
 const basicAuthMiddleware = basicAuth({
-    // list of users and passwords
     users: {
         "admin": "balisto48",
     },
-    // sends WWW-Authenticate header, which will prompt the user to fill
-    // credentials in
     challenge: true
 });
 app.use("/colyseus", basicAuthMiddleware, monitor());
