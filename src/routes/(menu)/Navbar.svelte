@@ -1,6 +1,7 @@
 <script lang="ts">
     import {page} from '$app/stores';
     import {afterNavigate, goto} from "$app/navigation";
+    import {leaveRoom} from "$lib/functions/services/RoomService";
 
     let previousPage: string = '/'
     afterNavigate(({from}) => {
@@ -14,7 +15,7 @@
             {#if $page.url.pathname.split('/')[1] === 'game'}
                 <button class="!text-3xl cursor-pointer items-center flex group"
                         class:animation-left={previousPage === '/'}
-                        on:click={()=>goto('/multiplayer')}>
+                        on:click={()=>leaveRoom()}>
                     <span class="translate-x-[-2px] group-hover:translate-x-[-6px] transition opacity-40">x</span>quit
                 </button>
 

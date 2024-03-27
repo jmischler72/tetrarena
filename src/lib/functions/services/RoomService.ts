@@ -77,6 +77,5 @@ export async function createRoom(name: string, icon: string) {
 export async function leaveRoom() {
     await get(roomStore)?.leave().then((t: number) => {
         console.log("left room", t);
-        roomStore.set(null);
     });
 }
