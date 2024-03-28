@@ -7,15 +7,15 @@
     import InputManager from "../../../TetrisPixi/input-manager/InputManager";
     import {toGameStateDTO} from "$lib/functions/helpers/ColyseusSchemaHelper";
     import {get} from "svelte/store";
+    import {MessageTypeEnum} from "$lib/data/MessageTypeEnum";
 
     function onInput(action: ActionsEnum) {
-        if ($roomStore) $roomStore.send("action", action);
+        if ($roomStore) $roomStore.send(MessageTypeEnum.PLAYER_ACTION, action);
     }
+    let inputManager =  new InputManager((action) => onInput(action));
 
     function initMultiplayerGame(){
-        new InputManager((action) => onInput(action));
-
-        Manager.initialize(0x2e2e2e);
+        Manager.initialize();
         Manager.changeScene(new MultiPlayerGameScene());
     }
     function onPlayersChange(){
@@ -34,6 +34,17 @@
     onMount(() => {
         initMultiplayerGame();
         onPlayersChange();
+
+        let interval = setInterval(()=>{
+            $roomStore?.send(MessageTypeEnum.PING);
+        }, 1000);
+
+        return () => {
+            console.log("destroying game");
+            clearInterval(interval);
+            Manager.destroy();
+            inputManager.destroy();
+        }
     });
 </script>
 
