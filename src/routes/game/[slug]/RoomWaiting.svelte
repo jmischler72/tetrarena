@@ -1,8 +1,8 @@
 <script lang="ts">
 
     import {roomStore} from "$lib/stores/multiplayerStore";
-    import MenuContainer from "$lib/components/menu-components/MenuContainer.svelte";
-    import MenuHeader from "$lib/components/menu-components/MenuHeader.svelte";
+    import MenuContainer from "$lib/components/menu/MenuContainer.svelte";
+    import MenuHeader from "$lib/components/menu/MenuHeader.svelte";
 
     let players: string[] = [];
 

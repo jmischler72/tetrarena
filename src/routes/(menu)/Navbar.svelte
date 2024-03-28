@@ -42,11 +42,6 @@
 </div>
 
 <style lang="scss">
-  .material-icons {
-    font-size: 33px !important;
-    transform: scale(-1, 1);
-  }
-
   nav {
     font-family: 'Press Start 2P', system-ui;
   }

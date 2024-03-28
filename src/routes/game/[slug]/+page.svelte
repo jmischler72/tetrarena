@@ -4,7 +4,7 @@
     import MultiplayerTetris from "./MultiplayerTetris.svelte";
     import RoomWaiting from "./RoomWaiting.svelte";
     import {onMount} from "svelte";
-    import MenuWithNavbar from "$lib/components/menu-components/MenuWithNavbar.svelte";
+    import MenuWithNavbar from "$lib/components/menu/MenuWithNavbar.svelte";
 
     export let data;
 

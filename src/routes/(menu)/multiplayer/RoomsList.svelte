@@ -19,7 +19,7 @@
     })
 </script>
 
-<div class="w-full text-white p-4 overflow-scroll">
+<div class="h-full w-full text-white p-4 overflow-scroll">
     <table class="w-full caption-bottom text-sm ">
         <thead class="[&amp;_tr]:border-b bg-gray-700">
         <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
