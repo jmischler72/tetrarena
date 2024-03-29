@@ -28,7 +28,7 @@
     <ControlsEditor bind:tempKeybind={tempKeybind}></ControlsEditor>
 
     <MenuFooter slot="footer">
-        <div class="w-[70%]">
+        <div class="w-[30%] h-[60%]">
             <Button onClick={()=>saveKeybinds()}
                     disabled="{ isSaved }"
             >

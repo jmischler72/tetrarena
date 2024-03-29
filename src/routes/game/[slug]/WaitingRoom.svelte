@@ -26,10 +26,12 @@
         </div>
     </MenuHeader>
 
-    {#if winner !== ""}
-        <GameEndComponent winner={winner}/>
-    {/if}
-    <WaitingComponent></WaitingComponent>
+    <div class="w-full h-full">
+        {#if winner !== ""}
+            <GameEndComponent winner={winner}/>
+        {/if}
+        <WaitingComponent></WaitingComponent>
+    </div>
 
     <MenuFooter slot="footer">
         <div class="w-[70%]">
