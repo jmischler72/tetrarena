@@ -30,7 +30,6 @@
 
 {#if $roomStore}
     {#if isPlaying}
-        <h1>playing</h1>
         <MultiplayerTetris></MultiplayerTetris>
     {:else}
         <MenuWithNavbar>
