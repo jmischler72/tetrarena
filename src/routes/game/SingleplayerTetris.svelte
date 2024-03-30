@@ -3,14 +3,16 @@
     import {Manager} from "../../TetrisPixi/Manager";
     import SinglePlayerGameScene from "../../TetrisPixi/scenes/SinglePlayerGameScene";
     import {SinglePlayerInstance} from "@jmischler72/core-tetris";
-    import InputManager from "../../TetrisPixi/input-manager/InputManager";
     import {goto} from "$app/navigation";
+    import { onKeyDown } from '$lib/functions/helpers/InputHelper';
+    import { roomStore } from '$lib/stores/multiplayerStore';
+    import { MessageTypeEnum } from '$lib/data/MessageTypeEnum';
 
     const instance: SinglePlayerInstance = new SinglePlayerInstance();
 
     let escPressed = false;
 
-    function keyDown(event: KeyboardEvent) {
+    function onEscapePress(event: KeyboardEvent) {
         if (event.key === 'Escape' && !escPressed) {
             escPressed = true;
             const timeout = setTimeout(() => {
@@ -28,20 +30,26 @@
         }
     }
 
+    function onInput(event: KeyboardEvent) {
+        let action = onKeyDown(event);
+        if(action) instance.handleAction(action);
+    }
+
     onMount(() => {
-        new InputManager((action) => instance.handleAction(action));
+        window.addEventListener('keydown', onInput);
 
         console.log('mounting')
 
         Manager.initialize();
         Manager.changeScene(new SinglePlayerGameScene(instance));
-        window.addEventListener('keydown', keyDown);
+        window.addEventListener('keydown', onEscapePress);
 
         return () => {
             console.log('unmounting')
             Manager.destroy();
             instance.stopGame();
-            window.removeEventListener("keydown", keyDown);
+            window.removeEventListener("keydown", onEscapePress);
+            window.removeEventListener("keydown", onInput);
         };
     });
 

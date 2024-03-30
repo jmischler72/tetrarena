@@ -1,43 +1,47 @@
-<script lang="ts">
-    import {onMount} from "svelte";
-    import {Manager} from "../../../TetrisPixi/Manager";
-    import MultiPlayerGameScene from "../../../TetrisPixi/scenes/MultiPlayerGameScene";
-    import {ActionsEnum} from "@jmischler72/core-tetris";
-    import {gameStatesStore, roomStore} from "$lib/stores/multiplayerStore";
-    import InputManager from "../../../TetrisPixi/input-manager/InputManager";
-    import {toGameStateDTO} from "$lib/functions/helpers/ColyseusSchemaHelper";
-    import {get} from "svelte/store";
+<script lang='ts'>
+	import { onMount } from 'svelte';
+	import { Manager } from '../../../TetrisPixi/Manager';
+	import MultiPlayerGameScene from '../../../TetrisPixi/scenes/MultiPlayerGameScene';
+	import { gameStatesStore, roomStore } from '$lib/stores/multiplayerStore';
+	import { toGameStateDTO } from '$lib/functions/helpers/ColyseusSchemaHelper';
+	import { get } from 'svelte/store';
+	import { MessageTypeEnum } from '$lib/data/MessageTypeEnum';
+	import { onKeyDown } from '$lib/functions/helpers/InputHelper';
 
-    function onInput(action: ActionsEnum) {
-        if ($roomStore) $roomStore.send("action", action);
-    }
+	function onInput(event: KeyboardEvent) {
+		let action = onKeyDown(event);
+		if(action) $roomStore?.send(MessageTypeEnum.PLAYER_ACTION, action);
+	}
 
-    function initMultiplayerGame(){
-        new InputManager((action) => onInput(action));
+	$roomStore?.state.players.onAdd((player, key) => {
+		console.log(key, 'has been added to the room');
+		// add your player entity to the game world!
+		// If you want to track changes on a child object inside a map, this is a common pattern:
+		player.onChange(() => {
+			let gameStates = get(gameStatesStore);
+			gameStates.set(key, toGameStateDTO(player));
+		});
+	});
 
-        Manager.initialize(0x2e2e2e);
-        Manager.changeScene(new MultiPlayerGameScene());
-    }
-    function onPlayersChange(){
-        if(!$roomStore) return;
-        $roomStore.state.players.onAdd((player, key) => {
-            console.log(key, "has been added to the room");
-            // add your player entity to the game world!
-            // If you want to track changes on a child object inside a map, this is a common pattern:
-            player.onChange(() => {
-                let gameStates = get(gameStatesStore);
-                gameStates.set(key, toGameStateDTO(player));
-            })
-        });
-    }
+	onMount(() => {
+		window.addEventListener('keydown', onInput);
+		Manager.initialize();
+		Manager.changeScene(new MultiPlayerGameScene());
 
-    onMount(() => {
-        initMultiplayerGame();
-        onPlayersChange();
-    });
+		let interval = setInterval(() => {
+			$roomStore?.send(MessageTypeEnum.PING);
+		}, 1000);
+
+		return () => {
+			console.log('destroying game');
+			clearInterval(interval);
+			Manager.destroy();
+			window.removeEventListener('keydown', onInput);
+		};
+	});
 </script>
 
-<canvas id="pixi-canvas"></canvas>
+<canvas id='pixi-canvas'></canvas>
 <style>
     :root {
         overflow: hidden;

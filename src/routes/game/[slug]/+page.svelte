@@ -2,7 +2,7 @@
     import {joinRoom, leaveRoom} from "$lib/functions/services/RoomService";
     import {roomStore} from "$lib/stores/multiplayerStore";
     import MultiplayerTetris from "./MultiplayerTetris.svelte";
-    import RoomWaiting from "./RoomWaiting.svelte";
+    import WaitingRoom from "./WaitingRoom.svelte";
     import {onMount} from "svelte";
     import MenuWithNavbar from "$lib/components/menu/MenuWithNavbar.svelte";
 
@@ -14,6 +14,7 @@
         console.log("isPlaying changed", currentValue);
         isPlaying = currentValue;
     });
+
 
     onMount(() => {
         joinRoom(data.slug);
@@ -32,7 +33,7 @@
         <MultiplayerTetris></MultiplayerTetris>
     {:else}
         <MenuWithNavbar>
-            <RoomWaiting />
+            <WaitingRoom/>
         </MenuWithNavbar>
     {/if}
 {/if}
