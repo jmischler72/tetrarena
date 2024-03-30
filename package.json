@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "tetrarena_server",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "server for tetrarena using Colyseus",
   "main": "build/index.js",
   "engines": {

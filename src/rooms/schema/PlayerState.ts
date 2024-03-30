@@ -33,16 +33,20 @@ export class Player extends Schema {
     @type("number") numberAddedLines: number;
     @type("boolean") currentTetriminoFreezed: boolean;
 
-    constructor(createdAt: number) {
+    constructor(seed: number) {
         super();
-        this.game = new Game(createdAt);
+        this.gameInstance = new Game(seed);
     }
 
-    private game: Game;
+    private gameInstance: Game;
+
+    recreateGameInstance(seed: number){
+        this.gameInstance = new Game(seed);
+    }
 
     handleAction(action: ActionsEnum) {
-        this.game.updateGameState(action);
-        this.updateFromGameStateDTO(this.game.getCurrentGameState());
+        this.gameInstance.updateGameState(action);
+        this.updateFromGameStateDTO(this.gameInstance.getCurrentGameState());
     }
 
     updateFromGameStateDTO(gameState: GameStateDTO) {

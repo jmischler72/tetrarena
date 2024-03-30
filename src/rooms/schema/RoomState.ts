@@ -6,4 +6,5 @@ import {Player} from "./PlayerState";
 export class RoomState extends Schema {
     @type("boolean") isPlaying: boolean = false;
     @type({map: Player}) players = new MapSchema<Player>();
+0    @type("string") winner: string = "";
 }

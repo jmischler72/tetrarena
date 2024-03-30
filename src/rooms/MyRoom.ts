@@ -3,28 +3,42 @@ import {RoomState} from "./schema/RoomState";
 import {Player} from "./schema/PlayerState";
 import {ActionsEnum, GAME_SPEED} from "@jmischler72/core-tetris";
 import {Delayed} from "colyseus";
+import {MessageTypeEnum} from "./MessageTypeEnum";
 
 export class MyRoom extends Room<RoomState> {
     maxClients = 2;
     private gameTimer!: Delayed;
     private createdAt: number = Date.now();
+    private gameMode: string;
 
     onCreate(options: any) {
-        logger.info("created room: "+ this.roomId);
+        logger.info("created room: " + this.roomId);
+        logger.debug(options)
 
         this.setState(new RoomState());
+        this.gameMode = options.gameMode;
+
         void this.setMetadata({
-            roomName: options.roomName,
-            roomIcon: options.roomIcon,
-            createdAt: this.createdAt
+            name: options.name,
+            icon: options.icon,
+            createdAt: this.createdAt,
+            gameMode: this.gameMode,
         });
 
-        this.onMessage("ping", (client) => {
-            console.log(client.sessionId, "sent ping request ");
+
+        this.onMessage(MessageTypeEnum.PING, (client) => {
+            // console.log(client.sessionId, "sent ping request ");
             client.send("pong", {time: Date.now()});
         });
 
-        this.onMessage("action", (client, data: ActionsEnum) => {
+        this.onMessage(MessageTypeEnum.GAME_RESTART, (client) => {
+            logger.debug("received game restart request from client: " + client.sessionId);
+            // console.log(client.sessionId, "sent ping request ");
+            // client.send("pong", {time: Date.now()});
+            this.startGame();
+        });
+
+        this.onMessage(MessageTypeEnum.PLAYER_ACTION, (client, data: ActionsEnum) => {
             if (this.state.isPlaying) {
                 logger.debug("handle action: " + data + " for client: " + client.sessionId)
                 const player = this.state.players.get(client.sessionId);
@@ -50,7 +64,7 @@ export class MyRoom extends Room<RoomState> {
 
     onLeave(client: Client, consented: boolean) {
         logger.info("client: " + client.sessionId + " left room: " + this.roomId);
-        // this.state.players.delete(client.sessionId);
+        this.state.players.delete(client.sessionId);
     }
 
     onDispose() {
@@ -59,6 +73,7 @@ export class MyRoom extends Room<RoomState> {
 
     private startGame() {
         logger.info("starting game in room: " + this.roomId);
+        if(this.state.isPlaying) return;
 
         this.state.isPlaying = true;
 
@@ -68,7 +83,6 @@ export class MyRoom extends Room<RoomState> {
         // Set an interval and store a reference to it
         // so that we may clear it later
         this.gameTimer = this.clock.setInterval(() => {
-            logger.debug("Game Clock " + this.clock.elapsedTime);
             this.state.players.forEach(player => {
                 player.handleAction(ActionsEnum.GO_DOWN)
                 if (player.isGameOver) this.stopGame();
@@ -81,6 +95,12 @@ export class MyRoom extends Room<RoomState> {
 
         this.gameTimer.clear();
         this.state.isPlaying = false;
+
+        let newSeed = Date.now();
+        this.state.players.forEach((player, key) => {
+            player.recreateGameInstance(newSeed);
+            if (!player.isGameOver) this.state.winner = key;
+        });
     }
 
 }
