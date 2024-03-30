@@ -3,7 +3,7 @@ import {keybindStore} from '$lib/stores/controlsStore'
 import type {Preset} from '$lib/data/presets/preset'
 import {get} from 'svelte/store'
 
-export default class InputManager {
+export class InputManager {
 	private currentPreset: Preset = get(keybindStore)
 
 	// private keys: Map<string, Key> = new Map<string, Key>();
@@ -33,7 +33,7 @@ export default class InputManager {
 		// });
 	}
 
-	private onKeyDown = (evt: KeyboardEvent) => {
+	public onKeyDown = (evt: KeyboardEvent) => {
 		let action = Object.keys(this.currentPreset.keys).find(
 			(key) => this.currentPreset.keys[key as ActionsEnum] === evt.key
 		)

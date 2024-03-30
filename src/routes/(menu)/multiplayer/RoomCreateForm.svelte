@@ -55,7 +55,7 @@
 
 	{#if description !== ''}
 		<div
-			class='h-[10%] w-[70%] bg-gray-600/50 rounded-lg mx-6 p-8 flex justify-center absolute bottom-5 translate-x-[-7%]'
+			class='h-[15%] w-[70%] bg-gray-600/50 rounded-lg mx-6 flex justify-center items-center absolute bottom-5 translate-x-[-7%]'
 		>
 			<h1>{description}</h1>
 		</div>
