@@ -1,4 +1,4 @@
 {
   "name": "tetrarena_client",
-  "workspaces": ["apps/*"]
+  "workspaces": ["apps/*", "packages/*"]
 }
