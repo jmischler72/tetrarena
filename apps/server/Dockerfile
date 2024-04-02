@@ -1,17 +1,19 @@
 FROM node:16-alpine
 
 WORKDIR /usr/src/app
-COPY package*.json ./
 
-RUN --mount=type=secret,id=NODE_AUTH_TOKEN npm config set //npm.pkg.github.com/:_authToken $(cat /run/secrets/NODE_AUTH_TOKEN)
+COPY package.json ./
+COPY package-lock.json ./
+
+COPY ./apps/server/package.json ./apps/server/package.json
 
 RUN npm ci
 
-RUN rm ~/.npmrc
 COPY . .
 
+RUN npm run build -w apps/server
 ENV PORT=8080 NODE_ENV=production
 
 EXPOSE 8080
 
-CMD [ "npm", "run", "start" ]
+CMD [ "node", "./apps/server" ]

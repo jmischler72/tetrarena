@@ -3,7 +3,7 @@ name: tetrarena-server - Build Docker Image and Push to GHCR
 on:
   push:
     branches:
-      - main
+      - refacto/migrate_to_monorepo
 
 permissions:
   contents: read
@@ -43,5 +43,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          secrets: |
-            "NODE_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+          context: .
+          file: ./apps/server/Dockerfile
