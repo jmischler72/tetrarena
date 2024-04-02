@@ -5,11 +5,12 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
 
-COPY ./apps/server/package.json ./apps/server/package.json
+COPY apps/server/package.json ./apps/server/package.json
+COPY packages/core ./packages/core
 
 RUN npm ci
 
-COPY . .
+COPY ./apps/server ./apps/server
 
 RUN npm run build -w ./apps/server
 
