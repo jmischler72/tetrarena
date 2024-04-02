@@ -11,7 +11,8 @@ RUN npm ci
 
 COPY . .
 
-RUN npm run build -w apps/server
+RUN npm run build -w ./apps/server
+
 ENV PORT=8080 NODE_ENV=production
 
 EXPOSE 8080
