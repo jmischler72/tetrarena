@@ -411,12 +411,6 @@ importers:
         specifier: ^3.12.7
         version: 3.12.7
 
-  packages/api-types:
-    dependencies:
-      '@colyseus/schema':
-        specifier: ^2.0.10
-        version: 2.0.11
-
   packages/core:
     dependencies:
       random-js:
@@ -442,64 +436,12 @@ importers:
         specifier: ^5.2.2
         version: 5.4.3
 
-  packages/core_tetrarena:
-    dependencies:
-      random-js:
-        specifier: ^2.1.0
-        version: 2.1.0
-    devDependencies:
-      '@types/jest':
-        specifier: ^29.5.7
-        version: 29.5.12
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@18.17.3)(ts-node@10.9.1)
-      rimraf:
-        specifier: ^5.0.5
-        version: 5.0.5
-      ts-jest:
-        specifier: ^29.1.1
-        version: 29.1.2(@babel/core@7.24.4)(esbuild@0.19.12)(jest@29.7.0)(typescript@5.4.3)
-      tsup:
-        specifier: ^8.0.1
-        version: 8.0.2(ts-node@10.9.1)(typescript@5.4.3)
-      typescript:
-        specifier: ^5.2.2
-        version: 5.4.3
-
-  packages/schemas:
-    dependencies:
-      '@colyseus/schema':
-        specifier: ^2.0.10
-        version: 2.0.11
-      '@jmischler72/core-tetrarena':
-        specifier: workspace:^1.2.7
-        version: link:../core_tetrarena
-
   packages/shared:
     dependencies:
       '@colyseus/schema':
         specifier: ^2.0.10
         version: 2.0.11
       '@jmischler72/core':
-        specifier: workspace:^1.2.7
-        version: link:../core
-
-  packages/shared_lib:
-    dependencies:
-      '@colyseus/schema':
-        specifier: ^2.0.10
-        version: 2.0.11
-      '@jmischler72/core-tetrarena':
-        specifier: workspace:^1.2.7
-        version: link:../core_tetrarena
-
-  packages/types:
-    dependencies:
-      '@colyseus/schema':
-        specifier: ^2.0.10
-        version: 2.0.11
-      '@jmischler72/core-tetris':
         specifier: workspace:^1.2.7
         version: link:../core
 
