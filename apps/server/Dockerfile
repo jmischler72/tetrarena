@@ -1,21 +1,19 @@
-FROM node:16-alpine
+FROM node:20-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
+FROM base AS build
+COPY . /usr/src/app
 WORKDIR /usr/src/app
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm server build
+RUN pnpm server deploy --prod /prod/server
 
-COPY package.json ./
-COPY package-lock.json ./
-
-COPY apps/server/package.json ./apps/server/package.json
-COPY packages/core ./packages/core
-
-RUN npm ci
-
-COPY ./apps/server ./apps/server
-
-RUN npm run build -w ./apps/server
-
-ENV PORT=8080 NODE_ENV=production
+FROM base AS server
+COPY --from=build /prod/server /prod/server
+WORKDIR /prod/server
+ENV PORT=8080
 
 EXPOSE 8080
-
-CMD [ "node", "./apps/server" ]
+CMD [ "node", "." ]
