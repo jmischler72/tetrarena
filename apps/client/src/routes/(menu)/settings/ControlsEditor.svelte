@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {ActionsEnum} from '@jmischler72/core-tetris'
+	import {ActionsEnum} from '@jmischler72/core'
 	import {onMount} from 'svelte'
 	import type {Preset} from '$lib/data/presets/preset'
 	import {isKeyInPreset, setActionKey} from '$lib/functions/helpers/InputHelper'

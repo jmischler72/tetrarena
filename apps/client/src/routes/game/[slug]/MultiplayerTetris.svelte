@@ -3,9 +3,9 @@
 	import { Manager } from '../../../TetrisPixi/Manager';
 	import MultiPlayerGameScene from '../../../TetrisPixi/scenes/MultiPlayerGameScene';
 	import { gameStatesStore, roomStore } from '$lib/stores/multiplayerStore';
-	import { toGameStateDTO } from '$lib/functions/helpers/ColyseusSchemaHelper';
+	import { toGameStateDTO } from '@jmischler72/shared';
 	import { get } from 'svelte/store';
-	import { MessageTypeEnum } from '$lib/data/MessageTypeEnum';
+	import { MessageTypeEnum } from '@jmischler72/shared';
 	import { onKeyDown } from '$lib/functions/helpers/InputHelper';
 
 	function onInput(event: KeyboardEvent) {

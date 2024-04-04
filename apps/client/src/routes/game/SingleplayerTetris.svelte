@@ -2,11 +2,9 @@
     import {onMount} from "svelte";
     import {Manager} from "../../TetrisPixi/Manager";
     import SinglePlayerGameScene from "../../TetrisPixi/scenes/SinglePlayerGameScene";
-    import {SinglePlayerInstance} from "@jmischler72/core-tetris";
+    import {SinglePlayerInstance} from "@jmischler72/core";
     import {goto} from "$app/navigation";
     import { onKeyDown } from '$lib/functions/helpers/InputHelper';
-    import { roomStore } from '$lib/stores/multiplayerStore';
-    import { MessageTypeEnum } from '$lib/data/MessageTypeEnum';
 
     const instance: SinglePlayerInstance = new SinglePlayerInstance();
 
