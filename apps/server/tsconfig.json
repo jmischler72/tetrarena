@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "outDir": "build",
-    "target": "ESNext",
-    "module": "CommonJS",
+    "target": "es6",
+    "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
     "allowJs": true,
@@ -12,9 +12,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": false,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src", "test", "loadtest"]
 }
