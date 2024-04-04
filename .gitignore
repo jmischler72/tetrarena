@@ -1,2 +1,8 @@
+node_modules/
+
+*.tsbuildinfo
+dist/
+
+.turbo/
+
 .idea
-node_modules
