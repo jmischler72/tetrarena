@@ -7,9 +7,9 @@
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "prepare": "npm run build"
   },
-  "main": "./dist/index.js",
+  "main": "./dist/index",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index",
   "exports": {
     ".": {
       "require": "./dist/index.js",
