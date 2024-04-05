@@ -3,16 +3,16 @@ import { ActionsEnum, Game, GameStateDTO, Tetrimino as TetriminoDTO } from '@jmi
 import { matrixToBlocks } from './utils';
 
 export class Block extends Schema {
-  @type('number') x: number;
-  @type('number') y: number;
-  @type('number') value: number;
+  @type('number') x = 0;
+  @type('number') y = 0;
+  @type('number') value = 0;
 }
 
 export class Tetrimino extends Schema {
   @type('number') x = 0;
   @type('number') y = 0;
   @type('number') rotation = 0;
-  @type('number') color: number;
+  @type('number') color = 0;
 
   fromTetrimino(tetrimino: TetriminoDTO) {
     this.x = tetrimino.position_x;
@@ -23,15 +23,15 @@ export class Tetrimino extends Schema {
 }
 
 export class Player extends Schema {
-  @type([Block]) board: ArraySchema<Block>;
-  @type(Tetrimino) currentTetrimino: Tetrimino;
-  @type(Tetrimino) shadowTetrimino: Tetrimino;
-  @type('number') score: number;
-  @type(['number']) nextTetriminos: ArraySchema<number>;
-  @type('boolean') isGameOver: boolean;
-  @type(['number']) deletedLines: ArraySchema<number>;
-  @type('number') numberAddedLines: number;
-  @type('boolean') currentTetriminoFreezed: boolean;
+  @type([Block]) board: ArraySchema<Block> = new ArraySchema<Block>();
+  @type(Tetrimino) currentTetrimino: Tetrimino = new Tetrimino();
+  @type(Tetrimino) shadowTetrimino: Tetrimino = new Tetrimino();
+  @type('number') score = 0;
+  @type(['number']) nextTetriminos: ArraySchema<number> = new ArraySchema<number>();
+  @type('boolean') isGameOver = false;
+  @type(['number']) deletedLines: ArraySchema<number> = new ArraySchema<number>();
+  @type('number') numberAddedLines = 0;
+  @type('boolean') currentTetriminoFreezed = false;
 
   constructor(seed: number) {
     super();

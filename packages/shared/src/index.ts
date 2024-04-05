@@ -1,7 +1,7 @@
 import { RoomState } from './schemas/RoomState';
 import { Player } from './schemas/PlayerState';
+import { MessageTypeEnum } from './MessageTypeEnum';
 
-export { RoomState, Player };
+export { RoomState, Player, MessageTypeEnum };
 
 export * from './schemas/utils';
-export * from './MessageTypeEnum';

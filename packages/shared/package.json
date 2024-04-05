@@ -2,30 +2,16 @@
   "name": "@jmischler72/shared",
   "version": "1.0.0",
   "author": "David Mokel",
-  "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
-    "prepare": "npm run build"
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./src/index.ts",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
+  "files": [
+    "./dist"
+  ],
+  "scripts": {
+    "prepare": "tsc --build"
   },
   "dependencies": {
     "@colyseus/schema": "^2.0.10",
     "@jmischler72/core": "workspace:^1.2.7"
-  },
-  "devDependencies": {
-    "tslib": "^2.4.1",
-    "tsup": "^8.0.1"
-  },
-  "files": [
-    "dist/",
-    "src"
-  ]
+  }
 }
