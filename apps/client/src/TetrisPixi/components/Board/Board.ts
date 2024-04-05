@@ -5,9 +5,9 @@ import { COLORS } from '../../consts';
 import { getBlocksTexturesFromCache } from '../../TextureLoader';
 import { fallingSpriteTween } from './BoardAnimation';
 
-const BOARD_WIDTH: number = 10;
-const BOARD_HEIGHT: number = 20;
-const BLOCK_SIZE: number = 35;
+const BOARD_WIDTH = 10;
+const BOARD_HEIGHT = 20;
+const BLOCK_SIZE = 35;
 
 /**
  * Render board using PIXI.js
@@ -29,7 +29,7 @@ export default class Board extends PIXI.Container {
   }
 
   private renderBackground() {
-    let board_bg = new PIXI.Graphics();
+    const board_bg = new PIXI.Graphics();
     board_bg.beginFill(0x3b3b3b);
     board_bg.drawRect(0, 0, this.width, this.height);
     board_bg.zIndex = -2;
@@ -40,9 +40,9 @@ export default class Board extends PIXI.Container {
 
   private renderBoardSprites() {
     for (let i = 0; i < BOARD_HEIGHT; ++i) {
-      let row: PIXI.Sprite[] = [];
+      const row: PIXI.Sprite[] = [];
       for (let j = 0; j < BOARD_WIDTH; ++j) {
-        let spr = new PIXI.Sprite(
+        const spr = new PIXI.Sprite(
           this.textures[0] // Empty block
         );
         // spr.tint = 0xff0000;
@@ -58,7 +58,7 @@ export default class Board extends PIXI.Container {
   }
 
   private renderGrid() {
-    let grid = new PIXI.Graphics();
+    const grid = new PIXI.Graphics();
     grid.lineStyle(1, 0x54555c, 0.8);
     grid.zIndex = -1;
 
@@ -76,7 +76,7 @@ export default class Board extends PIXI.Container {
   }
 
   updateColor(row: number, col: number, color: ColorEnum) {
-    let sprite = this.sprites[row][col];
+    const sprite = this.sprites[row][col];
     if (sprite.texture != this.textures[COLORS.indexOf(color)]) {
       sprite.texture = this.textures[COLORS.indexOf(color)];
     }
@@ -91,7 +91,7 @@ export default class Board extends PIXI.Container {
   }
 
   updateTetrimino(tetrimino: Tetrimino, color: ColorEnum) {
-    let tetriminoShape: number[][] = getShapeFromTetrimino(tetrimino);
+    const tetriminoShape: number[][] = getShapeFromTetrimino(tetrimino);
 
     for (let i = 0; i < tetriminoShape.length; ++i) {
       for (let j = 0; j < tetriminoShape[0].length; ++j) {
@@ -104,7 +104,7 @@ export default class Board extends PIXI.Container {
 
   animateLineBreak(row: number) {
     this.sprites[row].forEach((sprite) => {
-      let spriteCopy = new PIXI.Sprite(sprite.texture);
+      const spriteCopy = new PIXI.Sprite(sprite.texture);
       spriteCopy.width = spriteCopy.height = BLOCK_SIZE;
       spriteCopy.anchor.set(0.5, 0.5);
       spriteCopy.position = sprite.position;

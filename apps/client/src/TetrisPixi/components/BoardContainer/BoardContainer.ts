@@ -8,7 +8,7 @@ export default class BoardContainer extends PIXI.Container {
   private readonly board: Board;
   private readonly scoreText: PIXI.Text;
   private readonly nextTetriminosContainer: NextTetriminosContainer;
-  private currentGameState: string = '';
+  private currentGameState = '';
   private initialPosition: number | null = null;
 
   constructor() {

@@ -16,13 +16,13 @@ export default class TetriminoContainer extends PIXI.Container {
   }
 
   private renderTetriminoPiece(color: ColorEnum) {
-    let tetriminoShape: number[][] | undefined = getTetriminoPieceFromColor(color)?.shapes[0];
+    const tetriminoShape: number[][] | undefined = getTetriminoPieceFromColor(color)?.shapes[0];
     if (!tetriminoShape) return;
 
     for (let i = 0; i < tetriminoShape.length; i++) {
       for (let j = 0; j < tetriminoShape[0].length; j++) {
         if (tetriminoShape[i][j]) {
-          let spr = new Sprite(this.textures[COLORS.indexOf(color)]);
+          const spr = new Sprite(this.textures[COLORS.indexOf(color)]);
           // spr.tint = 0xff0000;
           spr.width = spr.height = SMALL_BLOCK_SIZE;
           spr.anchor.set(0.5, 0.5);

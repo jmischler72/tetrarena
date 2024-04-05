@@ -1,8 +1,8 @@
-import {Room} from 'colyseus.js'
-import {clientStore, roomStore} from '$lib/stores/multiplayerStore'
-import {goto} from '$app/navigation'
-import {get} from 'svelte/store'
-import type {RoomCreateOptions} from '$lib/data/RoomCreateOptions'
+import { Room } from 'colyseus.js';
+import { clientStore, roomStore } from '$lib/stores/multiplayerStore';
+import { goto } from '$app/navigation';
+import { get } from 'svelte/store';
+import type { RoomCreateOptions } from '$lib/data/RoomCreateOptions';
 
 // function addStateListener(room: Room<RoomState>) {
 //     room.onMessage("pong", (message) => {
@@ -29,54 +29,51 @@ import type {RoomCreateOptions} from '$lib/data/RoomCreateOptions'
 // }
 
 function addErrorHandling(room: Room) {
-	room.onMessage('pong', (message) => {
-		console.log('message received from server', message)
-		console.log(Date.now() - message.time)
-	})
+  room.onMessage('pong', (message) => {
+    console.log('message received from server', message);
+    console.log(Date.now() - message.time);
+  });
 
-	room.onError((code, message) => {
-		console.log('oops, error ocurred:', code, message)
-	})
-	room.onLeave(() => {
-		console.log('client left the room')
-		roomStore.set(null)
-		void goto('/multiplayer/')
-	})
+  room.onError((code, message) => {
+    console.log('oops, error ocurred:', code, message);
+  });
+  room.onLeave(() => {
+    console.log('client left the room');
+    roomStore.set(null);
+    void goto('/multiplayer/');
+  });
 }
 
 export async function joinRoom(roomId: string) {
-	if (get(roomStore)) return
-	try {
-		const room: Room | undefined = await get(clientStore).joinById(roomId)
-		if (room) {
-			addErrorHandling(room)
-			roomStore.set(room)
-		}
-	} catch (e) {
-		console.error('join error', e)
-	}
+  if (get(roomStore)) return;
+  try {
+    const room: Room | undefined = await get(clientStore).joinById(roomId);
+    if (room) {
+      addErrorHandling(room);
+      roomStore.set(room);
+    }
+  } catch (e) {
+    console.error('join error', e);
+  }
 }
 
 export async function createRoom(options: RoomCreateOptions) {
-	if (options.name === '') options.name = 'New Room'
+  if (options.name === '') options.name = 'New Room';
 
-	try {
-		const room: Room | undefined = await get(clientStore).create(
-			'my_room',
-			options
-		)
+  try {
+    const room: Room | undefined = await get(clientStore).create('my_room', options);
 
-		addErrorHandling(room)
-		roomStore.set(room)
-	} catch (e) {
-		console.error('join error', e)
-	}
+    addErrorHandling(room);
+    roomStore.set(room);
+  } catch (e) {
+    console.error('join error', e);
+  }
 }
 
 export async function leaveRoom() {
-	await get(roomStore)
-		?.leave()
-		.then((t: number) => {
-			console.log('left room', t)
-		})
+  await get(roomStore)
+    ?.leave()
+    .then((t: number) => {
+      console.log('left room', t);
+    });
 }

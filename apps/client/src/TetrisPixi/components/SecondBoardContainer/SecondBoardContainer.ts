@@ -16,7 +16,7 @@ export default class SecondBoardContainer extends PIXI.Container {
 
     this.board = new Board();
 
-    let bg = new PIXI.Graphics();
+    const bg = new PIXI.Graphics();
     bg.beginFill(0x3b3b3b);
     bg.drawRect(0, 0, this.board.width, this.board.height);
     bg.zIndex = -1;
@@ -68,10 +68,10 @@ export default class SecondBoardContainer extends PIXI.Container {
   }
 
   gameOverAnimation() {
-    let position = {
+    const position = {
       x: this.position.x,
     };
-    let shaking = new TWEEN.Tween(position)
+    const shaking = new TWEEN.Tween(position)
       .to({ x: this.position.x + 20 }, 100)
       .onUpdate(() => {
         this.position.x = position.x;

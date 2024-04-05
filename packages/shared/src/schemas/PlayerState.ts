@@ -9,9 +9,9 @@ export class Block extends Schema {
 }
 
 export class Tetrimino extends Schema {
-  @type('number') x: number = 0;
-  @type('number') y: number = 0;
-  @type('number') rotation: number = 0;
+  @type('number') x = 0;
+  @type('number') y = 0;
+  @type('number') rotation = 0;
   @type('number') color: number;
 
   fromTetrimino(tetrimino: TetriminoDTO) {

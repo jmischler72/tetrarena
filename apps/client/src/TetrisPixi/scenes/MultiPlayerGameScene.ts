@@ -51,7 +51,7 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
   }
 
   resize(screenWidth: number, screenHeight: number): void {
-    const GAMES_CONTAINER_GAP: number = 60;
+    const GAMES_CONTAINER_GAP = 60;
 
     this.playerBoard.position.set(
       screenWidth / 2 - this.playerBoard.width / 2 - this.oppBoard.width / 2 - GAMES_CONTAINER_GAP,

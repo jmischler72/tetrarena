@@ -16,7 +16,7 @@ export default class NextTetriminosContainer extends PIXI.Container {
   }
 
   private renderSingleTetriminoContainer(itemPosition: number, color: ColorEnum) {
-    let tetriminoContainer = new TetriminoContainer(color);
+    const tetriminoContainer = new TetriminoContainer(color);
     tetriminoContainer.position.set(0, itemPosition * CONTAINER_SIZE);
 
     this.tetriminosContainers.push(tetriminoContainer);
@@ -71,7 +71,7 @@ export default class NextTetriminosContainer extends PIXI.Container {
 
   private updateTetriminoContainers(color: ColorEnum) {
     //Remove First Container From Container Queues
-    let firstContainer: TetriminoContainer | undefined = this.tetriminosContainers.shift();
+    const firstContainer: TetriminoContainer | undefined = this.tetriminosContainers.shift();
 
     if (firstContainer) {
       this.removeChild(firstContainer);

@@ -34,7 +34,7 @@ export class InputManager {
   }
 
   public onKeyDown = (evt: KeyboardEvent) => {
-    let action = Object.keys(this.currentPreset.keys).find(
+    const action = Object.keys(this.currentPreset.keys).find(
       (key) => this.currentPreset.keys[key as ActionsEnum] === evt.key
     );
     if (action !== undefined) this.callback(action as ActionsEnum);

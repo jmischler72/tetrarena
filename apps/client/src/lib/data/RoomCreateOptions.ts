@@ -1,5 +1,5 @@
 export type RoomCreateOptions = {
-	name: string
-	icon: string
-	gameMode: string
-}
+  name: string;
+  icon: string;
+  gameMode: string;
+};

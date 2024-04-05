@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
-import Stats from "stats.js";
+import Stats from 'stats.js';
 
-export default class GameScene extends PIXI.Container{
-  protected stats: Stats
+export default class GameScene extends PIXI.Container {
+  protected stats: Stats;
 
   constructor() {
     super();

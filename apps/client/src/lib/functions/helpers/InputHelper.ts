@@ -13,7 +13,7 @@ export const setActionKey = (action: ActionsEnum, key: string, preset: Preset): 
 };
 
 export const onKeyDown = (evt: KeyboardEvent) => {
-  let action = Object.keys(get(keybindStore).keys).find(
+  const action = Object.keys(get(keybindStore).keys).find(
     (key) => get(keybindStore).keys[key as ActionsEnum] === evt.key
   );
   return action as ActionsEnum;
