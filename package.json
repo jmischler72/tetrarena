@@ -6,7 +6,6 @@
     "lint": "eslint ./ --max-warnings=0 --ext .ts",
     "lint-fix": "eslint ./ --max-warnings=0 --ext .ts --fix",
     "format": "prettier --config .prettierrc \".\" --write",
-    "typecheck": "turbo run typecheck",
     "client": "pnpm --filter @jmischler72/client",
     "server": "pnpm --filter @jmischler72/server",
     "prepare": "husky install",

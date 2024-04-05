@@ -16,17 +16,17 @@ let game = new SinglePlayerInstance(callbackOnGameUpdate);
 ```
 
 To handle actions such as <em>go left</em> or <em>go right</em>,
-you can use the ```handleAction``` function with an ```ActionsEnum``` action.
+you can use the `handleAction` function with an `ActionsEnum` action.
 
 ## Exported Classes
 
 ### Classes
 
 - SinglePlayerInstance : <strong>Used to instantiate a game</strong>
-    - Is used for the client to instantiate singleplayer games
+  - Is used for the client to instantiate singleplayer games
 - GameState : <strong> The state of the game at any given point</strong>
-    - expose two functions handleAction and getGameState to interact
-    - Is used for the server to control multiple gamestate
+  - expose two functions handleAction and getGameState to interact
+  - Is used for the server to control multiple gamestate
 
 ### Types
 

@@ -1,4 +1,6 @@
 dist/
+build/
+
 *.tsbuildinfo
 
 node_modules/
@@ -9,3 +11,6 @@ pnpm-lock.yaml
 
 nexus-typegen.ts
 schema.graphql
+
+//Svelte
+.svelte-kit/
