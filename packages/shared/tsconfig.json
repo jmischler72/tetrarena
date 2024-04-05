@@ -1,9 +1,28 @@
 {
-  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
+    "baseUrl": "./",
+    "declaration": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "forceConsistentCasingInFileNames": false,
     "lib": ["ESNext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "paths": {
+      "@": ["./"],
+      "*": ["src/*", "node_modules/*"]
+    },
     "rootDir": "./src",
-    "outDir": "./dist"
+    "sourceMap": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false
   },
-  "include": ["./src/**/*.ts", "./src/**/*.json"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
