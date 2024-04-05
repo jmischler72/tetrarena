@@ -1,9 +1,8 @@
 import { Client, Room, logger } from '@colyseus/core';
-import { RoomState } from '@jmischler72/shared';
-import { Player } from '@jmischler72/shared';
+import { PlayerState, RoomState } from '@jmischler72/types';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
 import { Delayed } from 'colyseus';
-import { MessageTypeEnum } from '@jmischler72/shared';
+import { MessageTypeEnum } from '@jmischler72/types';
 
 export class MyRoom extends Room<RoomState> {
   maxClients = 2;
@@ -55,15 +54,36 @@ export class MyRoom extends Room<RoomState> {
     }, 50000);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onJoin(client: Client, options: any) {
     logger.info('client: ' + client.sessionId + ' joined room: ' + this.roomId);
-    this.state.players.set(client.sessionId, new Player(this.createdAt));
+
+    const newPlayer = new PlayerState();
+    newPlayer.createGame(this.createdAt);
+    this.state.players.set(client.sessionId, newPlayer);
+
     if (this.clients.length === this.maxClients) this.startGame();
   }
 
-  onLeave(client: Client, consented: boolean) {
+  async onLeave(client: Client, consented: boolean) {
     logger.info('client: ' + client.sessionId + ' left room: ' + this.roomId);
-    this.state.players.delete(client.sessionId);
+    this.state.players.get(client.sessionId).connected = false;
+
+    try {
+      if (consented) {
+        throw new Error('consented leave');
+      }
+
+      // allow disconnected client to reconnect into this room until 20 seconds
+      await this.allowReconnection(client, 20);
+
+      // client returned! let's re-activate it.
+      this.state.players.get(client.sessionId).connected = true;
+    } catch (e) {
+      // 20 seconds expired. let's remove the client.
+      this.state.players.delete(client.sessionId);
+      this.stopGame();
+    }
   }
 
   onDispose() {
@@ -84,7 +104,7 @@ export class MyRoom extends Room<RoomState> {
     this.gameTimer = this.clock.setInterval(() => {
       this.state.players.forEach((player) => {
         player.handleAction(ActionsEnum.GO_DOWN);
-        if (player.isGameOver) this.stopGame();
+        if (player.gameState.isGameOver) this.stopGame();
       });
     }, GAME_SPEED);
   }
@@ -97,8 +117,8 @@ export class MyRoom extends Room<RoomState> {
 
     const newSeed = Date.now();
     this.state.players.forEach((player, key) => {
-      player.recreateGameInstance(newSeed);
-      if (!player.isGameOver) this.state.winner = key;
+      player.createGame(newSeed);
+      if (!player.gameState.isGameOver) this.state.winner = key;
     });
   }
 }

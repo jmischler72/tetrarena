@@ -1,5 +1,5 @@
 import { Room } from 'colyseus.js';
-import { clientStore, roomStore } from '$lib/stores/multiplayerStore';
+import { clientStore, playersStore, roomStore } from '$lib/stores/multiplayerStore';
 import { goto } from '$app/navigation';
 import { get } from 'svelte/store';
 import type { RoomCreateOptions } from '$lib/data/RoomCreateOptions';
@@ -28,19 +28,24 @@ import type { RoomCreateOptions } from '$lib/data/RoomCreateOptions';
 //     });
 // }
 
+function resetRoom() {
+  roomStore.set(null);
+  get(playersStore).clear();
+  void goto('/multiplayer/');
+}
 function addErrorHandling(room: Room) {
   room.onMessage('pong', (message) => {
-    console.log('message received from server', message);
-    console.log(Date.now() - message.time);
+    // console.log('message received from server', message);
+    // console.log(Date.now() - message.time);
   });
 
   room.onError((code, message) => {
     console.log('oops, error ocurred:', code, message);
+    resetRoom();
   });
   room.onLeave(() => {
     console.log('client left the room');
-    roomStore.set(null);
-    void goto('/multiplayer/');
+    resetRoom();
   });
 }
 
@@ -54,6 +59,7 @@ export async function joinRoom(roomId: string) {
     }
   } catch (e) {
     console.error('join error', e);
+    resetRoom();
   }
 }
 
@@ -66,7 +72,8 @@ export async function createRoom(options: RoomCreateOptions) {
     addErrorHandling(room);
     roomStore.set(room);
   } catch (e) {
-    console.error('join error', e);
+    console.error('create error', e);
+    resetRoom();
   }
 }
 

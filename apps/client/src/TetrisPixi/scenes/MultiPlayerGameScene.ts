@@ -4,8 +4,8 @@ import * as TWEEN from '@tweenjs/tween.js';
 import { get } from 'svelte/store';
 
 import type { IScene } from '../Manager';
-import { gameStatesStore, roomStore } from '$lib/stores/multiplayerStore';
-import type { GameStateDTO } from '@jmischler72/core';
+import { playersStore, roomStore } from '$lib/stores/multiplayerStore';
+import type { Player } from '$lib/functions/Player';
 
 export default class MultiPlayerGameScene extends GameScene implements IScene {
   private readonly playerBoard: BoardContainer;
@@ -27,14 +27,17 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
     this.stats.begin();
     TWEEN.update();
 
-    const gameStates: Map<string, GameStateDTO> = get(gameStatesStore);
+    const gameStates: Map<string, Player> = get(playersStore);
+
+    if (gameStates.size > 2) console.error(Array.from(gameStates.keys()).toString());
 
     if (gameStates && !this.isGameOver) {
-      gameStates.forEach((value: GameStateDTO, key: string) => {
+      gameStates.forEach((value: Player, key: string) => {
+        if (value.gameState === undefined) return;
         if (key === get(roomStore)?.sessionId) {
-          this.playerBoard.updatePlayerBoard(value);
+          this.playerBoard.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
         } else {
-          this.oppBoard.updatePlayerBoard(value);
+          this.oppBoard.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
         }
         // if (gameState.isGameOver) {
         //     this.isGameOver = true;

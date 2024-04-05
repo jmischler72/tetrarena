@@ -29,7 +29,7 @@
     "@colyseus/core": "^0.15.6",
     "@colyseus/tools": "^0.15.0",
     "@jmischler72/core": "workspace:^1.2.7",
-    "@jmischler72/shared": "workspace:^1.0.0",
+    "@jmischler72/types": "workspace:^1.0.0",
     "colyseus": "^0.15.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
