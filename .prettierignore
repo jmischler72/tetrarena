@@ -1,4 +1,16 @@
-# Ignore files for PNPM, NPM and YARN
+dist/
+build/
+
+*.tsbuildinfo
+
+node_modules/
+
+.turbo/
+
 pnpm-lock.yaml
-package-lock.json
-yarn.lock
+
+nexus-typegen.ts
+schema.graphql
+
+//Svelte
+.svelte-kit/

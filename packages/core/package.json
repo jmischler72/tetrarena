@@ -1,0 +1,37 @@
+{
+  "name": "@jmischler72/core",
+  "version": "1.2.7",
+  "description": "core game package for tetris-project",
+  "scripts": {
+    "test": "jest",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "prepare": "npm run build"
+  },
+  "main": "./dist/index",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "author": "jmischler72",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.7",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.1",
+    "tsup": "^8.0.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "random-js": "^2.1.0"
+  },
+  "files": [
+    "dist/",
+    "src"
+  ]
+}

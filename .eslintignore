@@ -1,13 +1,11 @@
-.DS_Store
-node_modules
-/build
-/.svelte-kit
-/package
-.env
-.env.*
-!.env.example
+dist/
+*.tsbuildinfo
 
-# Ignore files for PNPM, NPM and YARN
+node_modules/
+
+.turbo/
+
 pnpm-lock.yaml
-package-lock.json
-yarn.lock
+
+nexus-typegen.ts
+schema.graphql
