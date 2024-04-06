@@ -13,7 +13,6 @@
     let tempKeybind: Preset = structuredClone($keybindStore);
 
     function saveKeybinds() {
-        console.log("saved");
         $keybindStore = structuredClone(tempKeybind);
     }
 

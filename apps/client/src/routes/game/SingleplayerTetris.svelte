@@ -14,7 +14,6 @@
         if (event.key === 'Escape' && !escPressed) {
             escPressed = true;
             const timeout = setTimeout(() => {
-                console.log('timeout');
                 goto('/');
             }, 800);
 
@@ -36,14 +35,11 @@
     onMount(() => {
         window.addEventListener('keydown', onInput);
 
-        console.log('mounting')
-
         Manager.initialize();
         Manager.changeScene(new SinglePlayerGameScene(instance));
         window.addEventListener('keydown', onEscapePress);
 
         return () => {
-            console.log('unmounting')
             Manager.destroy();
             instance.stopGame();
             window.removeEventListener("keydown", onEscapePress);

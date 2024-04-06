@@ -9,5 +9,4 @@ export const keybindStore: Writable<Preset> = writable<Preset>(
 keybindStore.subscribe((value) => {
   if (!browser) return;
   localStorage.setItem('keybind', JSON.stringify(value));
-  console.log('keybind updated', value);
 });

@@ -66,6 +66,8 @@ export default class BoardContainer extends PIXI.Container {
       return;
     }
 
+    console.log(gameState.currentTetriminoFreezed);
+
     this.nameText.text = name;
 
     let offset = 10;
@@ -79,6 +81,7 @@ export default class BoardContainer extends PIXI.Container {
     }
 
     if (gameState.currentTetriminoFreezed) {
+      // console.log('freeze');
       this.posedAnimation(offset);
     }
 
@@ -97,20 +100,6 @@ export default class BoardContainer extends PIXI.Container {
     this.currentGameState = JSON.stringify(gameState);
   }
 
-  // gameOverAnimation() {
-  //     let position = {
-  //         x: this.position.x,
-  //     };
-  //     let shaking = new TWEEN.Tween(position)
-  //         .to({x: this.position.x + 20}, 100)
-  //         .onUpdate(() => {
-  //             this.position.x = position.x;
-  //         })
-  //         .yoyo(true)
-  //         .repeat(5);
-  //     shaking.start();
-  // }
-
   private posedAnimation(offset: number) {
     if (!this.initialPosition) this.initialPosition = this.position.y;
     placedTetriminosTween(this, this.initialPosition, offset).start();
@@ -125,24 +114,4 @@ export default class BoardContainer extends PIXI.Container {
       })
       .start();
   }
-
-  // hitAnimation() {
-  //     console.log("animation:hit");
-  //     let containerScale = {y: this.scale.y};
-  //     let scaleIn = new TWEEN.Tween(containerScale)
-  //         .to({y: 0.95}, 100)
-  //         .onUpdate(() => {
-  //             this.scale.y = containerScale.y;
-  //         });
-  //
-  //     let scaleOut = new TWEEN.Tween(containerScale)
-  //         .to({y: 1}, 1000)
-  //         .easing(TWEEN.Easing.Exponential.Out)
-  //         .onUpdate(() => {
-  //             this.scale.y = containerScale.y;
-  //         });
-  //
-  //     scaleIn.chain(scaleOut);
-  //     scaleIn.start();
-  // }
 }

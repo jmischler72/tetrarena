@@ -10,7 +10,6 @@ import type { Player } from '$lib/functions/Player';
 export default class MultiPlayerGameScene extends GameScene implements IScene {
   private readonly playerBoard: BoardContainer;
   private readonly oppBoard: BoardContainer;
-  private isGameOver = false;
 
   constructor() {
     super();
@@ -31,24 +30,14 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
 
     if (gameStates.size > 2) console.error(Array.from(gameStates.keys()).toString());
 
-    if (gameStates && !this.isGameOver) {
-      gameStates.forEach((value: Player, key: string) => {
-        if (value.gameState === undefined) return;
-        if (key === get(roomStore)?.sessionId) {
-          this.playerBoard.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
-        } else {
-          this.oppBoard.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
-        }
-        // if (gameState.isGameOver) {
-        //     this.isGameOver = true;
-        //     if (key == socketId) {
-        //         this.playerBoard.gameOverAnimation();
-        //     } else {
-        //         this.oppBoard.gameOverAnimation();
-        //     }
-        // }
-      });
-    }
+    get(playersStore).forEach((value: Player, key: string) => {
+      if (value.gameState === undefined) return;
+      if (key === get(roomStore)?.sessionId) {
+        this.playerBoard.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
+      } else {
+        this.oppBoard.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
+      }
+    });
 
     this.stats.end();
   }

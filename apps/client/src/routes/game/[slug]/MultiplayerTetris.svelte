@@ -6,14 +6,11 @@
     import {toGameStateDTO} from '@jmischler72/utils';
     import {MessageTypeEnum} from '@jmischler72/types';
     import {onKeyDown} from '$lib/functions/helpers/InputHelper';
-    import type {Player} from "$lib/functions/Player";
 
     function onInput(event: KeyboardEvent) {
         let action = onKeyDown(event);
         if (action) $roomStore?.send(MessageTypeEnum.PLAYER_ACTION, action);
     }
-
-    let connected = false;
 
     $roomStore?.state.players.onAdd((player, key) => {
         console.log(key, 'has been added to the room');
@@ -26,7 +23,6 @@
         });
 
         player.listen('connected', (connected, prev) => {
-            console.log(key, 'connected:', connected);
             $playersStore.get(key).connected = connected;
         });
         player.gameState.onChange(() => {
@@ -39,9 +35,6 @@
         $playersStore.delete(key);
     });
 
-
-    $: console.log(connected);
-
     onMount(() => {
         window.addEventListener('keydown', onInput);
         Manager.initialize();
@@ -52,7 +45,6 @@
         }, 1000);
 
         return () => {
-            console.log('destroying game');
             clearInterval(interval);
             Manager.destroy();
             window.removeEventListener('keydown', onInput);
