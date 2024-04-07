@@ -37,7 +37,7 @@ export class MyRoom extends Room<RoomState> {
     newPlayer.createGame(this.createdAt);
     this.state.players.set(client.sessionId, newPlayer);
 
-    if (this.clients.length === this.maxClients) this.startGame();
+    this.startGame();
   }
 
   async onLeave(client: Client, consented: boolean) {
@@ -72,9 +72,16 @@ export class MyRoom extends Room<RoomState> {
   }
 
   private handleMessages() {
+    this.onMessage(MessageTypeEnum.READY, (client) => {
+      logger.debug('client ready: ' + client.sessionId);
+      const player = this.state.players.get(client.sessionId);
+      player.ready = true;
+      this.startGame();
+    });
+
     this.onMessage(MessageTypeEnum.PING, (client) => {
       // console.log(client.sessionId, "sent ping request ");
-      client.send('pong', { time: Date.now() });
+      client.send(MessageTypeEnum.PONG, { time: Date.now() });
     });
 
     this.onMessage(MessageTypeEnum.GAME_RESTART, (client) => {
@@ -102,9 +109,29 @@ export class MyRoom extends Room<RoomState> {
     }, TIMEOUT);
   }
 
+  private checkIfAllPlayersAreReady() {
+    let allPlayersReady = true;
+    this.state.players.forEach((player) => {
+      if (player.ready === false) {
+        allPlayersReady = false;
+        return;
+      }
+    });
+    return allPlayersReady;
+  }
+
   private startGame() {
-    logger.info('starting game in room: ' + this.roomId);
     if (this.state.isPlaying) return;
+    if (this.clients.length < this.maxClients) {
+      logger.debug('cant start game in room ' + this.roomId + ': not enough players');
+      return;
+    }
+    if (!this.checkIfAllPlayersAreReady()) {
+      logger.debug('cant start game in room ' + this.roomId + ': not all players are ready');
+      return;
+    }
+
+    logger.info('starting game in room: ' + this.roomId);
 
     this.state.isPlaying = true;
 
