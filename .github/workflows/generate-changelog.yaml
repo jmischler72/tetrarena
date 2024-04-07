@@ -1,0 +1,21 @@
+name: Release using conventional commits (master branch)
+
+on:
+  push:
+    branches:
+      - feature/*
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: conventional changelog action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@latest
+        with:
+          version-file: 'apps/client/package.json'
+          output-file: 'MY_CUSTOM_CHANGELOG.md'
