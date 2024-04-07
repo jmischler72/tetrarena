@@ -17,5 +17,5 @@ jobs:
         id: changelog
         uses: TriPSs/conventional-changelog-action@latest
         with:
-          version-file: 'apps/client/package.json'
+          github-token: ${{ secrets.github_token }}
           output-file: 'MY_CUSTOM_CHANGELOG.md'
