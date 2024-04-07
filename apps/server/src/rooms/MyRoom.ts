@@ -4,26 +4,74 @@ import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
 import { Delayed } from 'colyseus';
 import { MessageTypeEnum } from '@jmischler72/types';
 
+const TIMEOUT = 50000;
 export class MyRoom extends Room<RoomState> {
   maxClients = 2;
-  private gameTimer!: Delayed;
+  private gameTimer: Delayed;
   private createdAt: number = Date.now();
   private gameMode: string;
+  private timeout: Delayed = this.initializeTimeout();
 
   onCreate(options: any) {
     logger.info('created room: ' + this.roomId);
     logger.debug(options);
+    this.clock.start();
 
     this.setState(new RoomState());
-    this.gameMode = options.gameMode;
 
     void this.setMetadata({
       name: options.name,
       icon: options.icon,
       createdAt: this.createdAt,
-      gameMode: this.gameMode,
+      gameMode: options.gameMode,
     });
 
+    this.handleMessages();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onJoin(client: Client, options: any) {
+    logger.info('client: ' + client.sessionId + ' joined room: ' + this.roomId);
+
+    const newPlayer = new PlayerState();
+    newPlayer.createGame(this.createdAt);
+    this.state.players.set(client.sessionId, newPlayer);
+
+    if (this.clients.length === this.maxClients) this.startGame();
+  }
+
+  async onLeave(client: Client, consented: boolean) {
+    logger.info('client: ' + client.sessionId + ' left room: ' + this.roomId);
+    this.state.players.get(client.sessionId).connected = false;
+
+    this.timeout = this.initializeTimeout();
+
+    if (consented) {
+      this.state.players.delete(client.sessionId);
+      this.stopGame();
+      logger.info('client: ' + client.sessionId + ' left room consented: ' + this.roomId);
+      return;
+    }
+
+    try {
+      // allow disconnected client to reconnect into this room until 20 seconds
+      await this.allowReconnection(client, 20);
+
+      // client returned! let's re-activate it.
+      this.state.players.get(client.sessionId).connected = true;
+    } catch (e) {
+      // 20 seconds expired. let's remove the client.
+      this.state.players.delete(client.sessionId);
+      this.stopGame();
+      logger.info('client: ' + client.sessionId + ' left room: ' + this.roomId);
+    }
+  }
+
+  onDispose() {
+    logger.info('disposing room: ' + this.roomId);
+  }
+
+  private handleMessages() {
     this.onMessage(MessageTypeEnum.PING, (client) => {
       // console.log(client.sessionId, "sent ping request ");
       client.send('pong', { time: Date.now() });
@@ -43,51 +91,15 @@ export class MyRoom extends Room<RoomState> {
         player.handleAction(data);
       }
     });
+  }
 
-    this.clock.setTimeout(() => {
-      if (this.clients.length < this.maxClients) {
+  private initializeTimeout() {
+    return this.clock.setTimeout(() => {
+      if (this.clients.length < this.maxClients && !this.state.isPlaying) {
         logger.info('timeout room: ' + this.roomId);
-        this.disconnect().then((r) => {
-          logger.debug(r);
-        });
+        void this.disconnect();
       }
-    }, 50000);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onJoin(client: Client, options: any) {
-    logger.info('client: ' + client.sessionId + ' joined room: ' + this.roomId);
-
-    const newPlayer = new PlayerState();
-    newPlayer.createGame(this.createdAt);
-    this.state.players.set(client.sessionId, newPlayer);
-
-    if (this.clients.length === this.maxClients) this.startGame();
-  }
-
-  async onLeave(client: Client, consented: boolean) {
-    logger.info('client: ' + client.sessionId + ' left room: ' + this.roomId);
-    this.state.players.get(client.sessionId).connected = false;
-
-    try {
-      if (consented) {
-        throw new Error('consented leave');
-      }
-
-      // allow disconnected client to reconnect into this room until 20 seconds
-      await this.allowReconnection(client, 20);
-
-      // client returned! let's re-activate it.
-      this.state.players.get(client.sessionId).connected = true;
-    } catch (e) {
-      // 20 seconds expired. let's remove the client.
-      this.state.players.delete(client.sessionId);
-      this.stopGame();
-    }
-  }
-
-  onDispose() {
-    logger.info('disposing room: ' + this.roomId);
+    }, TIMEOUT);
   }
 
   private startGame() {
@@ -96,11 +108,6 @@ export class MyRoom extends Room<RoomState> {
 
     this.state.isPlaying = true;
 
-    // start the clock ticking
-    this.clock.start();
-
-    // Set an interval and store a reference to it
-    // so that we may clear it later
     this.gameTimer = this.clock.setInterval(() => {
       this.state.players.forEach((player) => {
         player.handleAction(ActionsEnum.GO_DOWN);
@@ -112,7 +119,7 @@ export class MyRoom extends Room<RoomState> {
   private stopGame() {
     logger.info('stopping game in room: ' + this.roomId);
 
-    this.gameTimer.clear();
+    if (this.gameTimer) this.gameTimer.clear();
     this.state.isPlaying = false;
 
     const newSeed = Date.now();
