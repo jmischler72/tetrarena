@@ -1,3 +1,9 @@
 {
-  "packages": {}
+  "packages": {
+    "apps/client": {},
+    "apps/server": {},
+    "packages/core": {},
+    "packages/types": {},
+    "packages/utils": {}
+  }
 }
