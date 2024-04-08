@@ -9,8 +9,7 @@ export class MyRoom extends Room<RoomState> {
   maxClients = 2;
   private gameTimer: Delayed;
   private createdAt: number = Date.now();
-  private gameMode: string;
-  private timeout: Delayed = this.initializeTimeout();
+  private timeout: Delayed;
 
   onCreate(options: any) {
     logger.info('created room: ' + this.roomId);
@@ -44,7 +43,7 @@ export class MyRoom extends Room<RoomState> {
     logger.info('client: ' + client.sessionId + ' left room: ' + this.roomId);
     this.state.players.get(client.sessionId).connected = false;
 
-    this.timeout = this.initializeTimeout();
+    this.initializeTimeout();
 
     if (consented) {
       this.state.players.delete(client.sessionId);
@@ -101,7 +100,8 @@ export class MyRoom extends Room<RoomState> {
   }
 
   private initializeTimeout() {
-    return this.clock.setTimeout(() => {
+    if (this.timeout) this.timeout.clear();
+    this.timeout = this.clock.setTimeout(() => {
       if (this.clients.length < this.maxClients && !this.state.isPlaying) {
         logger.info('timeout room: ' + this.roomId);
         void this.disconnect();

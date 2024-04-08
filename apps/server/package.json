@@ -1,7 +1,6 @@
 {
-  "private": true,
   "name": "@jmischler72/server",
-  "version": "1.1.1",
+  "private": true,
   "author": "Joffrey Mischler",
   "description": "server for tetrarena using Colyseus",
   "main": "build/src/app.js",
