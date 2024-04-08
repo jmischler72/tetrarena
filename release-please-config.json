@@ -1,9 +1,8 @@
 {
   "packages": {
     "apps/client": {},
-    "apps/server": {},
-    "packages/core": {},
-    "packages/types": {},
-    "packages/utils": {}
-  }
+    "apps/server": {}
+  },
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": true
 }
