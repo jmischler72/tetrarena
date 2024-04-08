@@ -3,7 +3,7 @@ name: Release using conventional commits (master branch)
 on:
   push:
     branches:
-      - feature/*
+      - dev
 
 jobs:
   release:
