@@ -1,7 +1,9 @@
 {
   "packages": {
-    "apps/client": {},
-    "apps/server": {}
+    ".": {
+      "release-type": "node",
+      "release-as": ""
+    }
   },
   "bump-minor-pre-major": true,
   "bump-patch-for-minor-pre-major": true
