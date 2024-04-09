@@ -9,7 +9,7 @@
     "./src"
   ],
   "scripts": {
-    "prepare": "rimraf dist && tsc --build"
+    "prepare": "tsc --build"
   },
   "dependencies": {
     "@colyseus/schema": "^2.0.10",
