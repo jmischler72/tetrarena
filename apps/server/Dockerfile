@@ -10,7 +10,7 @@ RUN pnpm run server deploy --prod /prod/server
 
 FROM base AS server
 COPY --from=build /prod/server /prod/server
-WORKDIR /prod/server
+WORKDIR /prod/apps/server
 ENV PORT=8080
 
 EXPOSE 8080
