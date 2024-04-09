@@ -11,7 +11,8 @@ RUN pnpm run server deploy --prod /prod/apps/server
 FROM base AS server
 COPY --from=build /prod/apps/server /prod/apps/server
 COPY --from=build /usr/src/app/package.json /prod/package.json
-WORKDIR /prod/server
+WORKDIR /prod/apps/server
+
 ENV PORT=8080
 
 EXPOSE 8080
