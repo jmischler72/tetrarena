@@ -1,0 +1,11 @@
+{
+  "packages": {
+    ".": {
+      "changelog-path": "docs/CHANGELOG.md"
+    },
+    "apps/client": {},
+    "apps/server": {}
+  },
+  "plugins": ["node-workspace"],
+  "release-type": "node"
+}
