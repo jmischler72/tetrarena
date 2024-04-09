@@ -3,8 +3,7 @@
     import {Manager} from '../../../TetrisPixi/Manager';
     import MultiPlayerGameScene from '../../../TetrisPixi/scenes/MultiPlayerGameScene';
     import {playersStore, roomStore} from '$lib/stores/multiplayerStore';
-    import {toGameStateDTO} from '@jmischler72/utils';
-    import {MessageTypeEnum} from '@jmischler72/types';
+    import {MessageTypeEnum, toGameStateDTO} from '@jmischler72/types';
     import {onKeyDown} from '$lib/functions/helpers/InputHelper';
 
     function onInput(event: KeyboardEvent) {
@@ -13,16 +12,14 @@
     }
 
     $roomStore?.state.players.onAdd((player, key) => {
-        console.log(key, 'has been added to the room');
-        // add your player entity to the game world!
-        // If you want to track changes on a child object inside a map, this is a common pattern:
+        // console.log(key, 'has been added to the room');
 
         $playersStore.set(key, {
             name: key,
             connected: player.connected,
         });
 
-        player.listen('connected', (connected, prev) => {
+        player.listen('connected', (connected) => {
             $playersStore.get(key).connected = connected;
         });
         player.gameState.onChange(() => {

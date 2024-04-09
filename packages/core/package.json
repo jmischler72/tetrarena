@@ -7,16 +7,9 @@
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "prepare": "npm run build"
   },
-  "main": "./dist/index",
+  "main": "./dist/index.js",
   "module": "./dist/index.mjs",
-  "types": "./dist/index",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
+  "types": "./dist/index.d.ts",
   "author": "jmischler72",
   "license": "MIT",
   "devDependencies": {
@@ -31,7 +24,7 @@
     "random-js": "^2.1.0"
   },
   "files": [
-    "dist/",
-    "src"
+    "./dist/",
+    "./src"
   ]
 }

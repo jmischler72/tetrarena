@@ -9,8 +9,7 @@ export class MyRoom extends Room<RoomState> {
   maxClients = 2;
   private gameTimer: Delayed;
   private createdAt: number = Date.now();
-  private gameMode: string;
-  private timeout: Delayed = this.initializeTimeout();
+  private timeout: Delayed;
 
   onCreate(options: any) {
     logger.info('created room: ' + this.roomId);
@@ -37,14 +36,14 @@ export class MyRoom extends Room<RoomState> {
     newPlayer.createGame(this.createdAt);
     this.state.players.set(client.sessionId, newPlayer);
 
-    if (this.clients.length === this.maxClients) this.startGame();
+    this.startGame();
   }
 
   async onLeave(client: Client, consented: boolean) {
     logger.info('client: ' + client.sessionId + ' left room: ' + this.roomId);
     this.state.players.get(client.sessionId).connected = false;
 
-    this.timeout = this.initializeTimeout();
+    this.initializeTimeout();
 
     if (consented) {
       this.state.players.delete(client.sessionId);
@@ -72,9 +71,16 @@ export class MyRoom extends Room<RoomState> {
   }
 
   private handleMessages() {
+    this.onMessage(MessageTypeEnum.READY, (client) => {
+      logger.debug('client ready: ' + client.sessionId);
+      const player = this.state.players.get(client.sessionId);
+      player.ready = true;
+      this.startGame();
+    });
+
     this.onMessage(MessageTypeEnum.PING, (client) => {
       // console.log(client.sessionId, "sent ping request ");
-      client.send('pong', { time: Date.now() });
+      client.send(MessageTypeEnum.PONG, { time: Date.now() });
     });
 
     this.onMessage(MessageTypeEnum.GAME_RESTART, (client) => {
@@ -94,7 +100,8 @@ export class MyRoom extends Room<RoomState> {
   }
 
   private initializeTimeout() {
-    return this.clock.setTimeout(() => {
+    if (this.timeout) this.timeout.clear();
+    this.timeout = this.clock.setTimeout(() => {
       if (this.clients.length < this.maxClients && !this.state.isPlaying) {
         logger.info('timeout room: ' + this.roomId);
         void this.disconnect();
@@ -102,9 +109,33 @@ export class MyRoom extends Room<RoomState> {
     }, TIMEOUT);
   }
 
+  private checkIfAllPlayersAreReady() {
+    let allPlayersReady = true;
+    this.state.players.forEach((player) => {
+      if (player.ready === false) {
+        allPlayersReady = false;
+        return;
+      }
+    });
+    return allPlayersReady;
+  }
+
   private startGame() {
-    logger.info('starting game in room: ' + this.roomId);
     if (this.state.isPlaying) return;
+    if (this.clients.length < this.maxClients) {
+      logger.debug('cant start game in room ' + this.roomId + ': not enough players');
+      return;
+    }
+    if (!this.checkIfAllPlayersAreReady()) {
+      logger.debug('cant start game in room ' + this.roomId + ': not all players are ready');
+      return;
+    }
+
+    this.state.players.forEach((player) => {
+      player.ready = false;
+    });
+
+    logger.info('starting game in room: ' + this.roomId);
 
     this.state.isPlaying = true;
 

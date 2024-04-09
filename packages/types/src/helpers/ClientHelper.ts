@@ -1,5 +1,5 @@
 import { ColorEnum, GameStateDTO, Tetrimino as TetriminoDTO } from '@jmischler72/core';
-import { Block, GameState, Tetrimino } from '@jmischler72/types';
+import { Block, GameState, Tetrimino } from '../schemas/PlayerState';
 
 function blocksToMatrix(blocks: Block[]): ColorEnum[][] {
   const maxX = Math.max(...blocks.map((block) => block.x)) + 1;

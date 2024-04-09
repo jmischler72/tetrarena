@@ -1,6 +1,5 @@
 {
   "name": "@jmischler72/client",
-  "version": "1.1.2",
   "private": true,
   "scripts": {
     "dev": "vite dev",
@@ -41,7 +40,6 @@
   "dependencies": {
     "@jmischler72/core": "workspace:*",
     "@jmischler72/types": "workspace:*",
-    "@jmischler72/utils": "workspace:*",
     "@sveltejs/adapter-netlify": "^4.1.0",
     "@tweenjs/tween.js": "^21.0.0",
     "colyseus.js": "^0.15.16",

@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "@colyseus/schema": "^2.0.10",
-    "@jmischler72/core": "workspace:^1.2.7"
+    "@jmischler72/core": "workspace:*"
   }
 }
