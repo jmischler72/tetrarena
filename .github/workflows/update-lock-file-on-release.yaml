@@ -9,7 +9,7 @@ on:
 jobs:
   update-lock-file:
     runs-on: ubuntu-latest
-    if: github.event.pusher == 'github-actions'
+    if: github.event.pusher == 'github-actions[bot]'
     steps:
       - name: Update pnpm
         run: |
