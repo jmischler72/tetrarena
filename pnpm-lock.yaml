@@ -71,9 +71,6 @@ importers:
       '@jmischler72/types':
         specifier: workspace:*
         version: link:../../packages/types
-      '@jmischler72/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       '@sveltejs/adapter-netlify':
         specifier: ^4.1.0
         version: 4.1.0(@sveltejs/kit@2.5.5)
@@ -459,9 +456,6 @@ importers:
       '@jmischler72/core':
         specifier: workspace:*
         version: link:../core
-      '@jmischler72/utils':
-        specifier: workspace:*
-        version: link:../utils
 
   packages/utils:
     dependencies:
