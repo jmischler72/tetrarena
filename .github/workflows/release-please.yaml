@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - feature/migration_releaseplease
+      - dev
 
 permissions:
   contents: write
@@ -16,4 +16,3 @@ jobs:
         id: release
         with:
           token: ${{secrets.GITHUB_TOKEN}}
-          target-branch: feature/migration_releaseplease

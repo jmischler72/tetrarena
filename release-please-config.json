@@ -4,7 +4,9 @@
       "changelog-path": "docs/CHANGELOG.md"
     },
     "apps/client": {},
-    "apps/server": {}
+    "apps/server": {},
+    "packages/core": {},
+    "packages/types": {}
   },
   "plugins": ["node-workspace"],
   "release-type": "node"
