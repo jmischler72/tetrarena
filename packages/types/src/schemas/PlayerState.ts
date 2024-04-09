@@ -1,6 +1,6 @@
 import { ArraySchema, Schema, type } from '@colyseus/schema';
 import { ActionsEnum, Game, Tetrimino as TetriminoDTO } from '@jmischler72/core';
-import { matrixToBlocks } from './utils';
+import { matrixToBlocks } from '../helpers/ServerHelper';
 
 export class Block extends Schema {
   @type('number') x = 0;

@@ -50,6 +50,9 @@ importers:
       prettier:
         specifier: ^2.8.4
         version: 2.8.8
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.5
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.17.3)(typescript@5.1.6)
@@ -68,9 +71,6 @@ importers:
       '@jmischler72/types':
         specifier: workspace:*
         version: link:../../packages/types
-      '@jmischler72/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       '@sveltejs/adapter-netlify':
         specifier: ^4.1.0
         version: 4.1.0(@sveltejs/kit@2.5.5)
@@ -454,7 +454,7 @@ importers:
         specifier: ^2.0.10
         version: 2.0.11
       '@jmischler72/core':
-        specifier: workspace:^1.2.7
+        specifier: workspace:*
         version: link:../core
 
   packages/utils:
