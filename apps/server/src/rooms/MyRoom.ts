@@ -131,6 +131,10 @@ export class MyRoom extends Room<RoomState> {
       return;
     }
 
+    this.state.players.forEach((player) => {
+      player.ready = false;
+    });
+
     logger.info('starting game in room: ' + this.roomId);
 
     this.state.isPlaying = true;
