@@ -1,4 +1,4 @@
-import { Block } from '@jmischler72/types';
+import { Block } from '../schemas/PlayerState';
 
 export function matrixToBlocks(matrix: number[][]) {
   const blocks: Block[] = [];
