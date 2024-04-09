@@ -16,4 +16,4 @@ jobs:
         id: release
         with:
           token: ${{secrets.GITHUB_TOKEN}}
-          default-branch: feature/migration_releaseplease
+          target-branch: feature/migration_releaseplease
