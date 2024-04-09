@@ -6,7 +6,7 @@
     import GameEndComponent from "./GameEndComponent.svelte";
     import MenuFooter from "$lib/components/menu/MenuFooter.svelte";
     import Button from "$lib/components/Button.svelte";
-    import {MessageTypeEnum} from "@jmischler72/shared";
+    import {MessageTypeEnum} from "@jmischler72/types";
 
     let winner: string = "";
 

@@ -1,6 +1,6 @@
 import { Block } from './PlayerState';
 import { ColorEnum, GameStateDTO, Tetrimino as TetriminoDTO } from '@jmischler72/core';
-import { Player, Tetrimino } from './PlayerState';
+import { GameState, Tetrimino } from './PlayerState';
 
 export function matrixToBlocks(matrix: number[][]) {
   const blocks: Block[] = [];
@@ -39,7 +39,7 @@ function toTetriminoDTO(tetrimino: Tetrimino): TetriminoDTO {
   };
 }
 
-export function toGameStateDTO(player: Player): GameStateDTO {
+export function toGameStateDTO(player: GameState): GameStateDTO {
   return {
     board: blocksToMatrix(player.board),
     currentTetrimino: toTetriminoDTO(player.currentTetrimino),

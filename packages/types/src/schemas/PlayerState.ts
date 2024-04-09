@@ -22,7 +22,7 @@ export class Tetrimino extends Schema {
   }
 }
 
-export class Player extends Schema {
+export class GameState extends Schema {
   @type([Block]) board: ArraySchema<Block> = new ArraySchema<Block>();
   @type(Tetrimino) currentTetrimino: Tetrimino = new Tetrimino();
   @type(Tetrimino) shadowTetrimino: Tetrimino = new Tetrimino();
@@ -33,23 +33,11 @@ export class Player extends Schema {
   @type('number') numberAddedLines = 0;
   @type('boolean') currentTetriminoFreezed = false;
 
-  constructor(seed: number) {
-    super();
-    this.gameInstance = new Game(seed);
-  }
+  gameInstance: Game = new Game(Date.now());
 
-  private gameInstance: Game;
+  updateFromGameStateDTO() {
+    const gameState = this.gameInstance.getCurrentGameState();
 
-  recreateGameInstance(seed: number) {
-    this.gameInstance = new Game(seed);
-  }
-
-  handleAction(action: ActionsEnum) {
-    this.gameInstance.updateGameState(action);
-    this.updateFromGameStateDTO(this.gameInstance.getCurrentGameState());
-  }
-
-  updateFromGameStateDTO(gameState: GameStateDTO) {
     this.board = new ArraySchema<Block>(...matrixToBlocks(gameState.board));
 
     this.currentTetrimino = new Tetrimino();
@@ -66,5 +54,18 @@ export class Player extends Schema {
     this.deletedLines = new ArraySchema<number>(...gameState.deletedLines);
     this.numberAddedLines = gameState.numberAddedLines;
     this.currentTetriminoFreezed = gameState.currentTetriminoFreezed;
+  }
+}
+export class PlayerState extends Schema {
+  @type('boolean') connected = true;
+  @type(GameState) gameState = new GameState();
+
+  createGame(seed: number) {
+    this.gameState.gameInstance = new Game(seed);
+  }
+
+  handleAction(action: ActionsEnum) {
+    this.gameState.gameInstance.updateGameState(action);
+    this.gameState.updateFromGameStateDTO();
   }
 }

@@ -1,0 +1,18 @@
+{
+  "name": "@jmischler72/types",
+  "version": "1.0.0",
+  "author": "David Mokel",
+  "main": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist",
+    "./src"
+  ],
+  "scripts": {
+    "prepare": "tsc --build"
+  },
+  "dependencies": {
+    "@colyseus/schema": "^2.0.10",
+    "@jmischler72/core": "workspace:^1.2.7"
+  }
+}

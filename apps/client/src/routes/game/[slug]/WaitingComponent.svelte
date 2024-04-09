@@ -3,11 +3,9 @@
 
     let players: string[] = [];
 
-    $: $roomStore?.state.listen("players", (currentValue) => {
+    $roomStore?.state.listen("players", (currentValue) => {
         players = Array.from(currentValue.keys());
     });
-
-    $: console.log($roomStore?.sessionId);
 
 </script>
 <div class="flex flex-col justify-center items-center gap-6 p-8">

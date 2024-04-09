@@ -7,6 +7,7 @@ import { ColorEnum, type GameStateDTO } from '@jmischler72/core';
 export default class BoardContainer extends PIXI.Container {
   private readonly board: Board;
   private readonly scoreText: PIXI.Text;
+  private readonly nameText: PIXI.Text;
   private readonly nextTetriminosContainer: NextTetriminosContainer;
   private currentGameState = '';
   private initialPosition: number | null = null;
@@ -29,10 +30,20 @@ export default class BoardContainer extends PIXI.Container {
     this.scoreText.position.set(this.board.width / 2, 0);
     this.scoreText.zIndex = 2;
 
+    this.nameText = new PIXI.Text('0', {
+      fontSize: 30,
+      stroke: '#000',
+      strokeThickness: 2,
+      fill: 0xffffff,
+      align: 'center',
+    });
+
+    this.nameText.position.set(this.board.width / 2 - 100, 0);
+
     this.nextTetriminosContainer = new NextTetriminosContainer();
     this.nextTetriminosContainer.position.set(this.board.width + 10, 0);
 
-    this.addChild(this.board, this.scoreText, this.nextTetriminosContainer);
+    this.addChild(this.board, this.scoreText, this.nextTetriminosContainer, this.nameText);
   }
 
   renderPlayerBorder() {
@@ -50,10 +61,14 @@ export default class BoardContainer extends PIXI.Container {
     currentPlayerBorderTween(graphics).start();
   }
 
-  updatePlayerBoard(gameState: GameStateDTO) {
+  updatePlayerBoard(gameState: GameStateDTO, name: string) {
     if (this.currentGameState != null && JSON.stringify(gameState) === this.currentGameState) {
       return;
     }
+
+    console.log(gameState.currentTetriminoFreezed);
+
+    this.nameText.text = name;
 
     let offset = 10;
 
@@ -66,33 +81,24 @@ export default class BoardContainer extends PIXI.Container {
     }
 
     if (gameState.currentTetriminoFreezed) {
+      // console.log('freeze');
       this.posedAnimation(offset);
     }
 
     if (gameState.score != parseInt(this.scoreText.text)) {
       this.scoreAnimation(gameState.score);
     }
-    this.board.updateFromBoard(gameState.board);
+    try {
+      this.board.updateFromBoard(gameState.board);
+    } catch (e) {
+      console.log(e);
+    }
     this.board.updateTetrimino(gameState.shadowTetrimino, ColorEnum.SHADOW);
     this.board.updateTetrimino(gameState.currentTetrimino, gameState.currentTetrimino.color);
 
     this.nextTetriminosContainer.renderTetriminoContainers(gameState.nextTetriminos);
     this.currentGameState = JSON.stringify(gameState);
   }
-
-  // gameOverAnimation() {
-  //     let position = {
-  //         x: this.position.x,
-  //     };
-  //     let shaking = new TWEEN.Tween(position)
-  //         .to({x: this.position.x + 20}, 100)
-  //         .onUpdate(() => {
-  //             this.position.x = position.x;
-  //         })
-  //         .yoyo(true)
-  //         .repeat(5);
-  //     shaking.start();
-  // }
 
   private posedAnimation(offset: number) {
     if (!this.initialPosition) this.initialPosition = this.position.y;
@@ -108,24 +114,4 @@ export default class BoardContainer extends PIXI.Container {
       })
       .start();
   }
-
-  // hitAnimation() {
-  //     console.log("animation:hit");
-  //     let containerScale = {y: this.scale.y};
-  //     let scaleIn = new TWEEN.Tween(containerScale)
-  //         .to({y: 0.95}, 100)
-  //         .onUpdate(() => {
-  //             this.scale.y = containerScale.y;
-  //         });
-  //
-  //     let scaleOut = new TWEEN.Tween(containerScale)
-  //         .to({y: 1}, 1000)
-  //         .easing(TWEEN.Easing.Exponential.Out)
-  //         .onUpdate(() => {
-  //             this.scale.y = containerScale.y;
-  //         });
-  //
-  //     scaleIn.chain(scaleOut);
-  //     scaleIn.start();
-  // }
 }

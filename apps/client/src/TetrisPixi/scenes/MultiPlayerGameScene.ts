@@ -4,13 +4,12 @@ import * as TWEEN from '@tweenjs/tween.js';
 import { get } from 'svelte/store';
 
 import type { IScene } from '../Manager';
-import { gameStatesStore, roomStore } from '$lib/stores/multiplayerStore';
-import type { GameStateDTO } from '@jmischler72/core';
+import { playersStore, roomStore } from '$lib/stores/multiplayerStore';
+import type { Player } from '$lib/functions/Player';
 
 export default class MultiPlayerGameScene extends GameScene implements IScene {
   private readonly playerBoard: BoardContainer;
   private readonly oppBoard: BoardContainer;
-  private isGameOver = false;
 
   constructor() {
     super();
@@ -27,25 +26,18 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
     this.stats.begin();
     TWEEN.update();
 
-    const gameStates: Map<string, GameStateDTO> = get(gameStatesStore);
+    const gameStates: Map<string, Player> = get(playersStore);
 
-    if (gameStates && !this.isGameOver) {
-      gameStates.forEach((value: GameStateDTO, key: string) => {
-        if (key === get(roomStore)?.sessionId) {
-          this.playerBoard.updatePlayerBoard(value);
-        } else {
-          this.oppBoard.updatePlayerBoard(value);
-        }
-        // if (gameState.isGameOver) {
-        //     this.isGameOver = true;
-        //     if (key == socketId) {
-        //         this.playerBoard.gameOverAnimation();
-        //     } else {
-        //         this.oppBoard.gameOverAnimation();
-        //     }
-        // }
-      });
-    }
+    if (gameStates.size > 2) console.error(Array.from(gameStates.keys()).toString());
+
+    get(playersStore).forEach((value: Player, key: string) => {
+      if (value.gameState === undefined) return;
+      if (key === get(roomStore)?.sessionId) {
+        this.playerBoard.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
+      } else {
+        this.oppBoard.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
+      }
+    });
 
     this.stats.end();
   }
