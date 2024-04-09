@@ -6,16 +6,25 @@
     import GameEndComponent from "./GameEndComponent.svelte";
     import MenuFooter from "$lib/components/menu/MenuFooter.svelte";
     import Button from "$lib/components/Button.svelte";
-    import {MessageTypeEnum} from "@jmischler72/shared";
+    import { MessageTypeEnum } from '@jmischler72/types';
 
     let winner: string = "";
+    let players: Map<string, boolean> = new Map<string, boolean>();
 
-    function restartGame() {
-        $roomStore?.send(MessageTypeEnum.GAME_RESTART);
+    function playerReady() {
+        $roomStore?.send(MessageTypeEnum.READY);
     }
 
-    $: $roomStore?.state.listen("winner", (currentValue) => {
+    $roomStore?.state.listen("winner", (currentValue) => {
         winner = currentValue;
+    });
+
+    $roomStore?.state.players.onAdd((player, key) => {
+        player.listen("ready", (value) => {
+            let tmp = players; // i dont know why i cant just do players.set(key, value)
+            tmp.set(key, value);
+            players = tmp;
+        });
     });
 </script>
 
@@ -30,20 +39,20 @@
         {#if winner !== ""}
             <GameEndComponent winner={winner}/>
         {/if}
-        <WaitingComponent></WaitingComponent>
+        <WaitingComponent bind:players='{players}'></WaitingComponent>
     </div>
 
     <MenuFooter slot="footer">
         <div class="w-[70%]">
-            <Button onClick={()=>restartGame()}
+            <Button onClick={()=>playerReady()}
+                    disabled="{  players.get($roomStore?.sessionId || '') }"
             >
-                {#if winner}
-                    Restart game
+                {#if players.get($roomStore?.sessionId || '')}
+                    <span class="translate-y-[-4px] translate-x-[-5px] text-green-100">&#10004;</span> Ready
                 {:else}
-                    Start game
+                    Ready
                 {/if}
             </Button>
         </div>
     </MenuFooter>
-
 </MenuContainer>

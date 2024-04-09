@@ -19,11 +19,10 @@ export default class SinglePlayerGameScene extends GameScene implements IScene {
     this.stats.begin();
     TWEEN.update();
     const gameStateDTO: GameStateDTO = this.instance.game.getCurrentGameState();
-    console.log(gameStateDTO);
     if (gameStateDTO.isGameOver) {
       this.instance.restartGame();
     } else {
-      this.playerBoard.updatePlayerBoard(gameStateDTO);
+      this.playerBoard.updatePlayerBoard(gameStateDTO, '');
     }
     this.stats.end();
   }

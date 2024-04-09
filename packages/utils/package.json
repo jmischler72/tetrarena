@@ -1,5 +1,5 @@
 {
-  "name": "@jmischler72/shared",
+  "name": "@jmischler72/utils",
   "version": "1.0.0",
   "author": "David Mokel",
   "main": "./src/index.ts",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@colyseus/schema": "^2.0.10",
-    "@jmischler72/core": "workspace:^1.2.7"
+    "@jmischler72/core": "workspace:*",
+    "@jmischler72/types": "workspace:*"
   }
 }

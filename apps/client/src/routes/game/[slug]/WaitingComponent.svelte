@@ -1,32 +1,32 @@
-<script lang="ts">
-    import {roomStore} from "$lib/stores/multiplayerStore";
+<script lang='ts'>
+  import { roomStore } from '$lib/stores/multiplayerStore';
 
-    let players: string[] = [];
-
-    $: $roomStore?.state.listen("players", (currentValue) => {
-        players = Array.from(currentValue.keys());
-    });
-
-    $: console.log($roomStore?.sessionId);
+  export let players: Map<string, boolean>;
 
 </script>
-<div class="flex flex-col justify-center items-center gap-6 p-8">
+<div class='flex flex-col justify-center items-center gap-6 p-8'>
+  <div class='flex flex-col justify-center items-center'>
+    <ul class='list-none'>
+      {#each players.keys() as player}
+        <li class='flex flex-row gap-2'>
+          <h1 class='p-2 rounded bg-gray-600 border-gray-400 border-solid mb-2'
+              class:border-2={ player === $roomStore?.sessionId}>
+            {player}
+          </h1>
+          {#if players.get(player)}
+            <span class='p-2 rounded bg-gray-600 border-gray-400 border-solid mb-2 text-green-100'>✔</span>
+          {/if}
+      {/each}
+    </ul>
+  </div>
+  {#if players.size < 2}
     <h1>Waiting for players<span
-            class="ani-ellipsis ani-ellipsis-jump"><span>.</span></span></h1>
-
-    <div class="flex flex-col justify-center items-center">
-        <ul class="list-none">
-            {#each players as player}
-                <li class="p-2 rounded bg-gray-600 border-gray-400 border-solid mb-2"
-                class:border-2={ player === $roomStore?.sessionId}>
-                    {player}</li>
-            {/each}
-        </ul>
-    </div>
+      class='ani-ellipsis ani-ellipsis-jump'><span>.</span></span></h1>
+  {/if}
 </div>
 
 
-<style lang="scss">
+<style lang='scss'>
   .ani-ellipsis {
     &:before, &:after {
       content: '.';

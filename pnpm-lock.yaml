@@ -63,11 +63,14 @@ importers:
   apps/client:
     dependencies:
       '@jmischler72/core':
-        specifier: workspace:^1.2.7
+        specifier: workspace:*
         version: link:../../packages/core
-      '@jmischler72/shared':
-        specifier: workspace:^1.0.0
-        version: link:../../packages/shared
+      '@jmischler72/types':
+        specifier: workspace:*
+        version: link:../../packages/types
+      '@jmischler72/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@sveltejs/adapter-netlify':
         specifier: ^4.1.0
         version: 4.1.0(@sveltejs/kit@2.5.5)
@@ -364,9 +367,9 @@ importers:
       '@jmischler72/core':
         specifier: workspace:^1.2.7
         version: link:../../packages/core
-      '@jmischler72/shared':
+      '@jmischler72/types':
         specifier: workspace:^1.0.0
-        version: link:../../packages/shared
+        version: link:../../packages/types
       colyseus:
         specifier: ^0.15.0
         version: 0.15.5(@colyseus/schema@2.0.11)
@@ -445,7 +448,26 @@ importers:
         specifier: workspace:^1.2.7
         version: link:../core
 
-  packages/utils: {}
+  packages/types:
+    dependencies:
+      '@colyseus/schema':
+        specifier: ^2.0.10
+        version: 2.0.11
+      '@jmischler72/core':
+        specifier: workspace:^1.2.7
+        version: link:../core
+
+  packages/utils:
+    dependencies:
+      '@colyseus/schema':
+        specifier: ^2.0.10
+        version: 2.0.11
+      '@jmischler72/core':
+        specifier: workspace:*
+        version: link:../core
+      '@jmischler72/types':
+        specifier: workspace:*
+        version: link:../types
 
 packages:
 

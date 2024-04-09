@@ -6,32 +6,26 @@
 
 	let rooms: RoomAvailable[] = [];
 
-	function fillWithTestRooms(){
-		for(let i = 0; i < 10; i++) {
-			rooms.push({
-				maxClients: 0,
-				name: 'Test Room',
-				roomId: 'room_' + i,
-				clients: i,
-				metadata: {
-					name: 'Room ' + i,
-					icon: i,
-					gameMode: 'FFA'
-				}
-			});
-		}
-	}
+	// function fillWithTestRooms(){
+	// 	for(let i = 0; i < 10; i++) {
+	// 		rooms.push({
+	// 			maxClients: 0,
+	// 			name: 'Test Room',
+	// 			roomId: 'room_' + i,
+	// 			clients: i,
+	// 			metadata: {
+	// 				name: 'Room ' + i,
+	// 				icon: i,
+	// 				gameMode: 'FFA'
+	// 			}
+	// 		});
+	// 	}
+	// }
 
 	onMount(() => {
-		$clientStore.getAvailableRooms('my_room').then((r) => {
-			rooms = r;
-		}).catch(e => {
-			console.error(e);
-		});
-
 		let interval = setInterval(async () => {
 			rooms = await $clientStore.getAvailableRooms('my_room');
-		}, 5000);
+		}, 1000);
 
 		return () => clearInterval(interval);
 	});

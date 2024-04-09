@@ -3,7 +3,7 @@ import { MyRoom } from './rooms/MyRoom';
 import { playground } from '@colyseus/playground';
 import basicAuth from 'express-basic-auth';
 import { monitor } from '@colyseus/monitor';
-import pkg from '../package.json';
+import pkg from '../../../package.json';
 import cors from 'cors';
 import express from 'express';
 import pino from 'pino';
@@ -48,13 +48,17 @@ export default config({
      * Read more: https://docs.colyseus.io/tools/monitor/#restrict-access-to-the-panel-using-a-password
      */
 
-    const basicAuthMiddleware = basicAuth({
-      users: {
-        admin: 'balisto48',
-      },
-      challenge: true,
-    });
-    app.use('/colyseus', basicAuthMiddleware, monitor());
+    if (process.env.NODE_ENV !== 'production') {
+      app.use('/colyseus', monitor());
+    } else {
+      const basicAuthMiddleware = basicAuth({
+        users: {
+          admin: 'balisto48',
+        },
+        challenge: true,
+      });
+      app.use('/colyseus', basicAuthMiddleware, monitor());
+    }
   },
 
   beforeListen: () => {

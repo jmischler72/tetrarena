@@ -95,24 +95,4 @@ export default class SecondBoardContainer extends PIXI.Container {
       })
       .start();
   }
-
-  // hitAnimation() {
-  //     console.log("animation:hit");
-  //     let containerScale = {y: this.scale.y};
-  //     let scaleIn = new TWEEN.Tween(containerScale)
-  //         .to({y: 0.95}, 100)
-  //         .onUpdate(() => {
-  //             this.scale.y = containerScale.y;
-  //         });
-  //
-  //     let scaleOut = new TWEEN.Tween(containerScale)
-  //         .to({y: 1}, 1000)
-  //         .easing(TWEEN.Easing.Exponential.Out)
-  //         .onUpdate(() => {
-  //             this.scale.y = containerScale.y;
-  //         });
-  //
-  //     scaleIn.chain(scaleOut);
-  //     scaleIn.start();
-  // }
 }
