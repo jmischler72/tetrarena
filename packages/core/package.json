@@ -1,6 +1,6 @@
 {
   "name": "@jmischler72/core",
-  "version": "1.2.7",
+  "version": "1.0.0",
   "description": "core game package for tetris-project",
   "scripts": {
     "test": "jest",
