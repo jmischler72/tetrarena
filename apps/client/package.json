@@ -45,5 +45,6 @@
     "@tweenjs/tween.js": "^21.0.0",
     "colyseus.js": "^0.15.16",
     "pixi.js": "^7.2.4"
-  }
+  },
+  "version": "1.0.0"
 }
