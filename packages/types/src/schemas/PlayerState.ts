@@ -1,5 +1,5 @@
 import { ArraySchema, Schema, type } from '@colyseus/schema';
-import { ActionsEnum, Game, GameStateDTO, Tetrimino as TetriminoDTO } from '@jmischler72/core';
+import { ActionsEnum, Game, Tetrimino as TetriminoDTO } from '@jmischler72/core';
 import { matrixToBlocks } from './utils';
 
 export class Block extends Schema {
@@ -58,6 +58,7 @@ export class GameState extends Schema {
 }
 export class PlayerState extends Schema {
   @type('boolean') connected = true;
+  @type('boolean') ready = false;
   @type(GameState) gameState = new GameState();
 
   createGame(seed: number) {

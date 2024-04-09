@@ -3,7 +3,7 @@ import { MyRoom } from './rooms/MyRoom';
 import { playground } from '@colyseus/playground';
 import basicAuth from 'express-basic-auth';
 import { monitor } from '@colyseus/monitor';
-import pkg from '../package.json';
+import pkg from '../../../package.json';
 import cors from 'cors';
 import express from 'express';
 import pino from 'pino';

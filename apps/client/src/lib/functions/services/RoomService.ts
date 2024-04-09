@@ -3,6 +3,7 @@ import { clientStore, playersStore, roomStore } from '$lib/stores/multiplayerSto
 import { goto } from '$app/navigation';
 import { get } from 'svelte/store';
 import type { RoomCreateOptions } from '$lib/data/RoomCreateOptions';
+import { MessageTypeEnum } from '@jmischler72/types';
 
 function resetRoom() {
   roomStore.set(null);
@@ -12,7 +13,7 @@ function resetRoom() {
 }
 
 function addErrorHandling(room: Room) {
-  room.onMessage('pong', (message) => {
+  room.onMessage(MessageTypeEnum.PONG, (message) => {
     // console.log('message received from server', message);
     // console.log(Date.now() - message.time);
   });

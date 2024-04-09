@@ -24,5 +24,5 @@
         <h1>server - {serverVersion}</h1>
     </div>
 
-    <a class="text-3xl hover:underline" href="https://twitter.com/Anime_weedlord">@joff72</a>
+    <a class="text-3xl hover:underline" href="https://github.com/jmischler72">@jmischler72</a>
 </footer>
