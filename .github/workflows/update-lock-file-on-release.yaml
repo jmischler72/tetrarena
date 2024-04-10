@@ -2,9 +2,10 @@ name: Update lockfile on new release
 
 on:
   pull_request:
-    types: [opened]
+    types:
+      - opened
     branches:
-      - main
+      - release-please--*
 
 jobs:
   update-lock-file:
