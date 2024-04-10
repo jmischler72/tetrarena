@@ -3,7 +3,7 @@ name: Update lockfile on new release
 on:
   push:
     branches:
-      - release-please--*
+      - 'release-please--**'
 
 jobs:
   update-lock-file:
