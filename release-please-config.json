@@ -10,5 +10,6 @@
   },
   "plugins": ["node-workspace"],
   "release-type": "node",
-  "skip-github-release": true
+  "skip-github-release": true,
+  "always-link-local": false
 }
