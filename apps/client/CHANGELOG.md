@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.1.0](https://github.com/jmischler72/tetrarena/compare/client-v1.0.0...client-v1.1.0) (2024-04-10)
+
+
+### Features
+
+* **client:** responsive homepage first iteration ([9d560bc](https://github.com/jmischler72/tetrarena/commit/9d560bca5b853cb4806e03c892b1d24e64026faf))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @jmischler72/core bumped from 1.0.0 to 1.0.1
+    * @jmischler72/types bumped from 1.0.0 to 1.0.1
+
 ## 1.0.0 (2024-04-09)
 
 
