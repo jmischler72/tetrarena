@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/jmischler72/tetrarena/compare/core-v1.0.0...core-v1.0.1) (2024-04-10)
+
+
+### Bug Fixes
+
+* **core:** small rename (test release-please) ([d171564](https://github.com/jmischler72/tetrarena/commit/d17156477bc5484903e3eb0e6b4e7892ed010c84))
+
 ## 1.0.0 (2024-04-09)
 
 
