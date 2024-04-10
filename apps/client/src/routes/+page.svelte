@@ -13,8 +13,8 @@
     });
 </script>
 
-<div class="flex flex-col gap-y-14 items-center pb-8">
-    <h1 class="text-gray-200 text-5xl border-solid border-2 border-white p-1">tetrarena</h1>
+<div class="h-[50%] w-[60%] lg:w-auto lg:aspect-square  flex flex-col gap-y-14 items-center relative mt-20">
+    <h1 class="absolute top-[-25%] text-gray-200 text-3xl lg:text-5xl border-solid border-2 border-white">tetrarena</h1>
     <Home></Home>
 </div>
 
@@ -24,5 +24,5 @@
         <h1>server - {serverVersion}</h1>
     </div>
 
-    <a class="text-3xl hover:underline" href="https://github.com/jmischler72">@jmischler72</a>
+    <a class="text-lg lg:text-3xl hover:underline" href="https://github.com/jmischler72">@jmischler72</a>
 </footer>
