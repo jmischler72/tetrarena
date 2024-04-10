@@ -9,11 +9,22 @@ on:
 jobs:
   update-lock-file:
     runs-on: ubuntu-latest
-    if: contains(fromJSON('["chore", "release"]'), github.event.pull_request.title)
+    strategy:
+      matrix:
+        node-version: [16]
     steps:
-      - name: Update pnpm
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Update pnpm lockfile
         run: |
           pnpm i --lockfile-only
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'chore(release): update lockfile'
