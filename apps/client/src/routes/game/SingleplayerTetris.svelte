@@ -49,9 +49,9 @@
 
 </script>
 
-<canvas id="pixi-canvas"></canvas>
+<canvas id="pixi-canvas" class='z-10'></canvas>
 
-<footer class="w-[98%] absolute bottom-5 text-gray-500 flex flex-row gap-2 justify-end items-end">
+<footer class="w-[98%] absolute bottom-5 text-gray-500 flex flex-row gap-2 justify-end items-end z-20">
     <h1 class="text-3xl"
         class:fill-animation={escPressed}
     ><span class="opacity-animation">to quit press </span>ESC

@@ -1,47 +1,47 @@
-<script lang="ts">
-    import {page} from '$app/stores';
-    import {afterNavigate, goto} from "$app/navigation";
-    import {leaveRoom} from "$lib/functions/services/RoomService";
+<script lang='ts'>
+  import { page } from '$app/stores';
+  import { afterNavigate, goto } from '$app/navigation';
+  import { leaveRoom } from '$lib/functions/services/RoomService';
 
-    let previousPage: string = '/'
-    afterNavigate(({from}) => {
-        previousPage = from?.url.pathname || previousPage;
-    })
+  let previousPage: string = '/';
+  afterNavigate(({ from }) => {
+    previousPage = from?.url.pathname || previousPage;
+  });
 </script>
 
-<div class="bg-black/[.6]">
-    <nav class="h-[100px] flex text-gray-200 bg-gray-700/75 rounded text-5xl justify-center items-center bg-none overflow-hidden z-10 animation">
-        <div class="w-1/3 flex justify-center">
-            {#if $page.url.pathname.split('/')[1] === 'game'}
-                <button class="!text-3xl cursor-pointer items-center flex group"
-                        class:animation-left={previousPage === '/'}
-                        on:click={()=>leaveRoom()}>
-                    <span class="translate-x-[-2px] group-hover:translate-x-[-6px] transition opacity-40">x</span>quit
-                </button>
+<nav
+  class='h-[100px] flex text-gray-200 bg-gray-800/60 rounded text-5xl justify-center items-center bg-none overflow-hidden z-10 animation'>
+  <div class='w-1/3 flex justify-center'>
+    {#if $page.url.pathname.split('/')[1] === 'game'}
+      <button class='!text-3xl cursor-pointer items-center flex group'
+              class:animation-left={previousPage === '/'}
+              on:click={()=>leaveRoom()}>
+        <span class='translate-x-[-2px] group-hover:translate-x-[-6px] transition opacity-40'>x</span>quit
+      </button>
 
-            {:else}
-                <button class="!text-3xl cursor-pointer items-center flex group"
-                        class:animation-left={previousPage === '/'}
-                        on:click={()=>goto('/')}>
-                    <span class="translate-x-[-2px] translate-y-[1px] group-hover:translate-x-[-6px] transition opacity-40">&#60;</span>back
-                </button>
-            {/if}
-        </div>
+    {:else}
+      <button class='!text-3xl cursor-pointer items-center flex group'
+              class:animation-left={previousPage === '/'}
+              on:click={()=>goto('/')}>
+        <span
+          class='translate-x-[-2px] translate-y-[1px] group-hover:translate-x-[-6px] transition opacity-40'>&#60;</span>back
+      </button>
+    {/if}
+  </div>
 
-        <div class="w-1/3 flex justify-center"
-             class:animation-up={previousPage === '/'}
-        >
-            <h1 class="text-gray-200 text-3xl border-solid border-2 border-white p-1">tetrarena</h1>
-        </div>
-        <h1 class="w-1/3 text-3xl flex justify-center"
-            class:animation-right={previousPage === '/'}
-        >
-            /{$page.url.pathname.split('/')[1]}
-        </h1>
-    </nav>
-</div>
+  <div class='w-1/3 flex justify-center'
+       class:animation-up={previousPage === '/'}
+  >
+    <h1 class='text-gray-200 text-3xl border-solid border-2 border-white p-1'>tetrarena</h1>
+  </div>
+  <h1 class='w-1/3 text-3xl flex justify-center'
+      class:animation-right={previousPage === '/'}
+  >
+    /{$page.url.pathname.split('/')[1]}
+  </h1>
+</nav>
 
-<style lang="scss">
+<style lang='scss'>
   nav {
     font-family: 'Press Start 2P', system-ui;
   }

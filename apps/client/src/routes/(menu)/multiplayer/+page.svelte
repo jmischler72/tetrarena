@@ -43,11 +43,7 @@
                     Create the room
                 </Button>
             </div>
-
-        {:else }
-            <div>Filter</div>
         {/if}
-
     </MenuFooter>
 </MenuContainer>
 

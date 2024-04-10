@@ -1,6 +1,7 @@
 <script>
     import "../app.css";
     import {onMount} from "svelte";
+    import  GridBg  from "./GridBg.svelte";
 
     onMount(()=>{
         // setup jdenticon programmatically -> module needed for picker (data-jdenticon-value cant be used with nodejs module)
@@ -14,10 +15,12 @@
     })
 </script>
 
-<div class="h-[100vh] w-[100vw] bg-gray-800 flex justify-center items-center">
+<div class="h-[100vh] w-[100vw] bg-transparent flex justify-center items-center z-20">
     <slot/>
 </div>
-
+<div class="h-[100vh] w-[100vw] bg-gray-900 absolute left-0 top-0 overflow-hidden pointer-events-none z-[-1]">
+    <GridBg></GridBg>
+</div>
 <style lang="scss">
   @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
