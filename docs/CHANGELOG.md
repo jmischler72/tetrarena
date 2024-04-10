@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.1.0](https://github.com/jmischler72/tetrarena/compare/tetrarena-v1.0.0...tetrarena-v1.1.0) (2024-04-10)
+
+
+### Features
+
+* **client:** responsive homepage first iteration ([9d560bc](https://github.com/jmischler72/tetrarena/commit/9d560bca5b853cb4806e03c892b1d24e64026faf))
+
+
+### Bug Fixes
+
+* **core:** small rename (test release-please) ([d171564](https://github.com/jmischler72/tetrarena/commit/d17156477bc5484903e3eb0e6b4e7892ed010c84))
+* **general:** actions lock file ([fcf150e](https://github.com/jmischler72/tetrarena/commit/fcf150ea433a517baf381a78e678efeaa08a1639))
+* **general:** actions lock file 2 ([6ccd8ce](https://github.com/jmischler72/tetrarena/commit/6ccd8cef5d651aaac2a57e9838088c3186d1063c))
+* **general:** actions lock file 3 ([2c2113a](https://github.com/jmischler72/tetrarena/commit/2c2113ad3ef15421461f17550964e5a0311af36d))
+* **general:** release-please-config ([e454b64](https://github.com/jmischler72/tetrarena/commit/e454b64794d319d779db43002f970f74f79a5bad))
+* **general:** update lock file ([5403c51](https://github.com/jmischler72/tetrarena/commit/5403c51ff246e2c4cff82b61ba6aa7695dd5dcc5))
+
 ## 1.0.0 (2024-04-09)
 
 
