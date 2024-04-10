@@ -1,6 +1,6 @@
 {
   "name": "@jmischler72/types",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "David Mokel",
   "main": "./src/index.ts",
   "types": "./dist/index.d.ts",
@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "@colyseus/schema": "^2.0.10",
-    "@jmischler72/core": "1.0.0"
+    "@jmischler72/core": "1.0.1"
   }
 }
