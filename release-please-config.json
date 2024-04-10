@@ -9,5 +9,7 @@
     "packages/types": {}
   },
   "plugins": ["node-workspace"],
-  "release-type": "node"
+  "release-type": "node",
+  "skip-github-release": true,
+  "always-link-local": false
 }
