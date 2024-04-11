@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/jmischler72/tetrarena/compare/server-v1.1.0...server-v1.1.1) (2024-04-11)
+
+
+### Bug Fixes
+
+* **general:** use package json of respective + fix dockerfile by not deploying ([fff2468](https://github.com/jmischler72/tetrarena/commit/fff24682690dd1ce31bb8112ee24f09e53f95ebc))
+
 ## [1.1.0](https://github.com/jmischler72/tetrarena/compare/server-v1.0.1...server-v1.1.0) (2024-04-11)
 
 

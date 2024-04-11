@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/jmischler72/tetrarena/compare/client-v1.2.0...client-v1.2.1) (2024-04-11)
+
+
+### Bug Fixes
+
+* **general:** use package json of respective + fix dockerfile by not deploying ([fff2468](https://github.com/jmischler72/tetrarena/commit/fff24682690dd1ce31bb8112ee24f09e53f95ebc))
+
 ## [1.2.0](https://github.com/jmischler72/tetrarena/compare/client-v1.1.0...client-v1.2.0) (2024-04-11)
 
 

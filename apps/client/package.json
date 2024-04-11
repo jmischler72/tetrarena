@@ -45,5 +45,5 @@
     "colyseus.js": "^0.15.16",
     "pixi.js": "^7.2.4"
   },
-  "version": "1.2.0"
+  "version": "1.2.1"
 }
