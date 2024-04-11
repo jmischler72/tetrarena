@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/jmischler72/tetrarena/compare/server-v1.0.1...server-v1.1.0) (2024-04-11)
+
+
+### Features
+
+* **client:** realtime Listing of Rooms List ([3d27e62](https://github.com/jmischler72/tetrarena/commit/3d27e6284f29a19fda3d89f47796041e1c0aaa20))
+
 ## [1.0.1](https://github.com/jmischler72/tetrarena/compare/server-v1.0.0...server-v1.0.1) (2024-04-10)
 
 
