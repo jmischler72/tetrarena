@@ -12,7 +12,9 @@ function resetRoom() {
   localStorage.removeItem('reconnectionToken');
 }
 
-function addErrorHandling(room: Room) {
+function handleRoom(room: Room) {
+  roomStore.set(room);
+
   room.onMessage(MessageTypeEnum.PONG, (message) => {
     // console.log('message received from server', message);
     // console.log(Date.now() - message.time);
@@ -24,49 +26,48 @@ function addErrorHandling(room: Room) {
   });
   room.onLeave(() => {
     console.log('client left the room');
-    if (get(roomStore)) localStorage.setItem('reconnectionToken', get(roomStore)!.reconnectionToken);
-    roomStore.set(null);
+    resetRoom();
   });
 }
 
 export async function joinRoom(roomId: string) {
-  if (get(roomStore)) return;
   const reconnectionToken = localStorage.getItem('reconnectionToken');
-
-  let room: Room | null = null;
-
   if (reconnectionToken) {
-    try {
-      room = await get(clientStore).reconnect(reconnectionToken);
-      console.log('rejoined successfully', room);
-      localStorage.removeItem('reconnectionToken');
-    } catch (e) {
-      console.error('rejoin error', e);
-      resetRoom();
-    }
-  } else {
-    try {
-      room = await get(clientStore).joinById(roomId);
-    } catch (e) {
-      console.error('join error', e);
-      resetRoom();
-    }
+    await rejoinRoom(reconnectionToken);
+    return;
   }
 
-  if (room) {
-    addErrorHandling(room);
-    roomStore.set(room);
+  if (get(roomStore)) return;
+
+  try {
+    await get(clientStore)
+      .joinById(roomId)
+      .then((room) => handleRoom(room));
+  } catch (e) {
+    console.error('join error', e);
+    resetRoom();
   }
 }
 
+async function rejoinRoom(reconnectionToken: string) {
+  try {
+    await get(clientStore)
+      .reconnect(reconnectionToken)
+      .then((room) => handleRoom(room));
+    console.log('rejoined successfully');
+    localStorage.removeItem('reconnectionToken');
+  } catch (e) {
+    console.error('rejoin error', e);
+    resetRoom();
+  }
+}
 export async function createRoom(options: RoomCreateOptions) {
   if (options.name === '') options.name = 'New Room';
 
   try {
-    const room: Room | undefined = await get(clientStore).create('my_room', options);
-
-    addErrorHandling(room);
-    roomStore.set(room);
+    await get(clientStore)
+      .create('my_room', options)
+      .then((room) => handleRoom(room));
   } catch (e) {
     console.error('create error', e);
     resetRoom();
@@ -74,9 +75,10 @@ export async function createRoom(options: RoomCreateOptions) {
 }
 
 export async function leaveRoom() {
-  const room = get(roomStore);
-  resetRoom();
-  await room?.leave(true).then((t: number) => {
-    console.log('left room', t);
-  });
+  await get(roomStore)
+    ?.leave(true)
+    .then((t: number) => {
+      console.log('left room', t);
+      resetRoom();
+    });
 }

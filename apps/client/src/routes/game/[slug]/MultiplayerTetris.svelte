@@ -11,9 +11,7 @@
         if (action) $roomStore?.send(MessageTypeEnum.PLAYER_ACTION, action);
     }
 
-    $roomStore?.state.players.onAdd((player, key) => {
-        // console.log(key, 'has been added to the room');
-
+    $:$roomStore?.state.players.onAdd((player, key) => {
         $playersStore.set(key, {
             name: key,
             connected: player.connected,
@@ -49,7 +47,6 @@
     });
 </script>
 
-<svelte:window on:beforeunload={() => $roomStore?.leave(false)}></svelte:window>
 
 <canvas id='pixi-canvas'></canvas>
 <style>

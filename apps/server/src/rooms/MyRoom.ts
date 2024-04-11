@@ -8,7 +8,6 @@ const TIMEOUT = 50000;
 export class MyRoom extends Room<RoomState> {
   maxClients = 2;
   private gameTimer: Delayed;
-  private createdAt: number = Date.now();
   private timeout: Delayed;
 
   onCreate(options: any) {
@@ -24,6 +23,7 @@ export class MyRoom extends Room<RoomState> {
       gameMode: options.gameMode,
     });
 
+    this.initializeTimeout();
     this.handleMessages();
   }
 
@@ -32,10 +32,7 @@ export class MyRoom extends Room<RoomState> {
     logger.info('client: ' + client.sessionId + ' joined room: ' + this.roomId);
 
     const newPlayer = new PlayerState();
-    newPlayer.createGame(this.createdAt);
     this.state.players.set(client.sessionId, newPlayer);
-
-    this.startGame();
   }
 
   async onLeave(client: Client, consented: boolean) {
@@ -56,6 +53,7 @@ export class MyRoom extends Room<RoomState> {
       await this.allowReconnection(client, 20);
 
       // client returned! let's re-activate it.
+      logger.info('client: ' + client.sessionId + ' rejoined room: ' + this.roomId);
       this.state.players.get(client.sessionId).connected = true;
     } catch (e) {
       // 20 seconds expired. let's remove the client.
@@ -78,16 +76,14 @@ export class MyRoom extends Room<RoomState> {
     });
 
     this.onMessage(MessageTypeEnum.PING, (client) => {
-      // console.log(client.sessionId, "sent ping request ");
+      logger.debug('received ping request: ' + client.sessionId);
       client.send(MessageTypeEnum.PONG, { time: Date.now() });
     });
 
-    this.onMessage(MessageTypeEnum.GAME_RESTART, (client) => {
-      logger.debug('received game restart request from client: ' + client.sessionId);
-      // console.log(client.sessionId, "sent ping request ");
-      // client.send("pong", {time: Date.now()});
-      this.startGame();
-    });
+    // this.onMessage(MessageTypeEnum.GAME_RESTART, (client) => {
+    //   logger.debug('received game restart request from client: ' + client.sessionId);
+    //   this.startGame();
+    // });
 
     this.onMessage(MessageTypeEnum.PLAYER_ACTION, (client, data: ActionsEnum) => {
       if (this.state.isPlaying) {
@@ -130,8 +126,10 @@ export class MyRoom extends Room<RoomState> {
       return;
     }
 
+    const seed = Date.now();
     this.state.players.forEach((player) => {
       player.ready = false;
+      player.createGame(seed);
     });
 
     logger.info('starting game in room: ' + this.roomId);
@@ -152,9 +150,7 @@ export class MyRoom extends Room<RoomState> {
     if (this.gameTimer) this.gameTimer.clear();
     this.state.isPlaying = false;
 
-    const newSeed = Date.now();
     this.state.players.forEach((player, key) => {
-      player.createGame(newSeed);
       if (!player.gameState.isGameOver) this.state.winner = key;
     });
   }

@@ -21,9 +21,8 @@
 
     $roomStore?.state.players.onAdd((player, key) => {
         player.listen("ready", (value) => {
-            let tmp = players; // i dont know why i cant just do players.set(key, value)
-            tmp.set(key, value);
-            players = tmp;
+            players.set(key, value);
+            players = players;
         });
     });
 </script>

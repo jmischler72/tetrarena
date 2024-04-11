@@ -66,8 +66,6 @@ export default class BoardContainer extends PIXI.Container {
       return;
     }
 
-    console.log(gameState.currentTetriminoFreezed);
-
     this.nameText.text = name;
 
     let offset = 10;
