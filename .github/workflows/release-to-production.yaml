@@ -1,0 +1,21 @@
+name: Release Workflow
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: "github.event.pull_request.merged && startsWith(github.event.pull_request.title, 'chore: release')"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Merge main -> production
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: main
+          target_branch: production
+          github_token: ${{ secrets.GITHUB_TOKEN }}
