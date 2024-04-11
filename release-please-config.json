@@ -1,7 +1,8 @@
 {
   "packages": {
     ".": {
-      "changelog-path": "docs/CHANGELOG.md"
+      "changelog-path": "docs/CHANGELOG.md",
+      "skip-github-release": true
     },
     "apps/client": {},
     "apps/server": {},
