@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/jmischler72/tetrarena/compare/tetrarena-v1.0.0...tetrarena-v1.0.1) (2024-04-11)
+
+
+### Bug Fixes
+
+* **client:** fix problem reconnection with firefox ([24c8ce6](https://github.com/jmischler72/tetrarena/commit/24c8ce676bfb42e3318d018ff500ee442c5405a0))
+
 ## 1.0.0 (2024-04-11)
 
 
