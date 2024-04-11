@@ -21,7 +21,6 @@ export class MyRoom extends Room<RoomState> {
     void this.setMetadata({
       name: options.name,
       icon: options.icon,
-      createdAt: this.createdAt,
       gameMode: options.gameMode,
     });
 

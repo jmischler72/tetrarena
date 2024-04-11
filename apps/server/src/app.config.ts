@@ -7,6 +7,7 @@ import pkg from '../../../package.json';
 import cors from 'cors';
 import express from 'express';
 import pino from 'pino';
+import { LobbyRoom } from '@colyseus/core';
 
 export default config({
   options: {
@@ -18,10 +19,12 @@ export default config({
     // presence: new RedisPresence(),
   },
   initializeGameServer: (gameServer) => {
+    // Expose the "lobby" room to send .
+    gameServer.define('lobby', LobbyRoom);
     /**
      * Define your room handlers:
      */
-    gameServer.define('my_room', MyRoom);
+    gameServer.define('my_room', MyRoom).enableRealtimeListing();
   },
 
   initializeExpress: (app) => {
