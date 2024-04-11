@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/jmischler72/tetrarena/compare/server-v1.1.1...server-v1.1.2) (2024-04-11)
+
+
+### Bug Fixes
+
+* **client:** issues with reconnection when refreshing on Chrome ([d3ccb5e](https://github.com/jmischler72/tetrarena/commit/d3ccb5e322eb062297d9c34737e1a60599f9376e))
+
 ## [1.1.1](https://github.com/jmischler72/tetrarena/compare/server-v1.1.0...server-v1.1.1) (2024-04-11)
 
 
