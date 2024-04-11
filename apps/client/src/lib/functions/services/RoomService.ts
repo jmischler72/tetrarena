@@ -26,7 +26,7 @@ function handleRoom(room: Room) {
   });
   room.onLeave(() => {
     console.log('client left the room');
-    resetRoom();
+    if (!localStorage.getItem('reconnectionToken')) resetRoom();
   });
 }
 
