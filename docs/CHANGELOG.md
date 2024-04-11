@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.2.0](https://github.com/jmischler72/tetrarena/compare/tetrarena-v1.1.0...tetrarena-v1.2.0) (2024-04-11)
+
+
+### Features
+
+* **client:** realtime Listing of Rooms List ([3d27e62](https://github.com/jmischler72/tetrarena/commit/3d27e6284f29a19fda3d89f47796041e1c0aaa20))
+* **general:** upload server build for production ([80bb752](https://github.com/jmischler72/tetrarena/commit/80bb7521c0188be76e1809dcb34eee6836d58c3d))
+
+
+### Bug Fixes
+
+* **client:** fix reconnection problem on chrome ([9254e79](https://github.com/jmischler72/tetrarena/commit/9254e799c502c2c9b24302977d65afd7eb6a5060))
+* **general:** only rebuild server on changes in packages or server ([8df9eaa](https://github.com/jmischler72/tetrarena/commit/8df9eaad04a6cee1094645e40903f990b6f43e13))
+* **general:** remove things in config ([9cadf49](https://github.com/jmischler72/tetrarena/commit/9cadf499a111e0bdc0ee4c461dc4fa1d9b52af7b))
+
 ## [1.1.0](https://github.com/jmischler72/tetrarena/compare/tetrarena-v1.0.0...tetrarena-v1.1.0) (2024-04-10)
 
 

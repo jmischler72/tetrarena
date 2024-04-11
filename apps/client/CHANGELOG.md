@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/jmischler72/tetrarena/compare/client-v1.1.0...client-v1.2.0) (2024-04-11)
+
+
+### Features
+
+* **client:** realtime Listing of Rooms List ([3d27e62](https://github.com/jmischler72/tetrarena/commit/3d27e6284f29a19fda3d89f47796041e1c0aaa20))
+
+
+### Bug Fixes
+
+* **client:** fix reconnection problem on chrome ([9254e79](https://github.com/jmischler72/tetrarena/commit/9254e799c502c2c9b24302977d65afd7eb6a5060))
+
 ## [1.1.0](https://github.com/jmischler72/tetrarena/compare/client-v1.0.0...client-v1.1.0) (2024-04-10)
 
 
