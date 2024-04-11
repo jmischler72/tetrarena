@@ -49,6 +49,8 @@
     });
 </script>
 
+<svelte:window on:beforeunload={() => $roomStore?.leave(false)}></svelte:window>
+
 <canvas id='pixi-canvas'></canvas>
 <style>
     :root {

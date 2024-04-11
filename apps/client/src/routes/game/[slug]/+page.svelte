@@ -19,7 +19,7 @@
     });
 </script>
 
-<svelte:window on:beforeunload={() => $roomStore?.leave(false)}></svelte:window>
+<svelte:window on:beforeunload={() => {if(!isPlaying) $roomStore?.leave(false)}}></svelte:window>
 
 {#if $roomStore}
     {#if isPlaying}
