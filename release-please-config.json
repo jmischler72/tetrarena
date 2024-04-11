@@ -1,16 +1,16 @@
 {
   "packages": {
     "apps/client": {
-      "changelog-path": "../../docs/CHANGELOG.md"
+      "changelog-path": "../../docs/CLIENT_CHANGELOG.md"
     },
     "apps/server": {
-      "changelog-path": "../../docs/CHANGELOG.md"
+      "changelog-path": "../../docs/SERVER_CHANGELOG.md"
     },
     "packages/core": {
-      "changelog-path": "../../docs/CHANGELOG.md"
+      "changelog-path": "../../docs/CORE_CHANGELOG.md"
     },
     "packages/types": {
-      "changelog-path": "../../docs/CHANGELOG.md"
+      "changelog-path": "../../docs/TYPES_CHANGELOG.md"
     }
   },
   "plugins": ["node-workspace"],
