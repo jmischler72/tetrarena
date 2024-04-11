@@ -63,10 +63,10 @@ importers:
   apps/client:
     dependencies:
       '@jmischler72/core':
-        specifier: 1.0.1
+        specifier: 1.1.0
         version: link:../../packages/core
       '@jmischler72/types':
-        specifier: 1.0.1
+        specifier: 1.1.0
         version: link:../../packages/types
       '@sveltejs/adapter-netlify':
         specifier: ^4.1.0
@@ -362,10 +362,10 @@ importers:
         specifier: ^0.15.0
         version: 0.15.17(@colyseus/schema@2.0.11)
       '@jmischler72/core':
-        specifier: 1.0.1
+        specifier: 1.1.0
         version: link:../../packages/core
       '@jmischler72/types':
-        specifier: 1.0.1
+        specifier: 1.1.0
         version: link:../../packages/types
       colyseus:
         specifier: ^0.15.0
@@ -451,7 +451,7 @@ importers:
         specifier: ^2.0.10
         version: 2.0.11
       '@jmischler72/core':
-        specifier: 1.0.1
+        specifier: 1.1.0
         version: link:../core
 
   packages/utils:
