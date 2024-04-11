@@ -18,4 +18,5 @@ jobs:
           type: now
           from_branch: main
           target_branch: production
+          message: Merge main into production
           github_token: ${{ secrets.RELEASE_PLEASE_TOKEN }}

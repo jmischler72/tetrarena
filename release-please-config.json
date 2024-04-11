@@ -1,13 +1,17 @@
 {
   "packages": {
-    ".": {
-      "changelog-path": "docs/CHANGELOG.md",
-      "skip-github-release": true
+    "apps/client": {
+      "changelog-path": "../../docs/CHANGELOG.md"
     },
-    "apps/client": {},
-    "apps/server": {},
-    "packages/core": {},
-    "packages/types": {}
+    "apps/server": {
+      "changelog-path": "../../docs/CHANGELOG.md"
+    },
+    "packages/core": {
+      "changelog-path": "../../docs/CHANGELOG.md"
+    },
+    "packages/types": {
+      "changelog-path": "../../docs/CHANGELOG.md"
+    }
   },
   "plugins": ["node-workspace"],
   "release-type": "node"
