@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/jmischler72/tetrarena/compare/tetrarena-v1.2.1...tetrarena-v1.2.2) (2024-04-11)
+
+
+### Bug Fixes
+
+* **client:** fix problems that came with previous fix ([b1227e7](https://github.com/jmischler72/tetrarena/commit/b1227e79575aed2dc70c9c39d5845d5b16175a23))
+
 ## [1.2.1](https://github.com/jmischler72/tetrarena/compare/tetrarena-v1.2.0...tetrarena-v1.2.1) (2024-04-11)
 
 
