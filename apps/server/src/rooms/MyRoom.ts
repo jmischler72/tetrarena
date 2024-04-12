@@ -64,6 +64,12 @@ export class MyRoom extends Room<RoomState> {
     logger.info('disposing room: ' + this.roomId);
   }
 
+  onBeforePatch() {
+    this.state.players.forEach((player) => {
+      player.gameState.gameInstance.clearOnDispatch();
+    });
+  }
+
   private handleMessages() {
     this.onMessage(MessageTypeEnum.READY, (client) => {
       logger.debug('client ready: ' + client.sessionId);

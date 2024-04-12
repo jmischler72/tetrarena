@@ -6,8 +6,7 @@
 	export let description: string;
 
 	let gameModes = [
-		{ name: 'First', description: 'Be the first to reach the goal score' },
-		{ name: 'TEst', description: 'd' }
+		{ name: 'First', description: 'Be the first to reach a score of 100' },
 	];
 
 </script>

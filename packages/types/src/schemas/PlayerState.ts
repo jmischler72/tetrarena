@@ -63,6 +63,7 @@ export class PlayerState extends Schema {
 
   createGame(seed: number) {
     this.gameState.gameInstance = new Game(seed);
+    this.gameState.updateFromGameStateDTO();
   }
 
   handleAction(action: ActionsEnum) {

@@ -17,6 +17,8 @@
             connected: player.connected,
         });
 
+        $playersStore.get(key).gameState = toGameStateDTO(player.gameState);
+
         player.listen('connected', (connected) => {
             $playersStore.get(key).connected = connected;
         });

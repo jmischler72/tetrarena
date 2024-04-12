@@ -3,7 +3,7 @@ import { GameStateDTO } from '../types/GameStateDTO';
 
 export class Game extends GameState {
   getCurrentGameState(): GameStateDTO {
-    const gameState = {
+    return {
       board: this.board,
       currentTetrimino: this.currentTetrimino,
       shadowTetrimino: this.shadowTetrimino,
@@ -14,8 +14,6 @@ export class Game extends GameState {
       numberAddedLines: this.numberAddedLines,
       currentTetriminoFreezed: this.currentTetriminoFreezed,
     };
-    this.clearOnDispatch();
-    return gameState;
   }
 
   clearOnDispatch(): void {

@@ -26,10 +26,6 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
     this.stats.begin();
     TWEEN.update();
 
-    const gameStates: Map<string, Player> = get(playersStore);
-
-    if (gameStates.size > 2) console.error(Array.from(gameStates.keys()).toString());
-
     get(playersStore).forEach((value: Player, key: string) => {
       if (value.gameState === undefined) return;
       if (key === get(roomStore)?.sessionId) {

@@ -68,10 +68,7 @@ export default class BoardContainer extends PIXI.Container {
 
     this.nameText.text = name;
 
-    let offset = 10;
-
     if (gameState.deletedLines.length > 0) {
-      offset = 20;
       // this.hitAnimation();
       gameState.deletedLines.forEach((line) => {
         this.board.animateLineBreak(line);
@@ -80,7 +77,7 @@ export default class BoardContainer extends PIXI.Container {
 
     if (gameState.currentTetriminoFreezed) {
       // console.log('freeze');
-      this.posedAnimation(offset);
+      this.posedAnimation(10);
     }
 
     if (gameState.score != parseInt(this.scoreText.text)) {

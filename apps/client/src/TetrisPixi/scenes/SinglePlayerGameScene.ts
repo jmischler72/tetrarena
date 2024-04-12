@@ -24,6 +24,7 @@ export default class SinglePlayerGameScene extends GameScene implements IScene {
     } else {
       this.playerBoard.updatePlayerBoard(gameStateDTO, '');
     }
+    this.instance.game.clearOnDispatch();
     this.stats.end();
   }
 
