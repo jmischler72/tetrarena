@@ -43,12 +43,12 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
 
     this.playerBoard.position.set(
       screenWidth / 2 - this.playerBoard.width / 2 - this.oppBoard.width / 2 - GAMES_CONTAINER_GAP,
-      screenHeight / 2 - this.playerBoard.height / 2
+      screenHeight / 2 - this.playerBoard.height / 2,
     );
 
     this.oppBoard.position.set(
       screenWidth / 2 - this.oppBoard.width / 2 + this.playerBoard.width / 2 + GAMES_CONTAINER_GAP,
-      screenHeight / 2 - this.oppBoard.height / 2
+      screenHeight / 2 - this.oppBoard.height / 2,
     );
   }
 }

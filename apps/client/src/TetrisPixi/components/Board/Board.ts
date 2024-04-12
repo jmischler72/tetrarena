@@ -43,7 +43,7 @@ export default class Board extends PIXI.Container {
       const row: PIXI.Sprite[] = [];
       for (let j = 0; j < BOARD_WIDTH; ++j) {
         const spr = new PIXI.Sprite(
-          this.textures[0] // Empty block
+          this.textures[0], // Empty block
         );
         // spr.tint = 0xff0000;
         spr.width = spr.height = BLOCK_SIZE;

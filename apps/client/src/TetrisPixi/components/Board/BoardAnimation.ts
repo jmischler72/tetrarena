@@ -14,7 +14,7 @@ export function fallingSpriteTween(sprite: PIXI.Sprite) {
         pos_y: Math.random() * 4 + 4,
         alpha: 0,
       },
-      800
+      800,
     )
     .easing(TWEEN.Easing.Exponential.Out)
     .onUpdate(() => {

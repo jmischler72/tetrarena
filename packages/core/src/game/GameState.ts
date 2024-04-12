@@ -5,20 +5,13 @@ import { ColorEnum } from '../enums/color.enum';
 import { canPlaceTetrimino } from '../utils/constraints';
 
 import { ActionsEnum } from '../enums/actions.enum';
-import {
-  checkIfLineIsFull,
-  getNewTetrimino,
-  getShadowTetriminos,
-  getShapeFromTetrimino,
-} from '../utils/tetriminoHelper';
+import { checkIfLineIsFull, getNewTetrimino, getShadowTetriminos, getShapeFromTetrimino } from '../utils/tetriminoHelper';
 import { Actions } from './Actions';
 import { tetriminoPieces } from '../constants/tetriminos';
 import { MersenneTwister19937, Random } from 'random-js';
 
 export class GameState {
-  protected board: ColorEnum[][] = new Array(BOARD_HEIGHT)
-    .fill(ColorEnum.NONE)
-    .map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
+  protected board: ColorEnum[][] = new Array(BOARD_HEIGHT).fill(ColorEnum.NONE).map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
 
   protected currentTetrimino: Tetrimino;
   protected shadowTetrimino: Tetrimino;
@@ -44,8 +37,7 @@ export class GameState {
   protected drawShapeOnBoard(tetrimino: Tetrimino) {
     for (let j = 0; j < getShapeFromTetrimino(tetrimino).length; j++) {
       for (let k = 0; k < getShapeFromTetrimino(tetrimino)[j].length; k++) {
-        if (getShapeFromTetrimino(tetrimino)[j][k] === 1)
-          this.board[tetrimino.position_y + j][tetrimino.position_x + k] = tetrimino.color;
+        if (getShapeFromTetrimino(tetrimino)[j][k] === 1) this.board[tetrimino.position_y + j][tetrimino.position_x + k] = tetrimino.color;
       }
     }
     this.currentTetriminoFreezed = true;

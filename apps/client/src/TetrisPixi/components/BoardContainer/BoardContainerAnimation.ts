@@ -36,7 +36,7 @@ type placedTetriminosTweenType = { y: number };
 export function placedTetriminosTween(
   boardContainer: PIXI.Container,
   initialPosition: number,
-  offset: number
+  offset: number,
 ): TWEEN.Tween<placedTetriminosTweenType> {
   const position: placedTetriminosTweenType = {
     y: initialPosition,
@@ -79,7 +79,7 @@ export function currentPlayerBorderTween(rectangle: PIXI.Graphics): TWEEN.Tween<
         width_multiplier: 1,
         opacity: 0.25,
       },
-      2000
+      2000,
     )
     .easing(TWEEN.Easing.Exponential.Out)
     .onUpdate(() => {

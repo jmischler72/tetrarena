@@ -33,9 +33,6 @@ export default class SinglePlayerGameScene extends GameScene implements IScene {
 
     this.position.set(screenWidth / 2 - this.width / 2, screenHeight / 2 - this.height / 2);
 
-    this.playerBoard.position.set(
-      this.width / 2 - this.playerBoard.width / 2,
-      this.height / 2 - this.playerBoard.height / 2
-    );
+    this.playerBoard.position.set(this.width / 2 - this.playerBoard.width / 2, this.height / 2 - this.playerBoard.height / 2);
   }
 }

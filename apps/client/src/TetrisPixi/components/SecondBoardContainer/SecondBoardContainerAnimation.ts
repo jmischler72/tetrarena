@@ -36,7 +36,7 @@ type placedTetriminosTweenType = { y: number };
 export function placedTetriminosTween(
   boardContainer: PIXI.Container,
   initialPosition: number,
-  offset: number
+  offset: number,
 ): TWEEN.Tween<placedTetriminosTweenType> {
   const position: placedTetriminosTweenType = {
     y: initialPosition,
