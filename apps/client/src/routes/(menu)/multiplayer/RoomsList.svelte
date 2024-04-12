@@ -25,12 +25,10 @@
 
   function onJoin(lobby: Room) {
     lobby.onMessage('rooms', (rooms) => {
-      console.log(rooms);
       allRooms = [...rooms];
     });
 
     lobby.onMessage('+', ([roomId, room]) => {
-      console.log(roomId, room);
       const roomIndex = allRooms.findIndex((room) => room.roomId === roomId);
       if (roomIndex !== -1) {
         allRooms[roomIndex] = room;

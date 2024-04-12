@@ -4,6 +4,7 @@ import { goto } from '$app/navigation';
 import { get } from 'svelte/store';
 import type { RoomCreateOptions } from '$lib/data/RoomCreateOptions';
 import { MessageTypeEnum } from '@jmischler72/types';
+import { errorStore } from '$lib/stores/multiplayerStore';
 
 function resetRoom() {
   roomStore.set(null);
@@ -22,10 +23,13 @@ function handleRoom(room: Room) {
 
   room.onError((code, message) => {
     console.log('oops, error ocurred:', code, message);
+    errorStore.set(message || '');
     resetRoom();
   });
   room.onLeave(() => {
     console.log('client left the room');
+    errorStore.set('client left the room');
+
     if (!localStorage.getItem('reconnectionToken')) resetRoom();
   });
 }

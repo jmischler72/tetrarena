@@ -1,23 +1,19 @@
 <script lang="ts">
-	import { joinRoom } from '$lib/functions/services/RoomService';
-	import {roomStore} from '$lib/stores/multiplayerStore'
-	import MultiplayerTetris from './MultiplayerTetris.svelte'
-	import WaitingRoom from './WaitingRoom.svelte'
-	import {onMount} from 'svelte'
-	import MenuWithNavbar from '$lib/components/menu/MenuWithNavbar.svelte'
+    import {joinRoom} from '$lib/functions/services/RoomService';
+    import {roomStore} from '$lib/stores/multiplayerStore'
+    import MultiplayerTetris from './MultiplayerTetris.svelte'
+    import WaitingRoom from './WaitingRoom.svelte'
+    import MenuWithNavbar from '$lib/components/menu/MenuWithNavbar.svelte'
+    import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
 
-	export let data
+    export let data
 
-	let isPlaying: boolean = false
+    let isPlaying: boolean = false
 
-	//the dollar sign is important to make the listener reactive
-	$:$roomStore?.state.listen('isPlaying', (currentValue: boolean) => {
-		isPlaying = currentValue
-	})
-
-	onMount(() => {
-		joinRoom(data.slug)
-	})
+    //the dollar sign is important to make the listener reactive
+    $:$roomStore?.state.listen('isPlaying', (currentValue: boolean) => {
+        isPlaying = currentValue
+    })
 </script>
 
 <svelte:window on:beforeunload={() => {
@@ -25,12 +21,24 @@
 
 }}></svelte:window>
 
-{#if $roomStore}
-	{#if isPlaying}
-		<MultiplayerTetris></MultiplayerTetris>
-	{:else}
-		<MenuWithNavbar>
-			<WaitingRoom />
-		</MenuWithNavbar>
-	{/if}
-{/if}
+{#await joinRoom(data.slug)}
+    <div class="w-full h-full flex justify-center items-center">
+        <LoadingSpinner/>
+    </div>
+{:then data}
+    {#if $roomStore}
+        {#if isPlaying}
+            <MultiplayerTetris></MultiplayerTetris>
+        {:else}
+            <MenuWithNavbar>
+                <WaitingRoom/>
+            </MenuWithNavbar>
+        {/if}
+    {/if}
+
+{:catch error}
+    <div class="w-full h-full flex justify-center items-center text-2xl">
+        <h1>Connection Error... <a class="p-1 rounded bg-white text-black no-underline" href="/"
+                                   on:click={()=>location.reload()}>Try Again</a></h1>
+    </div>
+{/await}
