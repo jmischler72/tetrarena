@@ -3,6 +3,7 @@ import { PlayerState, RoomState } from '@jmischler72/types';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
 import { Delayed } from 'colyseus';
 import { MessageTypeEnum } from '@jmischler72/types';
+import { checkIfAllPlayersAreReady } from './utils';
 
 const TIMEOUT = 50000;
 export class MyRoom extends Room<RoomState> {
@@ -27,8 +28,7 @@ export class MyRoom extends Room<RoomState> {
     this.handleMessages();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onJoin(client: Client, options: any) {
+  onJoin(client: Client) {
     logger.info('client: ' + client.sessionId + ' joined room: ' + this.roomId);
 
     const newPlayer = new PlayerState();
@@ -49,14 +49,11 @@ export class MyRoom extends Room<RoomState> {
     }
 
     try {
-      // allow disconnected client to reconnect into this room until 20 seconds
       await this.allowReconnection(client, 20);
 
-      // client returned! let's re-activate it.
       logger.info('client: ' + client.sessionId + ' rejoined room: ' + this.roomId);
       this.state.players.get(client.sessionId).connected = true;
     } catch (e) {
-      // 20 seconds expired. let's remove the client.
       this.state.players.delete(client.sessionId);
       this.stopGame();
       logger.info('client: ' + client.sessionId + ' left room: ' + this.roomId);
@@ -80,16 +77,11 @@ export class MyRoom extends Room<RoomState> {
       client.send(MessageTypeEnum.PONG, { time: Date.now() });
     });
 
-    // this.onMessage(MessageTypeEnum.GAME_RESTART, (client) => {
-    //   logger.debug('received game restart request from client: ' + client.sessionId);
-    //   this.startGame();
-    // });
-
     this.onMessage(MessageTypeEnum.PLAYER_ACTION, (client, data: ActionsEnum) => {
       if (this.state.isPlaying) {
         logger.debug('handle action: ' + data + ' for client: ' + client.sessionId);
         const player = this.state.players.get(client.sessionId);
-        player.handleAction(data);
+        if (player) player.handleAction(data);
       }
     });
   }
@@ -97,22 +89,12 @@ export class MyRoom extends Room<RoomState> {
   private initializeTimeout() {
     if (this.timeout) this.timeout.clear();
     this.timeout = this.clock.setTimeout(() => {
-      if (this.clients.length < this.maxClients && !this.state.isPlaying) {
+      if (this.clients.length < this.maxClients) {
         logger.info('timeout room: ' + this.roomId);
+        this.broadcast(MessageTypeEnum.TIMEOUT);
         void this.disconnect();
       }
     }, TIMEOUT);
-  }
-
-  private checkIfAllPlayersAreReady() {
-    let allPlayersReady = true;
-    this.state.players.forEach((player) => {
-      if (player.ready === false) {
-        allPlayersReady = false;
-        return;
-      }
-    });
-    return allPlayersReady;
   }
 
   private startGame() {
@@ -121,7 +103,7 @@ export class MyRoom extends Room<RoomState> {
       logger.debug('cant start game in room ' + this.roomId + ': not enough players');
       return;
     }
-    if (!this.checkIfAllPlayersAreReady()) {
+    if (!checkIfAllPlayersAreReady(this.state)) {
       logger.debug('cant start game in room ' + this.roomId + ': not all players are ready');
       return;
     }
@@ -139,7 +121,7 @@ export class MyRoom extends Room<RoomState> {
     this.gameTimer = this.clock.setInterval(() => {
       this.state.players.forEach((player) => {
         player.handleAction(ActionsEnum.GO_DOWN);
-        if (player.gameState.isGameOver) this.stopGame();
+        if (player.gameState.isGameOver || player.gameState.score >= 100) this.stopGame();
       });
     }, GAME_SPEED);
   }
@@ -153,5 +135,6 @@ export class MyRoom extends Room<RoomState> {
     this.state.players.forEach((player, key) => {
       if (!player.gameState.isGameOver) this.state.winner = key;
     });
+    logger.info('winner in room: ' + this.state.winner);
   }
 }
