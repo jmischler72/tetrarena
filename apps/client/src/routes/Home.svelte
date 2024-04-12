@@ -28,7 +28,7 @@
 			>settings</span>
 	</button>
 	<button
-		class="group absolute bottom-0 left-[103%] flex justify-center rounded-xl bg-black bg-opacity-60 p-4 text-white transition-shadow hover:shadow-lg hover:shadow-gray-900"
+		class="group absolute bottom-2 right-[103%] opacity-90 flex justify-center rounded-xl bg-black bg-opacity-60 p-4 text-white transition-shadow hover:shadow-lg hover:shadow-gray-900"
 		on:click={() => goto('/info')}>
 		<span
 			class="material-symbols-outlined material-icons !text-5xl group-hover:text-gray-400"
