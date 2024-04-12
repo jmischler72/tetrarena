@@ -3,18 +3,10 @@
     ".": {
       "changelog-path": "docs/CHANGELOG.md"
     },
-    "apps/client": {
-      "skip-github-release": true
-    },
-    "apps/server": {
-      "skip-github-release": true
-    },
-    "packages/core": {
-      "skip-github-release": true
-    },
-    "packages/types": {
-      "skip-github-release": true
-    }
+    "apps/client": {},
+    "apps/server": {},
+    "packages/core": {},
+    "packages/types": {}
   },
   "plugins": ["node-workspace"],
   "release-type": "node"
