@@ -77,9 +77,15 @@ importers:
       colyseus.js:
         specifier: ^0.15.16
         version: 0.15.18
+      marked:
+        specifier: ^12.0.1
+        version: 12.0.1
       pixi.js:
         specifier: ^7.2.4
         version: 7.4.2
+      zero-md:
+        specifier: ^2.5.4
+        version: 2.5.4
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^3.0.0
@@ -9615,6 +9621,12 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /marked@12.0.1:
+    resolution: {integrity: sha512-Y1/V2yafOcOdWQCX0XpAKXzDakPOpn6U0YLxTJs3cww6VxOzZV1BTOOYWLvH3gX38cq+iLwljHHTnMtlDfg01Q==}
+    engines: {node: '>= 18'}
+    hasBin: true
+    dev: false
+
   /mdn-data@2.0.28:
     resolution: {integrity: sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g==}
     dev: true
@@ -14157,6 +14169,11 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zero-md@2.5.4:
+    resolution: {integrity: sha512-FbfH1k2kX3W0l/Wck4PuVJXmdS68JpbW3Iq5JthJctyga4PdVRmgPYt2AuBzmtekihFre+PhX+Hav2H1N41aWA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
 
   /zhead@2.0.10:
     resolution: {integrity: sha512-irug8fXNKjqazkA27cFQs7C6/ZD3qNiEzLC56kDyzQART/Z9GMGfg8h2i6fb9c8ZWnIx/QgOgFJxK3A/CYHG0g==}
