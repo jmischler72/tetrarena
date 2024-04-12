@@ -63,10 +63,10 @@ importers:
   apps/client:
     dependencies:
       '@jmischler72/core':
-        specifier: 1.1.0
+        specifier: 1.2.0
         version: link:../../packages/core
       '@jmischler72/types':
-        specifier: 1.1.0
+        specifier: 1.2.0
         version: link:../../packages/types
       '@sveltejs/adapter-netlify':
         specifier: ^4.1.0
@@ -83,9 +83,6 @@ importers:
       pixi.js:
         specifier: ^7.2.4
         version: 7.4.2
-      zero-md:
-        specifier: ^2.5.4
-        version: 2.5.4
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^3.0.0
@@ -368,10 +365,10 @@ importers:
         specifier: ^0.15.0
         version: 0.15.17(@colyseus/schema@2.0.11)
       '@jmischler72/core':
-        specifier: 1.1.0
+        specifier: 1.2.0
         version: link:../../packages/core
       '@jmischler72/types':
-        specifier: 1.1.0
+        specifier: 1.2.0
         version: link:../../packages/types
       colyseus:
         specifier: ^0.15.0
@@ -457,7 +454,7 @@ importers:
         specifier: ^2.0.10
         version: 2.0.11
       '@jmischler72/core':
-        specifier: 1.1.0
+        specifier: 1.2.0
         version: link:../core
 
   packages/utils:
@@ -14169,11 +14166,6 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-  /zero-md@2.5.4:
-    resolution: {integrity: sha512-FbfH1k2kX3W0l/Wck4PuVJXmdS68JpbW3Iq5JthJctyga4PdVRmgPYt2AuBzmtekihFre+PhX+Hav2H1N41aWA==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dev: false
 
   /zhead@2.0.10:
     resolution: {integrity: sha512-irug8fXNKjqazkA27cFQs7C6/ZD3qNiEzLC56kDyzQART/Z9GMGfg8h2i6fb9c8ZWnIx/QgOgFJxK3A/CYHG0g==}
