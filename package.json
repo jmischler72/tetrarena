@@ -8,6 +8,7 @@
     "format": "prettier --config .prettierrc \".\" --write",
     "client": "pnpm --filter @jmischler72/client",
     "server": "pnpm --filter @jmischler72/server",
+    "api": "pnpm --filter @jmischler72/api",
     "prepare": "husky install",
     "cz": "cz"
   },
