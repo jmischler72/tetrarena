@@ -16,6 +16,8 @@ export class MyRoom extends Room<RoomState> {
     logger.debug(options);
     this.clock.start();
 
+    this.setPatchRate(16.6);
+
     this.setState(new RoomState());
 
     void this.setMetadata({
@@ -65,7 +67,11 @@ export class MyRoom extends Room<RoomState> {
   }
 
   onBeforePatch() {
-    this.state.players.forEach((player) => {
+    this.state.players.forEach((player, key) => {
+      if (player.gameState.gameInstance.getCurrentGameState().currentTetriminoFreezed) {
+        console.log('1', key, player.gameState.currentTetriminoFreezed);
+        console.log('2', key, player.gameState.gameInstance.getCurrentGameState().currentTetriminoFreezed);
+      }
       player.gameState.gameInstance.clearOnDispatch();
     });
   }

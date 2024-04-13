@@ -27,12 +27,8 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
     TWEEN.update();
 
     get(playersStore).forEach((value: Player, key: string) => {
-      if (value.gameState === undefined) return;
-      if (key === get(roomStore)?.sessionId) {
-        this.playerBoard.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
-      } else {
-        this.oppBoard.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
-      }
+      const boardToUpdate = key === get(roomStore)?.sessionId ? this.playerBoard : this.oppBoard;
+      if (value.gameState !== undefined) boardToUpdate.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
     });
 
     this.stats.end();

@@ -373,6 +373,9 @@ importers:
       colyseus:
         specifier: ^0.15.0
         version: 0.15.5(@colyseus/schema@2.0.11)
+      colyseus.js:
+        specifier: ^0.15.16
+        version: 0.15.18
       cors:
         specifier: ^2.8.5
         version: 2.8.5
