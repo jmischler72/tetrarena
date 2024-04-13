@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.5.0](https://github.com/jmischler72/tetrarena/compare/client-v1.4.0...client-v1.5.0) (2024-04-13)
+
+
+### Features
+
+* **client:** add error/loading handling in room list + waiting room ([12a0499](https://github.com/jmischler72/tetrarena/commit/12a0499b1ce5d1eb06fd2751e1ab7523aa34e9ae))
+* **client:** responsive navbar ([c873408](https://github.com/jmischler72/tetrarena/commit/c873408b96002fe5580436fbe362f831150d893d))
+
+
+### Bug Fixes
+
+* **client:** clear on dispatch call only when rendered -&gt; tbc ([cd6a342](https://github.com/jmischler72/tetrarena/commit/cd6a342960c1e4ebd650592ef9913eaf901ff029))
+* **server:** higher patch rate to fix animations problems ([4fa1df1](https://github.com/jmischler72/tetrarena/commit/4fa1df162eda65444528218bdbb615f34ee12398))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @jmischler72/core bumped from 1.2.0 to 1.2.1
+    * @jmischler72/types bumped from 1.2.0 to 1.2.1
+
 ## [1.4.0](https://github.com/jmischler72/tetrarena/compare/client-v1.3.0...client-v1.4.0) (2024-04-12)
 
 ### Features

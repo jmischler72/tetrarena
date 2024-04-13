@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.2.1](https://github.com/jmischler72/tetrarena/compare/types-v1.2.0...types-v1.2.1) (2024-04-13)
+
+
+### Bug Fixes
+
+* **client:** clear on dispatch call only when rendered -&gt; tbc ([cd6a342](https://github.com/jmischler72/tetrarena/commit/cd6a342960c1e4ebd650592ef9913eaf901ff029))
+* **server:** clean code ([66723c1](https://github.com/jmischler72/tetrarena/commit/66723c1933a13dea941d7a73fb5927c6f0f1dea4))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @jmischler72/core bumped from 1.2.0 to 1.2.1
+
 ## [1.2.0](https://github.com/jmischler72/tetrarena/compare/types-v1.1.0...types-v1.2.0) (2024-04-12)
 
 ### Features
