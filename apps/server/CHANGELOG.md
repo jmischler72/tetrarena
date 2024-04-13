@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.3.1](https://github.com/jmischler72/tetrarena/compare/server-v1.3.0...server-v1.3.1) (2024-04-13)
+
+
+### Bug Fixes
+
+* **client:** clear on dispatch call only when rendered -&gt; tbc ([cd6a342](https://github.com/jmischler72/tetrarena/commit/cd6a342960c1e4ebd650592ef9913eaf901ff029))
+* **server:** add missing deps ([f3e92fe](https://github.com/jmischler72/tetrarena/commit/f3e92fe41f02f6e66778fb03756281d5ac49ef4a))
+* **server:** clean code ([66723c1](https://github.com/jmischler72/tetrarena/commit/66723c1933a13dea941d7a73fb5927c6f0f1dea4))
+* **server:** higher patch rate to fix animations problems ([4fa1df1](https://github.com/jmischler72/tetrarena/commit/4fa1df162eda65444528218bdbb615f34ee12398))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @jmischler72/core bumped from 1.2.0 to 1.2.1
+    * @jmischler72/types bumped from 1.2.0 to 1.2.1
+
 ## [1.3.0](https://github.com/jmischler72/tetrarena/compare/server-v1.2.0...server-v1.3.0) (2024-04-12)
 
 ### Features

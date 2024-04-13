@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/jmischler72/tetrarena/compare/core-v1.2.0...core-v1.2.1) (2024-04-13)
+
+
+### Bug Fixes
+
+* **client:** clear on dispatch call only when rendered -&gt; tbc ([cd6a342](https://github.com/jmischler72/tetrarena/commit/cd6a342960c1e4ebd650592ef9913eaf901ff029))
+
 ## [1.2.0](https://github.com/jmischler72/tetrarena/compare/core-v1.1.0...core-v1.2.0) (2024-04-12)
 
 ### Features
