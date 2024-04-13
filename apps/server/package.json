@@ -27,6 +27,7 @@
     "@colyseus/playground": "^0.15.3",
     "@colyseus/core": "^0.15.6",
     "@colyseus/tools": "^0.15.0",
+    "colyseus.js": "^0.15.16",
     "@jmischler72/core": "1.2.0",
     "@jmischler72/types": "1.2.0",
     "colyseus": "^0.15.0",
