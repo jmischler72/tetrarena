@@ -10,5 +10,4 @@ export type GameStateDTO = {
   isGameOver: boolean;
   deletedLines: number[];
   numberAddedLines: number;
-  currentTetriminoFreezed: boolean;
 };

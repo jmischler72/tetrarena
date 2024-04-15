@@ -16,6 +16,7 @@ function blocksToMatrix(blocks: Block[]): ColorEnum[][] {
 
 function toTetriminoDTO(tetrimino: Tetrimino): TetriminoDTO {
   return {
+    id: tetrimino.id,
     position_x: tetrimino.x,
     position_y: tetrimino.y,
     rotation: tetrimino.rotation,
@@ -33,6 +34,5 @@ export function toGameStateDTO(player: GameState): GameStateDTO {
     isGameOver: player.isGameOver,
     deletedLines: player.deletedLines,
     numberAddedLines: player.numberAddedLines,
-    currentTetriminoFreezed: player.currentTetriminoFreezed,
   };
 }

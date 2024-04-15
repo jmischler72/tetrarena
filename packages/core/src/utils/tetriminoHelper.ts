@@ -3,6 +3,7 @@ import { BOARD_WIDTH } from '../constants/board';
 import { ColorEnum } from '../enums/color.enum';
 import { canMoveDown } from './constraints';
 import { getTetriminoPieceFromColor } from '../constants/tetriminos';
+import { uid } from 'uid';
 
 export function getShapeFromTetrimino(tetrimino: Tetrimino): number[][] {
   const piece = getTetriminoPieceFromColor(tetrimino.color);
@@ -23,6 +24,7 @@ export function checkIfLineIsFull(row: ColorEnum[]) {
 
 export function getNewTetrimino(shape: ColorEnum): Tetrimino {
   return {
+    id: uid(),
     position_x: BOARD_WIDTH / 2 - 1,
     position_y: 0,
     rotation: 0,

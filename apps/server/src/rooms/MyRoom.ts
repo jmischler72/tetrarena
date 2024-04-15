@@ -66,16 +66,6 @@ export class MyRoom extends Room<RoomState> {
     logger.info('disposing room: ' + this.roomId);
   }
 
-  onBeforePatch() {
-    this.state.players.forEach((player, key) => {
-      if (player.gameState.gameInstance.getCurrentGameState().currentTetriminoFreezed) {
-        console.log('1', key, player.gameState.currentTetriminoFreezed);
-        console.log('2', key, player.gameState.gameInstance.getCurrentGameState().currentTetriminoFreezed);
-      }
-      player.gameState.gameInstance.clearOnDispatch();
-    });
-  }
-
   private handleMessages() {
     this.onMessage(MessageTypeEnum.READY, (client) => {
       logger.debug('client ready: ' + client.sessionId);

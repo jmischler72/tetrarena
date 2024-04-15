@@ -21,7 +21,6 @@ export class GameState {
   public isGameOver = false;
   protected deletedLines: number[] = [];
   protected numberAddedLines = 0;
-  protected currentTetriminoFreezed = false;
 
   private random: Random;
 
@@ -40,7 +39,6 @@ export class GameState {
         if (getShapeFromTetrimino(tetrimino)[j][k] === 1) this.board[tetrimino.position_y + j][tetrimino.position_x + k] = tetrimino.color;
       }
     }
-    this.currentTetriminoFreezed = true;
   }
 
   protected checkBreakLine() {

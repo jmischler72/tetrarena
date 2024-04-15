@@ -12,13 +12,11 @@ export class Game extends GameState {
       isGameOver: this.isGameOver,
       deletedLines: this.deletedLines,
       numberAddedLines: this.numberAddedLines,
-      currentTetriminoFreezed: this.currentTetriminoFreezed,
     };
   }
 
   clearOnDispatch(): void {
     this.deletedLines = [];
     this.numberAddedLines = 0;
-    this.currentTetriminoFreezed = false;
   }
 }

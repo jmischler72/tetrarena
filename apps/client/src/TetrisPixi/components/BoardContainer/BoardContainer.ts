@@ -9,7 +9,7 @@ export default class BoardContainer extends PIXI.Container {
   private readonly scoreText: PIXI.Text;
   private readonly nameText: PIXI.Text;
   private readonly nextTetriminosContainer: NextTetriminosContainer;
-  private currentGameState = '';
+  private currentGameState: GameStateDTO | null = null;
   private initialPosition: number | null = null;
 
   constructor() {
@@ -62,7 +62,7 @@ export default class BoardContainer extends PIXI.Container {
   }
 
   updatePlayerBoard(gameState: GameStateDTO, name: string) {
-    if (this.currentGameState != null && JSON.stringify(gameState) === this.currentGameState) {
+    if (this.currentGameState != null && JSON.stringify(gameState) === JSON.stringify(this.currentGameState)) {
       return;
     }
 
@@ -75,7 +75,7 @@ export default class BoardContainer extends PIXI.Container {
       });
     }
 
-    if (gameState.currentTetriminoFreezed) {
+    if (gameState.currentTetrimino.id !== this.currentGameState?.currentTetrimino.id) {
       // console.log('freeze');
       this.posedAnimation(10);
     }
@@ -92,7 +92,7 @@ export default class BoardContainer extends PIXI.Container {
     this.board.updateTetrimino(gameState.currentTetrimino, gameState.currentTetrimino.color);
 
     this.nextTetriminosContainer.renderTetriminoContainers(gameState.nextTetriminos);
-    this.currentGameState = JSON.stringify(gameState);
+    this.currentGameState = gameState;
   }
 
   private posedAnimation(offset: number) {

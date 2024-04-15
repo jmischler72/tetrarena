@@ -22,7 +22,8 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "random-js": "^2.1.0"
+    "random-js": "^2.1.0",
+    "uid": "^2.0.2"
   },
   "files": [
     "./dist/",
