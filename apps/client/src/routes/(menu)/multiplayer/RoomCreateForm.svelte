@@ -26,7 +26,7 @@
 <div class='flex h-full w-full  justify-center items-center relative'>
   {#if roomIconPickerOpen}
     <div
-      class='h-full w-[12%] bg-gray-600/50 rounded-lg flex justify-center overflow-y-scroll absolute left-10 py-4'
+      class='h-[80%] w-[12%] bg-gray-600/50 rounded-lg flex justify-center overflow-y-scroll absolute left-10 py-4'
       use:clickOutside
       on:clickOutside={() => (roomIconPickerOpen = false)}>
 
@@ -39,8 +39,7 @@
 
   {#if gameModePickerOpen}
     <div
-      class='h-full w-[12%] bg-gray-600/50 rounded-lg flex justify-center overflow-y-scroll absolute right-10 py-4'
-      class:h-[80%]={description !== ''}
+      class='h-[80%] w-[12%] bg-gray-600/50 rounded-lg flex justify-center overflow-y-scroll absolute right-10 py-4'
       use:clickOutside
       on:clickOutside={() => (gameModePickerOpen = false)}>
 
@@ -54,7 +53,7 @@
 
   {#if description !== ''}
     <div
-      class='h-[15%] w-[70%] bg-gray-600/50 rounded-lg mx-6 flex justify-center items-center absolute bottom-5 translate-x-[-7%]'
+      class='h-[15%] w-[70%] bg-gray-600/50 rounded-lg mx-6 flex justify-center items-center absolute bottom-10 translate-x-[-7%]'
     >
       <h1>{description}</h1>
     </div>

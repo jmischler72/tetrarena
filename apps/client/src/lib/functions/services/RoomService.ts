@@ -4,12 +4,12 @@ import { goto } from '$app/navigation';
 import { get } from 'svelte/store';
 import type { RoomCreateOptions } from '$lib/data/RoomCreateOptions';
 import { MessageTypeEnum } from '@jmischler72/types';
-import { errorStore } from '$lib/stores/multiplayerStore';
+import { snackbarStore } from '$lib/stores/snackbarStore';
 
-function resetRoom() {
+export function resetRoom(goToMultiplayer = true) {
   roomStore.set(null);
   get(playersStore).clear();
-  void goto('/multiplayer/');
+  if (goToMultiplayer) void goto('/multiplayer/');
   localStorage.removeItem('reconnectionToken');
 }
 
@@ -23,12 +23,11 @@ function handleRoom(room: Room) {
 
   room.onError((code, message) => {
     console.log('oops, error ocurred:', code, message);
-    errorStore.set(message || '');
+    snackbarStore.set('Oops, error ocurred!');
     resetRoom();
   });
   room.onLeave(() => {
-    console.log('client left the room');
-    errorStore.set('client left the room');
+    snackbarStore.set('Client left the room!');
 
     if (!localStorage.getItem('reconnectionToken')) resetRoom();
   });

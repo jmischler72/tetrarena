@@ -4,8 +4,6 @@
     import MultiplayerTetris from './MultiplayerTetris.svelte'
     import WaitingRoom from './WaitingRoom.svelte'
     import AsyncMenu from "$lib/components/menu/AsyncMenu.svelte";
-    import {goto} from "$app/navigation";
-    import {browser} from "$app/environment";
 
     export let data
 
@@ -16,12 +14,10 @@
         isPlaying = currentValue
     })
 
-    $:if (!$roomStore && browser) goto('/multiplayer');
 </script>
 
 <svelte:window on:beforeunload={() => {
 		if($roomStore)localStorage.setItem('reconnectionToken', $roomStore.reconnectionToken)
-
 }}></svelte:window>
 
 <AsyncMenu callback="{()=> joinRoom(data.slug)}">

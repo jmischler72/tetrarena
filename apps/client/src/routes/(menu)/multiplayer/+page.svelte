@@ -2,18 +2,23 @@
   import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
   import MenuButtonHeader from '$lib/components/menu/subcomponents/MenuButtonHeader.svelte';
   import RoomsList from './RoomsList.svelte';
-  import { errorStore, roomStore } from '$lib/stores/multiplayerStore';
+  import { roomStore } from '$lib/stores/multiplayerStore';
   import { goto } from '$app/navigation';
   import { browser } from '$app/environment';
   import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
   import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
   import MenuRoomCreate from './MenuRoomCreate.svelte';
+  import { onMount } from 'svelte';
+  import { leaveRoom } from '$lib/functions/services/RoomService';
 
   let currentMenu = 'list';
 
   $: if ($roomStore && browser) goto('/multiplayer/' + $roomStore?.roomId);
 
-  $: if ($errorStore) setTimeout(() => ($errorStore = ''), 3000);
+
+  onMount(() => {
+    leaveRoom();
+  });
 </script>
 
 
@@ -38,32 +43,4 @@
       <RoomsList></RoomsList>
     </MenuContainer>
   {/if}
-
-  {#if $errorStore}
-    <div
-      class='w-[40%] flex justify-center absolute bottom-10 animation-up border-2 border-solid border-gray-800 bg-gray-700 py-12'>
-      <h1 class='text-gray-300'>{$errorStore}</h1>
-    </div>
-  {/if}
 </AsyncMenu>
-
-<style lang='scss'>
-  $animation-duration: 0.45s;
-
-  .animation-up {
-    animation: $animation-duration ease-out translate_up forwards, $animation-duration ease-out opacityin forwards;
-  }
-
-  @keyframes translate_up {
-    from {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-
-    }
-  }
-</style>
-
