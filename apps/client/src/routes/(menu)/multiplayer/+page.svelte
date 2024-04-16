@@ -38,11 +38,9 @@
                           selected="{currentMenu === 'create'}"
         ></MenuButtonHeader>
     </MenuHeader>
-    <MenuContainer center="{currentMenu === 'create'}">
-
+    <MenuContainer>
         {#if currentMenu === 'create' }
             <RoomCreateForm bind:roomCreateOptions></RoomCreateForm>
-
         {:else }
             <RoomsList></RoomsList>
         {/if}

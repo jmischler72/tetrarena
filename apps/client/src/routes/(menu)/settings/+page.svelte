@@ -26,7 +26,7 @@
                       selected="{currentMenu === 'controls'}"
     ></MenuButtonHeader>
 </MenuHeader>
-<MenuContainer>
+<MenuContainer hasFooter="{true}">
     <ControlsEditor bind:tempKeybind={tempKeybind}></ControlsEditor>
 </MenuContainer>
 

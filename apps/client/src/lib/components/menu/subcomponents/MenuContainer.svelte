@@ -1,8 +1,8 @@
 <script>
-    export let center = false;
+    export let hasFooter = false;
 </script>
 
-<div class="max-h-[72%] h-auto flex items-start"
-     class:mt-auto={center}>
+<div class="h-full flex items-start"
+     class:max-h-[72%]={hasFooter}>
     <slot/>
 </div>

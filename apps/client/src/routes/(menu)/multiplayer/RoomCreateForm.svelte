@@ -24,7 +24,7 @@
 	$: roomCreateOptions.icon = randomString + selectedIcon;
 </script>
 
-<div class='flex h-[80%] w-full  justify-center items-center relative'>
+<div class='flex h-full w-full  justify-center items-center relative'>
 	{#if roomIconPickerOpen}
 		<div
 			class='h-full w-[12%] bg-gray-600/50 rounded-lg flex justify-center overflow-y-scroll absolute left-10 py-4'
