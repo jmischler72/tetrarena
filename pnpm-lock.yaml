@@ -63,10 +63,10 @@ importers:
   apps/client:
     dependencies:
       '@jmischler72/core':
-        specifier: 1.2.1
+        specifier: 1.2.2
         version: link:../../packages/core
       '@jmischler72/types':
-        specifier: 1.2.1
+        specifier: 1.2.2
         version: link:../../packages/types
       '@sveltejs/adapter-netlify':
         specifier: ^4.1.0
@@ -365,10 +365,10 @@ importers:
         specifier: ^0.15.0
         version: 0.15.17(@colyseus/schema@2.0.11)
       '@jmischler72/core':
-        specifier: 1.2.1
+        specifier: 1.2.2
         version: link:../../packages/core
       '@jmischler72/types':
-        specifier: 1.2.1
+        specifier: 1.2.2
         version: link:../../packages/types
       colyseus:
         specifier: ^0.15.0
@@ -460,7 +460,7 @@ importers:
         specifier: ^2.0.10
         version: 2.0.11
       '@jmischler72/core':
-        specifier: 1.2.1
+        specifier: 1.2.2
         version: link:../core
 
   packages/utils:
@@ -501,6 +501,7 @@ packages:
   /@babel/code-frame@7.22.5:
     resolution: {integrity: sha512-Xmwn266vad+6DAqEB2A6V/CcZVp62BbwVmcOJc2RPuwih1kw02TjQvWVWlcKGbBPd+8/0V5DEkOcizRGYsspYQ==}
     engines: {node: '>=6.9.0'}
+    requiresBuild: true
     dependencies:
       '@babel/highlight': 7.22.5
 
