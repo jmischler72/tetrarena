@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.1](https://github.com/jmischler72/tetrarena/compare/tetrarena-v1.4.0...tetrarena-v1.4.1) (2024-04-16)
+
+
+### Bug Fixes
+
+* **client:** add border to rooms list ([63e285b](https://github.com/jmischler72/tetrarena/commit/63e285ba787f3018a7e22511ab3fde157325163b))
+* **client:** navbar path ([b078a3e](https://github.com/jmischler72/tetrarena/commit/b078a3eaf86b39bedbd6e16ca3196b263f962a8a))
+* **core:** fix animation on tetrimino freezed ([619da57](https://github.com/jmischler72/tetrarena/commit/619da57e3373e05661db05e874f452739203b3b4))
+
 ## [1.4.0](https://github.com/jmischler72/tetrarena/compare/tetrarena-v1.3.0...tetrarena-v1.4.0) (2024-04-13)
 
 

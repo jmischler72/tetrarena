@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/jmischler72/tetrarena/compare/core-v1.2.1...core-v1.2.2) (2024-04-16)
+
+
+### Bug Fixes
+
+* **core:** fix animation on tetrimino freezed ([619da57](https://github.com/jmischler72/tetrarena/commit/619da57e3373e05661db05e874f452739203b3b4))
+
 ## [1.2.1](https://github.com/jmischler72/tetrarena/compare/core-v1.2.0...core-v1.2.1) (2024-04-13)
 
 

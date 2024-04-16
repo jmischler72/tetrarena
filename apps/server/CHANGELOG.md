@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.2](https://github.com/jmischler72/tetrarena/compare/server-v1.3.1...server-v1.3.2) (2024-04-16)
+
+
+### Bug Fixes
+
+* **core:** fix animation on tetrimino freezed ([619da57](https://github.com/jmischler72/tetrarena/commit/619da57e3373e05661db05e874f452739203b3b4))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @jmischler72/core bumped from 1.2.1 to 1.2.2
+    * @jmischler72/types bumped from 1.2.1 to 1.2.2
+
 ## [1.3.1](https://github.com/jmischler72/tetrarena/compare/server-v1.3.0...server-v1.3.1) (2024-04-13)
 
 
