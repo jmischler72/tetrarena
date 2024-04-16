@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.5.1](https://github.com/jmischler72/tetrarena/compare/client-v1.5.0...client-v1.5.1) (2024-04-16)
+
+
+### Bug Fixes
+
+* **client:** add border to rooms list ([63e285b](https://github.com/jmischler72/tetrarena/commit/63e285ba787f3018a7e22511ab3fde157325163b))
+* **client:** navbar path ([b078a3e](https://github.com/jmischler72/tetrarena/commit/b078a3eaf86b39bedbd6e16ca3196b263f962a8a))
+* **core:** fix animation on tetrimino freezed ([619da57](https://github.com/jmischler72/tetrarena/commit/619da57e3373e05661db05e874f452739203b3b4))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @jmischler72/core bumped from 1.2.1 to 1.2.2
+    * @jmischler72/types bumped from 1.2.1 to 1.2.2
+
 ## [1.5.0](https://github.com/jmischler72/tetrarena/compare/client-v1.4.0...client-v1.5.0) (2024-04-13)
 
 
