@@ -1,7 +1,7 @@
 <script lang='ts'>
   import { onMount } from 'svelte';
-  import { Manager } from '../../../TetrisPixi/Manager';
-  import MultiPlayerGameScene from '../../../TetrisPixi/scenes/MultiPlayerGameScene';
+  import { Manager } from '../../../../TetrisPixi/Manager';
+  import MultiPlayerGameScene from '../../../../TetrisPixi/scenes/MultiPlayerGameScene';
   import { playersStore, roomStore } from '$lib/stores/multiplayerStore';
   import { MessageTypeEnum, toGameStateDTO } from '@jmischler72/types';
   import { onKeyDown } from '$lib/functions/helpers/InputHelper';
@@ -55,7 +55,7 @@
 </script>
 
 
-<canvas id='pixi-canvas'></canvas>
+<canvas id='pixi-canvas' class="fixed left-0 top-0 w-full h-full"></canvas>
 <style>
     :root {
         overflow: hidden;

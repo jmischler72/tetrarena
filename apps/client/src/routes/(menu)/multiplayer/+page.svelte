@@ -3,7 +3,7 @@
     import RoomCreateForm from "./RoomCreateForm.svelte";
     import MenuButtonHeader from "$lib/components/menu/MenuButtonHeader.svelte";
     import RoomsList from "./RoomsList.svelte";
-    import {roomStore, errorStore} from "$lib/stores/multiplayerStore";
+    import {errorStore, roomStore} from "$lib/stores/multiplayerStore";
     import {goto} from "$app/navigation";
     import {browser} from "$app/environment";
     import MenuHeader from "$lib/components/menu/MenuHeader.svelte";
@@ -11,28 +11,21 @@
     import MenuFooter from "$lib/components/menu/MenuFooter.svelte";
     import Button from "$lib/components/Button.svelte";
     import type {RoomCreateOptions} from '$lib/data/RoomCreateOptions';
-    import {onMount} from "svelte";
-    import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
+    import AsyncMenu from "$lib/components/menu/AsyncMenu.svelte";
 
     let currentMenu = "list";
 
     let roomCreateOptions: RoomCreateOptions;
 
-    let serverUrl = import.meta.env.VITE_BACKEND_URL + "/version";
+    $: if ($roomStore && browser) goto('/multiplayer/' + $roomStore?.roomId);
 
-    $: if ($roomStore && browser) goto('/game/' + $roomStore?.roomId);
+    $: if ($errorStore) setTimeout(() => ($errorStore = ''), 3000);
 
-    onMount(() => {
-        if ($errorStore) setTimeout(() => ($errorStore = ''), 3000);
-    })
+
 </script>
 
 
-{#await fetch(serverUrl)}
-    <div class="w-full h-full flex justify-center items-center">
-        <LoadingSpinner/>
-    </div>
-{:then data}
+<AsyncMenu callback="{()=> fetch(import.meta.env.VITE_BACKEND_URL + '/version')}">
     <MenuContainer center="{currentMenu === 'create'}">
         <MenuHeader slot="header">
             <MenuButtonHeader on:click={()=> currentMenu = 'list'}
@@ -64,31 +57,25 @@
             </div>
         {/if}
     </MenuContainer>
-
-{:catch error}
-    <div class="w-full h-full flex justify-center items-center text-2xl">
-        <h1>Connection Error... <a class="p-1 rounded bg-white text-black no-underline" href="/"
-                                   on:click={()=>location.reload()}>Try Again</a></h1>
-    </div>
-{/await}
+</AsyncMenu>
 
 <style lang="scss">
-    $animation-duration: 0.45s;
+  $animation-duration: 0.45s;
 
-    .animation-up {
-        animation: $animation-duration ease-out translate_up forwards, $animation-duration ease-out opacityin forwards;
+  .animation-up {
+    animation: $animation-duration ease-out translate_up forwards, $animation-duration ease-out opacityin forwards;
+  }
+
+  @keyframes translate_up {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
     }
+    to {
+      transform: translateY(0);
+      opacity: 1;
 
-    @keyframes translate_up {
-        from {
-            transform: translateY(20px);
-            opacity: 0;
-        }
-        to {
-            transform: translateY(0);
-            opacity: 1;
-
-        }
     }
+  }
 </style>
 

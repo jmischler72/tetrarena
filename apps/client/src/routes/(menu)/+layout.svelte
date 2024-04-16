@@ -1,7 +1,7 @@
 <script>
-    import MenuWithNavbar from "$lib/components/menu/MenuWithNavbar.svelte";
+    import Menu from "$lib/components/menu/Menu.svelte";
 </script>
 
-<MenuWithNavbar>
+<Menu>
     <slot/>
-</MenuWithNavbar>
+</Menu>
