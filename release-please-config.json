@@ -8,6 +8,7 @@
     "packages/core": {},
     "packages/types": {}
   },
+  "group-pull-request-title-pattern": "chore: release ${version}",
   "plugins": ["node-workspace"],
   "release-type": "node"
 }
