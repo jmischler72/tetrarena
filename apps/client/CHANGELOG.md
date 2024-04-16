@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.2](https://github.com/jmischler72/tetrarena/compare/client-v1.5.1...client-v1.5.2) (2024-04-16)
+
+
+### Bug Fixes
+
+* **client:** better snackbar ([11de964](https://github.com/jmischler72/tetrarena/commit/11de96474a0b27a63a906eb2d0da676379dfb0b2))
+
 ## [1.5.1](https://github.com/jmischler72/tetrarena/compare/client-v1.5.0...client-v1.5.1) (2024-04-16)
 
 
