@@ -1,71 +1,53 @@
-<script lang="ts">
-    import MenuContainer from "$lib/components/menu/subcomponents/MenuContainer.svelte";
-    import RoomCreateForm from "./RoomCreateForm.svelte";
-    import MenuButtonHeader from "$lib/components/menu/subcomponents/MenuButtonHeader.svelte";
-    import RoomsList from "./RoomsList.svelte";
-    import {errorStore, roomStore} from "$lib/stores/multiplayerStore";
-    import {goto} from "$app/navigation";
-    import {browser} from "$app/environment";
-    import MenuHeader from "$lib/components/menu/subcomponents/MenuHeader.svelte";
-    import {createRoom} from "$lib/functions/services/RoomService";
-    import MenuFooter from "$lib/components/menu/subcomponents/MenuFooter.svelte";
-    import Button from "$lib/components/Button.svelte";
-    import type {RoomCreateOptions} from '$lib/data/RoomCreateOptions';
-    import AsyncMenu from "$lib/components/menu/AsyncMenu.svelte";
+<script lang='ts'>
+  import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
+  import MenuButtonHeader from '$lib/components/menu/subcomponents/MenuButtonHeader.svelte';
+  import RoomsList from './RoomsList.svelte';
+  import { errorStore, roomStore } from '$lib/stores/multiplayerStore';
+  import { goto } from '$app/navigation';
+  import { browser } from '$app/environment';
+  import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
+  import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
+  import MenuRoomCreate from './MenuRoomCreate.svelte';
 
-    let currentMenu = "list";
+  let currentMenu = 'list';
 
-    let roomCreateOptions: RoomCreateOptions;
+  $: if ($roomStore && browser) goto('/multiplayer/' + $roomStore?.roomId);
 
-    $: if ($roomStore && browser) goto('/multiplayer/' + $roomStore?.roomId);
-
-    $: if ($errorStore) setTimeout(() => ($errorStore = ''), 3000);
-
-
+  $: if ($errorStore) setTimeout(() => ($errorStore = ''), 3000);
 </script>
 
 
 <AsyncMenu callback="{()=> fetch(import.meta.env.VITE_BACKEND_URL + '/version')}">
-    <MenuHeader>
-        <MenuButtonHeader on:click={()=> currentMenu = 'list'}
-                          text='Rooms List'
-                          icon='list'
-                          selected="{currentMenu === 'list'}"
-        ></MenuButtonHeader>
-        <MenuButtonHeader on:click={()=> currentMenu = 'create'}
-                          text='Create Room'
-                          icon='add_circle'
-                          selected="{currentMenu === 'create'}"
-        ></MenuButtonHeader>
-    </MenuHeader>
+  <MenuHeader>
+    <MenuButtonHeader on:click={()=> currentMenu = 'list'}
+                      text='Rooms List'
+                      icon='list'
+                      selected="{currentMenu === 'list'}"
+    ></MenuButtonHeader>
+    <MenuButtonHeader on:click={()=> currentMenu = 'create'}
+                      text='Create Room'
+                      icon='add_circle'
+                      selected="{currentMenu === 'create'}"
+    ></MenuButtonHeader>
+  </MenuHeader>
+  {#if currentMenu === 'create' }
+
+    <MenuRoomCreate />
+  {:else }
     <MenuContainer>
-        {#if currentMenu === 'create' }
-            <RoomCreateForm bind:roomCreateOptions></RoomCreateForm>
-        {:else }
-            <RoomsList></RoomsList>
-        {/if}
+      <RoomsList></RoomsList>
     </MenuContainer>
+  {/if}
 
-    {#if currentMenu === 'create' }
-
-        <MenuFooter>
-            <div class="w-[30%] h-[60%]">
-                <Button onClick={()=>createRoom(roomCreateOptions)}
-                >
-                    Create the room
-                </Button>
-            </div>
-        </MenuFooter>
-    {/if}
-
-    {#if $errorStore}
-        <div class="w-[40%] flex justify-center absolute bottom-10 animation-up border-2 border-solid border-gray-800 bg-gray-700 py-12">
-            <h1 class="text-gray-300">{$errorStore}</h1>
-        </div>
-    {/if}
+  {#if $errorStore}
+    <div
+      class='w-[40%] flex justify-center absolute bottom-10 animation-up border-2 border-solid border-gray-800 bg-gray-700 py-12'>
+      <h1 class='text-gray-300'>{$errorStore}</h1>
+    </div>
+  {/if}
 </AsyncMenu>
 
-<style lang="scss">
+<style lang='scss'>
   $animation-duration: 0.45s;
 
   .animation-up {

@@ -1,7 +1,7 @@
 <script lang="ts">
     import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
 
-    export let callback: () => Promise<Response> | Promise<void>;
+    export let callback: () => Promise<Response | void>;
 </script>
 
 {#await callback()}
