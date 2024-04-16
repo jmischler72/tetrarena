@@ -13,7 +13,7 @@
 <div class="bg-black/[.6]">
     <nav class="h-[100px] flex text-gray-200 bg-gray-700/75 rounded justify-between items-center bg-none overflow-hidden z-10 animation">
         <div class="w-1/3 flex justify-start pl-16 text-xl lg:text-2xl">
-            {#if $page.url.pathname.split('/')[1] === 'game'}
+            {#if $page.url.pathname.split('/')[1] === 'multiplayer' && $page.url.pathname.split('/').length > 2}
                 <button class="cursor-pointer items-center flex group"
                         class:animation-left={previousPage === '/'}
                         on:click={()=>leaveRoom()}>
