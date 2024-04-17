@@ -21,19 +21,19 @@
     "rimraf": "^5.0.0"
   },
   "dependencies": {
+    "@colyseus/core": "^0.15.6",
     "@colyseus/monitor": "^0.15.0",
     "@colyseus/playground": "^0.15.3",
-    "@colyseus/core": "^0.15.6",
     "@colyseus/tools": "^0.15.0",
-    "colyseus.js": "^0.15.16",
     "@jmischler72/core": "workspace:*",
     "@jmischler72/types": "workspace:*",
     "colyseus": "^0.15.0",
+    "colyseus.js": "^0.15.16",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-basic-auth": "^1.2.1",
     "pino": "^8.17.2",
     "tsx": "^3.12.7"
   },
-  "version": "1.3.2"
+  "version": "1.6.0"
 }

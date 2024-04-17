@@ -1,50 +1,78 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.6.0](https://github.com/jmischler72/tetrarena_client/compare/v1.1.0...v1.6.0) (2024-04-17)
+
+### Bug Fixes
+
+- **client:** add border to rooms list ([63e285b](https://github.com/jmischler72/tetrarena_client/commit/63e285ba787f3018a7e22511ab3fde157325163b))
+- **client:** better snackbar ([11de964](https://github.com/jmischler72/tetrarena_client/commit/11de96474a0b27a63a906eb2d0da676379dfb0b2))
+- **client:** clear on dispatch call only when rendered -> tbc ([cd6a342](https://github.com/jmischler72/tetrarena_client/commit/cd6a342960c1e4ebd650592ef9913eaf901ff029))
+- **client:** fix problem reconnection with firefox ([24c8ce6](https://github.com/jmischler72/tetrarena_client/commit/24c8ce676bfb42e3318d018ff500ee442c5405a0))
+- **client:** fix problems that came with previous fix ([b1227e7](https://github.com/jmischler72/tetrarena_client/commit/b1227e79575aed2dc70c9c39d5845d5b16175a23))
+- **client:** fix reconnection problem on chrome ([9254e79](https://github.com/jmischler72/tetrarena_client/commit/9254e799c502c2c9b24302977d65afd7eb6a5060))
+- **client:** forgor utils in pkg ([866d5ce](https://github.com/jmischler72/tetrarena_client/commit/866d5cef8ca5f1cc7aa33a3445be50ea317d2ddf))
+- **client:** handle versioning differently ([0949923](https://github.com/jmischler72/tetrarena_client/commit/09499232bf25c417e1220d91c167f3024663f571))
+- **client:** ignore dotenv file ([a3eee09](https://github.com/jmischler72/tetrarena_client/commit/a3eee09e9f300b83c028658305f66d74e3afd0d1))
+- **client:** issues with reconnection when refreshing on Chrome ([d3ccb5e](https://github.com/jmischler72/tetrarena_client/commit/d3ccb5e322eb062297d9c34737e1a60599f9376e))
+- **client:** navbar path ([b078a3e](https://github.com/jmischler72/tetrarena_client/commit/b078a3eaf86b39bedbd6e16ca3196b263f962a8a))
+- **core:** fix animation on tetrimino freezed ([619da57](https://github.com/jmischler72/tetrarena_client/commit/619da57e3373e05661db05e874f452739203b3b4))
+- **general:** use package json of respective + fix dockerfile by not deploying ([fff2468](https://github.com/jmischler72/tetrarena_client/commit/fff24682690dd1ce31bb8112ee24f09e53f95ebc))
+- **server:** higher patch rate to fix animations problems ([4fa1df1](https://github.com/jmischler72/tetrarena_client/commit/4fa1df162eda65444528218bdbb615f34ee12398))
+
+### Features
+
+- **client:** add error/loading handling in room list + waiting room ([12a0499](https://github.com/jmischler72/tetrarena_client/commit/12a0499b1ce5d1eb06fd2751e1ab7523aa34e9ae))
+- **client:** implement ready feature in client ([f3a00cf](https://github.com/jmischler72/tetrarena_client/commit/f3a00cfa9aa2a1d3c7715fb754f1596e510f0c8f))
+- **client:** realtime Listing of Rooms List ([3d27e62](https://github.com/jmischler72/tetrarena_client/commit/3d27e6284f29a19fda3d89f47796041e1c0aaa20))
+- **client:** responsive homepage + version/changelog route ([4020e8d](https://github.com/jmischler72/tetrarena_client/commit/4020e8d69d15660e80bda3140f078d158bfe048f))
+- **client:** responsive homepage first iteration ([9d560bc](https://github.com/jmischler72/tetrarena_client/commit/9d560bca5b853cb4806e03c892b1d24e64026faf))
+- **client:** responsive navbar ([c873408](https://github.com/jmischler72/tetrarena_client/commit/c873408b96002fe5580436fbe362f831150d893d))
+- **root:** display changelog ([0f5dfa9](https://github.com/jmischler72/tetrarena_client/commit/0f5dfa98211481813413d5e60b34a75eb57e9c7a))
+
 # Changelog
 
 ## [1.5.2](https://github.com/jmischler72/tetrarena/compare/client-v1.5.1...client-v1.5.2) (2024-04-16)
 
-
 ### Bug Fixes
 
-* **client:** better snackbar ([11de964](https://github.com/jmischler72/tetrarena/commit/11de96474a0b27a63a906eb2d0da676379dfb0b2))
+- **client:** better snackbar ([11de964](https://github.com/jmischler72/tetrarena/commit/11de96474a0b27a63a906eb2d0da676379dfb0b2))
 
 ## [1.5.1](https://github.com/jmischler72/tetrarena/compare/client-v1.5.0...client-v1.5.1) (2024-04-16)
 
-
 ### Bug Fixes
 
-* **client:** add border to rooms list ([63e285b](https://github.com/jmischler72/tetrarena/commit/63e285ba787f3018a7e22511ab3fde157325163b))
-* **client:** navbar path ([b078a3e](https://github.com/jmischler72/tetrarena/commit/b078a3eaf86b39bedbd6e16ca3196b263f962a8a))
-* **core:** fix animation on tetrimino freezed ([619da57](https://github.com/jmischler72/tetrarena/commit/619da57e3373e05661db05e874f452739203b3b4))
-
+- **client:** add border to rooms list ([63e285b](https://github.com/jmischler72/tetrarena/commit/63e285ba787f3018a7e22511ab3fde157325163b))
+- **client:** navbar path ([b078a3e](https://github.com/jmischler72/tetrarena/commit/b078a3eaf86b39bedbd6e16ca3196b263f962a8a))
+- **core:** fix animation on tetrimino freezed ([619da57](https://github.com/jmischler72/tetrarena/commit/619da57e3373e05661db05e874f452739203b3b4))
 
 ### Dependencies
 
-* The following workspace dependencies were updated
-  * dependencies
-    * @jmischler72/core bumped from 1.2.1 to 1.2.2
-    * @jmischler72/types bumped from 1.2.1 to 1.2.2
+- The following workspace dependencies were updated
+  - dependencies
+    - @jmischler72/core bumped from 1.2.1 to 1.2.2
+    - @jmischler72/types bumped from 1.2.1 to 1.2.2
 
 ## [1.5.0](https://github.com/jmischler72/tetrarena/compare/client-v1.4.0...client-v1.5.0) (2024-04-13)
 
-
 ### Features
 
-* **client:** add error/loading handling in room list + waiting room ([12a0499](https://github.com/jmischler72/tetrarena/commit/12a0499b1ce5d1eb06fd2751e1ab7523aa34e9ae))
-* **client:** responsive navbar ([c873408](https://github.com/jmischler72/tetrarena/commit/c873408b96002fe5580436fbe362f831150d893d))
-
+- **client:** add error/loading handling in room list + waiting room ([12a0499](https://github.com/jmischler72/tetrarena/commit/12a0499b1ce5d1eb06fd2751e1ab7523aa34e9ae))
+- **client:** responsive navbar ([c873408](https://github.com/jmischler72/tetrarena/commit/c873408b96002fe5580436fbe362f831150d893d))
 
 ### Bug Fixes
 
-* **client:** clear on dispatch call only when rendered -&gt; tbc ([cd6a342](https://github.com/jmischler72/tetrarena/commit/cd6a342960c1e4ebd650592ef9913eaf901ff029))
-* **server:** higher patch rate to fix animations problems ([4fa1df1](https://github.com/jmischler72/tetrarena/commit/4fa1df162eda65444528218bdbb615f34ee12398))
-
+- **client:** clear on dispatch call only when rendered -&gt; tbc ([cd6a342](https://github.com/jmischler72/tetrarena/commit/cd6a342960c1e4ebd650592ef9913eaf901ff029))
+- **server:** higher patch rate to fix animations problems ([4fa1df1](https://github.com/jmischler72/tetrarena/commit/4fa1df162eda65444528218bdbb615f34ee12398))
 
 ### Dependencies
 
-* The following workspace dependencies were updated
-  * dependencies
-    * @jmischler72/core bumped from 1.2.0 to 1.2.1
-    * @jmischler72/types bumped from 1.2.0 to 1.2.1
+- The following workspace dependencies were updated
+  - dependencies
+    - @jmischler72/core bumped from 1.2.0 to 1.2.1
+    - @jmischler72/types bumped from 1.2.0 to 1.2.1
 
 ## [1.4.0](https://github.com/jmischler72/tetrarena/compare/client-v1.3.0...client-v1.4.0) (2024-04-12)
 

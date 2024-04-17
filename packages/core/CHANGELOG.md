@@ -1,18 +1,29 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.6.0](https://github.com/jmischler72/tetrarena_client/compare/v1.1.0...v1.6.0) (2024-04-17)
+
+### Bug Fixes
+
+- **client:** clear on dispatch call only when rendered -> tbc ([cd6a342](https://github.com/jmischler72/tetrarena_client/commit/cd6a342960c1e4ebd650592ef9913eaf901ff029))
+- **core:** fix animation on tetrimino freezed ([619da57](https://github.com/jmischler72/tetrarena_client/commit/619da57e3373e05661db05e874f452739203b3b4))
+- **core:** small rename (test release-please) ([d171564](https://github.com/jmischler72/tetrarena_client/commit/d17156477bc5484903e3eb0e6b4e7892ed010c84))
+
 # Changelog
 
 ## [1.2.2](https://github.com/jmischler72/tetrarena/compare/core-v1.2.1...core-v1.2.2) (2024-04-16)
 
-
 ### Bug Fixes
 
-* **core:** fix animation on tetrimino freezed ([619da57](https://github.com/jmischler72/tetrarena/commit/619da57e3373e05661db05e874f452739203b3b4))
+- **core:** fix animation on tetrimino freezed ([619da57](https://github.com/jmischler72/tetrarena/commit/619da57e3373e05661db05e874f452739203b3b4))
 
 ## [1.2.1](https://github.com/jmischler72/tetrarena/compare/core-v1.2.0...core-v1.2.1) (2024-04-13)
 
-
 ### Bug Fixes
 
-* **client:** clear on dispatch call only when rendered -&gt; tbc ([cd6a342](https://github.com/jmischler72/tetrarena/commit/cd6a342960c1e4ebd650592ef9913eaf901ff029))
+- **client:** clear on dispatch call only when rendered -&gt; tbc ([cd6a342](https://github.com/jmischler72/tetrarena/commit/cd6a342960c1e4ebd650592ef9913eaf901ff029))
 
 ## [1.2.0](https://github.com/jmischler72/tetrarena/compare/core-v1.1.0...core-v1.2.0) (2024-04-12)
 
