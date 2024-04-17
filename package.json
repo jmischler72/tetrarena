@@ -11,9 +11,6 @@
     "prepare": "husky install",
     "cz": "cz"
   },
-  "keywords": [],
-  "author": "David Mokel",
-  "license": "ISC",
   "engines": {
     "node": ">=16.19.0"
   },

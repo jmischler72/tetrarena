@@ -38,8 +38,8 @@
   },
   "type": "module",
   "dependencies": {
-    "@jmischler72/core": "1.2.2",
-    "@jmischler72/types": "1.2.2",
+    "@jmischler72/core": "workspace:*",
+    "@jmischler72/types": "workspace:*",
     "@sveltejs/adapter-netlify": "^4.1.0",
     "@tweenjs/tween.js": "^21.0.0",
     "colyseus.js": "^0.15.16",
