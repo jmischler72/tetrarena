@@ -2,13 +2,15 @@
   "name": "@jmischler72/types",
   "version": "1.6.0",
   "main": "./dist/index.js",
+  "module": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "files": [
     "./dist",
     "./src"
   ],
   "scripts": {
-    "prepare": "tsc --build"
+    "build": "tsc --build",
+    "prepare": "pnpm run build"
   },
   "dependencies": {
     "@colyseus/schema": "^2.0.10",
