@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  bump_version:
+  version:
     runs-on: ubuntu-latest
 
     steps:
