@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.6.1 (2024-04-18)
+
+**Note:** Version bump only for package @jmischler72/tetrarena
+
 # [1.6.0](https://github.com/jmischler72/tetrarena_client/compare/v1.1.0...v1.6.0) (2024-04-17)
 
 ### Bug Fixes
