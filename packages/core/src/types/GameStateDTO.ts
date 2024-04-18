@@ -8,6 +8,5 @@ export type GameStateDTO = {
   score: number;
   nextTetriminos: ColorEnum[];
   isGameOver: boolean;
-  deletedLines: number[];
-  numberAddedLines: number;
+  linesId: string[];
 };

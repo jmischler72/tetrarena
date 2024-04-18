@@ -31,8 +31,7 @@ export class GameState extends Schema {
   @type('number') score = 0;
   @type(['number']) nextTetriminos: ArraySchema<number> = new ArraySchema<number>();
   @type('boolean') isGameOver = false;
-  @type(['number']) deletedLines: ArraySchema<number> = new ArraySchema<number>();
-  @type('number') numberAddedLines = 0;
+  @type(['string']) linesId: ArraySchema<string> = new ArraySchema<string>();
 
   gameInstance: Game = new Game(Date.now());
 
@@ -52,8 +51,7 @@ export class GameState extends Schema {
     this.score = gameState.score;
     this.isGameOver = gameState.isGameOver;
 
-    this.deletedLines = new ArraySchema<number>(...gameState.deletedLines);
-    this.numberAddedLines = gameState.numberAddedLines;
+    this.linesId = new ArraySchema<string>(...gameState.linesId);
   }
 }
 export class PlayerState extends Schema {
@@ -69,6 +67,5 @@ export class PlayerState extends Schema {
   handleAction(action: ActionsEnum) {
     this.gameState.gameInstance.updateGameState(action);
     this.gameState.updateFromGameStateDTO();
-    this.gameState.gameInstance.clearOnDispatch();
   }
 }

@@ -14,8 +14,8 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
   constructor() {
     super();
 
-    this.playerBoard = new BoardContainer();
-    this.oppBoard = new BoardContainer();
+    this.playerBoard = new BoardContainer(get(playersStore).get(get(roomStore).sessionId));
+    this.oppBoard = new BoardContainer(get(playersStore));
     this.oppBoard.position.set(this.playerBoard.x + this.playerBoard.width, this.playerBoard.y);
     this.addChild(this.playerBoard, this.oppBoard);
 

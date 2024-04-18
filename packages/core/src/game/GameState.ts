@@ -9,6 +9,7 @@ import { checkIfLineIsFull, getNewTetrimino, getShadowTetriminos, getShapeFromTe
 import { Actions } from './Actions';
 import { tetriminoPieces } from '../constants/tetriminos';
 import { MersenneTwister19937, Random } from 'random-js';
+import { uid } from 'uid';
 
 export class GameState {
   protected board: ColorEnum[][] = new Array(BOARD_HEIGHT).fill(ColorEnum.NONE).map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
@@ -19,7 +20,7 @@ export class GameState {
 
   protected score = 0;
   public isGameOver = false;
-  protected deletedLines: number[] = [];
+  protected linesId: string[] = Array.from(new Array(BOARD_HEIGHT), () => uid());
   protected numberAddedLines = 0;
 
   private random: Random;
@@ -44,9 +45,11 @@ export class GameState {
   protected checkBreakLine() {
     this.board.forEach((row, index) => {
       if (checkIfLineIsFull(row)) {
-        this.deletedLines.push(index);
         this.board.splice(index, 1);
         this.board.unshift(new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
+        this.linesId.splice(index, 1);
+        this.linesId.unshift(uid());
+
         this.score++;
       }
     });

@@ -32,7 +32,6 @@ export function toGameStateDTO(player: GameState): GameStateDTO {
     score: player.score,
     nextTetriminos: player.nextTetriminos,
     isGameOver: player.isGameOver,
-    deletedLines: player.deletedLines,
-    numberAddedLines: player.numberAddedLines,
+    linesId: player.linesId,
   };
 }

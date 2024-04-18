@@ -3,6 +3,7 @@ import Board from '../Board/Board';
 import { currentPlayerBorderTween, placedTetriminosTween, scoreAnimationTween } from './BoardContainerAnimation';
 import NextTetriminosContainer from './NextTetriminosContainer/NextTetriminosContainer';
 import { ColorEnum, type GameStateDTO } from '@jmischler72/core';
+import { getDeletedLines } from '../../helpers/BoardHelper';
 
 export default class BoardContainer extends PIXI.Container {
   private readonly board: Board;
@@ -68,31 +69,28 @@ export default class BoardContainer extends PIXI.Container {
 
     this.nameText.text = name;
 
-    if (gameState.deletedLines.length > 0) {
-      // this.hitAnimation();
-      gameState.deletedLines.forEach((line) => {
-        this.board.animateLineBreak(line);
-      });
-    }
+    this.renderAnimations(gameState);
 
-    if (gameState.currentTetrimino.id !== this.currentGameState?.currentTetrimino.id) {
-      // console.log('freeze');
-      this.posedAnimation(10);
-    }
-
-    if (gameState.score != parseInt(this.scoreText.text)) {
-      this.scoreAnimation(gameState.score);
-    }
-    try {
-      this.board.updateFromBoard(gameState.board);
-    } catch (e) {
-      console.log(e);
-    }
     this.board.updateTetrimino(gameState.shadowTetrimino, ColorEnum.SHADOW);
     this.board.updateTetrimino(gameState.currentTetrimino, gameState.currentTetrimino.color);
 
     this.nextTetriminosContainer.renderTetriminoContainers(gameState.nextTetriminos);
-    this.currentGameState = gameState;
+    this.currentGameState = JSON.parse(JSON.stringify(gameState));
+  }
+
+  private renderAnimations(gameState: GameStateDTO) {
+    if (!this.currentGameState) return;
+    getDeletedLines(this.currentGameState?.linesId, gameState.linesId).forEach((line) => {
+      this.board.animateLineBreak(line);
+    });
+
+    if (gameState.currentTetrimino.id !== this.currentGameState?.currentTetrimino.id) {
+      this.posedAnimation(10);
+    }
+    if (gameState.score != parseInt(this.scoreText.text)) {
+      this.scoreAnimation(gameState.score);
+    }
+    this.board.updateFromBoard(gameState.board);
   }
 
   private posedAnimation(offset: number) {
