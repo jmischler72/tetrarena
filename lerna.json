@@ -2,10 +2,11 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "version": "independent",
   "npmClient": "pnpm",
+  "ignoreChanges": ["**/CHANGELOG.md", "**/node_modules/**", "**/package.json", "**/*.md", "**/perf/**"],
   "command": {
     "version": {
       "conventionalCommits": true,
-      "message": "chore(release): version %v"
+      "message": "chore(release): version"
     }
   }
 }
