@@ -14,8 +14,8 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
   constructor() {
     super();
 
-    this.playerBoard = new BoardContainer(get(playersStore).get(get(roomStore).sessionId));
-    this.oppBoard = new BoardContainer(get(playersStore));
+    this.playerBoard = new BoardContainer();
+    this.oppBoard = new BoardContainer();
     this.oppBoard.position.set(this.playerBoard.x + this.playerBoard.width, this.playerBoard.y);
     this.addChild(this.playerBoard, this.oppBoard);
 
@@ -29,6 +29,7 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
     get(playersStore).forEach((value: Player, key: string) => {
       const boardToUpdate = key === get(roomStore)?.sessionId ? this.playerBoard : this.oppBoard;
       if (value.gameState !== undefined) boardToUpdate.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
+      boardToUpdate.renderDisconnectOverlay(value.connected);
     });
 
     this.stats.end();
