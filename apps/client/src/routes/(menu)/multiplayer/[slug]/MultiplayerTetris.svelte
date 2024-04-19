@@ -39,8 +39,7 @@
 
   onMount(() => {
     window.addEventListener('keydown', onInput);
-    Manager.initialize();
-    Manager.changeScene(new MultiPlayerGameScene());
+    Manager.initialize(new MultiPlayerGameScene());
 
     let interval = setInterval(() => {
       $roomStore?.send(MessageTypeEnum.PING);

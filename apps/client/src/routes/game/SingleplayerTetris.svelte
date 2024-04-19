@@ -35,8 +35,7 @@
     onMount(() => {
         window.addEventListener('keydown', onInput);
 
-        Manager.initialize();
-        Manager.changeScene(new SinglePlayerGameScene(instance));
+        Manager.initialize(new SinglePlayerGameScene(instance));
         window.addEventListener('keydown', onEscapePress);
 
         return () => {
