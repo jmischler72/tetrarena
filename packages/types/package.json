@@ -1,6 +1,6 @@
 {
   "name": "@jmischler72/types",
-  "version": "1.6.6",
+  "version": "1.6.7",
   "main": "./dist/index.js",
   "module": "./src/index.ts",
   "types": "./dist/index.d.ts",
