@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.6.8 (2024-04-19)
+
+### Bug Fixes
+
+* **client:** on player removed ([32ac819](https://github.com/jmischler72/tetrarena/commit/32ac81943c7ce458ab8f22608a0c6a801633cacb))
+
 ## 1.6.7 (2024-04-19)
 
 **Note:** Version bump only for package @jmischler72/types
