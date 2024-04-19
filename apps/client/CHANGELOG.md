@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.6.2 (2024-04-19)
+
+
+### Bug Fixes
+
+* **server:** debug log for prod ([65db9d1](https://github.com/jmischler72/tetrarena/commit/65db9d1d84f4f485fa8b4723edeac9e99be59933))
+
+
+
+
+
 ## 1.6.1 (2024-04-18)
 
 **Note:** Version bump only for package @jmischler72/client
