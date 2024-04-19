@@ -8,7 +8,6 @@ FROM base AS build
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm turbo run build
 RUN pnpm run server deploy --prod /prod/server
 
 FROM base AS server
