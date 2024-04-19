@@ -12,7 +12,7 @@ import { LobbyRoom } from '@colyseus/core';
 export default config({
   options: {
     logger: pino({
-      level: 'debug',
+      level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
     }),
     // transport: new uWebSocketsTransport(),
     // driver: new RedisDriver(),
