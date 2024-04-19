@@ -53,3 +53,10 @@ jobs:
           platforms: linux/arm64
           context: .
           file: ./apps/server/Dockerfile
+      - name: Deploy Image to CapRrover
+        uses: caprover/deploy-from-github@v1.1.2
+        with:
+          server: '${{ secrets.CAPROVER_SERVER }}'
+          app: '${{ secrets.APP_NAME }}'
+          token: '${{ secrets.APP_TOKEN }}'
+          image: ${{ steps.meta.outputs.tags }}
