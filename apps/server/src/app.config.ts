@@ -11,10 +11,10 @@ import { LobbyRoom } from '@colyseus/core';
 
 export default config({
   options: {
+    // transport: new uWebSocketsTransport(),
     logger: pino({
       level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
     }),
-    // transport: new uWebSocketsTransport(),
     // driver: new RedisDriver(),
     // presence: new RedisPresence(),
   },
