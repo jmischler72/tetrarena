@@ -12,15 +12,13 @@
   }
 
   $:$roomStore?.state.players.onAdd((player, key) => {
-    $playersStore.set(key, {
+    const currentPlayer = {
       name: key,
-      connected: player.connected
-    });
+      connected: player.connected,
+      gameState: toGameStateDTO(player.gameState),
+    };
 
-    const currentPlayer = $playersStore.get(key);
-    if (!currentPlayer) return;
-
-    currentPlayer.gameState = toGameStateDTO(player.gameState);
+    $playersStore.set(key, currentPlayer);
 
     player.listen('connected', (connected) => {
       currentPlayer.connected = connected;
@@ -30,11 +28,6 @@
       currentPlayer.gameState = toGameStateDTO(player.gameState);
     });
 
-  });
-
-  $roomStore?.state.players.onRemove((player, key) => {
-    console.log(key, 'has been removed from the room');
-    $playersStore.delete(key);
   });
 
   onMount(() => {
@@ -54,7 +47,7 @@
 </script>
 
 
-<canvas id='pixi-canvas' class="fixed left-0 top-0 w-full h-full"></canvas>
+<canvas id='pixi-canvas' class='fixed left-0 top-0 w-full h-full'></canvas>
 <style>
     :root {
         overflow: hidden;

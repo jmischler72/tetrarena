@@ -7,6 +7,7 @@
   import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
   import Button from '$lib/components/Button.svelte';
   import { MessageTypeEnum } from '@jmischler72/types';
+  import { snackbarStore } from '$lib/stores/snackbarStore';
 
   let winner: string = '';
   let players: Map<string, boolean> = new Map<string, boolean>();
@@ -19,15 +20,18 @@
     winner = currentValue;
   });
 
-  $roomStore?.state.players.onAdd((player, key) => {
+  $: $roomStore?.state.players.onAdd((player, key) => {
     player.listen('ready', (value) => {
       players.set(key, value);
       players = players;
     });
   });
 
-  $roomStore?.state.players.onRemove((player, key) => {
+  $: $roomStore?.state.players.onRemove((player, key) => {
+    snackbarStore.set(key + ' left the room!');
+
     players.delete(key);
+    players = players;
   });
 </script>
 
