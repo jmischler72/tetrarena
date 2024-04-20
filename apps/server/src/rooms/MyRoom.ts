@@ -45,7 +45,7 @@ export class MyRoom extends Room<RoomState> {
 
     if (consented) {
       this.state.players.delete(client.sessionId);
-      this.stopGame();
+      if (this.state.isPlaying) this.stopGame();
       logger.info('client: ' + client.sessionId + ' left room consented: ' + this.roomId);
       return;
     }
@@ -57,7 +57,7 @@ export class MyRoom extends Room<RoomState> {
       this.state.players.get(client.sessionId).connected = true;
     } catch (e) {
       this.state.players.delete(client.sessionId);
-      this.stopGame();
+      if (this.state.isPlaying) this.stopGame();
       logger.info('client: ' + client.sessionId + ' left room: ' + this.roomId);
     }
   }
