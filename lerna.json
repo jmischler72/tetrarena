@@ -2,7 +2,7 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "version": "independent",
   "npmClient": "pnpm",
-  "ignoreChanges": ["**/CHANGELOG.md", "**/node_modules/**", "**/package.json", "**/*.md", "**/perf/**"],
+  "ignoreChanges": ["**/node_modules/**", "**/package.json", "**/*.md"],
   "command": {
     "version": {
       "conventionalCommits": true,
