@@ -18,7 +18,7 @@ export class Manager {
     return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   }
 
-  public static initialize(): void {
+  public static initialize(scene: IScene): void {
     Manager.app = new PIXI.Application({
       view: document.getElementById('pixi-canvas') as HTMLCanvasElement,
       resolution: window.devicePixelRatio || 1,
@@ -26,6 +26,9 @@ export class Manager {
       autoDensity: true,
       backgroundColor: this.background,
     });
+
+    Manager.currentScene = scene;
+    Manager.app.stage.addChild(Manager.currentScene);
 
     Manager.app.ticker.add(Manager.update);
 

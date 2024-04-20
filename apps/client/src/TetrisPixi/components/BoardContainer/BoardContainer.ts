@@ -4,9 +4,11 @@ import { currentPlayerBorderTween, placedTetriminosTween, scoreAnimationTween } 
 import NextTetriminosContainer from './NextTetriminosContainer/NextTetriminosContainer';
 import { ColorEnum, type GameStateDTO } from '@jmischler72/core';
 import { getDeletedLines } from '../../helpers/BoardHelper';
+import DisconnectedOverlay from './DisconnectedOverlay';
 
 export default class BoardContainer extends PIXI.Container {
   private readonly board: Board;
+  private overlay: DisconnectedOverlay | null = null;
   private readonly scoreText: PIXI.Text;
   private readonly nameText: PIXI.Text;
   private readonly nextTetriminosContainer: NextTetriminosContainer;
@@ -45,6 +47,19 @@ export default class BoardContainer extends PIXI.Container {
     this.nextTetriminosContainer.position.set(this.board.width + 10, 0);
 
     this.addChild(this.board, this.scoreText, this.nextTetriminosContainer, this.nameText);
+  }
+
+  renderDisconnectOverlay(connected: boolean) {
+    if (!connected) {
+      if (this.overlay) return;
+      this.overlay = new DisconnectedOverlay(this.board);
+      this.addChild(this.overlay);
+    } else {
+      if (this.overlay) {
+        this.removeChild(this.overlay);
+        this.overlay = null;
+      }
+    }
   }
 
   renderPlayerBorder() {
