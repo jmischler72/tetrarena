@@ -55,8 +55,10 @@ export default class BoardContainer extends PIXI.Container {
       this.overlay = new DisconnectedOverlay(this.board);
       this.addChild(this.overlay);
     } else {
-      if (this.overlay) this.removeChild(this.overlay);
-      this.overlay = null;
+      if (this.overlay) {
+        this.removeChild(this.overlay);
+        this.overlay = null;
+      }
     }
   }
 

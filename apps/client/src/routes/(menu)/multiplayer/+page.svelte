@@ -9,7 +9,7 @@
   import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
   import MenuRoomCreate from './MenuRoomCreate.svelte';
   import { onMount } from 'svelte';
-  import { leaveRoom } from '$lib/functions/services/RoomService';
+  import { resetRoom } from '$lib/functions/services/RoomService';
 
   let currentMenu = 'list';
 
@@ -17,7 +17,7 @@
 
 
   onMount(() => {
-    leaveRoom();
+    resetRoom(false);
   });
 </script>
 

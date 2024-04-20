@@ -14,7 +14,7 @@ export default class DisconnectedOverlay extends PIXI.Container {
     this.background = PIXI.Sprite.from(PIXI.Texture.WHITE);
     this.background.width = board.width;
     this.background.height = board.height;
-    this.background.tint = 0x222201;
+    this.background.tint = 0x333333;
     this.background.alpha = 0.6;
 
     this.text = new PIXI.Text('20', {
@@ -29,7 +29,7 @@ export default class DisconnectedOverlay extends PIXI.Container {
     this.text.position.set(this.background.width / 2, this.background.height / 2);
     this.text.zIndex = 2;
 
-    let counter = 20;
+    let counter = 19;
 
     const intervalId = setInterval(() => {
       this.text.text = counter;
