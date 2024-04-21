@@ -1,11 +1,11 @@
 import type { Tetrimino } from '../types/Tetrimino';
 
-import { BOARD_HEIGHT, BOARD_WIDTH } from '../constants/board';
+import { BOARD_HEIGHT, BOARD_WIDTH } from '../constants/game';
 import { ColorEnum } from '../enums/color.enum';
-import { canPlaceTetrimino } from '../utils/constraints';
+import { canPlaceTetrimino } from '../utils/constraints.helpers';
 
 import { ActionsEnum } from '../enums/actions.enum';
-import { checkIfLineIsFull, getNewTetrimino, getShadowTetriminos, getShapeFromTetrimino } from '../utils/tetriminoHelper';
+import { checkIfLineIsFull, getNewTetrimino, getShadowTetriminos, getShapeFromTetrimino } from '../utils/tetrimino.helpers';
 import { Actions } from './Actions';
 import { tetriminoPieces } from '../constants/tetriminos';
 import { MersenneTwister19937, Random } from 'random-js';

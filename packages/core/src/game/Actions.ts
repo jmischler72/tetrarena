@@ -1,5 +1,5 @@
-import { canMoveDown, canMoveLeft, canMoveRight, canRotate } from '../utils/constraints';
-import { clockworkRotateTetrimino } from '../utils/tetriminoHelper';
+import { canMoveDown, canMoveLeft, canMoveRight, canRotate } from '../utils/constraints.helpers';
+import { clockworkRotateTetrimino } from '../utils/tetrimino.helpers';
 import { Tetrimino } from '../types/Tetrimino';
 import { ColorEnum } from '../enums/color.enum';
 

@@ -1,7 +1,7 @@
-import { BOARD_HEIGHT, BOARD_WIDTH } from '../src/constants/board';
+import { BOARD_HEIGHT, BOARD_WIDTH } from '../src/constants/game';
 import { ColorEnum } from '../src';
-import { canMoveDown, canMoveLeft, canMoveRight } from '../src/utils/constraints';
-import { clockworkRotateTetrimino } from '../src/utils/tetriminoHelper';
+import { canMoveDown, canMoveLeft, canMoveRight } from '../src/utils/constraints.helpers';
+import { clockworkRotateTetrimino } from '../src/utils/tetrimino.helpers';
 import { Tetrimino } from '../src/types/Tetrimino';
 
 describe('test constraints', () => {

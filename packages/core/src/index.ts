@@ -10,4 +10,4 @@ export { Tetrimino } from './types/Tetrimino';
 export { GAME_SPEED } from './constants/game';
 
 export { getTetriminoPieceFromColor } from './constants/tetriminos';
-export { getShapeFromTetrimino, getNewTetrimino } from './utils/tetriminoHelper';
+export { getShapeFromTetrimino, getNewTetrimino } from './utils/tetrimino.helpers';
