@@ -1,5 +1,6 @@
 export { SinglePlayerInstance } from './instance/SinglePlayerInstance';
 export { Game } from './game/Game';
+export { CustomRandom } from './game/CustomRandom';
 
 export { ActionsEnum } from './enums/actions.enum';
 export { ColorEnum } from './enums/color.enum';

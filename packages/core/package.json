@@ -34,6 +34,7 @@
   },
   "files": [
     "./dist/",
-    "./src"
+    "./src",
+    "./tests"
   ]
 }
