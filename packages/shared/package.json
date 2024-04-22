@@ -1,5 +1,5 @@
 {
-  "name": "@jmischler72/types",
+  "name": "@jmischler72/shared",
   "version": "1.6.10",
   "main": "./dist/index.js",
   "module": "./src/index.ts",

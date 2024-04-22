@@ -6,4 +6,5 @@ export class RoomState extends Schema {
   @type('boolean') isPlaying = false;
   @type({ map: PlayerState }) players = new MapSchema<PlayerState>();
   @type('string') winner = '';
+  @type('string') admin = '';
 }
