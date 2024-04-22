@@ -1,5 +1,5 @@
 export * from './MessageTypeEnum';
 export * from './schemas/PlayerState';
 export * from './schemas/RoomState';
-export * from './helpers/ServerHelper';
-export * from './helpers/ClientHelper';
+export * from './helpers/server.helpers';
+export * from './helpers/client.helpers';
