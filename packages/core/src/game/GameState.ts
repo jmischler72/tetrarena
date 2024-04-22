@@ -27,10 +27,10 @@ export class GameState {
   constructor(seed?: number) {
     this.random = new CustomRandom(seed || Date.now());
 
-    this.currentTetrimino = getNewTetrimino(this.random.getRandomColor());
+    this.currentTetrimino = getNewTetrimino(this.random.getFirstPiece());
     this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
 
-    this.nextTetriminos = new Array(5).fill({}).map(() => this.random.getRandomColor());
+    this.nextTetriminos = new Array(5).fill({}).map(() => this.random.tgm3Randomizer());
   }
 
   protected drawShapeOnBoard(tetrimino: Tetrimino) {
@@ -59,7 +59,7 @@ export class GameState {
 
     if (canPlaceTetrimino(newTetrimino, this.board)) {
       this.currentTetrimino = newTetrimino;
-      this.nextTetriminos.push(this.random.getRandomColor());
+      this.nextTetriminos.push(this.random.tgm3Randomizer());
     } else {
       this.isGameOver = true;
     }

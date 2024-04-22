@@ -47,7 +47,7 @@ export async function joinRoom(roomId: string) {
       .joinById(roomId)
       .then((room) => handleRoom(room));
   } catch (e) {
-    console.error('join error', e);
+    snackbarStore.set('Join Error!' + e);
     resetRoom();
   }
 }
@@ -60,10 +60,12 @@ async function rejoinRoom(reconnectionToken: string) {
     console.log('rejoined successfully');
     localStorage.removeItem('reconnectionToken');
   } catch (e) {
-    console.error('rejoin error', e);
+    snackbarStore.set('Rejoin Error!' + e);
+
     resetRoom();
   }
 }
+
 export async function createRoom(options: RoomCreateOptions) {
   if (options.name === '') options.name = 'New Room';
 
@@ -72,7 +74,7 @@ export async function createRoom(options: RoomCreateOptions) {
       .create('my_room', options)
       .then((room) => handleRoom(room));
   } catch (e) {
-    console.error('create error', e);
+    snackbarStore.set('Create Error!' + e);
     resetRoom();
   }
 }
@@ -80,8 +82,7 @@ export async function createRoom(options: RoomCreateOptions) {
 export async function leaveRoom() {
   await get(roomStore)
     ?.leave(true)
-    .then((t: number) => {
-      console.log('left room', t);
+    .then(() => {
       resetRoom();
     });
 }
