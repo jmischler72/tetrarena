@@ -21,7 +21,7 @@ export const T_SHAPE: number[][][] = [
   ],
 ];
 
-export const LL_SHAPE: number[][][] = [
+export const J_SHAPE: number[][][] = [
   [
     [1, 0, 0],
     [1, 1, 1],
@@ -44,7 +44,7 @@ export const LL_SHAPE: number[][][] = [
   ],
 ];
 
-export const LR_SHAPE: number[][][] = [
+export const L_SHAPE: number[][][] = [
   [
     [0, 0, 1],
     [1, 1, 1],
