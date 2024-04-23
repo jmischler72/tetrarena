@@ -79,14 +79,14 @@
               class='border-b transition-colors cursor-pointer hover:bg-gray-600 '>
             <td class='p-4 flex justify-center align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium'>
               <svg
-                class='bg-white' width='60'
+                class='bg-white rounded' width='60'
                 height='60' data-jdenticon-value='{room.metadata.icon}'></svg>
             </td>
             <td
               class='p-4 text-center align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium'>{room.metadata.name}</td>
             <td class='p-4 text-center align-middle [&amp;:has([role=checkbox])]:pr-0'>{room.roomId}</td>
             <td class='p-4 text-center align-middle [&amp;:has([role=checkbox])]:pr-0'>{room.clients}</td>
-            <td class='p-4 text-center align-middle [&amp;:has([role=checkbox])]:pr-0'>{room.metadata.gameMode}</td>
+            <td class='p-4 text-center align-middle [&amp;:has([role=checkbox])]:pr-0'>{room.metadata.gameMode.name}</td>
           </tr>
         {/each}
         </tbody>

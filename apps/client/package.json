@@ -39,7 +39,7 @@
   "type": "module",
   "dependencies": {
     "@jmischler72/core": "workspace:*",
-    "@jmischler72/types": "workspace:*",
+    "@jmischler72/shared": "workspace:*",
     "@sveltejs/adapter-netlify": "^4.2.0",
     "@tweenjs/tween.js": "^21.1.1",
     "colyseus.js": "^0.15.18",

@@ -1,8 +1,8 @@
 import { Client, Room, logger } from '@colyseus/core';
-import { PlayerState, RoomState } from '@jmischler72/types';
+import { PlayerState, RoomOptions, RoomState } from '@jmischler72/shared';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
 import { Delayed } from 'colyseus';
-import { MessageTypeEnum } from '@jmischler72/types';
+import { MessageTypeEnum } from '@jmischler72/shared';
 import { checkIfAllPlayersAreReady } from './utils';
 
 const TIMEOUT = 50000;
@@ -11,14 +11,14 @@ export class MyRoom extends Room<RoomState> {
   private gameTimer: Delayed;
   private timeout: Delayed;
 
-  onCreate(options: any) {
+  onCreate(options: RoomOptions) {
     logger.info('created room: ' + this.roomId);
     logger.debug(options);
     this.clock.start();
 
     this.setPatchRate(16.6);
 
-    this.setState(new RoomState());
+    this.setState(new RoomState(options.name, options.icon, options.gameMode.mode));
 
     void this.setMetadata({
       name: options.name,
@@ -32,6 +32,8 @@ export class MyRoom extends Room<RoomState> {
 
   onJoin(client: Client) {
     logger.info('client: ' + client.sessionId + ' joined room: ' + this.roomId);
+    if (this.clients.length === 1) this.state.admin = client.sessionId;
+    logger.debug(this.state.admin);
 
     const newPlayer = new PlayerState();
     this.state.players.set(client.sessionId, newPlayer);
@@ -39,6 +41,7 @@ export class MyRoom extends Room<RoomState> {
 
   async onLeave(client: Client, consented: boolean) {
     logger.info('client: ' + client.sessionId + ' left room: ' + this.roomId);
+    if (client.sessionId === this.state.admin) this.state.admin = this.clients.find((c) => c.sessionId !== client.sessionId).sessionId;
     this.state.players.get(client.sessionId).connected = false;
 
     this.initializeTimeout();

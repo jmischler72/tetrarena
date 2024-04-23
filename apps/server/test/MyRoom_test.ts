@@ -3,7 +3,7 @@ import { ColyseusTestServer, boot } from '@colyseus/testing';
 
 // import your "app.config.ts" file here.
 import appConfig from '../src/app.config';
-import { RoomState } from '@jmischler72/types';
+import { RoomState } from '@jmischler72/shared';
 
 describe('testing your Colyseus app', () => {
   let colyseus: ColyseusTestServer;

@@ -2,8 +2,7 @@ import { Room } from 'colyseus.js';
 import { clientStore, playersStore, roomStore } from '$lib/stores/multiplayerStore';
 import { goto } from '$app/navigation';
 import { get } from 'svelte/store';
-import type { RoomCreateOptions } from '$lib/data/RoomCreateOptions';
-import { MessageTypeEnum } from '@jmischler72/types';
+import { MessageTypeEnum, type RoomOptions } from '@jmischler72/shared';
 import { snackbarStore } from '$lib/stores/snackbarStore';
 
 export function resetRoom(goToMultiplayer = true) {
@@ -66,7 +65,7 @@ async function rejoinRoom(reconnectionToken: string) {
   }
 }
 
-export async function createRoom(options: RoomCreateOptions) {
+export async function createRoom(options: RoomOptions) {
   if (options.name === '') options.name = 'New Room';
 
   try {

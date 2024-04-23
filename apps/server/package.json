@@ -26,7 +26,7 @@
     "@colyseus/playground": "^0.15.12",
     "@colyseus/tools": "^0.15.36",
     "@jmischler72/core": "workspace:*",
-    "@jmischler72/types": "workspace:*",
+    "@jmischler72/shared": "workspace:*",
     "colyseus": "^0.15.15",
     "colyseus.js": "^0.15.18",
     "cors": "^2.8.5",
