@@ -31,11 +31,11 @@
 <div class="w-full h-full">
   <MenuHeader isSubmenu="{true}">
     <MenuButtonHeader on:click={()=> optionsMenu = 'room'}
-                      text="Room"
+                      text="Room Settings"
                       icon="room_preferences"
                       selected="{optionsMenu === 'room'}" />
     <MenuButtonHeader on:click={()=> optionsMenu = 'game'}
-                      text="{roomOptions.gameMode.name}"
+                      text="Gamemode Settings"
                       icon="sports_esports"
                       selected="{optionsMenu === 'game'}" />
   </MenuHeader>

@@ -3,33 +3,28 @@
   import MenuContainer from "$lib/components/menu/subcomponents/MenuContainer.svelte";
   import MenuHeader from "$lib/components/menu/subcomponents/MenuHeader.svelte";
   import WaitingComponent from "./WaitingComponent.svelte";
-  import GameEndComponent from "./GameEndComponent.svelte";
   import MenuFooter from "$lib/components/menu/subcomponents/MenuFooter.svelte";
   import Button from "$lib/components/Button.svelte";
   import { getGameModeFromEnum, MessageTypeEnum } from "@jmischler72/shared";
   import { snackbarStore } from "$lib/stores/snackbarStore";
-  import MenuButtonHeader from "$lib/components/menu/subcomponents/MenuButtonHeader.svelte";
   import RoomForm from "../(room-create)/RoomForm.svelte";
   import { GameModeEnum } from "@jmischler72/shared";
 
-  let winner: string = "";
-  let players: Map<string, boolean> = new Map<string, boolean>();
 
-  let optionsMenu: boolean = false;
+  let showOptionsMenu: boolean = false;
   let roomOptions = {
     name: $roomStore?.state.name || "",
     icon: $roomStore?.state.icon || "",
     gameMode: getGameModeFromEnum($roomStore?.state.gameMode as GameModeEnum)
   };
+  let tempRoomOptions = structuredClone(roomOptions);
+
+  let players: Map<string, boolean> = new Map<string, boolean>();
 
 
   function playerReady() {
     $roomStore?.send(MessageTypeEnum.READY);
   }
-
-  $roomStore?.state.listen("winner", (currentValue) => {
-    winner = currentValue;
-  });
 
   $: $roomStore?.state.players.onAdd((player, key) => {
     player.listen("ready", (value) => {
@@ -44,47 +39,53 @@
     players.delete(key);
     players = players;
   });
+
+  $: isSaved = JSON.stringify(tempRoomOptions) === JSON.stringify(roomOptions);
 </script>
 
 
 <MenuHeader>
-  <div class="absolute w-full text-2xl ml-auto mr-auto left-0 right-0 flex justify-center z-0">
+  <div class="w-full text-2xl ml-auto mr-auto left-0 right-0 flex justify-center z-0 relative">
     <h1>Room - {$roomStore?.roomId}</h1>
-  </div>
-  {#if $roomStore?.sessionId === $roomStore?.state.admin}
-    <MenuButtonHeader on:click={()=> optionsMenu = !optionsMenu}
-                      text="Options"
-                      icon="settings"
-                      selected="{optionsMenu}" />
-  {/if}
-
-</MenuHeader>
-<MenuContainer>
-  <div class="w-full h-full">
-    {#if optionsMenu}
-      <RoomForm bind:roomOptions></RoomForm>
-    {:else }
-
-      {#if winner !== ""}
-        <GameEndComponent winner={winner} />
-      {/if}
-      <WaitingComponent bind:players="{players}"></WaitingComponent>
-
+    {#if showOptionsMenu}
+      <button class="cursor-pointer items-center flex group  absolute left-12"
+              on:click={()=>showOptionsMenu = false}>
+        <span
+          class="translate-x-[-2px] translate-y-[1px] group-hover:translate-x-[-6px] transition opacity-40">&#60;</span>back
+      </button>
     {/if}
   </div>
-
-
+</MenuHeader>
+<MenuContainer hasFooter="{true}">
+  {#if showOptionsMenu}
+    <RoomForm bind:roomOptions></RoomForm>
+  {:else }
+    <WaitingComponent bind:players bind:roomOptions bind:showOptionsMenu></WaitingComponent>
+  {/if}
 </MenuContainer>
 <MenuFooter>
   <div class="w-[70%]">
-    <Button onClick={()=>playerReady()}
-            disabled="{  players.get($roomStore?.sessionId || '') }"
-    >
-      {#if players.get($roomStore?.sessionId || '')}
-        <span class="translate-y-[-4px] translate-x-[-5px] text-green-100">&#10004;</span> Ready
-      {:else}
-        Ready
-      {/if}
-    </Button>
+    {#if !showOptionsMenu}
+
+      <Button onClick={()=>playerReady()}
+              disabled="{  players.get($roomStore?.sessionId || '') }"
+      >
+        {#if players.get($roomStore?.sessionId || '')}
+          <span class="translate-y-[-4px] translate-x-[-5px] text-green-100">&#10004;</span> Ready
+        {:else}
+          Ready
+        {/if}
+      </Button>
+    {:else }
+      <Button onClick={()=>playerReady()}
+              disabled="{ isSaved }"
+      >
+        {#if isSaved}
+          <span class="translate-y-[-4px] translate-x-[-5px] text-green-100">&#10004;</span> Saved
+        {:else}
+          Save
+        {/if}
+      </Button>
+    {/if}
   </div>
 </MenuFooter>
