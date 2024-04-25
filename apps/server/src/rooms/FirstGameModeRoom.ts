@@ -31,7 +31,7 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
     this.gameTimer = this.clock.setInterval(() => {
       this.state.players.forEach((player) => {
         player.handleAction(ActionsEnum.GO_DOWN);
-        if (player.gameState.isGameOver || player.gameState.score >= 100) this.stopGame();
+        if (player.gameState.isGameOver || player.gameState.score >= this.state.goalScore) this.stopGame();
       });
     }, GAME_SPEED);
   }
