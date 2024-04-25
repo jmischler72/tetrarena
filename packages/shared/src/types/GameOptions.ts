@@ -1,3 +1,3 @@
 import { FirstGameModeOptions } from './FirstGameModeOptions';
 
-export type GameModeOptions = FirstGameModeOptions;
+export type GameOptions = FirstGameModeOptions;

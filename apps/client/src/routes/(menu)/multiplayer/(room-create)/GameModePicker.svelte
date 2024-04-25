@@ -14,6 +14,7 @@
       <Button onMouseOver={()=> showDescription = true} onMouseLeave={()=> showDescription = false}
               onClick={()=> {
 								gameModePickerOpen = false;
+                showDescription = false;
 								gameMode = mode;
 								}}>
         {mode.name}

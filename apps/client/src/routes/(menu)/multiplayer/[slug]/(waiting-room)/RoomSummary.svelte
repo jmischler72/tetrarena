@@ -29,12 +29,6 @@
       <div class=" w-full bg-gray-700 flex justify-center py-4 rounded">
         <h1>{roomOptions.gameMode.options.goalScore}</h1>
       </div>
-      <div class=" w-full bg-gray-700 flex justify-center py-4 rounded">
-        <h1>{roomOptions.gameMode.options.goalScore}</h1>
-      </div>
-      <div class=" w-full bg-gray-700 flex justify-center py-4 rounded">
-        <h1>{roomOptions.gameMode.options.goalScore}</h1>
-      </div>
     </div>
   </div>
   {#if $roomStore?.sessionId === $roomStore?.state.admin}

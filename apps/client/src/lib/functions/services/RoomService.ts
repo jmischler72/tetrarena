@@ -56,7 +56,8 @@ async function rejoinRoom(reconnectionToken: string) {
     await get(clientStore)
       .reconnect(reconnectionToken)
       .then((room) => handleRoom(room));
-    console.log('rejoined successfully');
+    snackbarStore.set('Rejoined successfully!');
+
     localStorage.removeItem('reconnectionToken');
   } catch (e) {
     snackbarStore.set('Rejoin Error!' + e);
@@ -67,10 +68,11 @@ async function rejoinRoom(reconnectionToken: string) {
 
 export async function createRoom(options: RoomOptions) {
   if (options.name === '') options.name = 'New Room';
+  console.log(options);
 
   try {
     await get(clientStore)
-      .create('my_room', options)
+      .create(options.gameMode.name, options)
       .then((room) => handleRoom(room));
   } catch (e) {
     snackbarStore.set('Create Error!' + e);

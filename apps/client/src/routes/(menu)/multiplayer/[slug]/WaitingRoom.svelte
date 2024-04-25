@@ -5,22 +5,41 @@
   import WaitingComponent from "./WaitingComponent.svelte";
   import MenuFooter from "$lib/components/menu/subcomponents/MenuFooter.svelte";
   import Button from "$lib/components/Button.svelte";
-  import { getGameModeFromEnum, MessageTypeEnum } from "@jmischler72/shared";
+  import {  FirstGameModeRoomState, MessageTypeEnum, type RoomOptions } from "@jmischler72/shared";
   import { snackbarStore } from "$lib/stores/snackbarStore";
   import RoomForm from "../(room-create)/RoomForm.svelte";
-  import { GameModeEnum } from "@jmischler72/shared";
 
 
   let showOptionsMenu: boolean = false;
-  let roomOptions = {
+  let roomOptions: RoomOptions = {
     name: $roomStore?.state.name || "",
     icon: $roomStore?.state.icon || "",
-    gameMode: getGameModeFromEnum($roomStore?.state.gameMode as GameModeEnum)
+    gameMode: {
+      name: $roomStore?.state.gameMode as string,
+      options: {
+        goalScore: ($roomStore?.state as FirstGameModeRoomState).goalScore,
+      },
+    },
   };
   let tempRoomOptions = structuredClone(roomOptions);
 
-  let players: Map<string, boolean> = new Map<string, boolean>();
 
+  $roomStore?.onStateChange(()=> {roomOptions ={
+    name: $roomStore?.state.name || "",
+    icon: $roomStore?.state.icon || "",
+    gameMode: {
+      name: $roomStore?.state.gameMode as string,
+      options: {
+        goalScore: ($roomStore?.state as FirstGameModeRoomState).goalScore,
+      },
+    },
+  };
+  tempRoomOptions = structuredClone(roomOptions)
+  }
+  )
+
+
+  let players: Map<string, boolean> = new Map<string, boolean>();
 
   function playerReady() {
     $roomStore?.send(MessageTypeEnum.READY);
@@ -49,7 +68,10 @@
     <h1>Room - {$roomStore?.roomId}</h1>
     {#if showOptionsMenu}
       <button class="cursor-pointer items-center flex group  absolute left-12"
-              on:click={()=>showOptionsMenu = false}>
+              on:click={()=>{
+                showOptionsMenu = false
+                tempRoomOptions = structuredClone(roomOptions)
+              }}>
         <span
           class="translate-x-[-2px] translate-y-[1px] group-hover:translate-x-[-6px] transition opacity-40">&#60;</span>back
       </button>
@@ -58,7 +80,7 @@
 </MenuHeader>
 <MenuContainer hasFooter="{true}">
   {#if showOptionsMenu}
-    <RoomForm bind:roomOptions></RoomForm>
+    <RoomForm bind:roomOptions={tempRoomOptions}></RoomForm>
   {:else }
     <WaitingComponent bind:players bind:roomOptions bind:showOptionsMenu></WaitingComponent>
   {/if}
@@ -77,7 +99,10 @@
         {/if}
       </Button>
     {:else }
-      <Button onClick={()=>playerReady()}
+      <Button onClick={()=>{
+        roomOptions = tempRoomOptions;
+        $roomStore?.send(MessageTypeEnum.EDIT_ROOM, tempRoomOptions);
+      }}
               disabled="{ isSaved }"
       >
         {#if isSaved}

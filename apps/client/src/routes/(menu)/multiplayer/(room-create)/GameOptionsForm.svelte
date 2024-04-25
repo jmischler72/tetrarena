@@ -2,7 +2,6 @@
   import { type RoomOptions } from "@jmischler72/shared";
 
   export let roomOptions: RoomOptions;
-  let gameOptions = roomOptions.gameMode.options;
 </script>
 
 <div class="flex h-full w-full justify-center items-center relative animation-up">
@@ -20,7 +19,7 @@
     type="number"
     min="0"
     max="1000"
-    bind:value={gameOptions.goalScore}
+    bind:value={roomOptions.gameMode.options.goalScore}
   />
   </div>
 </div>
