@@ -1,6 +1,5 @@
 {
   "name": "@jmischler72/server",
-  "private": true,
   "description": "server for tetrarena using Colyseus",
   "main": "build/src/app.js",
   "scripts": {

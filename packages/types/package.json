@@ -1,6 +1,5 @@
 {
   "name": "@jmischler72/types",
-  "private": true,
   "main": "./dist/index.js",
   "module": "./src/index.ts",
   "types": "./dist/index.d.ts",

@@ -1,6 +1,5 @@
 {
   "name": "@jmischler72/client",
-  "private": true,
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",

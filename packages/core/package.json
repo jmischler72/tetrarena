@@ -1,6 +1,5 @@
 {
   "name": "@jmischler72/core",
-  "private": true,
   "description": "core game package for tetris-project",
   "scripts": {
     "test": "jest",
