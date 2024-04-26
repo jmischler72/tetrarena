@@ -10,7 +10,6 @@
     const getX = (id, cols = columns) => {//default to global columns
         return id % cols;
     }
-    
     const getY = (id, cols = columns) => {//default to global columns
         return Math.floor(id / cols);
     }
