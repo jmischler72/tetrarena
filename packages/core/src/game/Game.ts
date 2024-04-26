@@ -10,15 +10,7 @@ export class Game extends GameState {
       score: this.score,
       nextTetriminos: this.nextTetriminos,
       isGameOver: this.isGameOver,
-      deletedLines: this.deletedLines,
-      numberAddedLines: this.numberAddedLines,
-      currentTetriminoFreezed: this.currentTetriminoFreezed,
+      linesId: this.linesId,
     };
-  }
-
-  clearOnDispatch(): void {
-    this.deletedLines = [];
-    this.numberAddedLines = 0;
-    this.currentTetriminoFreezed = false;
   }
 }

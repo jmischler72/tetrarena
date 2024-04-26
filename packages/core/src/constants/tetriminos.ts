@@ -1,5 +1,5 @@
 import { ColorEnum } from '../enums/color.enum';
-import { I_SHAPE, LL_SHAPE, LR_SHAPE, O_SHAPE, S_SHAPE, T_SHAPE, Z_SHAPE } from './shapes';
+import { I_SHAPE, J_SHAPE, L_SHAPE, O_SHAPE, S_SHAPE, T_SHAPE, Z_SHAPE } from './shapes';
 
 export type TetriminoPiece = {
   shapes: number[][][];
@@ -12,11 +12,11 @@ export const tetriminoPieces: TetriminoPiece[] = [
     color: ColorEnum.PURPLE,
   },
   {
-    shapes: LL_SHAPE,
+    shapes: J_SHAPE,
     color: ColorEnum.BLUE,
   },
   {
-    shapes: LR_SHAPE,
+    shapes: L_SHAPE,
     color: ColorEnum.ORANGE,
   },
   {

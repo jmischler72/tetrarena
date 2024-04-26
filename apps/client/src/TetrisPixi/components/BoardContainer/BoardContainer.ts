@@ -3,13 +3,16 @@ import Board from '../Board/Board';
 import { currentPlayerBorderTween, placedTetriminosTween, scoreAnimationTween } from './BoardContainerAnimation';
 import NextTetriminosContainer from './NextTetriminosContainer/NextTetriminosContainer';
 import { ColorEnum, type GameStateDTO } from '@jmischler72/core';
+import { getDeletedLines } from '../../helpers/BoardHelper';
+import DisconnectedOverlay from './DisconnectedOverlay';
 
 export default class BoardContainer extends PIXI.Container {
   private readonly board: Board;
+  private overlay: DisconnectedOverlay | null = null;
   private readonly scoreText: PIXI.Text;
   private readonly nameText: PIXI.Text;
   private readonly nextTetriminosContainer: NextTetriminosContainer;
-  private currentGameState = '';
+  private currentGameState: GameStateDTO | null = null;
   private initialPosition: number | null = null;
 
   constructor() {
@@ -46,6 +49,19 @@ export default class BoardContainer extends PIXI.Container {
     this.addChild(this.board, this.scoreText, this.nextTetriminosContainer, this.nameText);
   }
 
+  renderDisconnectOverlay(connected: boolean) {
+    if (!connected) {
+      if (this.overlay) return;
+      this.overlay = new DisconnectedOverlay(this.board);
+      this.addChild(this.overlay);
+    } else {
+      if (this.overlay) {
+        this.removeChild(this.overlay);
+        this.overlay = null;
+      }
+    }
+  }
+
   renderPlayerBorder() {
     const graphics = new PIXI.Graphics();
     graphics.beginFill('rgba(0,0,0,0)');
@@ -62,37 +78,37 @@ export default class BoardContainer extends PIXI.Container {
   }
 
   updatePlayerBoard(gameState: GameStateDTO, name: string) {
-    if (this.currentGameState != null && JSON.stringify(gameState) === this.currentGameState) {
+    if (this.currentGameState != null && JSON.stringify(gameState) === JSON.stringify(this.currentGameState)) {
       return;
     }
 
     this.nameText.text = name;
 
-    if (gameState.deletedLines.length > 0) {
-      // this.hitAnimation();
-      gameState.deletedLines.forEach((line) => {
-        this.board.animateLineBreak(line);
-      });
-    }
+    this.renderAnimations(gameState);
 
-    if (gameState.currentTetriminoFreezed) {
-      // console.log('freeze');
-      this.posedAnimation(10);
-    }
-
-    if (gameState.score != parseInt(this.scoreText.text)) {
-      this.scoreAnimation(gameState.score);
-    }
-    try {
-      this.board.updateFromBoard(gameState.board);
-    } catch (e) {
-      console.log(e);
-    }
     this.board.updateTetrimino(gameState.shadowTetrimino, ColorEnum.SHADOW);
     this.board.updateTetrimino(gameState.currentTetrimino, gameState.currentTetrimino.color);
 
     this.nextTetriminosContainer.renderTetriminoContainers(gameState.nextTetriminos);
-    this.currentGameState = JSON.stringify(gameState);
+    this.currentGameState = JSON.parse(JSON.stringify(gameState));
+  }
+
+  private renderAnimations(gameState: GameStateDTO) {
+    if (!this.currentGameState) return;
+
+    let offset = 10;
+    getDeletedLines(this.currentGameState?.linesId, gameState.linesId).forEach((line) => {
+      offset = 20;
+      this.board.animateLineBreak(line);
+    });
+
+    if (gameState.currentTetrimino.id !== this.currentGameState?.currentTetrimino.id) {
+      this.posedAnimation(offset);
+    }
+    if (gameState.score != parseInt(this.scoreText.text)) {
+      this.scoreAnimation(gameState.score);
+    }
+    this.board.updateFromBoard(gameState.board);
   }
 
   private posedAnimation(offset: number) {

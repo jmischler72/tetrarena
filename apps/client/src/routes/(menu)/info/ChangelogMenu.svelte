@@ -1,7 +1,7 @@
 <script lang="ts">
 
 	import {marked} from "marked";
-	import changelog from '../../../../../../docs/CHANGELOG.md?raw';
+	import changelog from '../../../../CHANGELOG.md?raw';
 	import {onMount} from "svelte";
 
 
@@ -20,10 +20,6 @@
 	
 	.markdown{
 		font-family: Arial,serif;
-
-		h1{
-			@apply text-2xl;
-		}
 	}
 
 </style>

@@ -3,6 +3,7 @@
 	import {onMount} from 'svelte'
 	import type {Preset} from '$lib/data/presets/preset'
 	import {isKeyInPreset, setActionKey} from '$lib/functions/helpers/InputHelper'
+	import { snackbarStore } from '$lib/stores/snackbarStore';
 
 	export let tempKeybind: Preset
 
@@ -20,6 +21,8 @@
 		if (!actionWaitingForKey) return
 		if (!isKeyInPreset(event.key, tempKeybind)) {
 			tempKeybind = setActionKey(actionWaitingForKey, event.key, tempKeybind)
+		}else{
+			$snackbarStore = "Key already in use!";
 		}
 		actionWaitingForKey = null
 		event.preventDefault()

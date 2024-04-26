@@ -1,14 +1,14 @@
 import type { Tetrimino } from '../types/Tetrimino';
 
-import { BOARD_HEIGHT, BOARD_WIDTH } from '../constants/board';
+import { BOARD_HEIGHT, BOARD_WIDTH } from '../constants/game';
 import { ColorEnum } from '../enums/color.enum';
-import { canPlaceTetrimino } from '../utils/constraints';
+import { canPlaceTetrimino } from '../utils/constraints.helpers';
 
 import { ActionsEnum } from '../enums/actions.enum';
-import { checkIfLineIsFull, getNewTetrimino, getShadowTetriminos, getShapeFromTetrimino } from '../utils/tetriminoHelper';
+import { checkIfLineIsFull, getNewTetrimino, getShadowTetriminos, getShapeFromTetrimino } from '../utils/tetrimino.helpers';
 import { Actions } from './Actions';
-import { tetriminoPieces } from '../constants/tetriminos';
-import { MersenneTwister19937, Random } from 'random-js';
+import { uid } from 'uid';
+import { CustomRandom } from '../game/CustomRandom';
 
 export class GameState {
   protected board: ColorEnum[][] = new Array(BOARD_HEIGHT).fill(ColorEnum.NONE).map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
@@ -19,19 +19,18 @@ export class GameState {
 
   protected score = 0;
   public isGameOver = false;
-  protected deletedLines: number[] = [];
+  protected linesId: string[] = Array.from(new Array(BOARD_HEIGHT), () => uid());
   protected numberAddedLines = 0;
-  protected currentTetriminoFreezed = false;
 
-  private random: Random;
+  private random: CustomRandom;
 
   constructor(seed?: number) {
-    this.random = new Random(MersenneTwister19937.seed(seed || Date.now()));
+    this.random = new CustomRandom(seed || Date.now());
 
-    this.currentTetrimino = getNewTetrimino(this.getRandomColor());
+    this.currentTetrimino = getNewTetrimino(this.random.getFirstPiece());
     this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
 
-    this.nextTetriminos = new Array(5).fill({}).map(() => this.getRandomColor());
+    this.nextTetriminos = new Array(5).fill({}).map(() => this.random.tgm3Randomizer());
   }
 
   protected drawShapeOnBoard(tetrimino: Tetrimino) {
@@ -40,15 +39,16 @@ export class GameState {
         if (getShapeFromTetrimino(tetrimino)[j][k] === 1) this.board[tetrimino.position_y + j][tetrimino.position_x + k] = tetrimino.color;
       }
     }
-    this.currentTetriminoFreezed = true;
   }
 
   protected checkBreakLine() {
     this.board.forEach((row, index) => {
       if (checkIfLineIsFull(row)) {
-        this.deletedLines.push(index);
         this.board.splice(index, 1);
         this.board.unshift(new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
+        this.linesId.splice(index, 1);
+        this.linesId.unshift(uid());
+
         this.score++;
       }
     });
@@ -59,7 +59,7 @@ export class GameState {
 
     if (canPlaceTetrimino(newTetrimino, this.board)) {
       this.currentTetrimino = newTetrimino;
-      this.nextTetriminos.push(this.getRandomColor());
+      this.nextTetriminos.push(this.random.tgm3Randomizer());
     } else {
       this.isGameOver = true;
     }
@@ -116,9 +116,5 @@ export class GameState {
 
       this.board.push(list);
     }
-  }
-
-  private getRandomColor(): ColorEnum {
-    return tetriminoPieces[this.random.integer(0, tetriminoPieces.length - 1)].color;
   }
 }

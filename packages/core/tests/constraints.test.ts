@@ -1,8 +1,9 @@
-import { BOARD_HEIGHT, BOARD_WIDTH } from '../src/constants/board';
+import { BOARD_HEIGHT, BOARD_WIDTH } from '../src/constants/game';
 import { ColorEnum } from '../src';
-import { canMoveDown, canMoveLeft, canMoveRight } from '../src/utils/constraints';
-import { clockworkRotateTetrimino } from '../src/utils/tetriminoHelper';
+import { canMoveDown, canMoveLeft, canMoveRight } from '../src/utils/constraints.helpers';
+import { clockworkRotateTetrimino } from '../src/utils/tetrimino.helpers';
 import { Tetrimino } from '../src/types/Tetrimino';
+import { uid } from 'uid';
 
 describe('test constraints', () => {
   let board: ColorEnum[][];
@@ -12,6 +13,7 @@ describe('test constraints', () => {
     board = new Array(BOARD_HEIGHT).fill(ColorEnum.NONE).map(() => new Array(BOARD_WIDTH).fill(ColorEnum.NONE));
 
     t_shape = {
+      id: uid(),
       position_x: 0,
       position_y: 0,
       rotation: 0,

@@ -1,0 +1,19 @@
+{
+  "name": "@jmischler72/shared",
+  "version": "1.1.5",
+  "main": "./dist/index.js",
+  "module": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist",
+    "./src"
+  ],
+  "scripts": {
+    "build": "tsc --build",
+    "prepare": "pnpm run build"
+  },
+  "dependencies": {
+    "@colyseus/schema": "^2.0.30",
+    "@jmischler72/core": "workspace:*"
+  }
+}

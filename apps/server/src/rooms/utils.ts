@@ -1,4 +1,4 @@
-import { RoomState } from '@jmischler72/types';
+import { RoomState } from '@jmischler72/shared';
 
 export function checkIfAllPlayersAreReady(state: RoomState) {
   let allPlayersReady = true;

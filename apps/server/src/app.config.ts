@@ -1,5 +1,4 @@
 import config from '@colyseus/tools';
-import { MyRoom } from './rooms/MyRoom';
 import { playground } from '@colyseus/playground';
 import basicAuth from 'express-basic-auth';
 import { monitor } from '@colyseus/monitor';
@@ -8,13 +7,13 @@ import cors from 'cors';
 import express from 'express';
 import pino from 'pino';
 import { LobbyRoom } from '@colyseus/core';
-
+import { FirstGameModeRoom } from './rooms/FirstGameModeRoom';
 export default config({
   options: {
-    logger: pino({
-      level: 'debug',
-    }),
     // transport: new uWebSocketsTransport(),
+    logger: pino({
+      level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
+    }),
     // driver: new RedisDriver(),
     // presence: new RedisPresence(),
   },
@@ -24,7 +23,7 @@ export default config({
     /**
      * Define your room handlers:
      */
-    gameServer.define('my_room', MyRoom).enableRealtimeListing();
+    gameServer.define('First', FirstGameModeRoom).enableRealtimeListing();
   },
 
   initializeExpress: (app) => {
