@@ -1,8 +1,7 @@
 {
   "name": "@jmischler72/core",
-  "private": true,
-  "version": "1.6.10",
   "description": "core game package for tetris-project",
+  "version": "1.1.1",
   "scripts": {
     "test": "jest",
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
