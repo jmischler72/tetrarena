@@ -1,5 +1,9 @@
 name: Versioning
 
+on:
+  push:
+    branches:
+      - main
 jobs:
   version:
     runs-on: ubuntu-latest
