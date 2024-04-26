@@ -95,12 +95,15 @@ export default class BoardContainer extends PIXI.Container {
 
   private renderAnimations(gameState: GameStateDTO) {
     if (!this.currentGameState) return;
+
+    let offset = 10;
     getDeletedLines(this.currentGameState?.linesId, gameState.linesId).forEach((line) => {
+      offset = 20;
       this.board.animateLineBreak(line);
     });
 
     if (gameState.currentTetrimino.id !== this.currentGameState?.currentTetrimino.id) {
-      this.posedAnimation(10);
+      this.posedAnimation(offset);
     }
     if (gameState.score != parseInt(this.scoreText.text)) {
       this.scoreAnimation(gameState.score);

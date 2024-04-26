@@ -3,7 +3,7 @@
   import { Manager } from '../../../../TetrisPixi/Manager';
   import MultiPlayerGameScene from '../../../../TetrisPixi/scenes/MultiPlayerGameScene';
   import { playersStore, roomStore } from '$lib/stores/multiplayerStore';
-  import { MessageTypeEnum, toGameStateDTO } from '@jmischler72/types';
+  import { MessageTypeEnum, toGameStateDTO } from '@jmischler72/shared';
   import { onKeyDown } from '$lib/functions/helpers/InputHelper';
 
   function onInput(event: KeyboardEvent) {

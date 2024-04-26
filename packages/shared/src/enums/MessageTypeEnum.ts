@@ -4,4 +4,5 @@ export enum MessageTypeEnum {
   PONG = 'PONG',
   READY = 'READY',
   TIMEOUT = 'TIMEOUT',
+  EDIT_ROOM = 'EDIT_ROOM',
 }

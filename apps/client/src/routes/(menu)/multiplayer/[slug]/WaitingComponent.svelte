@@ -1,70 +1,30 @@
-<script lang='ts'>
-  import { roomStore } from '$lib/stores/multiplayerStore';
+<script lang="ts">
+  import GameEndComponent from "./(waiting-room)/GameEndComponent.svelte";
+  import { roomStore } from "$lib/stores/multiplayerStore.js";
+  import CurrentPlayers from "./(waiting-room)/CurrentPlayers.svelte";
+  import RoomSummary from "./(waiting-room)/RoomSummary.svelte";
+  import type { RoomOptions } from "@jmischler72/shared";
 
   export let players: Map<string, boolean>;
+  export let roomOptions: RoomOptions;
+  export let showOptionsMenu: boolean;
+  let winner: string = "";
+
+  $roomStore?.state.listen("winner", (currentValue) => {
+    winner = currentValue;
+  });
+
 
 </script>
-<div class='flex flex-col justify-center items-center gap-6 p-8'>
-  <div class='flex flex-col justify-center items-center'>
-    <ul class='list-none'>
-      {#each players.keys() as player}
-        <li class='flex flex-row gap-2'>
-          <h1 class='p-2 rounded bg-gray-600 border-gray-400 border-solid mb-2'
-              class:border-2={ player === $roomStore?.sessionId}>
-            {player}
-          </h1>
-          {#if players.get(player)}
-            <span class='p-2 rounded bg-gray-600 border-gray-400 border-solid mb-2 text-green-100'>✔</span>
-          {/if}
-      {/each}
-    </ul>
+
+<div class="w-full h-full flex flex-row justify-end">
+  <div class="w-1/3 flex flex-col">
+    {#if winner !== ""}
+      <GameEndComponent winner={winner} />
+    {/if}
+    <CurrentPlayers bind:players="{players}"></CurrentPlayers>
   </div>
-  {#if players.size < 2}
-    <h1>Waiting for players<span
-      class='ani-ellipsis ani-ellipsis-jump'><span>.</span></span></h1>
-  {/if}
+  <div class="w-1/3 p-8 pl-24 rounded-lg">
+    <RoomSummary bind:roomOptions bind:showOptionsMenu></RoomSummary>
+  </div>
 </div>
-
-
-<style lang='scss'>
-  .ani-ellipsis {
-    &:before, &:after {
-      content: '.';
-    }
-  }
-
-  @keyframes jump-animation {
-    0% {
-      top: 0;
-    }
-    30% {
-      top: -0.125em;
-    }
-    60% {
-      top: 0;
-    }
-    100% {
-      top: 0;
-    }
-  }
-
-  .ani-ellipsis-jump {
-    &:before {
-      position: relative;
-      animation: jump-animation 1s infinite;
-      animation-delay: 0s;
-    }
-
-    span {
-      position: relative;
-      animation: jump-animation 1s infinite;
-      animation-delay: .25s;
-    }
-
-    &:after {
-      position: relative;
-      animation: jump-animation 1s infinite;
-      animation-delay: .5s;
-    }
-  }
-</style>
