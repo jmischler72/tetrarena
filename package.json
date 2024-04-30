@@ -1,38 +1,42 @@
 {
-  "name": "@jmischler72/tetrarena",
-  "description": "A monorepo for tetrarena project",
-  "scripts": {
-    "lint": "eslint ./ --max-warnings=0 --ext .ts",
-    "lint-fix": "eslint ./ --max-warnings=0 --ext .ts --fix",
-    "format": "prettier --config .prettierrc \".\" --write",
-    "client": "pnpm --filter @jmischler72/client",
-    "server": "pnpm --filter @jmischler72/server",
-    "prepare": "husky install",
-    "cz": "cz"
-  },
-  "engines": {
-    "node": ">=16.19.0"
-  },
-  "packageManager": "pnpm@9.0.2",
-  "devDependencies": {
-    "@commitlint/cli": "^17.8.1",
-    "@commitlint/config-conventional": "^17.8.1",
-    "@lerna-lite/cli": "^3.3.3",
-    "@lerna-lite/version": "^3.3.3",
-    "@types/node": "^18.19.31",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "commitizen": "^4.3.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "esbuild": "^0.17.19",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.3.0",
-    "prettier": "^2.8.8",
-    "ts-node": "^10.9.2",
-    "turbo": "^1.13.2",
-    "typescript": "5.1.6"
-  }
+	"name": "@jmischler72/tetrarena",
+	"description": "A monorepo for tetrarena project",
+	"scripts": {
+		"lint": "eslint ./ --max-warnings=0 --ext .ts",
+		"lint-fix": "eslint ./ --max-warnings=0 --ext .ts --fix",
+		"format": "prettier --config .prettierrc \".\" --write",
+		"client": "pnpm --filter @jmischler72/client",
+		"server": "pnpm --filter @jmischler72/server",
+		"prepare": "husky install",
+		"cz": "cz"
+	},
+	"engines": {
+		"node": ">=16.19.0"
+	},
+	"packageManager": "pnpm@9.0.2",
+	"devDependencies": {
+		"@commitlint/cli": "^17.8.1",
+		"@commitlint/config-conventional": "^17.8.1",
+		"@lerna-lite/cli": "^3.3.3",
+		"@lerna-lite/version": "^3.3.3",
+		"@types/eslint": "8.56.0",
+		"@types/node": "^18.19.31",
+		"@typescript-eslint/eslint-plugin": "^6.21.0",
+		"@typescript-eslint/parser": "^6.21.0",
+		"commitizen": "^4.3.0",
+		"cz-conventional-changelog": "^3.3.0",
+		"esbuild": "^0.17.19",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^8.10.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-svelte": "^2.37.0",
+		"husky": "^8.0.3",
+		"lint-staged": "^13.3.0",
+		"prettier": "^3.2.5",
+		"prettier-plugin-svelte": "^3.2.3",
+		"prettier-plugin-tailwindcss": "^0.5.14",
+		"ts-node": "^10.9.2",
+		"turbo": "^1.13.2",
+		"typescript": "5.1.6"
+	}
 }
