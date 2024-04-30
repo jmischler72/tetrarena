@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.6 (2024-04-30)
+
+### Bug Fixes
+
+* **client:** sync remove player with server ([ac9883e](https://github.com/jmischler72/tetrarena/commit/ac9883e591ee2e592f3b9ece4397411144a2168b))
+
 ## 1.1.5 (2024-04-26)
 
 **Note:** Version bump only for package @jmischler72/client
