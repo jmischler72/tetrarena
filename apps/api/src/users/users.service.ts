@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException, HttpException, HttpStatus, BadRequestException, Inject } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
-import { AccountsUsers } from './interfaces/accounts-users.interface';
 import { Users } from './models/users.model';
 import { UserDto } from './dto/user.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
@@ -49,7 +48,7 @@ export class UsersService {
 		return user;
 	}
 
-	public async create(userDto: UserDto): Promise<AccountsUsers> {
+	public async create(userDto: UserDto): Promise<Users> {
 		try {
 			return await this.usersRepository.create(userDto);
 		} catch (err) {

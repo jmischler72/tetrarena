@@ -3,7 +3,7 @@ import * as request from 'supertest';
 import { AppModule } from './../../src/app.module';
 import { MailerService } from '../../src/shared/mailer/mailer.service';
 import { HttpStatus, ValidationPipe } from '@nestjs/common';
-import { AccessTokenGuard } from '../../src/iam/login/guards/access-token/access-token.guard';
+import { AccessTokenGuard } from '../../src/iam/login/guards/access-token.guard';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 
 const users = [

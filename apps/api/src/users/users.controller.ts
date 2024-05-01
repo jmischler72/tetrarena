@@ -10,21 +10,29 @@ import {
 	BadRequestException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { AccountsUsers } from './interfaces/accounts-users.interface';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../iam/login/decorators/auth-guard.decorator';
 import { AuthType } from '../iam/login/enums/auth-type.enum';
 import { User } from '@/iam/login/decorators/user.decorator';
+import { RoleGuard } from '@/iam/login/decorators/role-guard.decorator';
+import { Role } from '@/iam/login/enums/role.enum';
+import { Users } from './models/users.model';
 
 @ApiTags('users')
-@AuthGuard(AuthType.Bearer)
+@AuthGuard(AuthType.Bearer, AuthType.None)
 @Controller('users')
 export class UsersController {
 	constructor(private readonly usersService: UsersService) {}
 
 	@Get()
-	public async getCurrentUser(@User('email') email: string): Promise<AccountsUsers> {
+	public async getCurrentUser(@User('email') email: string): Promise<Users> {
 		return this.usersService.findByEmail(email);
+	}
+
+	@RoleGuard(Role.Admin)
+	@Get('test')
+	public async test(): Promise<string> {
+		return 'y';
 	}
 
 	// @Get('/:userId')

@@ -1,4 +1,5 @@
-import { MaxLength, IsNotEmpty, IsEmail, IsString } from 'class-validator';
+import { Role } from '@/iam/login/enums/role.enum';
+import { MaxLength, IsNotEmpty, IsEmail, IsString, IsEnum } from 'class-validator';
 
 export class UserDto {
 	@IsString()
@@ -8,6 +9,9 @@ export class UserDto {
 	@IsString()
 	@MaxLength(40)
 	readonly username: string;
+
+	@IsEnum(Role)
+	readonly role: Role = Role.User;
 
 	@IsEmail()
 	@IsString()

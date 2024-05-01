@@ -9,10 +9,12 @@ import { ConfigModule } from '@nestjs/config';
 import { HashingService } from '../../shared/hashing/hashing.service';
 import { BcryptService } from '../../shared/hashing/bcrypt.service';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthenticationGuard } from './guards/authentication/authentication.guard';
-import { AccessTokenGuard } from './guards/access-token/access-token.guard';
+import { AuthenticationGuard } from './guards/authentication.guard';
+import { AccessTokenGuard } from './guards/access-token.guard';
 import jwtConfig from './config/jwt.config';
 import { provideUsersRepository } from '../../users/repositories/users.repository.provider';
+import { RoleGuard } from './guards/roles.guard';
+import { AdminRoleGuard } from './guards/admin-role.guard';
 
 @Module({
 	imports: [
@@ -29,7 +31,12 @@ import { provideUsersRepository } from '../../users/repositories/users.repositor
 			provide: APP_GUARD,
 			useClass: AuthenticationGuard,
 		},
+		{
+			provide: APP_GUARD,
+			useClass: RoleGuard,
+		},
 		AccessTokenGuard,
+		AdminRoleGuard,
 		LoginService,
 		UsersService,
 		...provideUsersRepository(),

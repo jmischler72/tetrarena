@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../../users/users.service';
-import { AccountsUsers } from '../../users/interfaces/accounts-users.interface';
 import { LoginDto } from './dto/login.dto';
 import { ConfigType } from '@nestjs/config';
 import { HashingService } from '../../shared/hashing/hashing.service';
@@ -20,7 +19,7 @@ export class LoginService {
 		private readonly hashingService: HashingService,
 	) {}
 
-	public async findUserByEmail(loginDto: LoginDto): Promise<AccountsUsers> {
+	public async findUserByEmail(loginDto: LoginDto): Promise<Users> {
 		return await this.usersService.findByEmail(loginDto.email);
 	}
 
@@ -45,7 +44,10 @@ export class LoginService {
 
 	async generateTokens(user: Users) {
 		const [accessToken, refreshToken] = await Promise.all([
-			this.signToken<Partial<JWTPayload>>(user.id, this.jwtConfiguration.accessTokenTtl, { email: user.email }),
+			this.signToken<Partial<JWTPayload>>(user.id, this.jwtConfiguration.accessTokenTtl, {
+				email: user.email,
+				role: user.role,
+			}),
 			this.signToken(user.id, this.jwtConfiguration.refreshTokenTtl),
 		]);
 		return {
