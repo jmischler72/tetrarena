@@ -7,6 +7,8 @@ import { get } from 'svelte/store';
 export async function initUser() {
 	const auth = getAuth();
 
+	if (auth.currentUser) return;
+
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
 			snackbarStore.set('Logged in');
