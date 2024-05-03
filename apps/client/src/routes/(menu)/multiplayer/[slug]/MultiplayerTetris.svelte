@@ -2,9 +2,9 @@
 	import { onMount } from 'svelte';
 	import { Manager } from '../../../../TetrisPixi/Manager';
 	import MultiPlayerGameScene from '../../../../TetrisPixi/scenes/MultiPlayerGameScene';
-	import { playersStore, roomStore } from '$lib/stores/multiplayerStore';
+	import { playersStore, roomStore } from '$lib/stores/multiplayer-store';
 	import { MessageTypeEnum, toGameStateDTO } from '@jmischler72/shared';
-	import { onKeyDown } from '$lib/functions/helpers/InputHelper';
+	import { onKeyDown } from '$lib/functions/helpers/input-helper';
 
 	function onInput(event: KeyboardEvent) {
 		let action = onKeyDown(event);

@@ -1,19 +1,16 @@
 <script lang="ts">
-import { snackbarStore } from '$lib/stores/snackbarStore';
+	import { snackbarStore } from '$lib/stores/snackbar-store';
 
-let message: string;
-$: message = $snackbarStore !== '' ? $snackbarStore: message
-$: if ($snackbarStore) setTimeout(() => ($snackbarStore = ''), 3000);
-
+	let message: string;
+	$: message = $snackbarStore !== '' ? $snackbarStore : message;
+	$: if ($snackbarStore) setTimeout(() => ($snackbarStore = ''), 3000);
 </script>
 
-<div class='w-[40%] flex justify-center rounded-lg absolute bottom-10 right-10 bg-gray-800 transition p-2 z-30 pointer-events-none'
-     class:opacity-0={$snackbarStore === ''}
+<div
+	class="pointer-events-none absolute bottom-10 right-10 z-30 flex w-[40%] justify-center rounded-lg bg-gray-800 p-2 transition"
+	class:opacity-0={$snackbarStore === ''}
 >
-  <div
-    class='w-full h-full flex justify-center rounded border-2 border-solid border-gray-600  py-8  '
-  >
-    <h1 class='text-white'>{message}</h1>
-  </div>
-
+	<div class="flex h-full w-full justify-center rounded border-2 border-solid border-gray-600 py-8">
+		<h1 class="text-white">{message}</h1>
+	</div>
 </div>

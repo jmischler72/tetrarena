@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { afterNavigate, goto } from '$app/navigation';
-	import { leaveRoom } from '$lib/functions/services/RoomService';
+	import { leaveRoom } from '$lib/functions/services/room-service';
 	import MediaQuery from '$lib/components/MediaQuery.svelte';
 
 	let previousPage: string = '/';
@@ -26,7 +26,7 @@
 			<button
 				class="group flex cursor-pointer items-center"
 				class:animation-left={previousPage === '/'}
-				on:click={() => goto(previousPage)}
+				on:click={() => ($page.url.pathname.split('/')[1] === 'multiplayer' ? goto('/') : goto(previousPage))}
 			>
 				<span class="translate-x-[-2px] translate-y-[1px] opacity-40 transition group-hover:translate-x-[-6px]"
 					>&#60;</span
