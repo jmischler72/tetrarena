@@ -1,8 +1,9 @@
 import { getAuth, onAuthStateChanged, signInAnonymously, type UserCredential } from 'firebase/auth';
-import { app } from './firebase-client';
-import { snackbarStore } from '$lib/stores/snackbar-store';
-import { clientStore, userStore } from '$lib/stores/multiplayer-store';
+import { app, db } from './FirebaseClient';
+import { snackbarStore } from '$lib/stores/SnackbarStore';
+import { clientStore, userStore } from '$lib/stores/MultiplayerStore';
 import { get } from 'svelte/store';
+import { ref, set } from 'firebase/database';
 
 export async function initUser() {
 	const auth = getAuth();
@@ -39,4 +40,14 @@ async function guestLogin() {
 		const errorMessage = error.message;
 		snackbarStore.set(errorCode + errorMessage);
 	});
+
+	let username = 'Guest-' + auth.currentUser?.uid.substring(0, 6);
+
+	set(ref(db, 'users/' + auth.currentUser?.uid), {
+		username: username,
+	});
 }
+
+// export function getUserFromDb() {
+// 	ref(db, 'users/' + auth.currentUser?.uid);
+// }

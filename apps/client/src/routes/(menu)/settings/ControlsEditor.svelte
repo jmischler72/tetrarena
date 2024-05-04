@@ -2,8 +2,8 @@
 	import { ActionsEnum } from '@jmischler72/core';
 	import { onMount } from 'svelte';
 	import type { Preset } from '$lib/data/presets/preset';
-	import { isKeyInPreset, setActionKey } from '$lib/functions/helpers/input-helper';
-	import { snackbarStore } from '$lib/stores/snackbar-store';
+	import { isKeyInPreset, setActionKey } from '$lib/functions/helpers/InputHelper';
+	import { snackbarStore } from '$lib/stores/SnackbarStore';
 
 	export let tempKeybind: Preset;
 

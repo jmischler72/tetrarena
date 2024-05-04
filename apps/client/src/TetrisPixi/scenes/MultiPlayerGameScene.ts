@@ -4,7 +4,7 @@ import * as TWEEN from '@tweenjs/tween.js';
 import { get } from 'svelte/store';
 
 import type { IScene } from '../Manager';
-import { playersStore, roomStore } from '$lib/stores/multiplayer-store';
+import { playersStore, roomStore } from '$lib/stores/MultiplayerStore';
 import type { Player } from '$lib/functions/Player';
 
 export default class MultiPlayerGameScene extends GameScene implements IScene {

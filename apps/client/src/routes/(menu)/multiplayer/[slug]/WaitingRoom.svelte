@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { roomStore } from '$lib/stores/multiplayer-store';
+	import { roomStore } from '$lib/stores/MultiplayerStore';
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
 	import WaitingComponent from './WaitingComponent.svelte';
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { FirstGameModeRoomState, MessageTypeEnum, type RoomOptions } from '@jmischler72/shared';
-	import { snackbarStore } from '$lib/stores/snackbar-store';
+	import { snackbarStore } from '$lib/stores/SnackbarStore';
 	import RoomForm from '../(room-create)/RoomForm.svelte';
 
 	let showOptionsMenu: boolean = false;

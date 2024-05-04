@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { roomStore } from '$lib/stores/multiplayer-store';
+	import { roomStore } from '$lib/stores/MultiplayerStore';
 
 	export let players: Map<string, boolean>;
 </script>

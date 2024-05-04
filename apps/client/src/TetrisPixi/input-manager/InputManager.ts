@@ -1,5 +1,5 @@
 import { ActionsEnum } from '@jmischler72/core';
-import { keybindStore } from '$lib/stores/controls-store';
+import { keybindStore } from '$lib/stores/ControlsStore';
 import type { Preset } from '$lib/data/presets/preset';
 import { get } from 'svelte/store';
 

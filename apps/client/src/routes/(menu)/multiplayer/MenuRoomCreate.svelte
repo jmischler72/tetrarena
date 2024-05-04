@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import type { RoomOptions } from '@jmischler72/shared';
-	import { createRoom } from '$lib/functions/services/room-service';
+	import { createRoom } from '$lib/functions/services/RoomService';
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';

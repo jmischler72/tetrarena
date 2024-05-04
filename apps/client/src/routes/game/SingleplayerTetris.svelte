@@ -4,7 +4,7 @@
 	import SinglePlayerGameScene from '../../TetrisPixi/scenes/SinglePlayerGameScene';
 	import { SinglePlayerInstance } from '@jmischler72/core';
 	import { goto } from '$app/navigation';
-	import { onKeyDown } from '$lib/functions/helpers/input-helper';
+	import { onKeyDown } from '$lib/functions/helpers/InputHelper';
 
 	const instance: SinglePlayerInstance = new SinglePlayerInstance();
 

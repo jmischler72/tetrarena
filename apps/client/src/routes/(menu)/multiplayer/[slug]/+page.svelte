@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { joinRoom } from '$lib/functions/services/room-service';
-	import { roomStore } from '$lib/stores/multiplayer-store';
+	import { joinRoom } from '$lib/functions/services/RoomService';
+	import { roomStore } from '$lib/stores/MultiplayerStore';
 	import MultiplayerTetris from './MultiplayerTetris.svelte';
 	import WaitingRoom from './WaitingRoom.svelte';
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { afterNavigate, goto } from '$app/navigation';
-	import { leaveRoom } from '$lib/functions/services/room-service';
+	import { leaveRoom } from '$lib/functions/services/RoomService';
 	import MediaQuery from '$lib/components/MediaQuery.svelte';
 
 	let previousPage: string = '/';

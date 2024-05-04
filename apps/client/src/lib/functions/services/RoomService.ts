@@ -1,9 +1,9 @@
 import { Room } from 'colyseus.js';
-import { clientStore, playersStore, roomStore } from '$lib/stores/multiplayer-store';
+import { clientStore, playersStore, roomStore } from '$lib/stores/MultiplayerStore';
 import { goto } from '$app/navigation';
 import { get } from 'svelte/store';
 import { MessageTypeEnum, type RoomOptions } from '@jmischler72/shared';
-import { snackbarStore } from '$lib/stores/snackbar-store';
+import { snackbarStore } from '$lib/stores/SnackbarStore';
 
 export function resetRoom(goToMultiplayer = true) {
 	roomStore.set(null);

@@ -6,7 +6,7 @@
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import type { Preset } from '$lib/data/presets/preset.js';
-	import { keybindStore } from '$lib/stores/controls-store';
+	import { keybindStore } from '$lib/stores/ControlsStore';
 
 	let currentMenu = 'controls';
 

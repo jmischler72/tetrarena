@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { RoomOptions } from '@jmischler72/shared';
 	import Button from '$lib/components/Button.svelte';
-	import { roomStore } from '$lib/stores/multiplayer-store';
+	import { roomStore } from '$lib/stores/MultiplayerStore';
 
 	export let roomOptions: RoomOptions;
 	export let showOptionsMenu: boolean;

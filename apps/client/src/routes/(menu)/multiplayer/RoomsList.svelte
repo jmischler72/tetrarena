@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { RoomAvailable, Room } from 'colyseus.js';
-	import { clientStore } from '$lib/stores/multiplayer-store';
+	import { clientStore } from '$lib/stores/MultiplayerStore';
 	import { goto } from '$app/navigation';
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
 

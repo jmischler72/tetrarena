@@ -1,6 +1,6 @@
 <script lang="ts">
 	import RoomIconPicker from './RoomIconPicker.svelte';
-	import { clickOutside } from '$lib/functions/directives/click-outside';
+	import { clickOutside } from '$lib/functions/directives/ClickOutside';
 	import Button from '$lib/components/Button.svelte';
 	import GameModePicker from './GameModePicker.svelte';
 	import type { RoomOptions } from '@jmischler72/shared';
