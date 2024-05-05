@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { userStore } from '$lib/stores/MultiplayerStore';
 	import { onValue, ref } from 'firebase/database';
-	import { db } from '$lib/functions/services/FirebaseClient';
 
 	// const userRef = ref(db, 'users/' + $userStore?.uid);
 
