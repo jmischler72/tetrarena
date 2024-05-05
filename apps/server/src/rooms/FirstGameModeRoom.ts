@@ -3,7 +3,7 @@ import { FirstGameModeRoomState } from '@jmischler72/shared';
 import { BaseRoom } from './BaseRoom';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
 import { Delayed } from 'colyseus';
-import { usersRef } from './firebase.admin';
+import { increaseWinsForUser } from './FirebaseService';
 
 export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 	private gameTimer: Delayed;
@@ -57,13 +57,7 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 		if (this.gameTimer) this.gameTimer.clear();
 
 		this.state.winner = this.findWinner(this.state.players);
-
-		usersRef
-			.child(this.state.players.get(this.state.winner).userId)
-			.child('wins')
-			.transaction((current_value) => {
-				return (current_value || 0) + 1;
-			});
+		increaseWinsForUser(this.state.players.get(this.state.winner).userId);
 
 		this.logger.info('winner in room: ' + this.state.winner);
 	}

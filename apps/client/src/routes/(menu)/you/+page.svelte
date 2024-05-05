@@ -6,13 +6,20 @@
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import LoginForm from './LoginForm.svelte';
+	import UserForm from './UserForm.svelte';
 
-	let currentMenu = 'login';
+	let currentMenu = 'profile';
 
 	onMount(() => {});
 </script>
 
 <MenuHeader>
+	<MenuButtonHeader
+		on:click={() => (currentMenu = 'profile')}
+		text="Profile"
+		icon="profile"
+		selected={currentMenu === 'profile'}
+	></MenuButtonHeader>
 	<MenuButtonHeader
 		on:click={() => (currentMenu = 'login')}
 		text="Login"
@@ -27,8 +34,8 @@
 	></MenuButtonHeader>
 </MenuHeader>
 <MenuContainer>
-	{#if currentMenu === 'login'}
-		<LoginForm></LoginForm>
+	{#if currentMenu === 'profile'}
+		<UserForm></UserForm>
 	{:else}
 		<LoginForm></LoginForm>
 	{/if}

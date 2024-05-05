@@ -6,7 +6,7 @@ import { checkIfAllPlayersAreReady } from './utils';
 import pino, { Logger } from 'pino';
 import type { ActionsEnum } from '@jmischler72/core';
 import { getAuth } from 'firebase-admin/auth';
-import { app } from './firebase.admin';
+import { app } from './FirebaseAdmin';
 
 const TIMEOUT = 50000;
 

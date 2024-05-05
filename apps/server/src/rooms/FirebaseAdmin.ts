@@ -12,6 +12,4 @@ export const app = admin.initializeApp({
 	},
 });
 
-const db = admin.database(app);
-
-export const usersRef = db.ref('users');
+export const db = admin.firestore(app);
