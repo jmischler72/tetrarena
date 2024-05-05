@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { userStore } from '$lib/stores/MultiplayerStore';
+	import { getUsername } from '$lib/functions/services/FirebaseService';
 	import { onValue, ref } from 'firebase/database';
 
-	// const userRef = ref(db, 'users/' + $userStore?.uid);
-
-	let username = '';
+	let username = getUsername();
 </script>
 
 <div class="animation-up relative flex h-full w-full flex-col items-center justify-center gap-4">

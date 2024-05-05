@@ -2,15 +2,16 @@
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
 	import MenuButtonHeader from '$lib/components/menu/subcomponents/MenuButtonHeader.svelte';
 	import RoomsList from './RoomsList.svelte';
-	import { roomStore, userStore } from '$lib/stores/MultiplayerStore';
+	import { roomStore } from '$lib/stores/MultiplayerStore';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
 	import MenuRoomCreate from './MenuRoomCreate.svelte';
 	import { onMount } from 'svelte';
 	import { resetRoom } from '$lib/functions/services/RoomService';
-	import { initUser } from '$lib/functions/services/FirebaseService';
+	import { getUsername, initUser } from '$lib/functions/services/FirebaseService';
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
+	import { auth } from '$lib/functions/services/FirebaseClient';
 
 	let currentMenu = 'list';
 
@@ -38,10 +39,10 @@
 					selected={currentMenu === 'create'}
 				></MenuButtonHeader>
 			</div>
-			{#if $userStore}
+			{#if auth.currentUser}
 				<MenuButtonHeader
 					on:click={() => goto('/you')}
-					text="Guest-{$userStore?.uid.substring(0, 6) || ''}"
+					text={getUsername()}
 					icon="person"
 					selected={false}
 					customStyle="text-sm bg-gray-600/70"
