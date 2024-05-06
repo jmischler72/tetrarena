@@ -6,41 +6,34 @@ import { ref, get as getFromDb, child } from 'firebase/database';
 import { get } from 'svelte/store';
 
 export async function initUser() {
-	if (auth.currentUser) return;
-
-	onAuthStateChanged(auth, (user) => {
-		if (user) {
-			snackbarStore.set('Logged in');
-
-			user
-				.getIdToken(true)
-				.then((idToken) => {
-					get(clientStore).auth.token = idToken;
-				})
-				.catch(function (error) {
-					const errorCode = error.code;
-					const errorMessage = error.message;
-					snackbarStore.set(errorCode + errorMessage);
-				});
+	return new Promise<void>((resolve, reject) => {
+		if (auth.currentUser) {
+			resolve(); // Resolve immediately if user is already logged in
 		} else {
-			snackbarStore.set('Connecting as guest');
-
-			guestLogin();
+			onAuthStateChanged(auth, async (user) => {
+				if (user) {
+					snackbarStore.set('Logged in');
+					get(clientStore).auth.token = await user.getIdToken(true);
+					resolve(); // Resolve once token is obtained
+				} else {
+					snackbarStore.set('Connecting as guest');
+					guestLogin().then(resolve).catch(reject); // Resolve with guest login
+				}
+			});
 		}
 	});
 }
 async function guestLogin() {
-	await signInAnonymously(auth).catch((error) => {
-		const errorCode = error.code;
-		const errorMessage = error.message;
-		snackbarStore.set(errorCode + errorMessage);
-	});
+	await signInAnonymously(auth);
+	console.log('Logged in as guest');
+	if (auth.currentUser) get(clientStore).auth.token = await auth.currentUser.getIdToken(true);
 }
 
 export async function getUsername() {
 	if (!auth.currentUser) return '';
+
 	const userRef = ref(db, 'users/' + auth.currentUser.uid);
-	let username: string = await getFromDb(child(userRef, 'username'))
+	return getFromDb(child(userRef, 'username'))
 		.then((snapshot) => {
 			if (snapshot.exists()) {
 				return snapshot.val();
@@ -51,5 +44,4 @@ export async function getUsername() {
 		.catch((error) => {
 			console.error(error);
 		});
-	return username;
 }

@@ -2,11 +2,11 @@ import { Client, Room, logger } from '@colyseus/core';
 import { PlayerState, RoomOptions, RoomState } from '@jmischler72/shared';
 import { Delayed } from 'colyseus';
 import { MessageTypeEnum } from '@jmischler72/shared';
-import { checkIfAllPlayersAreReady } from './utils';
+import { checkIfAllPlayersAreReady } from '../utils/utils';
 import pino, { Logger } from 'pino';
 import type { ActionsEnum } from '@jmischler72/core';
 import { getAuth } from 'firebase-admin/auth';
-import { app } from './FirebaseAdmin';
+import { app } from '../utils/firebase/FirebaseAdmin';
 
 const TIMEOUT = 50000;
 

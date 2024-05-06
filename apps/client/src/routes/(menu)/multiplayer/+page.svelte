@@ -11,9 +11,15 @@
 	import { resetRoom } from '$lib/functions/services/RoomService';
 	import { getUsername, initUser } from '$lib/functions/services/FirebaseService';
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
-	import { auth } from '$lib/functions/services/FirebaseClient';
 
 	let currentMenu = 'list';
+	let username = '';
+
+	async function connectToServer() {
+		await fetch(import.meta.env.VITE_SERVER_URL + '/version');
+		await initUser();
+		username = await getUsername();
+	}
 
 	$: if ($roomStore && browser) goto('/multiplayer/' + $roomStore?.roomId);
 
@@ -22,7 +28,7 @@
 	});
 </script>
 
-<AsyncMenu callback={() => fetch(import.meta.env.VITE_SERVER_URL + '/version').then(() => initUser())}>
+<AsyncMenu callback={() => connectToServer()}>
 	<MenuHeader>
 		<div class="flex h-full w-full flex-row justify-between">
 			<div class="flex flex-row">
@@ -39,10 +45,10 @@
 					selected={currentMenu === 'create'}
 				></MenuButtonHeader>
 			</div>
-			{#if auth.currentUser}
+			{#if username}
 				<MenuButtonHeader
-					on:click={() => goto('/you')}
-					text={getUsername()}
+					on:click={() => {}}
+					text={username}
 					icon="person"
 					selected={false}
 					customStyle="text-sm bg-gray-600/70"

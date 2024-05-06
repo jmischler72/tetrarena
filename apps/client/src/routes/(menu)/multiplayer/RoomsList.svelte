@@ -22,7 +22,16 @@
 
 	let allRooms: RoomAvailable[] = [];
 
+	async function connectToLobbyRoom() {
+		let lobby = await $clientStore.joinOrCreate('lobby');
+		onJoin(lobby);
+	}
+
 	function onJoin(lobby: Room) {
+		lobby.onLeave(() => {
+			connectToLobbyRoom();
+		});
+
 		lobby.onMessage('rooms', (rooms) => {
 			allRooms = [...rooms];
 		});
@@ -43,7 +52,7 @@
 	}
 </script>
 
-<AsyncMenu callback={() => $clientStore.joinOrCreate('lobby').then((lobby) => onJoin(lobby))}>
+<AsyncMenu callback={() => connectToLobbyRoom()}>
 	<div class="h-full w-full p-4 text-white">
 		<div class="h-full overflow-y-scroll rounded border-2 border-solid border-gray-600">
 			<table class="w-full caption-bottom pl-10 text-sm">
