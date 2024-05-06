@@ -7,6 +7,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import { FirstGameModeRoomState, MessageTypeEnum, type RoomOptions } from '@jmischler72/shared';
 	import RoomForm from '../(room-create)/RoomForm.svelte';
+	import { onMount } from 'svelte';
 
 	let showOptionsMenu: boolean = false;
 	let roomOptions: RoomOptions = {
@@ -26,6 +27,15 @@
 	}
 
 	$: isSaved = JSON.stringify(tempRoomOptions) === JSON.stringify(roomOptions);
+
+	onMount(() => {
+		$roomStore?.onStateChange((state) => {
+			roomStateStore.set(state);
+		});
+		return () => {
+			$roomStore?.onStateChange.clear();
+		};
+	});
 </script>
 
 <MenuHeader>

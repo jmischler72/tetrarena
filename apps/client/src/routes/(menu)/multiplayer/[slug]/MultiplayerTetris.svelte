@@ -3,7 +3,7 @@
 	import { Manager } from '../../../../TetrisPixi/Manager';
 	import MultiPlayerGameScene from '../../../../TetrisPixi/scenes/MultiPlayerGameScene';
 	import { roomStore } from '$lib/stores/MultiplayerStore';
-	import { MessageTypeEnum } from '@jmischler72/shared';
+	import { MessageTypeEnum, toGameStateDTO } from '@jmischler72/shared';
 	import { onKeyDown } from '$lib/functions/helpers/InputHelper';
 
 	function onInput(event: KeyboardEvent) {
@@ -11,9 +11,21 @@
 		if (action) $roomStore?.send(MessageTypeEnum.PLAYER_ACTION, action);
 	}
 
+	let multiPlayerGameScene = new MultiPlayerGameScene();
+
+	$roomStore?.state.players.onAdd((player, key) => {
+		player.gameState.onChange(() => {
+			multiPlayerGameScene.updatePlayerBoard(key, toGameStateDTO(player.gameState));
+		});
+
+		player.listen('connected', (value) => {
+			multiPlayerGameScene.renderDisconnectOverlayForBoard(key, value);
+		});
+	});
+
 	onMount(() => {
 		window.addEventListener('keydown', onInput);
-		Manager.initialize(new MultiPlayerGameScene());
+		Manager.initialize(multiPlayerGameScene);
 
 		let interval = setInterval(() => {
 			$roomStore?.send(MessageTypeEnum.PING);

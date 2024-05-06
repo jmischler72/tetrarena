@@ -17,7 +17,7 @@
 	<MenuButtonHeader
 		on:click={() => (currentMenu = 'profile')}
 		text="Profile"
-		icon="profile"
+		icon="account_circle"
 		selected={currentMenu === 'profile'}
 	></MenuButtonHeader>
 	<MenuButtonHeader

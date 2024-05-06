@@ -19,8 +19,8 @@
 <MenuContainer>
 	{#if creating}
 		<AsyncMenu callback={() => createRoom(roomOptions)}>
-			<div class="flex h-full w-full justify-center">
-				<span class="material-symbols-outlined"> check_circle </span>
+			<div class="flex h-full w-full items-center justify-center">
+				<span class="material-symbols-outlined !size-10"> check_circle </span>
 			</div>
 		</AsyncMenu>
 	{:else}

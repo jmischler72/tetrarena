@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FirstGameModeRoomState, RoomOptions, RoomState } from '@jmischler72/shared';
+	import type { FirstGameModeRoomState } from '@jmischler72/shared';
 	import Button from '$lib/components/Button.svelte';
 	import { roomStore, roomStateStore } from '$lib/stores/MultiplayerStore';
 
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 		</div>
-		{#if $roomStore?.sessionId === $roomStore?.state.admin}
+		{#if $roomStore?.sessionId === roomState.admin}
 			<div class="absolute bottom-5 right-5">
 				<Button onClick={() => (showOptionsMenu = true)}>
 					<i class="material-symbols-outlined">tune</i>
