@@ -5,4 +5,10 @@
 <div class="flex flex-col items-center justify-center gap-6 p-8">
 	<h1>&#128081;</h1>
 	<h1>Winner: {$roomStateStore?.winner}</h1>
+	<h1>Scores:</h1>
+	<ul>
+		{#each $roomStateStore?.players ?? [] as [key, player]}
+			<li>{key} - {player.gameState.score}</li>
+		{/each}
+	</ul>
 </div>
