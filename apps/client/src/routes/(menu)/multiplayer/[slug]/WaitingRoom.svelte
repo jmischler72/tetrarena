@@ -1,60 +1,29 @@
 <script lang="ts">
-	import { roomStore } from '$lib/stores/MultiplayerStore';
+	import { roomStateStore, roomStore } from '$lib/stores/MultiplayerStore';
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
 	import WaitingComponent from './WaitingComponent.svelte';
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { FirstGameModeRoomState, MessageTypeEnum, type RoomOptions } from '@jmischler72/shared';
-	import { snackbarStore } from '$lib/stores/SnackbarStore';
 	import RoomForm from '../(room-create)/RoomForm.svelte';
 
 	let showOptionsMenu: boolean = false;
 	let roomOptions: RoomOptions = {
-		name: $roomStore?.state.name || '',
-		icon: $roomStore?.state.icon || '',
+		name: $roomStateStore?.name || '',
+		icon: $roomStateStore?.icon || '',
 		gameMode: {
-			name: $roomStore?.state.gameMode as string,
+			name: $roomStateStore?.gameMode as string,
 			options: {
-				goalScore: ($roomStore?.state as FirstGameModeRoomState).goalScore,
+				goalScore: ($roomStateStore as FirstGameModeRoomState)?.goalScore,
 			},
 		},
 	};
 	let tempRoomOptions = structuredClone(roomOptions);
 
-	$roomStore?.onStateChange(() => {
-		roomOptions = {
-			name: $roomStore?.state.name || '',
-			icon: $roomStore?.state.icon || '',
-			gameMode: {
-				name: $roomStore?.state.gameMode as string,
-				options: {
-					goalScore: ($roomStore?.state as FirstGameModeRoomState).goalScore,
-				},
-			},
-		};
-		tempRoomOptions = structuredClone(roomOptions);
-	});
-
-	let players: Map<string, boolean> = new Map<string, boolean>();
-
 	function playerReady() {
 		$roomStore?.send(MessageTypeEnum.READY);
 	}
-
-	$: $roomStore?.state.players.onAdd((player, key) => {
-		player.listen('ready', (value) => {
-			players.set(key, value);
-			players = players;
-		});
-	});
-
-	$: $roomStore?.state.players.onRemove((player, key) => {
-		snackbarStore.set(key + ' left the room!');
-
-		players.delete(key);
-		players = players;
-	});
 
 	$: isSaved = JSON.stringify(tempRoomOptions) === JSON.stringify(roomOptions);
 </script>
@@ -81,14 +50,14 @@
 	{#if showOptionsMenu}
 		<RoomForm bind:roomOptions={tempRoomOptions}></RoomForm>
 	{:else}
-		<WaitingComponent bind:players bind:roomOptions bind:showOptionsMenu></WaitingComponent>
+		<WaitingComponent bind:showOptionsMenu></WaitingComponent>
 	{/if}
 </MenuContainer>
 <MenuFooter>
 	<div class="w-[70%]">
 		{#if !showOptionsMenu}
-			<Button onClick={() => playerReady()} disabled={players.get($roomStore?.sessionId || '')}>
-				{#if players.get($roomStore?.sessionId || '')}
+			<Button onClick={() => playerReady()} disabled={$roomStateStore?.players.get($roomStore?.sessionId || '')?.ready}>
+				{#if $roomStateStore?.players.get($roomStore?.sessionId || '')?.ready}
 					<span class="translate-x-[-5px] translate-y-[-4px] text-green-100">&#10004;</span> Ready
 				{:else}
 					Ready

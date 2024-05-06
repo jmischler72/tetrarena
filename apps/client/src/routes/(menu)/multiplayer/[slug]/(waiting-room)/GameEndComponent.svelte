@@ -1,7 +1,14 @@
 <script lang="ts">
-    export let winner: string;
+	import { roomStateStore } from '$lib/stores/multiplayerStore';
 </script>
-<div class="flex flex-col justify-center items-center gap-6 p-8">
-    <h1>&#128081;</h1>
-    <h1>Winner: {winner}</h1>
+
+<div class="flex flex-col items-center justify-center gap-6 p-8">
+	<h1>&#128081;</h1>
+	<h1>Winner: {$roomStateStore?.winner}</h1>
+	<h1>Scores:</h1>
+	<ul>
+		{#each $roomStateStore?.players ?? [] as [key, player]}
+			<li>{key} - {player.gameState.score}</li>
+		{/each}
+	</ul>
 </div>

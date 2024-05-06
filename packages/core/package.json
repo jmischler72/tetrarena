@@ -1,39 +1,37 @@
 {
-  "name": "@jmischler72/core",
-  "description": "core game package for tetris-project",
-  "version": "1.1.7",
-  "scripts": {
-    "test": "jest",
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
-    "prepare": "pnpm run build"
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "author": "jmischler72",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/jest": "^29.5.12",
-    "jest": "^29.7.0",
-    "rimraf": "^5.0.5",
-    "ts-jest": "^29.1.2",
-    "tsup": "^8.0.2",
-    "typescript": "^5.4.5"
-  },
-  "dependencies": {
-    "random-js": "^2.1.0",
-    "uid": "^2.0.2"
-  },
-  "files": [
-    "./dist/",
-    "./src",
-    "./tests"
-  ]
+	"name": "@jmischler72/core",
+	"description": "core game package for tetris-project",
+	"version": "1.1.10",
+	"scripts": {
+		"test": "jest",
+		"build": "tsup src/index.ts --format cjs,esm --dts --clean",
+		"prepare": "pnpm run build"
+	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"require": "./dist/index.js",
+			"import": "./dist/index.mjs",
+			"types": "./dist/index.d.ts"
+		}
+	},
+	"devDependencies": {
+		"@types/jest": "^29.5.12",
+		"jest": "^29.7.0",
+		"rimraf": "^5.0.5",
+		"ts-jest": "^29.1.2",
+		"tsup": "^8.0.2",
+		"typescript": "^5.4.5"
+	},
+	"dependencies": {
+		"random-js": "^2.1.0",
+		"uid": "^2.0.2"
+	},
+	"files": [
+		"./dist/",
+		"./src",
+		"./tests"
+	]
 }

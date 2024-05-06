@@ -1,28 +1,20 @@
 <script lang="ts">
 	import GameEndComponent from './(waiting-room)/GameEndComponent.svelte';
-	import { roomStore } from '$lib/stores/MultiplayerStore';
+	import { roomStateStore, roomStore } from '$lib/stores/MultiplayerStore.js';
 	import CurrentPlayers from './(waiting-room)/CurrentPlayers.svelte';
 	import RoomSummary from './(waiting-room)/RoomSummary.svelte';
-	import type { RoomOptions } from '@jmischler72/shared';
 
-	export let players: Map<string, boolean>;
-	export let roomOptions: RoomOptions;
 	export let showOptionsMenu: boolean;
-	let winner: string = '';
-
-	$roomStore?.state.listen('winner', (currentValue) => {
-		winner = currentValue;
-	});
 </script>
 
 <div class="flex h-full w-full flex-row justify-end">
 	<div class="flex w-1/3 flex-col">
-		{#if winner !== ''}
-			<GameEndComponent {winner} />
+		{#if $roomStateStore?.winner !== ''}
+			<GameEndComponent />
 		{/if}
-		<CurrentPlayers bind:players></CurrentPlayers>
+		<CurrentPlayers></CurrentPlayers>
 	</div>
 	<div class="w-1/3 rounded-lg p-8 pl-24">
-		<RoomSummary bind:roomOptions bind:showOptionsMenu></RoomSummary>
+		<RoomSummary bind:showOptionsMenu></RoomSummary>
 	</div>
 </div>

@@ -22,7 +22,7 @@
 		if (!isKeyInPreset(event.key, tempKeybind)) {
 			tempKeybind = setActionKey(actionWaitingForKey, event.key, tempKeybind);
 		} else {
-			$snackbarStore = 'Key already in use!';
+			$snackbarStore = `Key <span class="font-bold underline">${event.key === ' ' ? 'SPACE' : event.key}</span> already in use !`;
 		}
 		actionWaitingForKey = null;
 		event.preventDefault();

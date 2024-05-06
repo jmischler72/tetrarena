@@ -1,18 +1,11 @@
 <script lang="ts">
 	import { joinRoom } from '$lib/functions/services/RoomService';
-	import { roomStore } from '$lib/stores/MultiplayerStore';
+	import { roomStore, roomStateStore } from '$lib/stores/MultiplayerStore';
 	import MultiplayerTetris from './MultiplayerTetris.svelte';
 	import WaitingRoom from './WaitingRoom.svelte';
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
 
 	export let data;
-
-	let isPlaying: boolean = false;
-
-	//the dollar sign is important to make the listener reactive
-	$: $roomStore?.state.listen('isPlaying', (currentValue: boolean) => {
-		isPlaying = currentValue;
-	});
 </script>
 
 <svelte:window
@@ -22,7 +15,7 @@
 />
 
 <AsyncMenu callback={() => joinRoom(data.slug)}>
-	{#if isPlaying}
+	{#if $roomStateStore?.isPlaying}
 		<MultiplayerTetris></MultiplayerTetris>
 	{:else}
 		<WaitingRoom />

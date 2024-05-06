@@ -11,6 +11,6 @@
 	class:opacity-0={$snackbarStore === ''}
 >
 	<div class="flex h-full w-full justify-center rounded border-2 border-solid border-gray-600 py-8">
-		<h1 class="text-white">{message}</h1>
+		<h1 class="text-white">{@html message}</h1>
 	</div>
 </div>

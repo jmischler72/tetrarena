@@ -7,7 +7,6 @@ import { snackbarStore } from '$lib/stores/SnackbarStore';
 
 export function resetRoom(goToMultiplayer = true) {
 	roomStore.set(null);
-	get(playersStore).clear();
 	if (goToMultiplayer) void goto('/multiplayer/');
 	localStorage.removeItem('reconnectionToken');
 }

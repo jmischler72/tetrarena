@@ -4,8 +4,8 @@ import * as TWEEN from '@tweenjs/tween.js';
 import { get } from 'svelte/store';
 
 import type { IScene } from '../Manager';
-import { playersStore, roomStore } from '$lib/stores/MultiplayerStore';
-import type { Player } from '$lib/functions/Player';
+import { roomStateStore, roomStore } from '$lib/stores/MultiplayerStore';
+import { toGameStateDTO, type PlayerState } from '@jmischler72/shared';
 
 export default class MultiPlayerGameScene extends GameScene implements IScene {
 	private readonly playerBoard: BoardContainer;
@@ -26,10 +26,10 @@ export default class MultiPlayerGameScene extends GameScene implements IScene {
 		this.stats.begin();
 		TWEEN.update();
 
-		get(playersStore).forEach((value: Player, key: string) => {
+		get(roomStateStore)?.players.forEach((value: PlayerState, key: string) => {
 			const boardToUpdate = key === get(roomStore)?.sessionId ? this.playerBoard : this.oppBoard;
 			if (value.gameState !== undefined)
-				boardToUpdate.updatePlayerBoard(value.gameState, value.name + ': ' + value.connected);
+				boardToUpdate.updatePlayerBoard(toGameStateDTO(value.gameState), key + ': ' + value.connected);
 			boardToUpdate.renderDisconnectOverlay(value.connected);
 		});
 
