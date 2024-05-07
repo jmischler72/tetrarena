@@ -1,8 +1,11 @@
-FROM node:20-slim AS base
+FROM node:20-alpine AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
+# Install Python3, make and g++ needed for node-gyp
+RUN apk add --update python3 make g++\
+   && rm -rf /var/cache/apk/*
 
 FROM base AS build
 COPY . /usr/src/app
