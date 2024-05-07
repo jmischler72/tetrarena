@@ -113,7 +113,7 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 			this.logger.debug('received ping request: ' + client.sessionId);
 			client.send(MessageTypeEnum.PONG, { time: Date.now() });
 		});
-		this.onMessage(MessageTypeEnum.PLAYER_ACTION, (client, data: ActionsEnum) => {
+		this.onMessage(MessageTypeEnum.PLAYER_ACTION, (client, data) => {
 			if (this.state.isPlaying) {
 				this.logger.debug('handle action: ' + data + ' for client: ' + client.sessionId);
 				const player = this.state.players.get(client.sessionId);

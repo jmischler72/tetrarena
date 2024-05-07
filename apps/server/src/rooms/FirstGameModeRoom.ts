@@ -1,4 +1,4 @@
-import { RoomOptions } from '@jmischler72/shared';
+import { PlayerState, RoomOptions } from '@jmischler72/shared';
 import { FirstGameModeRoomState } from '@jmischler72/shared';
 import { BaseRoom } from './BaseRoom';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
@@ -25,13 +25,13 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 		if (!this.state.isPlaying) return;
 
 		const seed = Date.now();
-		this.state.players.forEach((player) => {
+		this.state.players.forEach((player: PlayerState) => {
 			player.ready = false;
 			player.createGame(seed);
 		});
 
 		this.gameTimer = this.clock.setInterval(() => {
-			this.state.players.forEach((player) => {
+			this.state.players.forEach((player: PlayerState) => {
 				player.handleAction(ActionsEnum.GO_DOWN);
 				if (player.gameState.isGameOver || player.gameState.score >= this.state.goalScore) this.stopGame();
 			});
