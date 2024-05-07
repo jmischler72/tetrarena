@@ -59,12 +59,14 @@ export class PlayerState extends Schema {
 	@type('boolean') ready = false;
 
 	@type('string') userId;
+	@type('string') username;
 
 	@type(GameState) gameState = new GameState();
 
-	constructor(userId: string) {
+	constructor(userId: string, username: string) {
 		super();
 		this.userId = userId;
+		this.username = username;
 	}
 
 	createGame(seed: number) {

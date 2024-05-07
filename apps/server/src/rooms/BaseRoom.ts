@@ -7,6 +7,7 @@ import pino, { Logger } from 'pino';
 import type { ActionsEnum } from '@jmischler72/core';
 import { getAuth } from 'firebase-admin/auth';
 import { app } from '../utils/firebase/FirebaseAdmin';
+import { FirebaseService } from '../utils/firebase/FirebaseService';
 
 const TIMEOUT = 50000;
 
@@ -16,8 +17,17 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 	logger: Logger = pino({ level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info' });
 
 	static onAuth(token: string, req: any) {
-		logger.debug(token);
-		return getAuth(app).verifyIdToken(token);
+		return getAuth(app)
+			.verifyIdToken(token)
+			.then((decodedToken) => {
+				return FirebaseService.checkIfUserNotInRoom(decodedToken.uid).then((notInRoom) => {
+					if (notInRoom) {
+						logger.info('User not in room');
+						return decodedToken;
+					}
+					throw new Error('User already in room');
+				});
+			});
 	}
 
 	onCreate(options: RoomOptions) {
@@ -39,8 +49,10 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		this.logger.info('client: ' + client.sessionId + ' joined room');
 		if (this.clients.length <= 1) this.state.admin = client.sessionId;
 
-		const newPlayer = new PlayerState(client.auth.uid);
-		this.state.players.set(client.sessionId, newPlayer);
+		FirebaseService.setUserInRoom(client.auth.uid, this.roomId);
+		FirebaseService.getUsername(client.auth.uid).then((username) => {
+			this.state.players.set(client.sessionId, new PlayerState(client.auth.uid, username));
+		});
 	}
 
 	async onLeave(client: Client, consented: boolean) {
@@ -51,11 +63,10 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		this.initializeTimeout();
 
 		if (consented) {
-			this.state.players.delete(client.sessionId);
-			if (this.state.isPlaying) this.stopGame();
-			this.logger.info('client: ' + client.sessionId + ' left room consented');
+			this.handlePlayerDisconnect(client.sessionId, true);
 			return;
 		}
+
 		try {
 			await this.allowReconnection(client, 20);
 
@@ -63,10 +74,15 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 			if (isAdmin) this.state.admin = client.sessionId;
 			this.state.players.get(client.sessionId).connected = true;
 		} catch (e) {
-			this.state.players.delete(client.sessionId);
-			if (this.state.isPlaying) this.stopGame();
-			this.logger.info('client: ' + client.sessionId + ' left room');
+			this.handlePlayerDisconnect(client.sessionId, false);
 		}
+	}
+
+	private handlePlayerDisconnect(clientId: string, consented: boolean) {
+		FirebaseService.setUserInRoom(this.state.players.get(clientId).userId, null);
+		this.state.players.delete(clientId);
+		if (this.state.isPlaying) this.stopGame();
+		this.logger.info('client: ' + clientId + ' left room' + (consented ? ' consented' : ''));
 	}
 
 	onDispose() {

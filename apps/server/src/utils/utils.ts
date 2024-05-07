@@ -11,16 +11,22 @@ export function checkIfAllPlayersAreReady(state: RoomState) {
 	return allPlayersReady;
 }
 
-export function findWinner(map: Map<string, PlayerState>): string | undefined {
+export function findWinner(map: Map<string, PlayerState>): PlayerState {
 	let highestScore = -Infinity;
-	let keyWithHighestScore: string | undefined;
+	let playerWithHighestScore: PlayerState;
 
 	for (const [key, obj] of map.entries()) {
 		if (obj.gameState.score > highestScore && !obj.gameState.isGameOver) {
 			highestScore = obj.gameState.score;
-			keyWithHighestScore = key;
+			playerWithHighestScore = obj;
 		}
 	}
 
-	return keyWithHighestScore;
+	if (!playerWithHighestScore) {
+		map.forEach((player, key) => {
+			if (!player.gameState.isGameOver) playerWithHighestScore = player;
+		});
+	}
+
+	return playerWithHighestScore;
 }

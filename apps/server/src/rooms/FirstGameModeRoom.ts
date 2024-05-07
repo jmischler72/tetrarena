@@ -43,8 +43,9 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 
 		if (this.gameTimer) this.gameTimer.clear();
 
-		this.state.winner = findWinner(this.state.players);
-		if (this.state.winner) FirebaseService.increaseWinsForUser(this.state.players.get(this.state.winner).userId);
+		let winner = findWinner(this.state.players);
+		this.state.winner = winner.username;
+		if (this.state.winner) FirebaseService.increaseWinsForUser(winner.userId);
 
 		this.logger.info('winner in room: ' + this.state.winner);
 	}

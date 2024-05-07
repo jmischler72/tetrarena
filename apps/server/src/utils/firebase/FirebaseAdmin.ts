@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import { FirebaseService } from './FirebaseService';
 
 export const app = admin.initializeApp({
 	credential: admin.credential.cert({
@@ -13,3 +14,5 @@ export const app = admin.initializeApp({
 });
 
 export const db = admin.database(app);
+
+FirebaseService.resetUsersInRoom();

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { Manager } from '../../../../TetrisPixi/Manager';
 	import MultiPlayerGameScene from '../../../../TetrisPixi/scenes/MultiPlayerGameScene';
-	import { roomStore } from '$lib/stores/MultiplayerStore';
+	import { roomStore, roomStateStore } from '$lib/stores/MultiplayerStore';
 	import { MessageTypeEnum, toGameStateDTO } from '@jmischler72/shared';
 	import { onKeyDown } from '$lib/functions/helpers/InputHelper';
 
@@ -11,7 +11,15 @@
 		if (action) $roomStore?.send(MessageTypeEnum.PLAYER_ACTION, action);
 	}
 
-	let multiPlayerGameScene = new MultiPlayerGameScene();
+	let oppNames: string[] = [];
+	$roomStateStore?.players.forEach((player, key) => {
+		if (key !== $roomStore?.sessionId) oppNames.push(player.username);
+	});
+
+	let multiPlayerGameScene = new MultiPlayerGameScene(
+		$roomStateStore?.players.get($roomStore?.sessionId || '')?.username || '',
+		oppNames[0] || '',
+	);
 
 	$roomStore?.state.players.onAdd((player, key) => {
 		player.gameState.onChange(() => {
