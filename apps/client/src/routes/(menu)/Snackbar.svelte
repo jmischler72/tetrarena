@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { snackbarStore } from '$lib/stores/snackbarStore';
+	import { snackbarStore } from '$lib/stores/SnackbarStore';
 
 	let message: string;
 	$: message = $snackbarStore !== '' ? $snackbarStore : message;

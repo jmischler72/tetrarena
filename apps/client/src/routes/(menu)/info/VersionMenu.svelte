@@ -1,15 +1,14 @@
 <script lang="ts">
-	import {onMount} from 'svelte'
+	import { onMount } from 'svelte';
 
-
-	let serverUrl = import.meta.env.VITE_BACKEND_URL + "/version";
+	let serverUrl = import.meta.env.VITE_SERVER_URL + '/version';
 
 	let clientVersion = __APP_VERSION__;
-	let serverVersion = "offline";
+	let serverVersion = 'offline';
 	onMount(() => {
 		fetch(serverUrl)
-				.then(res => res.json())
-				.then(data => serverVersion = data.version)
+			.then((res) => res.json())
+			.then((data) => (serverVersion = data.version));
 	});
 </script>
 

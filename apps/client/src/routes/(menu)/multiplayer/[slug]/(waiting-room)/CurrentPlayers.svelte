@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { roomStateStore, roomStore } from '$lib/stores/multiplayerStore';
+	import { roomStateStore, roomStore } from '$lib/stores/MultiplayerStore';
 	import type { PlayerState } from '@jmischler72/shared';
 
 	$: players = $roomStateStore ? ($roomStateStore.players as Map<string, PlayerState>) : new Map<string, PlayerState>();
@@ -14,7 +14,7 @@
 						class="mb-2 rounded border-solid border-gray-400 bg-gray-600 p-2"
 						class:border-2={key === $roomStore?.sessionId}
 					>
-						{key}
+						{player.username}
 					</h1>
 					{#if player.ready}
 						<span class="mb-2 rounded border-solid border-gray-400 bg-gray-600 p-2 text-green-100">✔</span>

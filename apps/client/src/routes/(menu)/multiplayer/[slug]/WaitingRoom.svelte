@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { roomStateStore, roomStore } from '$lib/stores/multiplayerStore';
+	import { roomStateStore, roomStore } from '$lib/stores/MultiplayerStore';
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
 	import WaitingComponent from './WaitingComponent.svelte';
@@ -7,6 +7,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import { FirstGameModeRoomState, MessageTypeEnum, type RoomOptions } from '@jmischler72/shared';
 	import RoomForm from '../(room-create)/RoomForm.svelte';
+	import { onMount } from 'svelte';
 
 	let showOptionsMenu: boolean = false;
 	let roomOptions: RoomOptions = {
@@ -26,6 +27,17 @@
 	}
 
 	$: isSaved = JSON.stringify(tempRoomOptions) === JSON.stringify(roomOptions);
+
+	onMount(() => {
+		roomStateStore.set($roomStore?.state || null);
+
+		$roomStore?.onStateChange((state) => {
+			roomStateStore.set(state);
+		});
+		return () => {
+			$roomStore?.onStateChange.clear();
+		};
+	});
 </script>
 
 <MenuHeader>
