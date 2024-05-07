@@ -20,7 +20,6 @@ function handleRoom(room: Room) {
 	});
 
 	room.onError((code, message) => {
-		console.log('oops, error ocurred:', code, message);
 		snackbarStore.set('Oops, error ocurred !');
 		resetRoom();
 	});
@@ -33,19 +32,18 @@ function handleRoom(room: Room) {
 
 export async function joinRoom(roomId: string) {
 	const reconnectionToken = localStorage.getItem('reconnectionToken');
-	if (reconnectionToken) {
+	if (reconnectionToken && reconnectionToken.split(':')[0] === roomId) {
 		await rejoinRoom(reconnectionToken);
 		return;
 	}
 
-	if (get(roomStore)) return;
+	if (get(roomStore)?.roomId === roomId) return;
 
 	try {
 		let room = await get(clientStore).joinById(roomId);
 		handleRoom(room);
 	} catch (e) {
 		snackbarStore.set('Error joining room !');
-		console.debug('Join error : ' + e);
 		resetRoom();
 	}
 }
@@ -59,7 +57,6 @@ async function rejoinRoom(reconnectionToken: string) {
 		localStorage.removeItem('reconnectionToken');
 	} catch (e) {
 		snackbarStore.set('Error rejoining room !');
-		console.debug('Rejoin error : ' + e);
 		resetRoom();
 	}
 }
@@ -74,7 +71,6 @@ export async function createRoom(options: RoomOptions) {
 		goto('/multiplayer/' + room.id);
 	} catch (e) {
 		snackbarStore.set('Error creating room !');
-		console.error('Create error : ' + e);
 		resetRoom();
 	}
 }

@@ -29,6 +29,8 @@
 	$: isSaved = JSON.stringify(tempRoomOptions) === JSON.stringify(roomOptions);
 
 	onMount(() => {
+		roomStateStore.set($roomStore?.state || null);
+
 		$roomStore?.onStateChange((state) => {
 			roomStateStore.set(state);
 		});

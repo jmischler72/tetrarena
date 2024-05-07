@@ -12,7 +12,6 @@ export async function initUser() {
 		} else {
 			onAuthStateChanged(auth, async (user) => {
 				if (user) {
-					snackbarStore.set('Logged in');
 					get(clientStore).auth.token = await user.getIdToken(true);
 					resolve(); // Resolve once token is obtained
 				} else {
@@ -25,7 +24,6 @@ export async function initUser() {
 }
 async function guestLogin() {
 	await signInAnonymously(auth);
-	console.log('Logged in as guest');
 	if (auth.currentUser) get(clientStore).auth.token = await auth.currentUser.getIdToken(true);
 }
 

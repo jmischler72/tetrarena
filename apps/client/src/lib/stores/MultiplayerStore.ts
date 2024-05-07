@@ -6,3 +6,4 @@ import { type RoomState } from '@jmischler72/shared';
 export const clientStore: Writable<Client> = writable(new Client(import.meta.env.VITE_SERVER_URL));
 export const roomStore: Writable<Room<RoomState> | null> = writable(null);
 export const roomStateStore: Writable<RoomState | null> = writable(null);
+export const usernameStore: Writable<string> = writable('');
