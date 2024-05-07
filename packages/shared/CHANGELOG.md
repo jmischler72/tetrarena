@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/jmischler72/tetrarena/compare/v1.1.10...v1.2.0) (2024-05-07)
+
+### Features
+
+* **server:** use username from firebase uid ([0123aaa](https://github.com/jmischler72/tetrarena/commit/0123aaa9c86024c18506a5b208cdfac1cca26e57))
+* **server:** working firebase send data to db ([41fce23](https://github.com/jmischler72/tetrarena/commit/41fce2338ce2cfeb7832493ef9190e0abbc2b4e8))
+
 ## 1.1.10 (2024-05-06)
 
 **Note:** Version bump only for package @jmischler72/shared

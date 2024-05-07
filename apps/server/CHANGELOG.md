@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/jmischler72/tetrarena/compare/v1.1.10...v1.2.0) (2024-05-07)
+
+### Bug Fixes
+
+* **client:** smooth firebase connection ([2aaa58a](https://github.com/jmischler72/tetrarena/commit/2aaa58ac30728ea4517ed319320f10956d55d67b))
+
+### Features
+
+* **server:** increase wins in firestore ([fc88ccd](https://github.com/jmischler72/tetrarena/commit/fc88ccd6b6c43d06e9c2f2382fe3ec117562e9ff))
+* **server:** use username from firebase uid ([0123aaa](https://github.com/jmischler72/tetrarena/commit/0123aaa9c86024c18506a5b208cdfac1cca26e57))
+* **server:** working firebase send data to db ([41fce23](https://github.com/jmischler72/tetrarena/commit/41fce2338ce2cfeb7832493ef9190e0abbc2b4e8))
+
 ## 1.1.10 (2024-05-06)
 
 **Note:** Version bump only for package @jmischler72/server

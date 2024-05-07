@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/jmischler72/tetrarena/compare/v1.1.10...v1.2.0) (2024-05-07)
+
+### Bug Fixes
+
+* **client:** fix initial undefined state + dont reconnect if got to other lobby ([1d5150d](https://github.com/jmischler72/tetrarena/commit/1d5150d3a111aa5b1178783db85eae4c3cdb09fd))
+* **client:** small fixes ([af6e34b](https://github.com/jmischler72/tetrarena/commit/af6e34b77a9d25ca6151e0fa1b20440a65ea6449))
+* **client:** smooth firebase connection ([2aaa58a](https://github.com/jmischler72/tetrarena/commit/2aaa58ac30728ea4517ed319320f10956d55d67b))
+
+### Features
+
+* **client:** get username from db wip ([00de20b](https://github.com/jmischler72/tetrarena/commit/00de20b4036019a3850afdb9a78bc1cfbc2f9ae4))
+* **client:** wip 2 firebase auth ([eeb6981](https://github.com/jmischler72/tetrarena/commit/eeb6981dd041e083a1fb490dbfdb9dc8b2ba203b))
+* **client:** wip firebase auth ([44640ea](https://github.com/jmischler72/tetrarena/commit/44640ea20492290ee5317f1b79949bd06d8655db))
+* **server:** increase wins in firestore ([fc88ccd](https://github.com/jmischler72/tetrarena/commit/fc88ccd6b6c43d06e9c2f2382fe3ec117562e9ff))
+* **server:** use username from firebase uid ([0123aaa](https://github.com/jmischler72/tetrarena/commit/0123aaa9c86024c18506a5b208cdfac1cca26e57))
+* **server:** working firebase send data to db ([41fce23](https://github.com/jmischler72/tetrarena/commit/41fce2338ce2cfeb7832493ef9190e0abbc2b4e8))
+
 ## 1.1.10 (2024-05-06)
 
 **Note:** Version bump only for package @jmischler72/client

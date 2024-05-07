@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/jmischler72/tetrarena/compare/v1.1.10...v1.2.0) (2024-05-07)
+
+### Bug Fixes
+
+* **ci:** fix issue with lerna version not versioning correctly ([f8b161b](https://github.com/jmischler72/tetrarena/commit/f8b161b8cda7d54196f0206c5322deca0b78f0f3))
+
+### Features
+
+* **client:** wip 2 firebase auth ([eeb6981](https://github.com/jmischler72/tetrarena/commit/eeb6981dd041e083a1fb490dbfdb9dc8b2ba203b))
+
 ## 1.1.10 (2024-05-06)
 
 **Note:** Version bump only for package @jmischler72/core
