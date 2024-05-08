@@ -4,29 +4,13 @@
 	import RoomOptionsForm from './RoomOptionsForm.svelte';
 	import { type RoomOptions } from '@jmischler72/shared';
 	import GameOptionsForm from './GameOptionsForm.svelte';
+	import { generateRandomIcons } from '$lib/functions/helpers/IconsHelper';
 
 	export let optionsMenu: string;
 	export let roomOptions: RoomOptions;
 
-	function generateRandomIcons() {
-		let randomString: string = (Math.random() + 1).toString(36).substring(2);
-
-		let icons = [];
-
-		for (let i = 0; i < 20; i++) {
-			icons.push(randomString + i);
-		}
-
-		if (roomOptions.icon !== '') {
-			icons[0] = roomOptions.icon;
-		} else {
-			roomOptions.icon = icons[0];
-		}
-
-		return icons;
-	}
-
-	let randomIcons: string[] = generateRandomIcons();
+	let randomIcons: string[] = generateRandomIcons(roomOptions.icon);
+	roomOptions.icon = randomIcons[0];
 </script>
 
 <div class="h-full w-full">
