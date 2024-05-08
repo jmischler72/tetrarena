@@ -1,24 +1,27 @@
 <script lang="ts">
-  import Button from "$lib/components/Button.svelte";
-  import { type GameMode, gameModes } from "@jmischler72/shared";
+	import Button from '$lib/components/Button.svelte';
+	import { roomOptionsDescriptionStore } from '$lib/stores/RoomOptionsDescriptionStore';
+	import { defaultGameModes } from '@jmischler72/shared';
+	import type { GameModeEnum } from '@jmischler72/shared';
 
-  export let gameMode: GameMode;
-  export let gameModePickerOpen: boolean;
-  export let showDescription: boolean;
-
+	export let gameMode: GameModeEnum;
+	export let gameModePickerOpen: boolean;
 </script>
 
-<div class="rounded-lg gap-y-4 gap-x-8 flex flex-col">
-  {#each gameModes as mode}
-    <div class="h-[15%]">
-      <Button onMouseOver={()=> showDescription = true} onMouseLeave={()=> showDescription = false}
-              onClick={()=> {
-								gameModePickerOpen = false;
-                showDescription = false;
-								gameMode = mode;
-								}}>
-        {mode.name}
-      </Button>
-    </div>
-  {/each}
+<div class="flex flex-col gap-x-8 gap-y-4 rounded-lg">
+	{#each defaultGameModes as mode}
+		<div class="h-[15%]">
+			<Button
+				onMouseOver={() => ($roomOptionsDescriptionStore = mode.description)}
+				onMouseLeave={() => ($roomOptionsDescriptionStore = '')}
+				onClick={() => {
+					gameModePickerOpen = false;
+					$roomOptionsDescriptionStore = '';
+					gameMode = mode.mode;
+				}}
+			>
+				{mode.name}
+			</Button>
+		</div>
+	{/each}
 </div>

@@ -4,28 +4,41 @@
 	import { createRoom } from '$lib/functions/services/RoomService';
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
-	import RoomForm from './(room-create)/RoomForm.svelte';
-	import { gameModes, zRoomOptions } from '@jmischler72/shared';
+	import RoomOptionsMenu from './(room-create)/RoomOptionsMenu.svelte';
+	import { getDefaultGameMode, zRoomOptions } from '@jmischler72/shared';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import { GameModeEnum } from '@jmischler72/shared';
+	import { roomOptionsDescriptionStore } from '$lib/stores/RoomOptionsDescriptionStore';
+	import { z } from 'zod';
+
+	let optionsMenu = 'room';
 
 	let roomOptions: RoomOptions = {
 		name: '',
 		icon: '',
-		gameMode: gameModes[0],
+		gameMode: GameModeEnum.First,
+		gameOptions: getDefaultGameMode(GameModeEnum.First).options,
 	};
 
 	let loading = false;
 
 	async function validateRoomOptions() {
+		optionsMenu = 'room';
 		loading = true;
+		$roomOptionsDescriptionStore = '';
 		try {
 			zRoomOptions.parse(roomOptions);
 		} catch (e) {
 			console.error(e);
 			loading = false;
-			roomOptions.gameMode.description = e.message;
+			if (e instanceof z.ZodError) {
+				$roomOptionsDescriptionStore = e.errors[0].path[0] + ': ' + e.errors[0].message;
+				setTimeout(() => {
+					roomOptionsDescriptionStore.set('');
+				}, 10000);
+			}
 
-			return false;
+			return;
 		}
 		await createRoom(roomOptions);
 		loading = false;
@@ -38,7 +51,7 @@
 			<LoadingSpinner />
 		</div>
 	{:else}
-		<RoomForm bind:roomOptions></RoomForm>
+		<RoomOptionsMenu bind:roomOptions bind:optionsMenu></RoomOptionsMenu>
 	{/if}
 </MenuContainer>
 

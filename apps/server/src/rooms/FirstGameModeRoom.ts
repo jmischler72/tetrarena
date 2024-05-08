@@ -1,4 +1,4 @@
-import { PlayerState, RoomOptions } from '@jmischler72/shared';
+import { PlayerState, RoomOptions, zFirstGameModeOptions } from '@jmischler72/shared';
 import { FirstGameModeRoomState } from '@jmischler72/shared';
 import { BaseRoom } from './BaseRoom';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
@@ -16,8 +16,9 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 
 	protected setRoomMetadata(options: RoomOptions) {
 		super.setRoomMetadata(options);
-		this.state.goalScore = options.gameMode.options.goalScore;
-		this.logger.debug('setting metadata' + options.gameMode.options.goalScore);
+		zFirstGameModeOptions.parse(options.gameOptions);
+		this.state.goalScore = options.gameOptions.goalScore;
+		this.logger.debug('setting metadata' + options.gameOptions.goalScore);
 	}
 
 	protected startGame() {

@@ -6,7 +6,7 @@
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { FirstGameModeRoomState, MessageTypeEnum, type RoomOptions } from '@jmischler72/shared';
-	import RoomForm from '../(room-create)/RoomForm.svelte';
+	import RoomForm from '../(room-create)/RoomOptionsMenu.svelte';
 	import { onMount } from 'svelte';
 
 	let showOptionsMenu: boolean = false;

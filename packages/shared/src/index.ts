@@ -8,5 +8,7 @@ export * from './helpers/server.helpers';
 export * from './helpers/client.helpers';
 
 export * from './types/RoomOptions';
-export * from './types/GameMode';
+export * from './types/DefaultsGameModes';
 export * from './types/FirstGameModeOptions';
+export * from './types/GameOptions';
+export * from './types/GameModeEnum';

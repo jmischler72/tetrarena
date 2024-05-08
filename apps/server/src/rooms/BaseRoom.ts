@@ -7,7 +7,6 @@ import pino, { Logger } from 'pino';
 import { getAuth } from 'firebase-admin/auth';
 import { app } from '../utils/firebase/FirebaseAdmin';
 import { FirebaseService } from '../utils/firebase/FirebaseService';
-import { z } from 'zod';
 
 const TIMEOUT = 50000;
 
@@ -99,7 +98,7 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 
 		this.state.name = options.name;
 		this.state.icon = options.icon;
-		this.state.gameMode = options.gameMode.name;
+		this.state.gameMode = options.gameMode;
 	}
 
 	private handleMessages() {

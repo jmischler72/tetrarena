@@ -8,64 +8,65 @@ import express from 'express';
 import pino from 'pino';
 import { LobbyRoom } from '@colyseus/core';
 import { FirstGameModeRoom } from './rooms/FirstGameModeRoom';
+import { GameModeEnum } from '@jmischler72/shared';
 export default config({
-  options: {
-    // transport: new uWebSocketsTransport(),
-    logger: pino({
-      level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
-    }),
-    // driver: new RedisDriver(),
-    // presence: new RedisPresence(),
-  },
-  initializeGameServer: (gameServer) => {
-    // Expose the "lobby" room to send .
-    gameServer.define('lobby', LobbyRoom);
-    /**
-     * Define your room handlers:
-     */
-    gameServer.define('First', FirstGameModeRoom).enableRealtimeListing();
-  },
+	options: {
+		// transport: new uWebSocketsTransport(),
+		logger: pino({
+			level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
+		}),
+		// driver: new RedisDriver(),
+		// presence: new RedisPresence(),
+	},
+	initializeGameServer: (gameServer) => {
+		// Expose the "lobby" room to send .
+		gameServer.define('lobby', LobbyRoom);
+		/**
+		 * Define your room handlers:
+		 */
+		gameServer.define(GameModeEnum.First, FirstGameModeRoom).enableRealtimeListing();
+	},
 
-  initializeExpress: (app) => {
-    app.use(cors());
-    app.use(express.json());
-    /**
-     * Get version of the server
-     */
-    app.get('/version', (req, res) => {
-      res.status(200).json({ version: pkg.version });
-    });
+	initializeExpress: (app) => {
+		app.use(cors());
+		app.use(express.json());
+		/**
+		 * Get version of the server
+		 */
+		app.get('/version', (req, res) => {
+			res.status(200).json({ version: pkg.version });
+		});
 
-    /**
-     * Use @colyseus/playground
-     * (It is not recommended to expose this route in a production environment)
-     */
-    if (process.env.NODE_ENV !== 'production') {
-      app.use('/', playground);
-    }
+		/**
+		 * Use @colyseus/playground
+		 * (It is not recommended to expose this route in a production environment)
+		 */
+		if (process.env.NODE_ENV !== 'production') {
+			app.use('/', playground);
+		}
 
-    /**
-     * Use @colyseus/monitor
-     * It is recommended to protect this route with a password
-     * Read more: https://docs.colyseus.io/tools/monitor/#restrict-access-to-the-panel-using-a-password
-     */
+		/**
+		 * Use @colyseus/monitor
+		 * It is recommended to protect this route with a password
+		 * Read more: https://docs.colyseus.io/tools/monitor/#restrict-access-to-the-panel-using-a-password
+		 */
 
-    if (process.env.NODE_ENV !== 'production') {
-      app.use('/colyseus', monitor());
-    } else {
-      const basicAuthMiddleware = basicAuth({
-        users: {
-          admin: 'balisto48',
-        },
-        challenge: true,
-      });
-      app.use('/colyseus', basicAuthMiddleware, monitor());
-    }
-  },
+		if (process.env.NODE_ENV !== 'production') {
+			app.use('/colyseus', monitor());
+		} else {
+			const basicAuthMiddleware = basicAuth({
+				users: {
+					admin: 'balisto48',
+				},
+				challenge: true,
+			});
+			app.use('/colyseus', basicAuthMiddleware, monitor());
+		}
+	},
 
-  beforeListen: () => {
-    /**
-     * Before before gameServer.listen() is called.
-     */
-  },
+	beforeListen: () => {
+		/**
+		 * Before before gameServer.listen() is called.
+		 */
+	},
 });
