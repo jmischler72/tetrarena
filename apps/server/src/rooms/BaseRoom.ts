@@ -1,13 +1,13 @@
 import { Client, Room, logger } from '@colyseus/core';
-import { PlayerState, RoomOptions, RoomState } from '@jmischler72/shared';
+import { PlayerState, RoomOptions, RoomState, zRoomOptions } from '@jmischler72/shared';
 import { Delayed } from 'colyseus';
 import { MessageTypeEnum } from '@jmischler72/shared';
 import { checkIfAllPlayersAreReady } from '../utils/utils';
 import pino, { Logger } from 'pino';
-import type { ActionsEnum } from '@jmischler72/core';
 import { getAuth } from 'firebase-admin/auth';
 import { app } from '../utils/firebase/FirebaseAdmin';
 import { FirebaseService } from '../utils/firebase/FirebaseService';
+import { z } from 'zod';
 
 const TIMEOUT = 50000;
 
@@ -90,6 +90,7 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 	}
 
 	protected setRoomMetadata(options: RoomOptions) {
+		zRoomOptions.parse(options);
 		void this.setMetadata({
 			name: options.name,
 			icon: options.icon,

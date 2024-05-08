@@ -3,26 +3,40 @@
 	import type { RoomOptions } from '@jmischler72/shared';
 	import { createRoom } from '$lib/functions/services/RoomService';
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
-	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
 	import RoomForm from './(room-create)/RoomForm.svelte';
-	import { gameModes } from '@jmischler72/shared';
+	import { gameModes, zRoomOptions } from '@jmischler72/shared';
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 
 	let roomOptions: RoomOptions = {
 		name: '',
 		icon: '',
 		gameMode: gameModes[0],
 	};
-	let creating = false;
+
+	let loading = false;
+
+	async function validateRoomOptions() {
+		loading = true;
+		try {
+			zRoomOptions.parse(roomOptions);
+		} catch (e) {
+			console.error(e);
+			loading = false;
+			roomOptions.gameMode.description = e.message;
+
+			return false;
+		}
+		await createRoom(roomOptions);
+		loading = false;
+	}
 </script>
 
 <MenuContainer>
-	{#if creating}
-		<AsyncMenu callback={() => createRoom(roomOptions)}>
-			<div class="flex h-full w-full items-center justify-center">
-				<span class="material-symbols-outlined !size-10"> check_circle </span>
-			</div>
-		</AsyncMenu>
+	{#if loading}
+		<div class="flex h-full w-full items-center justify-center">
+			<LoadingSpinner />
+		</div>
 	{:else}
 		<RoomForm bind:roomOptions></RoomForm>
 	{/if}
@@ -30,6 +44,6 @@
 
 <MenuFooter>
 	<div class="h-[60%] w-[30%]">
-		<Button onClick={() => (creating = true)}>Create the room</Button>
+		<Button onClick={() => validateRoomOptions()}>Create the room</Button>
 	</div>
 </MenuFooter>

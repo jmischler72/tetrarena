@@ -120,9 +120,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
-      eslint:
-        specifier: ^9.2.0
-        version: 9.2.0
       postcss:
         specifier: ^8.4.38
         version: 8.4.38
@@ -198,6 +195,9 @@ importers:
       tsx:
         specifier: ^4.9.3
         version: 4.9.3
+      zod:
+        specifier: ^3.23.7
+        version: 3.23.7
     devDependencies:
       '@colyseus/loadtest':
         specifier: ^0.15.2
@@ -260,6 +260,9 @@ importers:
       '@jmischler72/core':
         specifier: workspace:*
         version: link:../core
+      zod:
+        specifier: ^3.23.7
+        version: 3.23.7
 
 packages:
 
@@ -6475,6 +6478,9 @@ packages:
   yocto-queue@1.0.0:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
+
+  zod@3.23.7:
+    resolution: {integrity: sha512-NBeIoqbtOiUMomACV/y+V3Qfs9+Okr18vR5c/5pHClPpufWOrsx8TENboDPe265lFdfewX2yBtNTLPvnmCxwog==}
 
 snapshots:
 
@@ -13711,3 +13717,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.0.0: {}
+
+  zod@3.23.7: {}

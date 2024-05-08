@@ -6,9 +6,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.2.0",
@@ -16,7 +14,6 @@
 		"@sveltejs/vite-plugin-svelte": "^3.1.0",
 		"@types/stats.js": "^0.17.3",
 		"autoprefixer": "^10.4.19",
-		"eslint": "^9.2.0",
 		"postcss": "^8.4.38",
 		"sass": "^1.77.0",
 		"stats.js": "^0.17.0",
