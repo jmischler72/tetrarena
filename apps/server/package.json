@@ -34,6 +34,7 @@
 		"express-basic-auth": "^1.2.1",
 		"firebase-admin": "^12.1.0",
 		"pino": "^9.0.0",
-		"tsx": "^4.9.3"
+		"tsx": "^4.9.3",
+		"zod": "^3.23.7"
 	}
 }

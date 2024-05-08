@@ -3,6 +3,7 @@
 	import { clientStore } from '$lib/stores/MultiplayerStore';
 	import { goto } from '$app/navigation';
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
+	import { getDefaultGameMode } from '@jmischler72/shared';
 
 	// function fillWithTestRooms() {
 	//   for (let i = 0; i < 10; i++) {
@@ -100,7 +101,7 @@
 							<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 text-center align-middle">{room.roomId}</td>
 							<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 text-center align-middle">{room.clients}</td>
 							<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 text-center align-middle"
-								>{room.metadata.gameMode.name}</td
+								>{getDefaultGameMode(room.metadata.gameMode).name}</td
 							>
 						</tr>
 					{/each}

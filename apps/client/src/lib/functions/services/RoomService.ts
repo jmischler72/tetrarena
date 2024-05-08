@@ -63,10 +63,9 @@ async function rejoinRoom(reconnectionToken: string) {
 
 export async function createRoom(options: RoomOptions) {
 	if (options.name === '') options.name = 'New Room';
-	// console.log(options);
 
 	try {
-		let room = await get(clientStore).create(options.gameMode.name, options);
+		let room = await get(clientStore).create(options.gameMode, options);
 		handleRoom(room);
 		goto('/multiplayer/' + room.id);
 	} catch (e) {

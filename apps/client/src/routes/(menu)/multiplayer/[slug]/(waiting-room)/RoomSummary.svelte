@@ -2,9 +2,9 @@
 	import type { FirstGameModeRoomState } from '@jmischler72/shared';
 	import Button from '$lib/components/Button.svelte';
 	import { roomStore, roomStateStore } from '$lib/stores/MultiplayerStore';
+	import { goto } from '$app/navigation';
 
 	$: roomState = $roomStateStore as FirstGameModeRoomState;
-	export let showOptionsMenu: boolean;
 </script>
 
 {#if roomState}
@@ -32,7 +32,7 @@
 		</div>
 		{#if $roomStore?.sessionId === roomState.admin}
 			<div class="absolute bottom-5 right-5">
-				<Button onClick={() => (showOptionsMenu = true)}>
+				<Button onClick={() => goto(window.location.pathname + '/edit')}>
 					<i class="material-symbols-outlined">tune</i>
 				</Button>
 			</div>

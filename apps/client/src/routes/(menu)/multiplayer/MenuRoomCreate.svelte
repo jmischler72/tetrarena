@@ -3,33 +3,61 @@
 	import type { RoomOptions } from '@jmischler72/shared';
 	import { createRoom } from '$lib/functions/services/RoomService';
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
-	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
-	import RoomForm from './(room-create)/RoomForm.svelte';
-	import { gameModes } from '@jmischler72/shared';
+	import RoomOptionsMenu from './(room-create)/RoomOptionsMenu.svelte';
+	import { getDefaultGameMode, zRoomOptions } from '@jmischler72/shared';
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import { GameModeEnum } from '@jmischler72/shared';
+	import { roomOptionsDescriptionStore } from '$lib/stores/RoomOptionsDescriptionStore';
+	import { z } from 'zod';
+	import { formatZodIssue } from '$lib/functions/helpers/ZodHelper';
+
+	let optionsMenu = 'room';
 
 	let roomOptions: RoomOptions = {
 		name: '',
 		icon: '',
-		gameMode: gameModes[0],
+		gameMode: GameModeEnum.First,
+		gameOptions: getDefaultGameMode(GameModeEnum.First).options,
 	};
-	let creating = false;
+
+	let loading = false;
+
+	async function validateRoomOptions() {
+		optionsMenu = 'room';
+		loading = true;
+		$roomOptionsDescriptionStore = '';
+		try {
+			zRoomOptions.parse(roomOptions);
+		} catch (e) {
+			console.error(e);
+			loading = false;
+			if (e instanceof z.ZodError) {
+				$roomOptionsDescriptionStore = formatZodIssue(e.errors[0]);
+				setTimeout(() => {
+					if ($roomOptionsDescriptionStore === formatZodIssue(e.errors[0])) roomOptionsDescriptionStore.set('');
+				}, 10000);
+			}
+
+			return;
+		}
+		await createRoom(roomOptions);
+		loading = false;
+	}
 </script>
 
 <MenuContainer>
-	{#if creating}
-		<AsyncMenu callback={() => createRoom(roomOptions)}>
-			<div class="flex h-full w-full items-center justify-center">
-				<span class="material-symbols-outlined !size-10"> check_circle </span>
-			</div>
-		</AsyncMenu>
+	{#if loading}
+		<div class="flex h-full w-full items-center justify-center">
+			<LoadingSpinner />
+		</div>
 	{:else}
-		<RoomForm bind:roomOptions></RoomForm>
+		<RoomOptionsMenu bind:roomOptions bind:optionsMenu></RoomOptionsMenu>
 	{/if}
 </MenuContainer>
 
 <MenuFooter>
 	<div class="h-[60%] w-[30%]">
-		<Button onClick={() => (creating = true)}>Create the room</Button>
+		<Button onClick={() => validateRoomOptions()}>Create the room</Button>
 	</div>
 </MenuFooter>

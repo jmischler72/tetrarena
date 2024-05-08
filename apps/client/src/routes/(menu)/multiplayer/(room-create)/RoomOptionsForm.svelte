@@ -3,8 +3,9 @@
 	import { clickOutside } from '$lib/functions/directives/ClickOutside';
 	import Button from '$lib/components/Button.svelte';
 	import GameModePicker from './GameModePicker.svelte';
-	import type { RoomOptions } from '@jmischler72/shared';
+	import { getDefaultGameMode, type RoomOptions } from '@jmischler72/shared';
 	import { createEventDispatcher } from 'svelte';
+	import { roomOptionsDescriptionStore } from '$lib/stores/RoomOptionsDescriptionStore';
 
 	const dispatch = createEventDispatcher();
 
@@ -12,7 +13,6 @@
 	export let roomOptions: RoomOptions;
 	export let randomIcons: string[];
 
-	let showDescription = false;
 	let roomIconPickerOpen = false;
 	let gameModePickerOpen = false;
 </script>
@@ -34,16 +34,17 @@
 			use:clickOutside
 			on:clickOutside={() => (gameModePickerOpen = false)}
 		>
-			<GameModePicker bind:gameModePickerOpen bind:gameMode={roomOptions.gameMode} bind:showDescription
-			></GameModePicker>
+			<GameModePicker bind:gameModePickerOpen bind:gameMode={roomOptions.gameMode}></GameModePicker>
 		</div>
 	{/if}
 
-	{#if showDescription}
+	{#if $roomOptionsDescriptionStore}
 		<div
-			class="absolute bottom-10 mx-6 flex h-[15%] w-[70%] translate-x-[-7%] items-center justify-center rounded-lg bg-gray-600/50"
+			class="absolute bottom-10 mx-6 flex h-[15%] w-[70%] items-center justify-center rounded-lg bg-gray-600/50 transition duration-500 ease-in-out"
+			class:translate-x-[7%]={roomIconPickerOpen}
+			class:translate-x-[-7%]={gameModePickerOpen}
 		>
-			<h1>{roomOptions.gameMode.description}</h1>
+			<h1>{$roomOptionsDescriptionStore}</h1>
 		</div>
 	{/if}
 
@@ -51,7 +52,7 @@
 		class="flex w-[70%] flex-row items-center justify-center gap-x-8 rounded-lg bg-gray-700/75 px-2 py-6 transition duration-500 ease-in-out"
 		class:translate-x-[7%]={roomIconPickerOpen}
 		class:translate-x-[-7%]={gameModePickerOpen}
-		class:translate-y-[-7%]={showDescription}
+		class:translate-y-[-7%]={$roomOptionsDescriptionStore}
 	>
 		<div class="flex h-full items-center justify-center">
 			<button on:click={() => (roomIconPickerOpen = true)}>
@@ -78,7 +79,7 @@
 				<div class="flex w-full flex-row gap-4">
 					<div class="w-full">
 						<Button onClick={() => (gameModePickerOpen = true)}>
-							{roomOptions.gameMode.name}
+							{getDefaultGameMode(roomOptions.gameMode).name}
 						</Button>
 					</div>
 					<div class="w-auto">
