@@ -10,6 +10,7 @@
 	import { GameModeEnum } from '@jmischler72/shared';
 	import { roomOptionsDescriptionStore } from '$lib/stores/RoomOptionsDescriptionStore';
 	import { z } from 'zod';
+	import { formatZodIssue } from '$lib/functions/helpers/ZodHelper';
 
 	let optionsMenu = 'room';
 
@@ -32,9 +33,9 @@
 			console.error(e);
 			loading = false;
 			if (e instanceof z.ZodError) {
-				$roomOptionsDescriptionStore = e.errors[0].path[0] + ': ' + e.errors[0].message;
+				$roomOptionsDescriptionStore = formatZodIssue(e.errors[0]);
 				setTimeout(() => {
-					roomOptionsDescriptionStore.set('');
+					if ($roomOptionsDescriptionStore === formatZodIssue(e.errors[0])) roomOptionsDescriptionStore.set('');
 				}, 10000);
 			}
 
