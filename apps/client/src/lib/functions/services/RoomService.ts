@@ -43,7 +43,7 @@ export async function joinRoom(roomId: string) {
 		let room = await get(clientStore).joinById(roomId);
 		handleRoom(room);
 	} catch (e) {
-		snackbarStore.set('Error joining room !');
+		snackbarStore.set('Error joining room !' + e);
 		resetRoom();
 	}
 }
@@ -56,7 +56,7 @@ async function rejoinRoom(reconnectionToken: string) {
 
 		localStorage.removeItem('reconnectionToken');
 	} catch (e) {
-		snackbarStore.set('Error rejoining room !');
+		snackbarStore.set('Error rejoining room !' + e);
 		resetRoom();
 	}
 }
@@ -69,7 +69,7 @@ export async function createRoom(options: RoomOptions) {
 		handleRoom(room);
 		goto('/multiplayer/' + room.id);
 	} catch (e) {
-		snackbarStore.set('Error creating room !');
+		snackbarStore.set('Error creating room !' + e);
 		resetRoom();
 	}
 }

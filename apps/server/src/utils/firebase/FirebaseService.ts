@@ -3,17 +3,17 @@ import { db } from './FirebaseAdmin';
 
 export class FirebaseService {
 	static async checkIfUserNotInRoom(userId: string) {
-		const userRef = db.ref('users/' + userId);
+		const userRef = db.ref('rooms/' + userId);
 
-		let data = await userRef.child('inRoom').once('value');
+		let data = await userRef.once('value');
 		return !data.exists();
 	}
 
 	static async setUserInRoom(userId: string, roomId: string | null) {
-		const userRef = db.ref('users/' + userId);
+		const userRef = db.ref('rooms/' + userId);
 		logger.info('Setting roomId: ' + roomId + 'for: ' + userId);
 
-		userRef.child('inRoom').set(roomId);
+		userRef.set(roomId);
 	}
 
 	static async increaseWinsForUser(userId: string) {
@@ -38,13 +38,7 @@ export class FirebaseService {
 	}
 
 	static async resetUsersInRoom() {
-		let usersRef = db.ref('/users/');
-		usersRef.once('value', function (snapshot) {
-			snapshot.forEach(function (child) {
-				child.ref.update({
-					inRoom: null,
-				});
-			});
-		});
+		let usersRef = db.ref('/rooms/');
+		usersRef.remove();
 	}
 }
