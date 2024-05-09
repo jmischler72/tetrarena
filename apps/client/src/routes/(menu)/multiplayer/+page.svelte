@@ -6,7 +6,8 @@
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
-	import MenuRoomCreate from './MenuRoomCreate.svelte';
+	import RoomCreate from './RoomCreate.svelte';
+	import Leaderboard from './Leaderboard.svelte';
 
 	let currentMenu = 'list';
 
@@ -28,6 +29,12 @@
 				icon="add_circle"
 				selected={currentMenu === 'create'}
 			></MenuButtonHeader>
+			<MenuButtonHeader
+				on:click={() => (currentMenu = 'leaderboard')}
+				text="Leaderboard"
+				icon="leaderboard"
+				selected={currentMenu === 'leaderboard'}
+			></MenuButtonHeader>
 		</div>
 		{#if $usernameStore}
 			<MenuButtonHeader
@@ -41,9 +48,13 @@
 	</div>
 </MenuHeader>
 {#if currentMenu === 'create'}
-	<MenuRoomCreate />
-{:else}
+	<RoomCreate />
+{:else if currentMenu === 'list'}
 	<MenuContainer>
 		<RoomsList></RoomsList>
+	</MenuContainer>
+{:else}
+	<MenuContainer>
+		<Leaderboard></Leaderboard>
 	</MenuContainer>
 {/if}

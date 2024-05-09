@@ -35,15 +35,18 @@
 		{/if}
 	</div>
 	<MediaQuery query="(min-width: 1050px)" let:matches>
+		<div class="flex w-1/3 justify-center pr-16 text-2xl" class:animation-up={previousPage === '/'}>
+			<h1 class="border-2 border-solid border-white p-1 text-gray-200">tetrarena</h1>
+		</div>
 		{#if matches}
-			<div class="flex w-1/3 justify-center text-3xl" class:animation-up={previousPage === '/'}>
-				<h1 class="border-2 border-solid border-white p-1 text-gray-200">tetrarena</h1>
-			</div>
+			<h1
+				class="flex w-1/3 justify-end text-nowrap pr-16 text-xl lg:text-2xl"
+				class:animation-right={previousPage === '/'}
+			>
+				/{$page.url.pathname.split('/')[1]}
+			</h1>
 		{/if}
 	</MediaQuery>
-	<h1 class="flex w-1/3 justify-end text-nowrap pr-16 text-xl lg:text-2xl" class:animation-right={previousPage === '/'}>
-		/{$page.url.pathname.split('/')[1]}
-	</h1>
 </nav>
 
 <style lang="scss">

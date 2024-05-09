@@ -1,4 +1,6 @@
 <script lang="ts">
+	import MediaQuery from '$lib/components/MediaQuery.svelte';
+
 	export let icon: string;
 	export let text: string;
 	export let selected: boolean;
@@ -12,5 +14,9 @@
 		: ''} {customStyle}"
 >
 	<i class="material-symbols-outlined">{icon}</i>
-	<span class="text-md font-semibold">{text}</span>
+	<MediaQuery query="(min-width: 1050px)" let:matches>
+		{#if matches}
+			<span class="text-md font-semibold">{text}</span>
+		{/if}
+	</MediaQuery>
 </button>
