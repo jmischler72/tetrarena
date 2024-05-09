@@ -5,7 +5,7 @@ import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 
 let firebaseConfig = firebaseConfigDev;
-if (import.meta.env.NODE_ENV === 'production') firebaseConfig = firebaseConfigProd;
+if (import.meta.env.PROD) firebaseConfig = firebaseConfigProd;
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
