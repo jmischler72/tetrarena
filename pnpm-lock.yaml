@@ -96,6 +96,9 @@ importers:
       '@sveltejs/kit':
         specifier: ^2.5.7
         version: 2.5.7(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.16)(vite@5.2.11(@types/node@20.12.10)(sass@1.77.0)))(svelte@4.2.16)(vite@5.2.11(@types/node@20.12.10)(sass@1.77.0))
+      '@sveltejs/vite-plugin-svelte':
+        specifier: ^3.1.0
+        version: 3.1.0(svelte@4.2.16)(vite@5.2.11(@types/node@20.12.10)(sass@1.77.0))
       '@tweenjs/tween.js':
         specifier: ^23.1.2
         version: 23.1.2
@@ -118,9 +121,6 @@ importers:
         specifier: ^3.23.7
         version: 3.23.7
     devDependencies:
-      '@sveltejs/vite-plugin-svelte':
-        specifier: ^3.1.0
-        version: 3.1.0(svelte@4.2.16)(vite@5.2.11(@types/node@20.12.10)(sass@1.77.0))
       '@types/stats.js':
         specifier: ^0.17.3
         version: 0.17.3
