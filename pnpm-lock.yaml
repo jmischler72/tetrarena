@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      husky:
+        specifier: ^9.0.11
+        version: 9.0.11
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.3.0
@@ -53,9 +57,6 @@ importers:
       eslint-plugin-svelte:
         specifier: ^2.38.0
         version: 2.38.0(eslint@9.2.0)(svelte@4.2.16)(ts-node@10.9.2(@types/node@20.12.10)(typescript@5.4.5))
-      husky:
-        specifier: ^9.0.11
-        version: 9.0.11
       lint-staged:
         specifier: ^15.2.2
         version: 15.2.2
