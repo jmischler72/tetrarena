@@ -105,6 +105,9 @@ importers:
       pixi.js:
         specifier: ^7.4.2
         version: 7.4.2
+      vite:
+        specifier: ^5.2.11
+        version: 5.2.11(@types/node@20.12.10)(sass@1.77.0)
       zod:
         specifier: ^3.23.7
         version: 3.23.7
@@ -151,9 +154,6 @@ importers:
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
-      vite:
-        specifier: ^5.2.11
-        version: 5.2.11(@types/node@20.12.10)(sass@1.77.0)
 
   apps/server:
     dependencies:
