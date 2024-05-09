@@ -9,7 +9,7 @@
 		"./src"
 	],
 	"scripts": {
-		"build": "tsc --build",
+		"build": "npx tsc --build",
 		"prepare": "pnpm run build"
 	},
 	"dependencies": {
