@@ -9,7 +9,9 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
+		"@sveltejs/adapter-auto": "^3.2.0",
 		"@sveltejs/vite-plugin-svelte": "^3.1.0",
+		"@sveltejs/kit": "^2.5.7",
 		"@types/stats.js": "^0.17.3",
 		"autoprefixer": "^10.4.19",
 		"postcss": "^8.4.38",
@@ -28,7 +30,6 @@
 		"@jmischler72/core": "workspace:*",
 		"@jmischler72/shared": "workspace:*",
 		"@sveltejs/adapter-netlify": "^4.2.0",
-		"@sveltejs/kit": "^2.5.7",
 		"@tweenjs/tween.js": "^23.1.2",
 		"colyseus.js": "^0.15.19",
 		"firebase": "^10.11.1",
