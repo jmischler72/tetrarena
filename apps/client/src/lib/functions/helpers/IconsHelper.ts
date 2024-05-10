@@ -1,7 +1,7 @@
 export function generateRandomIcons(icon: string) {
-	let randomString: string = (Math.random() + 1).toString(36).substring(2);
+	const randomString: string = (Math.random() + 1).toString(36).substring(2);
 
-	let icons = [];
+	const icons = [];
 
 	for (let i = 0; i < 20; i++) {
 		icons.push(randomString + i);
