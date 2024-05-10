@@ -6,6 +6,7 @@
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
 	import RoomCreate from './RoomCreate.svelte';
 	import Leaderboard from './Leaderboard.svelte';
+	import { goto } from '$app/navigation';
 
 	let currentMenu = 'list';
 </script>
@@ -34,7 +35,9 @@
 		</div>
 		{#if $usernameStore}
 			<MenuButtonHeader
-				on:click={() => {}}
+				on:click={() => {
+					goto('/you');
+				}}
 				text={$usernameStore}
 				icon="person"
 				selected={false}

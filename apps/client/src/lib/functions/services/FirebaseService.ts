@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
+import { EmailAuthProvider, linkWithCredential, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { auth, db } from './FirebaseClient';
 import { snackbarStore } from '$lib/stores/SnackbarStore';
 import { clientStore } from '$lib/stores/MultiplayerStore';
@@ -44,6 +44,21 @@ export async function getUsername() {
 		});
 }
 
+export async function getUserInfos() {
+	if (!auth.currentUser) return '';
+
+	const userRef = ref(db, 'users/' + auth.currentUser.uid);
+	return getFromDb(userRef)
+		.then((snapshot) => {
+			if (snapshot.exists()) {
+				return snapshot.val();
+			}
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+}
+
 export async function getLeaderboard() {
 	const usersRef = ref(db, 'users');
 	const quUsers = query(usersRef, orderByChild('wins'), limitToFirst(20));
@@ -64,5 +79,18 @@ export async function getLeaderboard() {
 		})
 		.catch((error) => {
 			console.error(error);
+		});
+}
+
+export async function linkAccount(email: string, password: string) {
+	const credential = await EmailAuthProvider.credential(email, password);
+	if (!auth.currentUser) return;
+	return linkWithCredential(auth.currentUser, credential)
+		.then((usercred) => {
+			const user = usercred.user;
+			console.log('Anonymous account successfully upgraded', user);
+		})
+		.catch((error) => {
+			console.log('Error upgrading anonymous account', error);
 		});
 }

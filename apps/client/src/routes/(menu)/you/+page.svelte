@@ -2,24 +2,33 @@
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
 	import MenuButtonHeader from '$lib/components/menu/subcomponents/MenuButtonHeader.svelte';
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
-	import { onMount } from 'svelte';
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
-	import Button from '$lib/components/Button.svelte';
 	import LoginForm from './LoginForm.svelte';
-	import UserForm from './UserForm.svelte';
+	import RegisterForm from './RegisterForm.svelte';
+	import UserForm from './ProfileComponent.svelte';
+	import { auth } from '$lib/functions/services/FirebaseClient';
+	import WelcomeComponent from './WelcomeComponent.svelte';
 
-	let currentMenu = 'profile';
-
-	onMount(() => {});
+	let currentMenu = auth.currentUser?.isAnonymous ? 'welcome' : 'profile';
 </script>
 
 <MenuHeader>
-	<MenuButtonHeader
-		on:click={() => (currentMenu = 'profile')}
-		text="Profile"
-		icon="account_circle"
-		selected={currentMenu === 'profile'}
-	></MenuButtonHeader>
+	{#if auth.currentUser?.isAnonymous}
+		<MenuButtonHeader
+			on:click={() => (currentMenu = 'welcome')}
+			text="Welcome"
+			icon="waving_hand"
+			selected={currentMenu === 'welcome'}
+		></MenuButtonHeader>
+	{/if}
+	{#if auth.currentUser && !auth.currentUser.isAnonymous}
+		<MenuButtonHeader
+			on:click={() => (currentMenu = 'profile')}
+			text="Profile"
+			icon="account_circle"
+			selected={currentMenu === 'profile'}
+		></MenuButtonHeader>
+	{/if}
 	<MenuButtonHeader
 		on:click={() => (currentMenu = 'login')}
 		text="Login"
@@ -33,16 +42,19 @@
 		selected={currentMenu === 'register'}
 	></MenuButtonHeader>
 </MenuHeader>
-<MenuContainer>
-	{#if currentMenu === 'profile'}
-		<UserForm></UserForm>
-	{:else}
-		<LoginForm></LoginForm>
-	{/if}
-</MenuContainer>
 
-<MenuFooter>
-	<div class="h-[60%] w-[30%]">
-		<Button onClick={() => console.log('d')}>Login</Button>
-	</div>
-</MenuFooter>
+{#if currentMenu === 'profile'}
+	<UserForm></UserForm>
+{:else if currentMenu === 'welcome'}
+	<MenuContainer>
+		<WelcomeComponent bind:currentMenu></WelcomeComponent>
+	</MenuContainer>
+{:else if currentMenu === 'login'}
+	<LoginForm></LoginForm>
+{:else if currentMenu === 'register'}
+	<RegisterForm></RegisterForm>
+{/if}
+
+{#if currentMenu === 'welcome'}
+	<MenuFooter></MenuFooter>
+{/if}
