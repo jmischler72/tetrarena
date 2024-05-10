@@ -31,13 +31,13 @@ function handleRoom(room: Room) {
 }
 
 export async function joinRoom(roomId: string) {
+	if (get(roomStore)?.roomId === roomId) return;
+
 	const reconnectionToken = localStorage.getItem('reconnectionToken');
 	if (reconnectionToken && reconnectionToken.split(':')[0] === roomId) {
 		await rejoinRoom(reconnectionToken);
 		return;
 	}
-
-	if (get(roomStore)?.roomId === roomId) return;
 
 	try {
 		let room = await get(clientStore).joinById(roomId);
@@ -67,7 +67,7 @@ export async function createRoom(options: RoomOptions) {
 	try {
 		let room = await get(clientStore).create(options.gameMode, options);
 		handleRoom(room);
-		goto('/multiplayer/' + room.id);
+		await goto('/multiplayer/' + room.id);
 	} catch (e) {
 		snackbarStore.set('Error creating room !' + e);
 		resetRoom();

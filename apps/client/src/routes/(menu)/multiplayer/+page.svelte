@@ -2,16 +2,12 @@
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
 	import MenuButtonHeader from '$lib/components/menu/subcomponents/MenuButtonHeader.svelte';
 	import RoomsList from './RoomsList.svelte';
-	import { roomStore, usernameStore } from '$lib/stores/MultiplayerStore';
-	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
+	import { usernameStore } from '$lib/stores/MultiplayerStore';
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
 	import RoomCreate from './RoomCreate.svelte';
 	import Leaderboard from './Leaderboard.svelte';
 
 	let currentMenu = 'list';
-
-	$: if ($roomStore && browser) goto('/multiplayer/' + $roomStore?.roomId);
 </script>
 
 <MenuHeader>

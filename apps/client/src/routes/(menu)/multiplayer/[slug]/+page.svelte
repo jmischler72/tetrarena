@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { joinRoom, resetRoom } from '$lib/functions/services/RoomService';
-	import { roomStore, roomStateStore } from '$lib/stores/MultiplayerStore';
+	import { joinRoom } from '$lib/functions/services/RoomService';
+	import { roomStore } from '$lib/stores/MultiplayerStore';
 	import MultiplayerTetris from './MultiplayerTetris.svelte';
 	import WaitingRoom from './WaitingRoom.svelte';
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
-	import { onMount } from 'svelte';
 
 	export let data;
 

@@ -1,5 +1,5 @@
-import { firebaseConfigDev } from '$lib/data/firebase.dev';
-import { firebaseConfigProd } from '$lib/data/firebase.prod';
+import { firebaseConfigDev } from '$lib/data/config/firebase.dev';
+import { firebaseConfigProd } from '$lib/data/config/firebase.prod';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
