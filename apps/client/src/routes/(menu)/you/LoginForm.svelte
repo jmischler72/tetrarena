@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Input from '$lib/components/menu/Input.svelte';
+	import Input from '$lib/components/Input.svelte';
 
 	let username = '';
 	let password = '';
