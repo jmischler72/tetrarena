@@ -3,7 +3,7 @@
 	import MenuButtonHeader from '$lib/components/menu/subcomponents/MenuButtonHeader.svelte';
 	import RoomOptionsForm from './RoomOptionsForm.svelte';
 	import { type RoomOptions } from '@jmischler72/shared';
-	import GameOptionsForm from './GameOptionsForm.svelte';
+	import FirstGameModeOptionsForm from './(game-options)/FirstGameModeOptionsForm.svelte';
 	import { generateRandomIcons } from '$lib/functions/helpers/IconsHelper';
 
 	export let optionsMenu: string;
@@ -33,7 +33,7 @@
 			<RoomOptionsForm on:gameOptions={() => (optionsMenu = 'game')} bind:roomOptions bind:randomIcons
 			></RoomOptionsForm>
 		{:else}
-			<GameOptionsForm bind:roomOptions></GameOptionsForm>
+			<FirstGameModeOptionsForm bind:roomOptions></FirstGameModeOptionsForm>
 		{/if}
 	</div>
 </div>

@@ -1,11 +1,17 @@
 <script lang="ts">
-	import { type RoomOptions } from '@jmischler72/shared';
+	import Input from '$lib/components/menu/Input.svelte';
+	import { type FirstGameModeOptions, type RoomOptions } from '@jmischler72/shared';
 
 	export let roomOptions: RoomOptions;
+
+	let gameOptions = roomOptions.gameOptions as FirstGameModeOptions;
+
+	$: gameOptions.goalScore = parseInt(gameOptions.goalScore);
 </script>
 
 <div class="animation-up relative flex h-full w-full items-center justify-center">
-	<div
+	<Input bind:value={gameOptions.goalScore} label={'Goal Score'} type={'number'} />
+	<!-- <div
 		class="flex w-[70%] flex-col items-center justify-center gap-x-8 rounded-lg bg-gray-700/75 px-2 py-6 transition duration-500 ease-in-out"
 	>
 		<label class="text-base font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="room-name">
@@ -16,7 +22,7 @@
 			type="number"
 			min="0"
 			max="1000"
-			bind:value={roomOptions.gameOptions.goalScore}
+			bind:value={gameOptions.goalScore}
 		/>
-	</div>
+	</div> -->
 </div>
