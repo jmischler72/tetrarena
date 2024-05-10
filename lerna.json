@@ -1,6 +1,7 @@
 {
-	"version": "1.1.0",
-	"packages": ["."],
+	"version": "independent",
+	"packages": ["packages/*", "apps/*"],
+	"npmClient": "pnpm",
 	"ignoreChanges": ["**/node_modules/**", "**/package.json", "**/*.md", ".github/**", "lerna.json", "pnpm-lock.yaml"],
 	"command": {
 		"version": {
