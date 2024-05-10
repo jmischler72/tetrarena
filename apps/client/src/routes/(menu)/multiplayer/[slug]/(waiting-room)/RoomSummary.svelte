@@ -8,9 +8,11 @@
 </script>
 
 {#if roomState}
-	<div class="relative flex h-full flex-col items-center justify-start rounded bg-gray-700 p-4">
-		<div class="w-full overflow-y-scroll rounded bg-gray-800 p-4">
-			<div class="flex w-full flex-col gap-6 rounded p-4">
+	<div
+		class="relative flex h-full flex-col items-center justify-start rounded border-4 border-solid border-gray-600 p-4"
+	>
+		<div class="flex w-full flex-col gap-y-8 overflow-y-scroll">
+			<div class="flex w-full flex-col gap-6 rounded bg-gray-800 p-4">
 				<h1 class="underline">Room</h1>
 				<div class=" flex w-full justify-center rounded bg-gray-700 py-4">
 					<svg class="rounded bg-white" width="60" height="60" data-jdenticon-value={roomState.icon}></svg>
@@ -23,7 +25,7 @@
 					<h1>{roomState.gameMode}</h1>
 				</div>
 			</div>
-			<div class="flex w-full flex-col gap-6 rounded p-4">
+			<div class="flex w-full flex-col gap-6 rounded bg-gray-800 p-4">
 				<h1 class="underline">Game</h1>
 				<div class=" flex w-full justify-center rounded bg-gray-700 py-4">
 					<h1>{roomState.goalScore}</h1>

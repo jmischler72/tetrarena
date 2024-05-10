@@ -12,7 +12,7 @@
 		{/if}
 		<CurrentPlayers></CurrentPlayers>
 	</div>
-	<div class="w-1/3 rounded-lg p-8 pl-24">
+	<div class="w-1/3 rounded-lg p-2">
 		<RoomSummary></RoomSummary>
 	</div>
 </div>
