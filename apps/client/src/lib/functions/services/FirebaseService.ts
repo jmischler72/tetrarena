@@ -1,8 +1,14 @@
-import { EmailAuthProvider, linkWithCredential, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
+import {
+	EmailAuthProvider,
+	linkWithCredential,
+	onAuthStateChanged,
+	sendEmailVerification,
+	signInAnonymously,
+} from 'firebase/auth';
 import { auth, db } from './FirebaseClient';
 import { snackbarStore } from '$lib/stores/SnackbarStore';
 import { clientStore } from '$lib/stores/MultiplayerStore';
-import { ref, get as getFromDb, child, orderByChild, query, limitToFirst } from 'firebase/database';
+import { ref, get as getFromDb, child, orderByChild, query, limitToFirst, set } from 'firebase/database';
 import { get } from 'svelte/store';
 
 export async function initUser() {
@@ -27,65 +33,38 @@ async function guestLogin() {
 	if (auth.currentUser) get(clientStore).auth.token = await auth.currentUser.getIdToken(true);
 }
 
-export async function getUsername() {
-	if (!auth.currentUser) return '';
-
-	const userRef = ref(db, 'users/' + auth.currentUser.uid);
-	return getFromDb(child(userRef, 'username'))
-		.then((snapshot) => {
-			if (snapshot.exists()) {
-				return snapshot.val();
-			} else {
-				return 'Guest-' + auth.currentUser!.uid.substring(0, 6);
-			}
-		})
-		.catch((error) => {
-			console.error(error);
-		});
-}
-
-export async function getUserInfos() {
-	if (!auth.currentUser) return '';
-
-	const userRef = ref(db, 'users/' + auth.currentUser.uid);
-	return getFromDb(userRef)
-		.then((snapshot) => {
-			if (snapshot.exists()) {
-				return snapshot.val();
-			}
-		})
-		.catch((error) => {
-			console.error(error);
-		});
-}
-
 export async function getLeaderboard() {
 	const usersRef = ref(db, 'users');
 	const quUsers = query(usersRef, orderByChild('wins'), limitToFirst(20));
 
-	return getFromDb(quUsers)
-		.then((snapshot) => {
-			if (snapshot.exists()) {
-				let users: { username: string; wins: number }[] = [];
-				snapshot.forEach((userSnapshot) => {
-					if (userSnapshot.val().wins) users.push(userSnapshot.val());
-				});
-
-				users.sort((a, b) => (a.wins > b.wins ? -1 : 1));
-
-				return users;
-			}
-			return [];
-		})
-		.catch((error) => {
-			console.error(error);
+	const snapshot = await getFromDb(quUsers);
+	if (snapshot.exists()) {
+		let users: { username: string; wins: number }[] = [];
+		snapshot.forEach((userSnapshot) => {
+			if (userSnapshot.val().wins) users.push(userSnapshot.val());
 		});
+
+		users.sort((a, b) => (a.wins > b.wins ? -1 : 1));
+
+		return users;
+	}
+	return [];
+}
+
+export async function setUserInfos(infos: { username: string }) {
+	if (!auth.currentUser) return '';
+
+	const userRef = ref(db, 'users/' + auth.currentUser.uid);
+
+	return set(child(userRef, 'username'), infos.username);
 }
 
 export async function linkAccount(email: string, password: string) {
-	const credential = await EmailAuthProvider.credential(email, password);
 	if (!auth.currentUser) return;
-	return linkWithCredential(auth.currentUser, credential)
+
+	const credential = await EmailAuthProvider.credential(email, password);
+
+	await linkWithCredential(auth.currentUser, credential)
 		.then((usercred) => {
 			const user = usercred.user;
 			console.log('Anonymous account successfully upgraded', user);
@@ -93,4 +72,6 @@ export async function linkAccount(email: string, password: string) {
 		.catch((error) => {
 			console.log('Error upgrading anonymous account', error);
 		});
+
+	await sendEmailVerification(auth.currentUser);
 }

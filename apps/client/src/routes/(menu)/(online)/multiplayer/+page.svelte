@@ -2,7 +2,7 @@
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
 	import MenuButtonHeader from '$lib/components/menu/subcomponents/MenuButtonHeader.svelte';
 	import RoomsList from './RoomsList.svelte';
-	import { usernameStore } from '$lib/stores/MultiplayerStore';
+	import { userStore } from '$lib/stores/MultiplayerStore';
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
 	import RoomCreate from './RoomCreate.svelte';
 	import Leaderboard from './Leaderboard.svelte';
@@ -33,12 +33,12 @@
 				selected={currentMenu === 'leaderboard'}
 			></MenuButtonHeader>
 		</div>
-		{#if $usernameStore}
+		{#if $userStore}
 			<MenuButtonHeader
 				on:click={() => {
 					goto('/you');
 				}}
-				text={$usernameStore}
+				text={$userStore.username}
 				icon="person"
 				selected={false}
 				customStyle="text-sm bg-gray-600/70"
