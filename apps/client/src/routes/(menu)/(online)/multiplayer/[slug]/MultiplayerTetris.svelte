@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Manager } from '../../../../TetrisPixi/Manager';
-	import MultiPlayerGameScene from '../../../../TetrisPixi/scenes/MultiPlayerGameScene';
+	import { Manager } from '$lib/pixi/Manager';
+	import MultiPlayerGameScene from '$lib/pixi/scenes/MultiPlayerGameScene';
 	import { roomStore, roomStateStore } from '$lib/stores/MultiplayerStore';
 	import { MessageTypeEnum, toGameStateDTO } from '@jmischler72/shared';
 	import { onKeyDown } from '$lib/functions/helpers/InputHelper';

@@ -38,7 +38,7 @@
 							? 'bg-yellow-600/50'
 							: ''} {key === 1 ? 'bg-zinc-500/50' : ''} {key === 2 ? 'bg-orange-700/50' : ''}"
 					>
-						<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 py-8 text-center align-middle font-medium">{key}</td>
+						<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 py-8 text-center align-middle font-medium">{key + 1}</td>
 						<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 py-8 text-center align-middle font-medium"
 							>{user.username}</td
 						>

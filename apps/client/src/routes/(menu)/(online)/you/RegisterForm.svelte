@@ -11,7 +11,6 @@
 
 	async function register() {
 		await linkAccount(email, password);
-		console.log('register');
 	}
 </script>
 

@@ -10,6 +10,7 @@ import { snackbarStore } from '$lib/stores/SnackbarStore';
 import { clientStore } from '$lib/stores/MultiplayerStore';
 import { ref, get as getFromDb, child, orderByChild, query, limitToFirst, set } from 'firebase/database';
 import { get } from 'svelte/store';
+import type { User } from '@jmischler72/shared';
 
 export async function initUser() {
 	return new Promise<void>((resolve, reject) => {
@@ -51,7 +52,7 @@ export async function getLeaderboard() {
 	return [];
 }
 
-export async function setUserInfos(infos: { username: string }) {
+export async function setUserInfos(infos: User) {
 	if (!auth.currentUser) return '';
 
 	const userRef = ref(db, 'users/' + auth.currentUser.uid);

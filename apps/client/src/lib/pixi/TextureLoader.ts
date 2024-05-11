@@ -15,11 +15,11 @@ import spritesheet from '$lib/data/spritesheet/spritesheet.png';
 // }
 
 export function getBlocksTexturesFromCache() {
-  const texture = PIXI.Texture.from(spritesheet);
+	const texture = PIXI.Texture.from(spritesheet);
 
-  const textures = [Texture.EMPTY];
-  for (let i = 0; i < 9; i++) {
-    textures.push(new PIXI.Texture(texture.baseTexture, new PIXI.Rectangle(i * 45, 0, 45, 45)));
-  }
-  return textures;
+	const textures = [Texture.EMPTY];
+	for (let i = 0; i < 9; i++) {
+		textures.push(new PIXI.Texture(texture.baseTexture, new PIXI.Rectangle(i * 45, 0, 45, 45)));
+	}
+	return textures;
 }
