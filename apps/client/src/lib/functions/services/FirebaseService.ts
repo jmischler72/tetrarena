@@ -50,10 +50,6 @@ async function guestLogin() {
 	if (auth.currentUser) get(clientStore).auth.token = await auth.currentUser.getIdToken(true);
 }
 
-export async function login(email: string, password: string) {
-	await signInWithEmailAndPassword(auth, email, password);
-}
-
 export async function getLeaderboard() {
 	const usersRef = ref(db, 'users');
 	const quUsers = query(usersRef, orderByChild('wins'), limitToFirst(20));
