@@ -6,11 +6,13 @@
 	import Button from '$lib/components/Button.svelte';
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
 	import { userStore } from '$lib/stores/MultiplayerStore';
+	import { formatZodIssue } from '$lib/functions/helpers/ZodHelper';
+	import { z } from 'zod';
 
 	let error = '';
-	function updateUser() {
+	async function updateUser() {
 		zUser.parse(userInfos);
-		setUserInfos(userInfos).catch((e) => (error = e));
+		await setUserInfos(userInfos);
 	}
 
 	let userInfos = structuredClone($userStore);
@@ -35,7 +37,13 @@
 
 <MenuFooter>
 	<div class="h-[60%] w-[30%]">
-		<Button onClick={() => updateUser()} disabled={isSaved}>
+		<Button
+			onClick={() =>
+				updateUser()
+					.then(() => location.reload())
+					.catch((e) => (error = e instanceof z.ZodError ? formatZodIssue(e.errors[0]) : e))}
+			disabled={isSaved}
+		>
 			{#if isSaved}
 				<span class="translate-x-[-5px] translate-y-[-4px] text-green-100">&#10004;</span> Saved
 			{:else}
