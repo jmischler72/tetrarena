@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Manager } from '../../TetrisPixi/Manager';
-	import SinglePlayerGameScene from '../../TetrisPixi/scenes/SinglePlayerGameScene';
+	import { Manager } from '$lib/pixi/Manager';
+	import SinglePlayerGameScene from '$lib/pixi/scenes/SinglePlayerGameScene';
 	import { SinglePlayerInstance } from '@jmischler72/core';
 	import { goto } from '$app/navigation';
 	import { onKeyDown } from '$lib/functions/helpers/InputHelper';

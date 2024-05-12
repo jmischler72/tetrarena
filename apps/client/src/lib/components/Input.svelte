@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let label: string;
 	export let value: any;
-	export let type: 'text' | 'checkbox' | 'number' = 'text';
+	export let type: 'text' | 'checkbox' | 'number' | 'password' = 'text';
 
 	function toLowerSnakeCase(input: string): string {
 		return input
