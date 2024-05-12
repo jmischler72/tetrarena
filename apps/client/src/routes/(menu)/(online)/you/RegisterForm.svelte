@@ -29,6 +29,11 @@
 </MenuContainer>
 <MenuFooter>
 	<div class="h-[60%] w-[30%]">
-		<Button onClick={() => register()}>Register</Button>
+		<Button
+			onClick={() =>
+				register()
+					.then(() => location.reload())
+					.catch((e) => (error = e))}>Register</Button
+		>
 	</div>
 </MenuFooter>

@@ -6,15 +6,30 @@
 	import UserForm from './ProfileComponent.svelte';
 	import { auth } from '$lib/functions/services/FirebaseClient';
 	import WelcomeComponent from './WelcomeComponent.svelte';
+	import { userStore } from '$lib/stores/MultiplayerStore';
 
 	let currentMenu = auth.currentUser?.isAnonymous ? 'welcome' : 'profile';
 </script>
 
 {#if auth.currentUser && !auth.currentUser.isAnonymous}
 	<MenuHeader>
-		<MenuButtonHeader on:click={() => {}} text="Profile" icon="account_circle" selected={true}></MenuButtonHeader>
+		<div class="flex h-full w-full flex-row justify-between">
+			<div class="flex flex-row">
+				<MenuButtonHeader on:click={() => {}} text="Profile" icon="account_circle" selected={true}></MenuButtonHeader>
+			</div>
+			<MenuButtonHeader
+				on:click={() => {
+					auth.signOut().then(() => {
+						location.reload();
+					});
+				}}
+				text={'Logout'}
+				icon="logout"
+				selected={false}
+				customStyle="text-sm bg-gray-600/70"
+			></MenuButtonHeader>
+		</div>
 	</MenuHeader>
-
 	<UserForm></UserForm>
 {:else}
 	<MenuHeader>

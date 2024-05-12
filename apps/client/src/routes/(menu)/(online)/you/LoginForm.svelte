@@ -3,6 +3,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
+	import { login } from '$lib/functions/services/FirebaseService';
 
 	let email = '';
 	let password = '';
@@ -24,6 +25,11 @@
 </MenuContainer>
 <MenuFooter>
 	<div class="h-[60%] w-[30%]">
-		<Button onClick={() => console.log('d')}>Login</Button>
+		<Button
+			onClick={() =>
+				login(email, password)
+					.then(() => location.reload())
+					.catch((e) => (error = e))}>Login</Button
+		>
 	</div>
 </MenuFooter>
