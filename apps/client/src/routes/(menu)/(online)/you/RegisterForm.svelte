@@ -8,10 +8,6 @@
 	let email = '';
 	let password = '';
 	let error = '';
-
-	async function register() {
-		await linkAccount(email, password);
-	}
 </script>
 
 <MenuContainer>
@@ -31,7 +27,7 @@
 	<div class="h-[60%] w-[30%]">
 		<Button
 			onClick={() =>
-				register()
+				linkAccount(email, password)
 					.then(() => location.reload())
 					.catch((e) => (error = e))}>Register</Button
 		>

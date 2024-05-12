@@ -13,7 +13,7 @@
 <MenuContainer>
 	<div class="animation-up relative flex h-full w-full flex-col items-center justify-center gap-4">
 		<Input bind:value={email} label={'Email'} />
-		<Input bind:value={password} label={'Password'} />
+		<Input bind:value={password} label={'Password'} type={'password'} />
 		{#if error}
 			<div
 				class="mx-6 flex h-[15%] w-[70%] items-center justify-center rounded-lg bg-gray-600/50 transition duration-500 ease-in-out"

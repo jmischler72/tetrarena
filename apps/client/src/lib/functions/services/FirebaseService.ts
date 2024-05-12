@@ -85,14 +85,7 @@ export async function linkAccount(email: string, password: string) {
 
 	const credential = await EmailAuthProvider.credential(email, password);
 
-	await linkWithCredential(auth.currentUser, credential)
-		.then((usercred) => {
-			const user = usercred.user;
-			console.log('Anonymous account successfully upgraded', user);
-		})
-		.catch((error) => {
-			console.log('Error upgrading anonymous account', error);
-		});
+	await linkWithCredential(auth.currentUser, credential);
 
 	await sendEmailVerification(auth.currentUser);
 }
