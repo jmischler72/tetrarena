@@ -28,6 +28,7 @@
 	}
 
 	function onInput(event: KeyboardEvent) {
+		event.preventDefault();
 		let action = onKeyDown(event);
 		if (action) instance.handleAction(action);
 	}

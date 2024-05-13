@@ -7,6 +7,7 @@
 	import { onKeyDown } from '$lib/functions/helpers/InputHelper';
 
 	function onInput(event: KeyboardEvent) {
+		event.preventDefault();
 		let action = onKeyDown(event);
 		if (action) $roomStore?.send(MessageTypeEnum.PLAYER_ACTION, action);
 	}
