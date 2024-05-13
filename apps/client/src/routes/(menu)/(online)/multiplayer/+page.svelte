@@ -2,11 +2,11 @@
 	import MenuContainer from '$lib/components/menu/subcomponents/MenuContainer.svelte';
 	import MenuButtonHeader from '$lib/components/menu/subcomponents/MenuButtonHeader.svelte';
 	import RoomsList from './RoomsList.svelte';
-	import { userStore } from '$lib/stores/MultiplayerStore';
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
 	import RoomCreate from './RoomCreate.svelte';
 	import Leaderboard from './Leaderboard.svelte';
 	import { goto } from '$app/navigation';
+	import { getUserInfos } from '$lib/functions/services/FirebaseService';
 
 	let currentMenu = 'list';
 </script>
@@ -33,17 +33,19 @@
 				selected={currentMenu === 'leaderboard'}
 			></MenuButtonHeader>
 		</div>
-		{#if $userStore}
-			<MenuButtonHeader
-				on:click={() => {
-					goto('/you');
-				}}
-				text={$userStore.username}
-				icon="person"
-				selected={false}
-				customStyle="text-sm bg-gray-600/70"
-			></MenuButtonHeader>
-		{/if}
+		{#await getUserInfos() then infos}
+			{#if infos}
+				<MenuButtonHeader
+					on:click={() => {
+						goto('/you');
+					}}
+					text={infos.username}
+					icon="person"
+					selected={false}
+					customStyle="text-sm bg-gray-600/70"
+				></MenuButtonHeader>
+			{/if}
+		{/await}
 	</div>
 </MenuHeader>
 {#if currentMenu === 'create'}

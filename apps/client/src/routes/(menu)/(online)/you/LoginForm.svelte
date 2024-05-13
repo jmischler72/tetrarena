@@ -26,11 +26,6 @@
 </MenuContainer>
 <MenuFooter>
 	<div class="h-[60%] w-[30%]">
-		<Button
-			onClick={() =>
-				signInWithEmailAndPassword(auth, email, password)
-					.then(() => location.reload())
-					.catch((e) => (error = e))}>Login</Button
-		>
+		<Button onClick={() => signInWithEmailAndPassword(auth, email, password).catch((e) => (error = e))}>Login</Button>
 	</div>
 </MenuFooter>

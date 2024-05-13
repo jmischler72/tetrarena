@@ -5,9 +5,9 @@ import { get } from 'svelte/store';
 import { MessageTypeEnum, type RoomOptions } from '@jmischler72/shared';
 import { snackbarStore } from '$lib/stores/SnackbarStore';
 
-export function resetRoom(goToMultiplayer = true) {
+export async function resetRoom(goToMultiplayer = true) {
 	roomStore.set(null);
-	if (goToMultiplayer) void goto('/multiplayer/');
+	if (goToMultiplayer) await goto('/multiplayer/');
 	localStorage.removeItem('reconnectionToken');
 }
 
@@ -43,8 +43,9 @@ export async function joinRoom(roomId: string) {
 		let room = await get(clientStore).joinById(roomId);
 		handleRoom(room);
 	} catch (e) {
+		await resetRoom();
+
 		snackbarStore.set('Error joining room !' + e);
-		resetRoom();
 	}
 }
 
@@ -56,8 +57,9 @@ async function rejoinRoom(reconnectionToken: string) {
 
 		localStorage.removeItem('reconnectionToken');
 	} catch (e) {
+		await resetRoom();
+
 		snackbarStore.set('Error rejoining room !' + e);
-		resetRoom();
 	}
 }
 
@@ -69,12 +71,13 @@ export async function createRoom(options: RoomOptions) {
 		handleRoom(room);
 		await goto('/multiplayer/' + room.id);
 	} catch (e) {
+		await resetRoom();
+
 		snackbarStore.set('Error creating room !' + e);
-		resetRoom();
 	}
 }
 
 export async function leaveRoom() {
 	await get(roomStore)?.leave(true);
-	resetRoom();
+	await resetRoom();
 }

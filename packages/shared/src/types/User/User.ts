@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-export type User = {
+export type UserInfos = {
 	username: string;
 };
-export const zUser = z.object({
+export const zUserInfos = z.object({
 	username: z.string().min(4).max(20),
 });
