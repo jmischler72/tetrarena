@@ -35,18 +35,22 @@
 			icon="waving_hand"
 			selected={currentMenu === 'welcome'}
 		></MenuButtonHeader>
-		<MenuButtonHeader
-			on:click={() => (currentMenu = 'login')}
-			text="Login"
-			icon="login"
-			selected={currentMenu === 'login'}
-		></MenuButtonHeader>
-		<MenuButtonHeader
-			on:click={() => (currentMenu = 'register')}
-			text="Register"
-			icon="badge"
-			selected={currentMenu === 'register'}
-		></MenuButtonHeader>
+		{#if currentMenu === 'login'}
+			<MenuButtonHeader
+				on:click={() => (currentMenu = 'login')}
+				text="Login"
+				icon="login"
+				selected={currentMenu === 'login'}
+			></MenuButtonHeader>
+		{/if}
+		{#if currentMenu === 'register'}
+			<MenuButtonHeader
+				on:click={() => (currentMenu = 'register')}
+				text="Register"
+				icon="badge"
+				selected={currentMenu === 'register'}
+			></MenuButtonHeader>
+		{/if}
 	</MenuHeader>
 
 	{#if currentMenu === 'welcome'}
