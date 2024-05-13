@@ -7,6 +7,13 @@
 	import Button from '$lib/components/Button.svelte';
 	import { MessageTypeEnum } from '@jmischler72/shared';
 	import { onMount } from 'svelte';
+	import CountdownTimer from './CountdownTimer.svelte';
+
+	let refreshCountdown = {}; // every {} is unique, {} === {} evaluates to false
+
+	$roomStore?.onMessage(MessageTypeEnum.TIMEOUT, () => {
+		refreshCountdown = {};
+	});
 
 	function playerReady() {
 		$roomStore?.send(MessageTypeEnum.READY);
@@ -25,9 +32,17 @@
 </script>
 
 <MenuHeader>
-	<div class="relative left-0 right-0 z-0 ml-auto mr-auto flex w-full justify-center text-2xl">
+	<div class="ml-auto mr-auto flex w-full justify-center text-2xl">
 		<h1>Room - {$roomStore?.roomId}</h1>
 	</div>
+	<button
+		on:click={() => $roomStore?.send(MessageTypeEnum.RESET_TIMEOUT)}
+		class="absolute aspect-square w-16 cursor-pointer"
+	>
+		{#key refreshCountdown}
+			<CountdownTimer></CountdownTimer>
+		{/key}
+	</button>
 </MenuHeader>
 <MenuContainer hasFooter={true}>
 	<WaitingComponent></WaitingComponent>

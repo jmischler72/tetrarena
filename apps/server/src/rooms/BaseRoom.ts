@@ -47,6 +47,7 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 	onJoin(client: Client) {
 		this.logger.info('client: ' + client.sessionId + ' joined room');
 		if (this.clients.length <= 1) this.state.admin = client.sessionId;
+		this.initializeTimeout();
 
 		FirebaseService.setUserInRoom(client.auth.uid, this.roomId);
 		FirebaseService.getUsername(client.auth.uid).then((username) => {
@@ -58,8 +59,6 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		const isAdmin = client.sessionId === this.state.admin;
 		if (isAdmin) this.state.admin = this.clients.find((c) => c.sessionId !== client.sessionId)?.sessionId || '';
 		this.state.players.get(client.sessionId).connected = false;
-
-		this.initializeTimeout();
 
 		if (consented) {
 			this.handlePlayerDisconnect(client.sessionId, true);
@@ -127,14 +126,19 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 				this.setRoomMetadata(data);
 			}
 		});
+
+		this.onMessage(MessageTypeEnum.RESET_TIMEOUT, () => {
+			this.initializeTimeout();
+		});
 	}
 
 	private initializeTimeout() {
+		this.broadcast(MessageTypeEnum.TIMEOUT);
+
 		if (this.timeout) this.timeout.clear();
 		this.timeout = this.clock.setTimeout(() => {
-			if (this.clients.length < this.maxClients) {
+			if (!this.state.isPlaying) {
 				this.logger.info('timeout room');
-				this.broadcast(MessageTypeEnum.TIMEOUT);
 				void this.disconnect();
 			}
 		}, TIMEOUT);
@@ -160,5 +164,6 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		this.logger.info('stopping game');
 
 		this.state.isPlaying = false;
+		this.initializeTimeout();
 	}
 }
