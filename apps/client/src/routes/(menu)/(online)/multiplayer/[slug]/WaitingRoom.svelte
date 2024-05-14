@@ -11,10 +11,6 @@
 
 	let refreshCountdown = {}; // every {} is unique, {} === {} evaluates to false
 
-	$roomStore?.onMessage(MessageTypeEnum.TIMEOUT, () => {
-		refreshCountdown = {};
-	});
-
 	function playerReady() {
 		$roomStore?.send(MessageTypeEnum.READY);
 	}
@@ -25,8 +21,14 @@
 		$roomStore?.onStateChange((state) => {
 			roomStateStore.set(state);
 		});
+
+		const timeoutListener = $roomStore?.onMessage(MessageTypeEnum.TIMEOUT, () => {
+			console.log('TIMEOUT');
+			refreshCountdown = {};
+		});
 		return () => {
 			$roomStore?.onStateChange.clear();
+			timeoutListener();
 		};
 	});
 </script>
