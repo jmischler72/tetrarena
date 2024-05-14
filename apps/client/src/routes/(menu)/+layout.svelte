@@ -2,14 +2,11 @@
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import Menu from '$lib/components/menu/Menu.svelte';
-	import { roomStore } from '$lib/stores/MultiplayerStore';
 	import Snackbar from './Snackbar.svelte';
 
 	let loading = false;
 
 	beforeNavigate(() => {
-		// before navigate prevent onbeforeunload to be called so i set reconnectionToken here
-		if ($roomStore) localStorage.setItem('reconnectionToken', $roomStore.reconnectionToken);
 		loading = true;
 	});
 

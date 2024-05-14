@@ -15,6 +15,12 @@
 	});
 </script>
 
+<svelte:window
+	on:beforeunload={() => {
+		if ($roomStore) localStorage.setItem('reconnectionToken', $roomStore.reconnectionToken);
+	}}
+/>
+
 <AsyncMenu callback={() => joinRoom(data.slug)}>
 	{#if isPlaying}
 		<MultiplayerTetris></MultiplayerTetris>
