@@ -3,7 +3,7 @@ import Board from '../Board/Board';
 import { currentPlayerBorderTween, placedTetriminosTween, scoreAnimationTween } from './BoardContainerAnimation';
 import NextTetriminosContainer from './NextTetriminosContainer/NextTetriminosContainer';
 import { ColorEnum, type GameStateDTO } from '@jmischler72/core';
-import { getDeletedLines } from '../../helpers/BoardHelper';
+import { getDeletedLines } from '@jmischler72/shared';
 import DisconnectedOverlay from './DisconnectedOverlay';
 
 export default class BoardContainer extends PIXI.Container {

@@ -47,6 +47,8 @@ export async function joinRoom(roomId: string) {
 
 		snackbarStore.set('Error joining room !' + e);
 	}
+
+	localStorage.removeItem('reconnectionToken');
 }
 
 async function rejoinRoom(reconnectionToken: string) {

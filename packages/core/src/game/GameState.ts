@@ -124,6 +124,8 @@ export class GameState {
 
 			this.linesId.push(uid());
 			this.linesId.shift();
+
+			this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
 		}
 	}
 }

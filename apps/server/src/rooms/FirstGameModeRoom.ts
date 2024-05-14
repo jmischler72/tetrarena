@@ -55,6 +55,8 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 	}
 
 	protected handlePlayerInput(player: PlayerState, data: ActionsEnum) {
+		if (!this.state.isPlaying) return;
+
 		let prevLinesId = structuredClone(Array.from(player.gameState.linesId));
 
 		super.handlePlayerInput(player, data);

@@ -3,7 +3,8 @@ import type { ColorEnum, Tetrimino } from '@jmischler72/core';
 import { getShapeFromTetrimino } from '@jmischler72/core';
 import { COLORS } from '../../consts';
 import { getBlocksTexturesFromCache } from '../../TextureLoader';
-import { fallingSpriteTween } from './BoardAnimation';
+import { ascendingSprite, fallingSpriteTween } from './BoardAnimation';
+import { Tween } from '@tweenjs/tween.js';
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
@@ -116,5 +117,42 @@ export default class Board extends PIXI.Container {
 				})
 				.start();
 		});
+	}
+
+	animateNewLine() {
+		// let chain: Tween<{}> = new Tween({});
+		for (let i = BOARD_HEIGHT - 1; i < 0; --i) {
+			this.sprites[i].forEach((sprite) => {
+				const spriteCopy = new PIXI.Sprite(sprite.texture);
+				spriteCopy.width = spriteCopy.height = BLOCK_SIZE;
+				spriteCopy.anchor.set(0.5, 0.5);
+				spriteCopy.zIndex = 2;
+				spriteCopy.position = sprite.position;
+				// sprite.texture = this.textures[0];
+
+				this.addChild(spriteCopy);
+
+				ascendingSprite(spriteCopy)
+					.onComplete(() => {
+						this.removeChild(spriteCopy);
+					})
+					.start();
+			});
+		}
+		// this.sprites.forEach((row) => {
+		// 	row.forEach((sprite) => {
+		// const spriteCopy = new PIXI.Sprite(sprite.texture);
+		// spriteCopy.width = spriteCopy.height = BLOCK_SIZE;
+		// spriteCopy.anchor.set(0.5, 0.5);
+		// spriteCopy.position = sprite.position;
+		// this.addChild(spriteCopy);
+
+		// 		ascendingSprite(sprite)
+		// 			.onComplete(() => {
+		// 				// this.removeChild(spriteCopy);
+		// 			})
+		// 			.start();
+		// 	});
+		// });
 	}
 }

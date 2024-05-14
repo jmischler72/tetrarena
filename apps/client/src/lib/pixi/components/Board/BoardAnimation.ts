@@ -23,3 +23,35 @@ export function fallingSpriteTween(sprite: PIXI.Sprite) {
 			sprite.alpha = spriteValues.alpha;
 		});
 }
+
+export function ascendingSprite(sprite: PIXI.Sprite) {
+	const spriteValues = {
+		pos_y: 0,
+	};
+
+	const ascendingIn = new TWEEN.Tween(spriteValues)
+		.to(
+			{
+				pos_y: -sprite.height - 10,
+			},
+			500,
+		)
+		.easing(TWEEN.Easing.Exponential.Out)
+		.onUpdate(() => {
+			sprite.position.y -= spriteValues.pos_y;
+		});
+
+	const ascendingOut = new TWEEN.Tween(spriteValues)
+		.to(
+			{
+				pos_y: 10,
+			},
+			100,
+		)
+		.easing(TWEEN.Easing.Exponential.Out)
+		.onUpdate(() => {
+			sprite.position.y += spriteValues.pos_y;
+		});
+
+	return ascendingIn.chain(ascendingOut);
+}

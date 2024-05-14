@@ -20,6 +20,7 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		return getAuth(app)
 			.verifyIdToken(token)
 			.then((decodedToken) => {
+				if (process.env.NODE_ENV !== 'production') return decodedToken;
 				return FirebaseService.checkIfUserNotInRoom(decodedToken.uid).then((notInRoom) => {
 					if (notInRoom) {
 						logger.info('User not in room');
