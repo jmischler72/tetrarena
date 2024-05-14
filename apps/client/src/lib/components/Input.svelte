@@ -10,6 +10,14 @@
 			.toLowerCase(); // Convert to lower case
 	}
 
+	function handleChange(e: any) {
+		if (type === 'checkbox') {
+			value = e.target.checked;
+		} else {
+			value = e.target.value;
+		}
+	}
+
 	const id = toLowerSnakeCase(label);
 </script>
 
@@ -22,7 +30,9 @@
 		{label}
 	</label>
 	<input
-		bind:value
+		checked={type === 'checkbox' && value}
+		{value}
+		on:change={handleChange}
 		{...{ type }}
 		class="border-input flex h-10 {type !== 'checkbox'
 			? 'w-full'

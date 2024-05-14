@@ -7,6 +7,7 @@ import pino, { Logger } from 'pino';
 import { getAuth } from 'firebase-admin/auth';
 import { app } from '../utils/firebase/FirebaseAdmin';
 import { FirebaseService } from '../utils/firebase/FirebaseService';
+import { ActionsEnum } from '@jmischler72/core';
 
 const TIMEOUT = 50000;
 
@@ -113,11 +114,9 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 			client.send(MessageTypeEnum.PONG, { time: Date.now() });
 		});
 		this.onMessage(MessageTypeEnum.PLAYER_ACTION, (client, data) => {
-			if (this.state.isPlaying) {
-				this.logger.debug('handle action: ' + data + ' for client: ' + client.sessionId);
-				const player = this.state.players.get(client.sessionId);
-				if (player) player.handleAction(data);
-			}
+			this.logger.debug('handle action: ' + data + ' for client: ' + client.sessionId);
+			const player = this.state.players.get(client.sessionId);
+			if (player) this.handlePlayerInput(player, data);
 		});
 
 		this.onMessage(MessageTypeEnum.EDIT_ROOM, (client, data: RoomOptions) => {
@@ -165,5 +164,11 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 
 		this.state.isPlaying = false;
 		this.initializeTimeout();
+	}
+
+	protected handlePlayerInput(player: PlayerState, data: ActionsEnum) {
+		if (!this.state.isPlaying) return;
+
+		player.handleAction(data);
 	}
 }

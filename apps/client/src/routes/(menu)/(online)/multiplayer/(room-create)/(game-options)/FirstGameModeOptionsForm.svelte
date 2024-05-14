@@ -9,6 +9,7 @@
 	$: gameOptions.goalScore = parseInt(gameOptions.goalScore.toString());
 </script>
 
-<div class="animation-up relative flex h-full w-full items-center justify-center">
+<div class="animation-up flex h-full w-full flex-col items-center justify-center gap-4">
 	<Input bind:value={gameOptions.goalScore} label={'Goal Score'} type={'number'} />
+	<Input bind:value={gameOptions.opponentAttacking} label={'Opponent Attacking'} type={'checkbox'} />
 </div>

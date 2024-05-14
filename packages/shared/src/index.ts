@@ -6,6 +6,7 @@ export * from './schemas/FirstGameModeRoomState';
 
 export * from './helpers/server.helpers';
 export * from './helpers/client.helpers';
+export * from './helpers/core.helpers';
 
 export * from './types/User/User';
 

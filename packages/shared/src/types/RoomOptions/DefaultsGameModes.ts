@@ -16,6 +16,7 @@ export const defaultGameModes: GameMode[] = [
 		description: 'Be the first to reach the goal score',
 		options: {
 			goalScore: 100,
+			opponentAttacking: false,
 		} as FirstGameModeOptions,
 	},
 ];
