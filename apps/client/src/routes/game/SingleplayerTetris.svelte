@@ -31,6 +31,10 @@
 		event.preventDefault();
 		let action = onKeyDown(event);
 		if (action) instance.handleAction(action);
+
+		if (event.key === 'Enter') {
+			instance.game.addLines(1);
+		}
 	}
 
 	onMount(() => {

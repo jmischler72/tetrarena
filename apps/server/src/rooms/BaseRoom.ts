@@ -117,7 +117,7 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		this.onMessage(MessageTypeEnum.PLAYER_ACTION, (client, data) => {
 			this.logger.debug('handle action: ' + data + ' for client: ' + client.sessionId);
 			const player = this.state.players.get(client.sessionId);
-			if (player) this.handlePlayerInput(player, data);
+			if (player) this.handlePlayerAction(player, data);
 		});
 
 		this.onMessage(MessageTypeEnum.EDIT_ROOM, (client, data: RoomOptions) => {
@@ -167,7 +167,7 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		this.initializeTimeout();
 	}
 
-	protected handlePlayerInput(player: PlayerState, data: ActionsEnum) {
+	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {
 		if (!this.state.isPlaying) return;
 
 		player.handleAction(data);

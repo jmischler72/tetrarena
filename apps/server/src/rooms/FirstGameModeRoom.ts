@@ -16,6 +16,7 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 
 	protected setRoomMetadata(options: RoomOptions) {
 		super.setRoomMetadata(options);
+
 		zFirstGameModeOptions.parse(options.gameOptions);
 		this.state.goalScore = options.gameOptions.goalScore;
 		this.state.opponentAttacking = options.gameOptions.opponentAttacking;
@@ -36,7 +37,7 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 
 		this.gameTimer = this.clock.setInterval(() => {
 			this.state.players.forEach((player: PlayerState, key: string) => {
-				this.handlePlayerInput(player, ActionsEnum.GO_DOWN);
+				this.handlePlayerAction(player, ActionsEnum.GO_DOWN);
 			});
 		}, GAME_SPEED);
 	}
@@ -54,12 +55,12 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 		if (this.state.winner) FirebaseService.increaseWinsForUser(winner.userId);
 	}
 
-	protected handlePlayerInput(player: PlayerState, data: ActionsEnum) {
+	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {
 		if (!this.state.isPlaying) return;
 
 		let prevLinesId = structuredClone(Array.from(player.gameState.linesId));
 
-		super.handlePlayerInput(player, data);
+		super.handlePlayerAction(player, data);
 
 		let linesToAdd = getDeletedLines(prevLinesId, Array.from(player.gameState.linesId)).length;
 

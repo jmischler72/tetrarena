@@ -2,7 +2,7 @@ import type { Tetrimino } from '../types/Tetrimino';
 
 import { BOARD_HEIGHT, BOARD_WIDTH } from '../constants/game';
 import { ColorEnum } from '../enums/color.enum';
-import { canPlaceTetrimino } from '../utils/constraints.helpers';
+import { canMoveDown, canPlaceTetrimino } from '../utils/constraints.helpers';
 
 import { ActionsEnum } from '../enums/actions.enum';
 import {
@@ -124,6 +124,16 @@ export class GameState {
 
 			this.linesId.push(uid());
 			this.linesId.shift();
+
+			if (!canPlaceTetrimino(this.currentTetrimino, this.board)) {
+				if (this.currentTetrimino.position_y > 0) this.currentTetrimino.position_y--;
+			}
+
+			if (!canMoveDown(this.currentTetrimino, this.board)) {
+				this.drawShapeOnBoard(this.currentTetrimino);
+				this.checkBreakLine();
+				this.checkForGameOver();
+			}
 
 			this.shadowTetrimino = getShadowTetriminos(this.currentTetrimino, this.board);
 		}
