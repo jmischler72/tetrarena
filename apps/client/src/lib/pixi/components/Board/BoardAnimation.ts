@@ -25,7 +25,7 @@ export function fallingSpriteTween(sprite: PIXI.Sprite) {
 		});
 }
 
-export function ascendingSprite(sprite: PIXI.Sprite, opacity: number = 1) {
+export function ascendingSprite(sprite: PIXI.Sprite | PIXI.Container, opacity: number = 1) {
 	const spriteValues = {
 		pos_y: sprite.position.y,
 		opacity: opacity,

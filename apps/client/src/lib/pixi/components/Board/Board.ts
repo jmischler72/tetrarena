@@ -1,11 +1,9 @@
 import * as PIXI from 'pixi.js';
-import { ColorEnum, type GameStateDTO, type Tetrimino } from '@jmischler72/core';
-import { getShapeFromTetrimino } from '@jmischler72/core';
+import { ColorEnum, type Tetrimino } from '@jmischler72/core';
 import { COLORS } from '../../consts';
 import { getBlocksTexturesFromCache } from '../../TextureLoader';
-import { ascendingSprite, fallingSpriteTween } from './BoardAnimation';
-import { Tween } from '@tweenjs/tween.js';
-import { createBlockSprite } from '$lib/pixi/helpers/BlockHelpers';
+import { fallingSpriteTween } from './BoardAnimation';
+import { copySprite, createBlockSprite } from '$lib/pixi/helpers/BlockHelpers';
 import TetriminoContainer from '../Tetrimino/TetriminoContainer';
 
 const BOARD_WIDTH = 10;
@@ -18,10 +16,8 @@ const BLOCK_SIZE = 35;
 export default class Board extends PIXI.Container {
 	private readonly textures: PIXI.Texture[];
 	private board: PIXI.Sprite[][] = [];
-	private tetrimino: PIXI.Sprite[] = [];
-	private shadowTetrimino: PIXI.Sprite[] = [];
-
-	private animations: Tween<any>[] = [];
+	private tetrimino: TetriminoContainer | null = null;
+	private shadowTetrimino: TetriminoContainer | null = null;
 
 	constructor() {
 		super();
@@ -50,7 +46,6 @@ export default class Board extends PIXI.Container {
 			const row: PIXI.Sprite[] = [];
 			for (let j = 0; j < BOARD_WIDTH; ++j) {
 				const spr = createBlockSprite(i, j, this.textures[0], BLOCK_SIZE);
-
 				this.addChild(spr);
 				row.push(spr);
 			}
@@ -90,47 +85,23 @@ export default class Board extends PIXI.Container {
 
 	updateTetrimino(tetrimino: Tetrimino, color: ColorEnum, isShadow: boolean = false) {
 		if (!isShadow) {
-			this.removeChild(...this.tetrimino);
-			this.tetrimino = this.getTetriminoSprites(tetrimino, color);
-			this.addChild(...this.tetrimino);
+			if (this.tetrimino) this.removeChild(this.tetrimino);
+			this.tetrimino = new TetriminoContainer(color, BLOCK_SIZE, tetrimino.rotation);
+			this.tetrimino.zIndex = 3;
+
+			this.tetrimino.position.set(tetrimino.position_x * BLOCK_SIZE, tetrimino.position_y * BLOCK_SIZE);
+			this.addChild(this.tetrimino);
 		} else {
-			this.removeChild(...this.shadowTetrimino);
-			this.shadowTetrimino = this.getTetriminoSprites(tetrimino, color);
-			this.addChild(...this.shadowTetrimino);
+			if (this.shadowTetrimino) this.removeChild(this.shadowTetrimino);
+			this.shadowTetrimino = new TetriminoContainer(color, BLOCK_SIZE, tetrimino.rotation, ColorEnum.SHADOW);
+			this.shadowTetrimino.position.set(tetrimino.position_x * BLOCK_SIZE, tetrimino.position_y * BLOCK_SIZE);
+			this.addChild(this.shadowTetrimino);
 		}
-	}
-
-	private getTetriminoSprites(tetrimino: Tetrimino, color: ColorEnum) {
-		const tetriminoShape: number[][] = getShapeFromTetrimino(tetrimino);
-		const tetriminoSprites: PIXI.Sprite[] = [];
-
-		for (let i = 0; i < tetriminoShape.length; ++i) {
-			for (let j = 0; j < tetriminoShape[0].length; ++j) {
-				if (tetriminoShape[i][j] === 1) {
-					const spr = createBlockSprite(
-						tetrimino.position_y + i,
-						tetrimino.position_x + j,
-						this.getTextureFromColorEnum(color),
-						BLOCK_SIZE,
-					);
-					tetriminoSprites.push(spr);
-				}
-			}
-		}
-		return tetriminoSprites;
-	}
-
-	private copySprite(sprite: PIXI.Sprite) {
-		const spriteCopy = new PIXI.Sprite(sprite.texture);
-		spriteCopy.width = spriteCopy.height = BLOCK_SIZE;
-		spriteCopy.anchor.set(0.5, 0.5);
-		spriteCopy.position = sprite.position;
-		return spriteCopy;
 	}
 
 	animateLineBreak(row: number) {
 		this.board[row].forEach((sprite) => {
-			const spriteCopy = this.copySprite(sprite);
+			const spriteCopy = copySprite(sprite, BLOCK_SIZE);
 			this.addChild(spriteCopy);
 
 			fallingSpriteTween(spriteCopy)
@@ -141,37 +112,56 @@ export default class Board extends PIXI.Container {
 		});
 	}
 
-	animateNewLine(line: ColorEnum[]) {
-		this.animations.forEach((tween) => tween.end());
+	// TODO: animation for new line
 
-		line.forEach((block, i) => {
-			let spr = createBlockSprite(BOARD_HEIGHT, i, this.getTextureFromColorEnum(block), BLOCK_SIZE);
-			spr.alpha = 0;
-			this.addChild(spr);
+	// animateNewLine(line: ColorEnum[], posed: boolean, pos_y: number) {
+	// 	this.animations.forEach((tween) => tween.end());
 
-			this.animations.push(
-				ascendingSprite(spr, 0)
-					.onComplete(() => {
-						this.removeChild(spr);
-					})
-					.start(),
-			);
-		});
+	// 	if(posed && this.tetrimino){
+	// 		let t = new TetriminoContainer(this.tetrimino.piece, BLOCK_SIZE, this.tetrimino.rot)
+	// 		t.position.set(this.tetrimino.position.x, pos_y* BLOCK_SIZE+ BLOCK_SIZE)
+	// 		if(t){
+	// 			console.log('f')
+	// 			this.addChild(t);
+	// 			this.animations.push(ascendingSprite(t)
+	// 				.onComplete(() => {
+	// 					this.removeChild(t);
+	// 				})
+	// 				.start())
+	// 		}
+	// 	}
+	// 	line.forEach((block, i) => {
+	// 		let spr = createBlockSprite(BOARD_HEIGHT, i, this.getTextureFromColorEnum(block), BLOCK_SIZE);
+	// 		spr.alpha = 0;
+	// 		this.addChild(spr);
 
-		this.board.flat().forEach((sprite) => {
-			const spriteCopy = this.copySprite(sprite);
-			sprite.alpha = 0;
+	// 		this.animations.push(
+	// 			ascendingSprite(spr, 0)
+	// 				.onComplete(() => {
+	// 					this.removeChild(spr);
+	// 				})
+	// 				.start(),
+	// 		);
+	// 	});
 
-			this.addChild(spriteCopy);
+	// 	for(let i = 0; i < this.board.length; i++) {
+	// 		for(let j = 0; j < this.board[i].length; j++) {
+	// 			const sprite = this.board[i][j];
+	// 			const spriteCopy = this.copySprite(sprite);
+	// 			sprite.alpha = 0;
 
-			this.animations.push(
-				ascendingSprite(spriteCopy)
-					.onComplete(() => {
-						this.removeChild(spriteCopy);
-						sprite.alpha = 1;
-					})
-					.start(),
-			);
-		});
-	}
+	// 			this.addChild(spriteCopy);
+
+	// 			this.animations.push(
+	// 				ascendingSprite(spriteCopy)
+	// 					.onComplete(() => {
+	// 						this.removeChild(spriteCopy);
+
+	// 						sprite.alpha = 1;
+	// 					})
+	// 					.start(),
+	// 			);
+	// 		}
+	// 	}
+	// }
 }

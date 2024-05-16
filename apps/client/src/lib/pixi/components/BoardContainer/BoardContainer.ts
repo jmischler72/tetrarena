@@ -89,7 +89,7 @@ export default class BoardContainer extends PIXI.Container {
 
 		this.board.updateFromBoard(gameState.board);
 
-		this.board.updateTetrimino(gameState.shadowTetrimino, ColorEnum.SHADOW, true);
+		this.board.updateTetrimino(gameState.shadowTetrimino, gameState.currentTetrimino.color, true);
 		this.board.updateTetrimino(gameState.currentTetrimino, gameState.currentTetrimino.color);
 
 		this.nextTetriminosContainer.renderTetriminoContainers(gameState.nextTetriminos);
@@ -105,9 +105,9 @@ export default class BoardContainer extends PIXI.Container {
 			this.board.animateLineBreak(line);
 		});
 
-		for (let i = 0; i < getAddedLines(this.currentGameState?.linesId, gameState.linesId); i++) {
-			this.board.animateNewLine(gameState.board[BOARD_HEIGHT - 1]);
-		}
+		// for (let i = 0; i < getAddedLines(this.currentGameState?.linesId, gameState.linesId); i++) {
+		// 	this.board.animateNewLine(gameState.board[BOARD_HEIGHT - 1], gameState.currentTetrimino.id !== this.currentGameState?.currentTetrimino.id, this.currentGameState.currentTetrimino.position_y);
+		// }
 
 		if (gameState.currentTetrimino.id !== this.currentGameState?.currentTetrimino.id) {
 			this.posedAnimation(offset);
