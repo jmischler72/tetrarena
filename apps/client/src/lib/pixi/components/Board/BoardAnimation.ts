@@ -1,3 +1,4 @@
+import { BLOCK_SIZE } from '$lib/pixi/constants/board';
 import * as TWEEN from '@tweenjs/tween.js';
 import type * as PIXI from 'pixi.js';
 
@@ -24,34 +25,23 @@ export function fallingSpriteTween(sprite: PIXI.Sprite) {
 		});
 }
 
-export function ascendingSprite(sprite: PIXI.Sprite) {
+export function ascendingSprite(sprite: PIXI.Sprite, opacity: number = 1) {
 	const spriteValues = {
-		pos_y: 0,
+		pos_y: sprite.position.y,
+		opacity: opacity,
 	};
 
-	const ascendingIn = new TWEEN.Tween(spriteValues)
+	return new TWEEN.Tween(spriteValues)
 		.to(
 			{
-				pos_y: -sprite.height - 10,
+				pos_y: sprite.position.y - BLOCK_SIZE,
+				opacity: 1,
 			},
 			500,
 		)
 		.easing(TWEEN.Easing.Exponential.Out)
 		.onUpdate(() => {
-			sprite.position.y -= spriteValues.pos_y;
+			sprite.alpha = spriteValues.opacity;
+			sprite.position.y = spriteValues.pos_y;
 		});
-
-	const ascendingOut = new TWEEN.Tween(spriteValues)
-		.to(
-			{
-				pos_y: 10,
-			},
-			100,
-		)
-		.easing(TWEEN.Easing.Exponential.Out)
-		.onUpdate(() => {
-			sprite.position.y += spriteValues.pos_y;
-		});
-
-	return ascendingIn.chain(ascendingOut);
 }

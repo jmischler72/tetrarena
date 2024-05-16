@@ -1,10 +1,12 @@
 import * as PIXI from 'pixi.js';
-import type { ColorEnum, Tetrimino } from '@jmischler72/core';
+import { ColorEnum, type GameStateDTO, type Tetrimino } from '@jmischler72/core';
 import { getShapeFromTetrimino } from '@jmischler72/core';
 import { COLORS } from '../../consts';
 import { getBlocksTexturesFromCache } from '../../TextureLoader';
 import { ascendingSprite, fallingSpriteTween } from './BoardAnimation';
 import { Tween } from '@tweenjs/tween.js';
+import { createBlockSprite } from '$lib/pixi/helpers/BlockHelpers';
+import TetriminoContainer from '../Tetrimino/TetriminoContainer';
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
@@ -15,7 +17,11 @@ const BLOCK_SIZE = 35;
  */
 export default class Board extends PIXI.Container {
 	private readonly textures: PIXI.Texture[];
-	private sprites: PIXI.Sprite[][] = [];
+	private board: PIXI.Sprite[][] = [];
+	private tetrimino: PIXI.Sprite[] = [];
+	private shadowTetrimino: PIXI.Sprite[] = [];
+
+	private animations: Tween<any>[] = [];
 
 	constructor() {
 		super();
@@ -43,18 +49,12 @@ export default class Board extends PIXI.Container {
 		for (let i = 0; i < BOARD_HEIGHT; ++i) {
 			const row: PIXI.Sprite[] = [];
 			for (let j = 0; j < BOARD_WIDTH; ++j) {
-				const spr = new PIXI.Sprite(
-					this.textures[0], // Empty block
-				);
-				// spr.tint = 0xff0000;
-				spr.width = spr.height = BLOCK_SIZE;
-				spr.anchor.set(0.5, 0.5);
-				spr.x = j * BLOCK_SIZE + BLOCK_SIZE / 2;
-				spr.y = i * BLOCK_SIZE + BLOCK_SIZE / 2;
-				row.push(spr);
+				const spr = createBlockSprite(i, j, this.textures[0], BLOCK_SIZE);
+
 				this.addChild(spr);
+				row.push(spr);
 			}
-			this.sprites.push(row);
+			this.board.push(row);
 		}
 	}
 
@@ -76,39 +76,61 @@ export default class Board extends PIXI.Container {
 		this.addChild(grid);
 	}
 
-	updateColor(row: number, col: number, color: ColorEnum) {
-		const sprite = this.sprites[row][col];
-		if (sprite.texture != this.textures[COLORS.indexOf(color)]) {
-			sprite.texture = this.textures[COLORS.indexOf(color)];
-		}
+	private getTextureFromColorEnum(color: ColorEnum) {
+		return this.textures[COLORS.indexOf(color)];
 	}
 
 	updateFromBoard(board: ColorEnum[][]) {
 		for (let i = 0; i < BOARD_HEIGHT; ++i) {
 			for (let j = 0; j < BOARD_WIDTH; ++j) {
-				this.updateColor(i, j, board[i][j]);
+				this.board[i][j].texture = this.getTextureFromColorEnum(board[i][j]);
 			}
 		}
 	}
 
-	updateTetrimino(tetrimino: Tetrimino, color: ColorEnum) {
+	updateTetrimino(tetrimino: Tetrimino, color: ColorEnum, isShadow: boolean = false) {
+		if (!isShadow) {
+			this.removeChild(...this.tetrimino);
+			this.tetrimino = this.getTetriminoSprites(tetrimino, color);
+			this.addChild(...this.tetrimino);
+		} else {
+			this.removeChild(...this.shadowTetrimino);
+			this.shadowTetrimino = this.getTetriminoSprites(tetrimino, color);
+			this.addChild(...this.shadowTetrimino);
+		}
+	}
+
+	private getTetriminoSprites(tetrimino: Tetrimino, color: ColorEnum) {
 		const tetriminoShape: number[][] = getShapeFromTetrimino(tetrimino);
+		const tetriminoSprites: PIXI.Sprite[] = [];
 
 		for (let i = 0; i < tetriminoShape.length; ++i) {
 			for (let j = 0; j < tetriminoShape[0].length; ++j) {
 				if (tetriminoShape[i][j] === 1) {
-					this.updateColor(tetrimino.position_y + i, tetrimino.position_x + j, color);
+					const spr = createBlockSprite(
+						tetrimino.position_y + i,
+						tetrimino.position_x + j,
+						this.getTextureFromColorEnum(color),
+						BLOCK_SIZE,
+					);
+					tetriminoSprites.push(spr);
 				}
 			}
 		}
+		return tetriminoSprites;
+	}
+
+	private copySprite(sprite: PIXI.Sprite) {
+		const spriteCopy = new PIXI.Sprite(sprite.texture);
+		spriteCopy.width = spriteCopy.height = BLOCK_SIZE;
+		spriteCopy.anchor.set(0.5, 0.5);
+		spriteCopy.position = sprite.position;
+		return spriteCopy;
 	}
 
 	animateLineBreak(row: number) {
-		this.sprites[row].forEach((sprite) => {
-			const spriteCopy = new PIXI.Sprite(sprite.texture);
-			spriteCopy.width = spriteCopy.height = BLOCK_SIZE;
-			spriteCopy.anchor.set(0.5, 0.5);
-			spriteCopy.position = sprite.position;
+		this.board[row].forEach((sprite) => {
+			const spriteCopy = this.copySprite(sprite);
 			this.addChild(spriteCopy);
 
 			fallingSpriteTween(spriteCopy)
@@ -119,40 +141,37 @@ export default class Board extends PIXI.Container {
 		});
 	}
 
-	animateNewLine() {
-		// let chain: Tween<{}> = new Tween({});
-		for (let i = BOARD_HEIGHT - 1; i < 0; --i) {
-			this.sprites[i].forEach((sprite) => {
-				const spriteCopy = new PIXI.Sprite(sprite.texture);
-				spriteCopy.width = spriteCopy.height = BLOCK_SIZE;
-				spriteCopy.anchor.set(0.5, 0.5);
-				spriteCopy.zIndex = 2;
-				spriteCopy.position = sprite.position;
-				// sprite.texture = this.textures[0];
+	animateNewLine(line: ColorEnum[]) {
+		this.animations.forEach((tween) => tween.end());
 
-				this.addChild(spriteCopy);
+		line.forEach((block, i) => {
+			let spr = createBlockSprite(BOARD_HEIGHT, i, this.getTextureFromColorEnum(block), BLOCK_SIZE);
+			spr.alpha = 0;
+			this.addChild(spr);
 
+			this.animations.push(
+				ascendingSprite(spr, 0)
+					.onComplete(() => {
+						this.removeChild(spr);
+					})
+					.start(),
+			);
+		});
+
+		this.board.flat().forEach((sprite) => {
+			const spriteCopy = this.copySprite(sprite);
+			sprite.alpha = 0;
+
+			this.addChild(spriteCopy);
+
+			this.animations.push(
 				ascendingSprite(spriteCopy)
 					.onComplete(() => {
 						this.removeChild(spriteCopy);
+						sprite.alpha = 1;
 					})
-					.start();
-			});
-		}
-		// this.sprites.forEach((row) => {
-		// 	row.forEach((sprite) => {
-		// const spriteCopy = new PIXI.Sprite(sprite.texture);
-		// spriteCopy.width = spriteCopy.height = BLOCK_SIZE;
-		// spriteCopy.anchor.set(0.5, 0.5);
-		// spriteCopy.position = sprite.position;
-		// this.addChild(spriteCopy);
-
-		// 		ascendingSprite(sprite)
-		// 			.onComplete(() => {
-		// 				// this.removeChild(spriteCopy);
-		// 			})
-		// 			.start();
-		// 	});
-		// });
+					.start(),
+			);
+		});
 	}
 }
