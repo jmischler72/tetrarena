@@ -129,6 +129,13 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 			}
 		});
 
+		this.onMessage(MessageTypeEnum.MESSAGE, (client, data: string) => {
+			const player = this.state.players.get(client.sessionId);
+			this.logger.debug('player: ' + player.username + ' sent message: ' + data);
+
+			this.broadcast(MessageTypeEnum.MESSAGE, { username: player.username, message: data });
+		});
+
 		this.onMessage(MessageTypeEnum.RESET_TIMEOUT, () => {
 			this.initializeTimeout();
 		});

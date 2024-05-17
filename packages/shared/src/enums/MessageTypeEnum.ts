@@ -6,4 +6,5 @@ export enum MessageTypeEnum {
 	TIMEOUT = 'TIMEOUT',
 	RESET_TIMEOUT = 'RESET_TIMEOUT',
 	EDIT_ROOM = 'EDIT_ROOM',
+	MESSAGE = 'MESSAGE',
 }
