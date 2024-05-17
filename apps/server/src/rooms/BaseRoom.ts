@@ -51,9 +51,11 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		if (this.clients.length <= 1) this.state.admin = client.sessionId;
 		this.initializeTimeout();
 
+		let isAnonymous = client.auth.provider_id === 'anonymous';
+
 		FirebaseService.setUserInRoom(client.auth.uid, this.roomId);
 		FirebaseService.getUsername(client.auth.uid).then((username) => {
-			this.state.players.set(client.sessionId, new PlayerState(client.auth.uid, username));
+			this.state.players.set(client.sessionId, new PlayerState(client.auth.uid, username, isAnonymous));
 		});
 	}
 

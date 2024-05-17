@@ -3,7 +3,7 @@
 	import { Manager } from '$lib/pixi/Manager';
 	import MultiPlayerGameScene from '$lib/pixi/scenes/MultiPlayerGameScene';
 	import { roomStore, roomStateStore } from '$lib/stores/MultiplayerStore';
-	import { MessageTypeEnum, toGameStateDTO } from '@jmischler72/shared';
+	import { MessageTypeEnum, getOpponents, toGameStateDTO } from '@jmischler72/shared';
 	import { onKeyDown } from '$lib/functions/helpers/InputHelper';
 
 	function onInput(event: KeyboardEvent) {
@@ -12,14 +12,11 @@
 		if (action) $roomStore?.send(MessageTypeEnum.PLAYER_ACTION, action);
 	}
 
-	let oppNames: string[] = [];
-	$roomStateStore?.players.forEach((player, key) => {
-		if (key !== $roomStore?.sessionId) oppNames.push(player.username);
-	});
+	let currentPlayer = $roomStateStore?.players.get($roomStore?.sessionId || '');
 
 	let multiPlayerGameScene = new MultiPlayerGameScene(
 		$roomStateStore?.players.get($roomStore?.sessionId || '')?.username || '',
-		oppNames[0] || '',
+		getOpponents(currentPlayer, $roomStateStore?.players)[0].username || '',
 	);
 
 	onMount(() => {

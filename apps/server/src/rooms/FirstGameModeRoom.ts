@@ -1,5 +1,5 @@
 import { PlayerState, RoomOptions, getDeletedLines, zFirstGameModeOptions } from '@jmischler72/shared';
-import { FirstGameModeRoomState } from '@jmischler72/shared';
+import { FirstGameModeRoomState, getOpponents } from '@jmischler72/shared';
 import { BaseRoom } from './BaseRoom';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
 import { Delayed } from 'colyseus';
@@ -50,9 +50,11 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 		let winner = findWinner(this.state.players);
 		this.logger.info(winner ? 'winner in room: ' + winner.username : 'no winner');
 
+		let opponent = getOpponents(winner, this.state.players)[0];
+
 		if (!winner) return;
 		this.state.winner = winner.username;
-		if (this.state.winner) FirebaseService.increaseWinsForUser(winner.userId);
+		if (this.state.winner && !opponent.isAnonymous) FirebaseService.increaseWinsForUser(winner.userId);
 	}
 
 	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {
@@ -65,14 +67,11 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 		let linesToAdd = getDeletedLines(prevLinesId, Array.from(player.gameState.linesId)).length;
 
 		if (this.state.opponentAttacking) {
-			let opps: PlayerState[] = [];
-			this.state.players.forEach((otherPlayer) => {
-				if (player !== otherPlayer) opps.push(otherPlayer);
-			});
+			let opponent = getOpponents(player, this.state.players)[0];
 
-			if (opps[0]) {
-				opps[0].gameState.gameInstance.addLines(linesToAdd);
-				opps[0].gameState.updateFromGameStateDTO();
+			if (opponent) {
+				opponent.gameState.gameInstance.addLines(linesToAdd);
+				opponent.gameState.updateFromGameStateDTO();
 			}
 		}
 

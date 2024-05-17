@@ -1,6 +1,6 @@
 import { ArraySchema, Schema, type } from '@colyseus/schema';
 import { ActionsEnum, Game, Tetrimino as TetriminoDTO } from '@jmischler72/core';
-import { matrixToBlocks } from '../helpers/server.helpers';
+import { matrixToBlocks } from '../helpers/multiplayer.helpers';
 
 export class Block extends Schema {
 	@type('number') x = 0;
@@ -60,13 +60,15 @@ export class PlayerState extends Schema {
 
 	@type('string') userId;
 	@type('string') username;
+	@type('boolean') isAnonymous;
 
 	@type(GameState) gameState = new GameState();
 
-	constructor(userId: string, username: string) {
+	constructor(userId: string, username: string, isAnonymous: boolean) {
 		super();
 		this.userId = userId;
 		this.username = username;
+		this.isAnonymous = isAnonymous;
 	}
 
 	createGame(seed: number) {
