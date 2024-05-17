@@ -63,6 +63,7 @@ export class Manager {
 
 	public static destroy(): void {
 		Manager.currentScene?.destroy();
+		Manager.app.ticker.destroy();
 		Manager.currentScene = null;
 	}
 }

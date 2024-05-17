@@ -22,31 +22,40 @@
 		oppNames[0] || '',
 	);
 
-	$roomStore?.state.players.onAdd((player, key) => {
-		player.gameState.onChange(() => {
-			multiPlayerGameScene.updatePlayerBoard(key, toGameStateDTO(player.gameState));
-		});
-
-		player.listen('connected', (value) => {
-			multiPlayerGameScene.renderDisconnectOverlayForBoard(key, value);
-		});
-	});
-
 	onMount(() => {
-		window.addEventListener('keydown', onInput);
 		Manager.initialize(multiPlayerGameScene);
+		if (!$roomStore) return;
 
-		let interval = setInterval(() => {
-			$roomStore?.send(MessageTypeEnum.PING);
-		}, 1000);
+		const listeners: (() => void)[] = [];
+
+		$roomStore.state.players.forEach((player, key) => {
+			listeners.push(
+				player.gameState.onChange(() => {
+					// console.log('updatePlayerBoard');
+					multiPlayerGameScene.updatePlayerBoard(key, toGameStateDTO(player.gameState));
+				}),
+			);
+
+			listeners.push(
+				player.listen('connected', (value) => {
+					multiPlayerGameScene.renderDisconnectOverlayForBoard(key, value);
+				}),
+			);
+		});
+
+		// let interval = setInterval(() => {
+		// 	$roomStore?.send(MessageTypeEnum.PING);
+		// }, 1000);
 
 		return () => {
-			clearInterval(interval);
+			// clearInterval(interval);
 			Manager.destroy();
-			window.removeEventListener('keydown', onInput);
+			listeners.forEach((listener) => listener());
 		};
 	});
 </script>
+
+<svelte:window on:keydown={onInput} />
 
 <canvas id="pixi-canvas" class="fixed left-0 top-0 h-full w-full"></canvas>
 

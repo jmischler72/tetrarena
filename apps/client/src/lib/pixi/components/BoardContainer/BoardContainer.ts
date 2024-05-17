@@ -3,8 +3,9 @@ import Board from '../Board/Board';
 import { currentPlayerBorderTween, placedTetriminosTween, scoreAnimationTween } from './BoardContainerAnimation';
 import NextTetriminosContainer from './NextTetriminosContainer/NextTetriminosContainer';
 import { ColorEnum, type GameStateDTO } from '@jmischler72/core';
-import { getDeletedLines } from '../../helpers/BoardHelper';
+import { getAddedLines, getDeletedLines } from '@jmischler72/shared';
 import DisconnectedOverlay from './DisconnectedOverlay';
+import { BOARD_HEIGHT } from '$lib/pixi/constants/board';
 
 export default class BoardContainer extends PIXI.Container {
 	private readonly board: Board;
@@ -86,7 +87,9 @@ export default class BoardContainer extends PIXI.Container {
 
 		this.renderAnimations(gameState);
 
-		this.board.updateTetrimino(gameState.shadowTetrimino, ColorEnum.SHADOW);
+		this.board.updateFromBoard(gameState.board);
+
+		this.board.updateTetrimino(gameState.shadowTetrimino, gameState.currentTetrimino.color, true);
 		this.board.updateTetrimino(gameState.currentTetrimino, gameState.currentTetrimino.color);
 
 		this.nextTetriminosContainer.renderTetriminoContainers(gameState.nextTetriminos);
@@ -102,13 +105,16 @@ export default class BoardContainer extends PIXI.Container {
 			this.board.animateLineBreak(line);
 		});
 
+		// for (let i = 0; i < getAddedLines(this.currentGameState?.linesId, gameState.linesId); i++) {
+		// 	this.board.animateNewLine(gameState.board[BOARD_HEIGHT - 1], gameState.currentTetrimino.id !== this.currentGameState?.currentTetrimino.id, this.currentGameState.currentTetrimino.position_y);
+		// }
+
 		if (gameState.currentTetrimino.id !== this.currentGameState?.currentTetrimino.id) {
 			this.posedAnimation(offset);
 		}
 		if (gameState.score != parseInt(this.scoreText.text)) {
 			this.scoreAnimation(gameState.score);
 		}
-		this.board.updateFromBoard(gameState.board);
 	}
 
 	private posedAnimation(offset: number) {

@@ -28,6 +28,7 @@
 		loading = true;
 		$roomOptionsDescriptionStore = '';
 		try {
+			if (!roomOptions.name) roomOptions.name = 'New Room';
 			zRoomOptions.parse(roomOptions);
 		} catch (e) {
 			console.error(e);

@@ -30,6 +30,9 @@
 				<div class=" flex w-full justify-center rounded bg-gray-700 py-4">
 					<h1>{roomState.goalScore}</h1>
 				</div>
+				<div class=" flex w-full justify-center rounded bg-gray-700 py-4">
+					<h1>{roomState.opponentAttacking}</h1>
+				</div>
 			</div>
 		</div>
 		{#if $roomStore?.sessionId === roomState.admin}

@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
-import TetriminoContainer from './TetriminoContainer';
+import TetriminoContainer from '../../Tetrimino/TetriminoContainer';
 import type { ColorEnum } from '@jmischler72/core';
-import { SMALL_BLOCK_SIZE } from './constants';
+import { SMALL_BLOCK_SIZE } from '../../../constants/board';
 import { newTetriminoTween } from './NextTetriminosContainerAnimation';
 
 const PADDING = 5;
@@ -16,7 +16,7 @@ export default class NextTetriminosContainer extends PIXI.Container {
 	}
 
 	private renderSingleTetriminoContainer(itemPosition: number, color: ColorEnum) {
-		const tetriminoContainer = new TetriminoContainer(color);
+		const tetriminoContainer = new TetriminoContainer(color, SMALL_BLOCK_SIZE);
 		tetriminoContainer.position.set(0, itemPosition * CONTAINER_SIZE);
 
 		this.tetriminosContainers.push(tetriminoContainer);
