@@ -28,6 +28,7 @@
 		gameMode: ($roomStateStore?.gameMode as GameModeEnum) || GameModeEnum.First,
 		gameOptions: {
 			goalScore: ($roomStateStore as FirstGameModeRoomState)?.goalScore,
+			opponentAttacking: ($roomStateStore as FirstGameModeRoomState)?.opponentAttacking,
 		},
 	};
 	let tempRoomOptions = structuredClone(roomOptions);

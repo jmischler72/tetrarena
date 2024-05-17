@@ -2,9 +2,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import { type FirstGameModeOptions, type RoomOptions } from '@jmischler72/shared';
 
-	export let roomOptions: RoomOptions;
-
-	let gameOptions = roomOptions.gameOptions as FirstGameModeOptions;
+	export let gameOptions: FirstGameModeOptions;
 
 	$: gameOptions.goalScore = parseInt(gameOptions.goalScore.toString());
 </script>

@@ -32,8 +32,8 @@
 		{#if optionsMenu === 'room'}
 			<RoomOptionsForm on:gameOptions={() => (optionsMenu = 'game')} bind:roomOptions bind:randomIcons
 			></RoomOptionsForm>
-		{:else}
-			<FirstGameModeOptionsForm bind:roomOptions></FirstGameModeOptionsForm>
+		{:else if roomOptions.gameOptions}
+			<FirstGameModeOptionsForm bind:gameOptions={roomOptions.gameOptions}></FirstGameModeOptionsForm>
 		{/if}
 	</div>
 </div>
