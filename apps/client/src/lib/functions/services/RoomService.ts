@@ -25,8 +25,7 @@ function handleRoom(room: Room) {
 	});
 	room.onLeave(() => {
 		snackbarStore.set('You left the room !');
-
-		if (!localStorage.getItem('reconnectionToken')) resetRoom();
+		resetRoom();
 	});
 }
 
