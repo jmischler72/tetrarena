@@ -6,6 +6,7 @@ export class RoomState extends Schema {
   @type('string') name = '';
   @type('string') icon = '';
   @type('string') gameMode = '';
+  @type('number') timeoutAt = 0;
 
   @type('boolean') isPlaying = false;
   @type({ map: PlayerState }) players = new MapSchema<PlayerState>();

@@ -9,8 +9,6 @@
 	import { onMount } from 'svelte';
 	import CountdownTimer from './CountdownTimer.svelte';
 
-	let refreshCountdown = {}; // every {} is unique, {} === {} evaluates to false
-
 	function playerReady() {
 		$roomStore?.send(MessageTypeEnum.READY);
 	}
@@ -22,13 +20,8 @@
 			roomStateStore.set(state);
 		});
 
-		const timeoutListener = $roomStore?.onMessage(MessageTypeEnum.TIMEOUT, () => {
-			console.log('TIMEOUT');
-			refreshCountdown = {};
-		});
 		return () => {
 			$roomStore?.onStateChange.clear();
-			timeoutListener();
 		};
 	});
 </script>
@@ -41,8 +34,9 @@
 		on:click={() => $roomStore?.send(MessageTypeEnum.RESET_TIMEOUT)}
 		class="absolute aspect-square w-16 cursor-pointer"
 	>
-		{#key refreshCountdown}
-			<CountdownTimer></CountdownTimer>
+		{#key $roomStateStore?.timeoutAt}
+			<CountdownTimer sec={Math.ceil((($roomStateStore?.timeoutAt || Date.now()) - Date.now()) / 1000)}
+			></CountdownTimer>
 		{/key}
 	</button>
 </MenuHeader>

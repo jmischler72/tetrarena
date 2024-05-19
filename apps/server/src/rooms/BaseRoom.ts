@@ -142,7 +142,7 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 	}
 
 	private initializeTimeout() {
-		this.broadcast(MessageTypeEnum.TIMEOUT);
+		this.state.timeoutAt = Date.now() + TIMEOUT;
 
 		if (this.timeout) this.timeout.clear();
 		this.timeout = this.clock.setTimeout(() => {

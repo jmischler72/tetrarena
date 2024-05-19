@@ -1,11 +1,39 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+
+	export let sec: number;
+
+	function applyMask() {
+		let pct = 100 - (sec / 50) * 100;
+		const customBorder = document.querySelector('.custom-border') as HTMLElement;
+		if (customBorder) {
+			customBorder.style.mask = `conic-gradient(transparent ${pct}%, #000 ${pct}%)`;
+		}
+	}
+
+	onMount(() => {
+		applyMask();
+
+		const timer = setInterval(() => {
+			sec--;
+			applyMask();
+			if (sec === 0) {
+				clearInterval(timer);
+			}
+		}, 1000);
+
+		return () => {
+			clearInterval(timer);
+		};
+	});
+</script>
+
 <div class="wrapper">
-	<div class="timer"></div>
+	<div class="timer">{sec}</div>
 	<div class="custom-border border-4 border-solid border-gray-400"></div>
 </div>
 
 <style lang="scss">
-	$sec: 50;
-
 	.wrapper {
 		position: relative;
 		width: 100%;
@@ -19,11 +47,8 @@
 		justify-content: center;
 		align-items: center;
 		font-size: medium;
-		&::before {
-			content: '';
-			animation: countdown steps($sec + 1) both #{$sec + 1}s infinite;
-		}
 	}
+
 	.custom-border {
 		position: absolute;
 		top: 0;
@@ -31,24 +56,5 @@
 		width: 100%;
 		height: 100%;
 		border-radius: inherit;
-		animation: round steps($sec + 1) both #{$sec + 1}s infinite;
-	}
-
-	@keyframes countdown {
-		@for $i from 0 through $sec {
-			$count: $sec - $i;
-			#{$i / $sec * 100%} {
-				content: '#{$count}';
-			}
-		}
-	}
-
-	@keyframes round {
-		@for $i from 0 through $sec {
-			$pct: $i / $sec * 100%;
-			#{$pct} {
-				mask: conic-gradient(transparent $pct, #000 $pct);
-			}
-		}
 	}
 </style>
