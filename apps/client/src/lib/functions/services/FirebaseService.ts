@@ -45,7 +45,6 @@ export async function getUserInfos() {
 	return currentUser;
 }
 
-
 export async function getLeaderboard() {
 	const usersRef = ref(db, 'users');
 	const quUsers = query(usersRef, orderByChild('wins'), limitToFirst(20));

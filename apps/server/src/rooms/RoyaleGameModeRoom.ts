@@ -6,8 +6,9 @@ import { Delayed } from 'colyseus';
 import { FirebaseService } from '../utils/firebase/FirebaseService';
 import { findWinner } from '../utils/utils';
 
-export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
+export class RoyaleGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 	private gameTimer: Delayed;
+	maxClients = 10;
 
 	onCreate(options: RoomOptions) {
 		this.setState(new FirstGameModeRoomState());
@@ -25,7 +26,7 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 	}
 
 	protected startGame() {
-		if (this.checkIfCanStartGame(this.maxClients)) return;
+		if (this.checkIfCanStartGame(3)) return;
 
 		const seed = Date.now();
 		this.logger.debug(seed);
@@ -49,11 +50,12 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 		let winner = findWinner(this.state.players);
 		this.logger.info(winner ? 'winner in room: ' + winner.username : 'no winner');
 
-		let opponent = getOpponents(winner, this.state.players)[0];
+		let opponents = getOpponents(winner, this.state.players);
 
 		if (!winner) return;
 		this.state.winner = winner.username;
-		if (this.state.winner && !opponent.isAnonymous) FirebaseService.increaseWinsForUser(winner.userId);
+		if (this.state.winner && !opponents.find((opp) => opp.isAnonymous))
+			FirebaseService.increaseWinsForUser(winner.userId);
 	}
 
 	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {

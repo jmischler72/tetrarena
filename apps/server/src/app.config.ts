@@ -8,6 +8,7 @@ import express from 'express';
 import pino from 'pino';
 import { LobbyRoom } from '@colyseus/core';
 import { FirstGameModeRoom } from './rooms/FirstGameModeRoom';
+import { RoyaleGameModeRoom } from './rooms/RoyaleGameModeRoom';
 import { GameModeEnum } from '@jmischler72/shared';
 export default config({
 	options: {
@@ -25,6 +26,7 @@ export default config({
 		 * Define your room handlers:
 		 */
 		gameServer.define(GameModeEnum.First, FirstGameModeRoom).enableRealtimeListing();
+		gameServer.define(GameModeEnum.Royale, RoyaleGameModeRoom).enableRealtimeListing();
 	},
 
 	initializeExpress: (app) => {

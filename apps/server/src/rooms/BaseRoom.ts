@@ -153,20 +153,25 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		}, TIMEOUT);
 	}
 
-	protected startGame() {
+	protected checkIfCanStartGame(numberPlayers: number) {
 		if (this.state.isPlaying) return;
-		if (this.clients.length < this.maxClients) {
+		if (this.clients.length < numberPlayers) {
 			this.logger.debug('cant start game in room: not enough players');
-			return;
+			return false;
 		}
 		if (!checkIfAllPlayersAreReady(this.state)) {
 			this.logger.debug('cant start game in room: not all players are ready');
-			return;
+			return false;
 		}
 
 		this.logger.info('starting game');
 
 		this.state.isPlaying = true;
+		return this.state.isPlaying;
+	}
+
+	protected startGame() {
+		this.checkIfCanStartGame(this.maxClients);
 	}
 
 	protected stopGame() {

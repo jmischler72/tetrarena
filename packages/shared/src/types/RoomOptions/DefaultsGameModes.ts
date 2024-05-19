@@ -19,6 +19,15 @@ export const defaultGameModes: GameMode[] = [
 			opponentAttacking: false,
 		} as FirstGameModeOptions,
 	},
+	{
+		mode: GameModeEnum.Royale,
+		name: 'Royale',
+		description: 'Battle royale mode',
+		options: {
+			goalScore: 100,
+			opponentAttacking: false,
+		} as FirstGameModeOptions,
+	},
 ];
 
 export function getDefaultGameMode(mode: GameModeEnum): GameMode {
