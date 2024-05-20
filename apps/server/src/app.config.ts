@@ -7,8 +7,10 @@ import cors from 'cors';
 import express from 'express';
 import pino from 'pino';
 import { LobbyRoom } from '@colyseus/core';
-import { FirstGameModeRoom } from './rooms/FirstGameModeRoom';
+import { GameRoom } from './rooms/GameRoom';
 import { GameModeEnum } from '@jmischler72/shared';
+import { RankedLobbyRoom } from './rooms/RankedLobbyRoom';
+import { RankedRoom } from './rooms/RankedRoom';
 export default config({
 	options: {
 		// transport: new uWebSocketsTransport(),
@@ -24,7 +26,9 @@ export default config({
 		/**
 		 * Define your room handlers:
 		 */
-		gameServer.define(GameModeEnum.First, FirstGameModeRoom).enableRealtimeListing();
+		gameServer.define(GameModeEnum.First, GameRoom).enableRealtimeListing();
+		gameServer.define(GameModeEnum.RankedLobby, RankedLobbyRoom).enableRealtimeListing();
+		gameServer.define(GameModeEnum.Ranked, RankedRoom).enableRealtimeListing();
 	},
 
 	initializeExpress: (app) => {

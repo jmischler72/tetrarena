@@ -1,5 +1,6 @@
 import { logger } from '@colyseus/core/build/Logger';
 import { db } from './FirebaseAdmin';
+import { UserInfos } from '@jmischler72/shared';
 
 export class FirebaseService {
 	static async checkIfUserNotInRoom(userId: string) {
@@ -29,12 +30,28 @@ export class FirebaseService {
 		});
 	}
 
-	static async getUsername(userId: string) {
-		logger.info('Getting username for : ' + userId);
+	static async setEloForUser(userId: string, elo: number) {
+		logger.info('Setting elo for : ' + userId);
 
 		const userRef = db.ref('users/' + userId);
-		let data = await userRef.child('username').once('value');
-		return !data.exists() ? 'Guest-' + userId.substring(0, 6) : (data.val() as string);
+
+		userRef.child('elo').set(elo);
+	}
+
+	static async getUserInfos(userId: string) {
+		logger.info('Getting username for : ' + userId);
+
+		let currentUser: UserInfos = {
+			username: 'Guest-' + userId.substring(0, 6),
+		};
+
+		const userRef = db.ref('users/' + userId);
+		let snapshot = await userRef.once('value');
+		if (snapshot.exists()) {
+			currentUser = snapshot.val() as UserInfos;
+		}
+
+		return currentUser;
 	}
 
 	static async resetUsersInRoom() {
