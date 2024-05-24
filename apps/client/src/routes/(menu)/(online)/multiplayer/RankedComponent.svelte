@@ -21,7 +21,6 @@
 	let room: Room | null = null;
 
 	async function joinRankedLobby() {
-		if (!browser) return;
 		try {
 			room = await get(clientStore).joinOrCreate(GameModeEnum.RankedLobby);
 			room.onMessage(MessageTypeEnum.PLAYERS_WAITING, (number) => {

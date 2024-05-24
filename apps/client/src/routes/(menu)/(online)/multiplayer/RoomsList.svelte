@@ -3,7 +3,7 @@
 	import { clientStore } from '$lib/stores/MultiplayerStore';
 	import { goto } from '$app/navigation';
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
-	import { getDefaultGameMode } from '@jmischler72/shared';
+	import { GameModeEnum, getDefaultGameMode } from '@jmischler72/shared';
 
 	// function fillWithTestRooms() {
 	//   for (let i = 0; i < 10; i++) {
@@ -24,7 +24,7 @@
 	let allRooms: RoomAvailable[] = [];
 
 	async function connectToLobbyRoom() {
-		let lobby = await $clientStore.joinOrCreate('lobby');
+		let lobby = await $clientStore.joinOrCreate('lobby', { filter: { name: GameModeEnum.First } });
 		onJoin(lobby);
 	}
 

@@ -81,7 +81,7 @@ export class RankedLobbyRoom extends Room {
 	}
 
 	onCreate() {
-		this.logger = this.logger.child({ RoomId: this.roomId });
+		this.logger = this.logger.child({ RoomType: 'RankedLobby' });
 		this.logger.info('created ranked lobby room');
 
 		this.onMessage('confirm', (client: Client, message: any) => {
@@ -101,9 +101,7 @@ export class RankedLobbyRoom extends Room {
 	}
 
 	onJoin(client: Client, options: any) {
-		this.logger.info('client: ' + client.sessionId + ' joined room');
-
-		FirebaseService.setUserInRoom(client.auth.uid, 'rankedLobby');
+		this.logger.info('client: ' + client.sessionId + ' joined ranked lobby');
 
 		getRank(client.auth.uid).then((rank) => {
 			this.stats.push({
@@ -238,7 +236,6 @@ export class RankedLobbyRoom extends Room {
 	onLeave(client: Client, consented: boolean) {
 		const index = this.stats.findIndex((stat) => stat.client === client);
 		this.stats.splice(index, 1);
-		FirebaseService.setUserInRoom(client.auth.uid, null);
 	}
 
 	onDispose() {}
