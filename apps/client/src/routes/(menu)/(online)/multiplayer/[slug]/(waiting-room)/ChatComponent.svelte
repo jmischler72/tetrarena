@@ -21,7 +21,7 @@
 		<div class="flex w-full flex-col gap-2 rounded p-4">
 			{#each messages as message}
 				<div class="flex w-full flex-row justify-start rounded bg-gray-700 px-4 py-4 text-xs">
-					<h1 class="break-words">{message.username}: {message.message}</h1>
+					<h1 class="[overflow-wrap:anywhere]">{message.username}: {message.message}</h1>
 				</div>
 			{/each}
 		</div>

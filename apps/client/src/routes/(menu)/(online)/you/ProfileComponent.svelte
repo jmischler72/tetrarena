@@ -14,7 +14,7 @@
 		try {
 			zUserInfos.parse(userInfos);
 			if (userInfos) await setUserInfos(userInfos);
-			initialInfos = await getUserInfos();
+			initialiseUserInfos();
 
 			error = '';
 		} catch (e) {
@@ -25,7 +25,7 @@
 	let userInfos: UserInfos | null;
 	let initialInfos: UserInfos | null;
 
-	async function getInfos() {
+	async function initialiseUserInfos() {
 		initialInfos = await getUserInfos();
 		userInfos = structuredClone(initialInfos);
 	}
@@ -34,7 +34,7 @@
 </script>
 
 <MenuContainer>
-	<AsyncMenu callback={() => getInfos()}>
+	<AsyncMenu callback={() => initialiseUserInfos()}>
 		{#if userInfos}
 			<div class="animation-up relative flex h-full w-full flex-col items-center justify-center gap-4">
 				<Input bind:value={userInfos.username} label={'Username'} />

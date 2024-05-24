@@ -1,28 +1,12 @@
-import { PlayerState, RoomOptions, getDeletedLines, zFirstGameModeOptions } from '@jmischler72/shared';
-import { FirstGameModeRoomState, getOpponents } from '@jmischler72/shared';
+import { PlayerState, RoomState, getDeletedLines, zFirstGameModeOptions } from '@jmischler72/shared';
+import { getOpponents } from '@jmischler72/shared';
 import { BaseRoom } from './BaseRoom';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
 import { Delayed } from 'colyseus';
-import { FirebaseService } from '../utils/firebase/FirebaseService';
 import { findWinner } from '../utils/utils';
 
-export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
+export class GameRoom extends BaseRoom {
 	private gameTimer: Delayed;
-
-	onCreate(options: RoomOptions) {
-		this.setState(new FirstGameModeRoomState());
-		super.onCreate(options);
-	}
-
-	protected setRoomMetadata(options: RoomOptions) {
-		super.setRoomMetadata(options);
-
-		zFirstGameModeOptions.parse(options.gameOptions);
-		this.state.goalScore = options.gameOptions.goalScore;
-		this.state.opponentAttacking = options.gameOptions.opponentAttacking;
-
-		this.logger.debug('setting metadata for first');
-	}
 
 	protected startGame() {
 		super.startGame();
@@ -50,11 +34,8 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 		let winner = findWinner(this.state.players);
 		this.logger.info(winner ? 'winner in room: ' + winner.username : 'no winner');
 
-		let opponent = getOpponents(winner, this.state.players)[0];
-
 		if (!winner) return;
 		this.state.winner = winner.username;
-		if (this.state.winner && !opponent.isAnonymous) FirebaseService.increaseWinsForUser(winner.userId);
 	}
 
 	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {
@@ -66,7 +47,7 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 
 		let linesToAdd = getDeletedLines(prevLinesId, Array.from(player.gameState.linesId)).length;
 
-		if (this.state.opponentAttacking) {
+		if (this.metadata.gameOptions.opponentAttacking) {
 			let opponent = getOpponents(player, this.state.players)[0];
 
 			if (opponent) {
@@ -75,6 +56,6 @@ export class FirstGameModeRoom extends BaseRoom<FirstGameModeRoomState> {
 			}
 		}
 
-		if (player.gameState.isGameOver || player.gameState.score >= this.state.goalScore) this.stopGame();
+		if (player.gameState.isGameOver || player.gameState.score >= this.metadata.gameOptions.goalScore) this.stopGame();
 	}
 }

@@ -8,9 +8,15 @@
 	import { MessageTypeEnum } from '@jmischler72/shared';
 	import { onMount } from 'svelte';
 	import CountdownTimer from './CountdownTimer.svelte';
+	import { snackbarStore } from '$lib/stores/SnackbarStore';
 
 	function playerReady() {
 		$roomStore?.send(MessageTypeEnum.READY);
+	}
+
+	function resetTimeout() {
+		if ($roomStore?.sessionId !== $roomStateStore?.admin) snackbarStore.set('Only the admin can reset the timeout');
+		else $roomStore?.send(MessageTypeEnum.RESET_TIMEOUT);
 	}
 
 	onMount(() => {
@@ -30,10 +36,7 @@
 	<div class="ml-auto mr-auto flex w-full justify-center text-2xl">
 		<h1>Room - {$roomStore?.roomId}</h1>
 	</div>
-	<button
-		on:click={() => $roomStore?.send(MessageTypeEnum.RESET_TIMEOUT)}
-		class="absolute aspect-square w-16 cursor-pointer"
-	>
+	<button on:click={() => resetTimeout()} class="absolute aspect-square w-16 cursor-pointer">
 		{#key $roomStateStore?.timeoutAt}
 			<CountdownTimer sec={Math.ceil((($roomStateStore?.timeoutAt || Date.now()) - Date.now()) / 1000)}
 			></CountdownTimer>
@@ -44,13 +47,15 @@
 	<WaitingComponent></WaitingComponent>
 </MenuContainer>
 <MenuFooter>
-	<div class="w-[70%]">
-		<Button onClick={() => playerReady()} disabled={$roomStateStore?.players.get($roomStore?.sessionId || '')?.ready}>
-			{#if $roomStateStore?.players.get($roomStore?.sessionId || '')?.ready}
-				<span class="translate-x-[-5px] translate-y-[-4px] text-green-100">&#10004;</span> Ready
-			{:else}
-				Ready
-			{/if}
-		</Button>
-	</div>
+	{#if !$roomStateStore?.isCompleted}
+		<div class="w-[70%]">
+			<Button onClick={() => playerReady()} disabled={$roomStateStore?.players.get($roomStore?.sessionId || '')?.ready}>
+				{#if $roomStateStore?.players.get($roomStore?.sessionId || '')?.ready}
+					<span class="translate-x-[-5px] translate-y-[-4px] text-green-100">&#10004;</span> Ready
+				{:else}
+					Ready
+				{/if}
+			</Button>
+		</div>
+	{/if}
 </MenuFooter>

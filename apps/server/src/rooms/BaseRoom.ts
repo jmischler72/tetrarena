@@ -4,36 +4,27 @@ import { Delayed } from 'colyseus';
 import { MessageTypeEnum } from '@jmischler72/shared';
 import { checkIfAllPlayersAreReady } from '../utils/utils';
 import pino, { Logger } from 'pino';
-import { getAuth } from 'firebase-admin/auth';
-import { app } from '../utils/firebase/FirebaseAdmin';
 import { FirebaseService } from '../utils/firebase/FirebaseService';
 import { ActionsEnum } from '@jmischler72/core';
+import { getUsername } from '../utils/UserService';
 
 const TIMEOUT = 50000;
 
-export class BaseRoom<V extends RoomState> extends Room<V> {
+export class BaseRoom extends Room<RoomState, RoomOptions> {
 	maxClients = 2;
 	private timeout: Delayed;
 	logger: Logger = pino({ level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info' });
 
 	static onAuth(token: string, req: any) {
-		return getAuth(app)
-			.verifyIdToken(token)
-			.then((decodedToken) => {
-				if (process.env.NODE_ENV !== 'production') return decodedToken;
-				return FirebaseService.checkIfUserNotInRoom(decodedToken.uid).then((notInRoom) => {
-					if (notInRoom) {
-						logger.info('User not in room');
-						return decodedToken;
-					}
-					throw new Error('User already in room');
-				});
-			});
+		logger.debug('authenticating user');
+		return FirebaseService.verifyUser(token);
 	}
 
 	onCreate(options: RoomOptions) {
 		this.logger = this.logger.child({ RoomId: this.roomId });
 		this.logger.info('created room');
+
+		this.setState(new RoomState());
 
 		this.logger.debug(options);
 		this.clock.start();
@@ -54,8 +45,8 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		let isAnonymous = client.auth.provider_id === 'anonymous';
 
 		FirebaseService.setUserInRoom(client.auth.uid, this.roomId);
-		FirebaseService.getUsername(client.auth.uid).then((username) => {
-			this.state.players.set(client.sessionId, new PlayerState(client.auth.uid, username, isAnonymous));
+		getUsername(client.auth.uid).then((u) => {
+			this.state.players.set(client.sessionId, new PlayerState(client.auth.uid, u, isAnonymous));
 		});
 	}
 
@@ -81,10 +72,11 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 	}
 
 	private handlePlayerDisconnect(clientId: string, consented: boolean) {
+		this.logger.info('client: ' + clientId + ' left room' + (consented ? ' consented' : ''));
+
 		FirebaseService.setUserInRoom(this.state.players.get(clientId).userId, null);
 		this.state.players.delete(clientId);
 		if (this.state.isPlaying) this.stopGame();
-		this.logger.info('client: ' + clientId + ' left room' + (consented ? ' consented' : ''));
 	}
 
 	onDispose() {
@@ -92,16 +84,11 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 	}
 
 	protected setRoomMetadata(options: RoomOptions) {
+		this.logger.debug('setting metadata for room');
 		zRoomOptions.parse(options);
-		void this.setMetadata({
-			name: options.name,
-			icon: options.icon,
-			gameMode: options.gameMode,
-		});
+		void this.setMetadata(options);
 
-		this.state.name = options.name;
-		this.state.icon = options.icon;
-		this.state.gameMode = options.gameMode;
+		this.state.setRoomMetadata(options);
 	}
 
 	private handleMessages() {
@@ -123,10 +110,9 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 		});
 
 		this.onMessage(MessageTypeEnum.EDIT_ROOM, (client, data: RoomOptions) => {
-			if (client.sessionId === this.state.admin) {
-				this.logger.debug('client: ' + client.sessionId + 'changed metadata in room');
-				this.setRoomMetadata(data);
-			}
+			if (client.sessionId !== this.state.admin) return;
+			this.logger.debug('client: ' + client.sessionId + 'changed metadata in room');
+			this.setRoomMetadata(data);
 		});
 
 		this.onMessage(MessageTypeEnum.MESSAGE, (client, data: string) => {
@@ -136,7 +122,8 @@ export class BaseRoom<V extends RoomState> extends Room<V> {
 			this.broadcast(MessageTypeEnum.MESSAGE, { username: player.username, message: data });
 		});
 
-		this.onMessage(MessageTypeEnum.RESET_TIMEOUT, () => {
+		this.onMessage(MessageTypeEnum.RESET_TIMEOUT, (client) => {
+			if (client.sessionId !== this.state.admin) return;
 			this.initializeTimeout();
 		});
 	}
