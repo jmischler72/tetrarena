@@ -1,7 +1,6 @@
 {
 	"name": "@jmischler72/server",
 	"description": "server for tetrarena using Colyseus",
-	"version": "1.2.3",
 	"main": "build/src/app.js",
 	"scripts": {
 		"dev": "tsx watch src/app.ts",
