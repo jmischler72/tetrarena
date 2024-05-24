@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import { roomStore, roomStateStore } from '$lib/stores/MultiplayerStore';
-	import { goto } from '$app/navigation';
+	import { isRoomEditingStore } from '$lib/stores/NavigationStore';
 
 	$: metadata = $roomStateStore?.metadata;
 </script>
@@ -36,7 +36,7 @@
 		</div>
 		{#if $roomStore?.sessionId === $roomStateStore?.admin}
 			<div class="absolute bottom-5 right-5">
-				<Button onClick={() => goto(window.location.pathname + '/edit')}>
+				<Button onClick={() => ($isRoomEditingStore = true)}>
 					<i class="material-symbols-outlined">tune</i>
 				</Button>
 			</div>

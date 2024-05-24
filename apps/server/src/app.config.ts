@@ -27,8 +27,8 @@ export default config({
 		 * Define your room handlers:
 		 */
 		gameServer.define(GameModeEnum.First, GameRoom).enableRealtimeListing();
-		gameServer.define(GameModeEnum.RankedLobby, RankedLobbyRoom).enableRealtimeListing();
-		gameServer.define(GameModeEnum.Ranked, RankedRoom).enableRealtimeListing();
+		gameServer.define(GameModeEnum.RankedLobby, RankedLobbyRoom);
+		gameServer.define(GameModeEnum.Ranked, RankedRoom);
 	},
 
 	initializeExpress: (app) => {

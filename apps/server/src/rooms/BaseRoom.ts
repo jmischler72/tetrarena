@@ -4,10 +4,9 @@ import { Delayed } from 'colyseus';
 import { MessageTypeEnum } from '@jmischler72/shared';
 import { checkIfAllPlayersAreReady } from '../utils/utils';
 import pino, { Logger } from 'pino';
-import { getAuth } from 'firebase-admin/auth';
-import { app } from '../utils/firebase/FirebaseAdmin';
 import { FirebaseService } from '../utils/firebase/FirebaseService';
 import { ActionsEnum } from '@jmischler72/core';
+import { getUsername } from '../utils/UserService';
 
 const TIMEOUT = 50000;
 
@@ -17,18 +16,8 @@ export class BaseRoom extends Room<RoomState, RoomOptions> {
 	logger: Logger = pino({ level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info' });
 
 	static onAuth(token: string, req: any) {
-		return getAuth(app)
-			.verifyIdToken(token)
-			.then((decodedToken) => {
-				if (process.env.NODE_ENV !== 'production') return decodedToken;
-				return FirebaseService.checkIfUserNotInRoom(decodedToken.uid).then((notInRoom) => {
-					if (notInRoom) {
-						logger.info('User not in room');
-						return decodedToken;
-					}
-					throw new Error('User already in room');
-				});
-			});
+		logger.debug('authenticating user');
+		return FirebaseService.verifyUser(token);
 	}
 
 	onCreate(options: RoomOptions) {
@@ -56,8 +45,8 @@ export class BaseRoom extends Room<RoomState, RoomOptions> {
 		let isAnonymous = client.auth.provider_id === 'anonymous';
 
 		FirebaseService.setUserInRoom(client.auth.uid, this.roomId);
-		FirebaseService.getUserInfos(client.auth.uid).then((user) => {
-			this.state.players.set(client.sessionId, new PlayerState(client.auth.uid, user.username, isAnonymous));
+		getUsername(client.auth.uid).then((u) => {
+			this.state.players.set(client.sessionId, new PlayerState(client.auth.uid, u, isAnonymous));
 		});
 	}
 
@@ -121,10 +110,9 @@ export class BaseRoom extends Room<RoomState, RoomOptions> {
 		});
 
 		this.onMessage(MessageTypeEnum.EDIT_ROOM, (client, data: RoomOptions) => {
-			if (client.sessionId === this.state.admin) {
-				this.logger.debug('client: ' + client.sessionId + 'changed metadata in room');
-				this.setRoomMetadata(data);
-			}
+			if (client.sessionId !== this.state.admin) return;
+			this.logger.debug('client: ' + client.sessionId + 'changed metadata in room');
+			this.setRoomMetadata(data);
 		});
 
 		this.onMessage(MessageTypeEnum.MESSAGE, (client, data: string) => {
@@ -134,7 +122,8 @@ export class BaseRoom extends Room<RoomState, RoomOptions> {
 			this.broadcast(MessageTypeEnum.MESSAGE, { username: player.username, message: data });
 		});
 
-		this.onMessage(MessageTypeEnum.RESET_TIMEOUT, () => {
+		this.onMessage(MessageTypeEnum.RESET_TIMEOUT, (client) => {
+			if (client.sessionId !== this.state.admin) return;
 			this.initializeTimeout();
 		});
 	}

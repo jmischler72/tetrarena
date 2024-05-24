@@ -1,40 +1,22 @@
-import {
-	GameModeEnum,
-	PlayerState,
-	RoomOptions,
-	RoomState,
-	getDefaultGameMode,
-	getDeletedLines,
-	zFirstGameModeOptions,
-} from '@jmischler72/shared';
+import { GameModeEnum, PlayerState, RoomOptions, getDeletedLines } from '@jmischler72/shared';
 import { getOpponents } from '@jmischler72/shared';
 import { BaseRoom } from './BaseRoom';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
-import { Delayed } from 'colyseus';
-import { FirebaseService } from '../utils/firebase/FirebaseService';
+import { Client, Delayed } from 'colyseus';
 import { findWinner } from '../utils/utils';
+import { FirebaseService } from '../utils/firebase/FirebaseService';
 
 export class RankedRoom extends BaseRoom {
 	private gameTimer: Delayed;
 
-	onCreate() {
-		const roomOptions: RoomOptions = {
-			name: '',
-			icon: '',
-			gameMode: GameModeEnum.First,
-			gameOptions: {
-				goalScore: 100,
-				opponentAttacking: true,
-			},
-		};
-
-		super.onCreate(roomOptions);
-		this.logger.info('created ranked room');
+	onJoin(client: Client<any, any>): void {
+		super.onJoin(client);
+		this.state.admin = '';
 	}
 
 	protected startGame() {
 		super.startGame();
-		if (!this.state.isPlaying) return;
+		if (!this.state.isPlaying || this.state.isCompleted) return;
 
 		const seed = Date.now();
 		this.logger.debug(seed);
@@ -53,6 +35,8 @@ export class RankedRoom extends BaseRoom {
 	protected stopGame() {
 		super.stopGame();
 
+		this.state.isCompleted = true;
+
 		if (this.gameTimer) this.gameTimer.clear();
 
 		let winner = findWinner(this.state.players);
@@ -63,8 +47,8 @@ export class RankedRoom extends BaseRoom {
 		if (!winner) return;
 		this.state.winner = winner.username;
 
-		console.log(this.state.winner);
-		// if (this.state.winner && !opponent.isAnonymous) FirebaseService.increaseWinsForUser(winner.userId);
+		FirebaseService.updateRankForUser(winner.userId, 10);
+		FirebaseService.updateRankForUser(opponent.userId, -10);
 	}
 
 	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {

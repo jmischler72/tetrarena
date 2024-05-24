@@ -29,6 +29,18 @@ function handleRoom(room: Room) {
 	});
 }
 
+export async function joinRankedReservation(reservation: any) {
+	try {
+		let room = await get(clientStore).consumeSeatReservation(reservation);
+		handleRoom(room);
+		await goto('/multiplayer/' + room.id);
+	} catch (e) {
+		await resetRoom();
+
+		snackbarStore.set('Error joining ranked room !' + e);
+	}
+}
+
 export async function joinRoom(roomId: string) {
 	if (get(roomStore)?.roomId === roomId) return;
 

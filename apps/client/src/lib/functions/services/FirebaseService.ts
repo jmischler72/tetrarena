@@ -45,19 +45,18 @@ export async function getUserInfos() {
 	return currentUser;
 }
 
-
 export async function getLeaderboard() {
 	const usersRef = ref(db, 'users');
-	const quUsers = query(usersRef, orderByChild('wins'), limitToFirst(20));
+	const quUsers = query(usersRef, orderByChild('rank'), limitToFirst(20));
 
 	const snapshot = await getFromDb(quUsers);
 	if (snapshot.exists()) {
-		let users: { username: string; wins: number }[] = [];
+		let users: { username: string; rank: number }[] = [];
 		snapshot.forEach((userSnapshot) => {
-			if (userSnapshot.val().wins) users.push(userSnapshot.val());
+			if (userSnapshot.val().rank) users.push(userSnapshot.val());
 		});
 
-		users.sort((a, b) => (a.wins > b.wins ? -1 : 1));
+		users.sort((a, b) => (a.rank > b.rank ? -1 : 1));
 
 		return users;
 	}

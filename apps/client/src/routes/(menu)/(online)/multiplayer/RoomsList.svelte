@@ -29,7 +29,13 @@
 	}
 
 	function onJoin(lobby: Room) {
+		lobby.onError(() => {
+			console.log('Error');
+			connectToLobbyRoom();
+		});
+
 		lobby.onLeave(() => {
+			console.log('Leave');
 			connectToLobbyRoom();
 		});
 
@@ -93,15 +99,15 @@
 							class="cursor-pointer border-b transition-colors hover:bg-gray-600"
 						>
 							<td class="[&amp;:has([role=checkbox])]:pr-0 flex justify-center p-4 align-middle font-medium">
-								<svg class="rounded bg-white" width="60" height="60" data-jdenticon-value={room.metadata.icon}></svg>
+								<svg class="rounded bg-white" width="60" height="60" data-jdenticon-value={room?.metadata.icon}></svg>
 							</td>
 							<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 text-center align-middle font-medium"
-								>{room.metadata.name}</td
+								>{room?.metadata.name}</td
 							>
 							<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 text-center align-middle">{room.roomId}</td>
 							<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 text-center align-middle">{room.clients}</td>
 							<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 text-center align-middle"
-								>{getDefaultGameMode(room.metadata.gameMode).name}</td
+								>{getDefaultGameMode(room?.metadata.gameMode).name}</td
 							>
 						</tr>
 					{/each}

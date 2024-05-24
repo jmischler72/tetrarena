@@ -1,6 +1,8 @@
-import { GameModeEnum, RoomOptions, getDefaultGameMode } from '@jmischler72/shared';
+import { GameModeEnum, MessageTypeEnum, RoomOptions, getDefaultGameMode } from '@jmischler72/shared';
 import { Room, Client, Delayed, matchMaker, logger } from 'colyseus';
-import { resolve } from 'path';
+import { FirebaseService } from '../utils/firebase/FirebaseService';
+import pino, { Logger } from 'pino';
+import { getRank } from '../utils/UserService';
 
 interface MatchmakingGroup {
 	averageRank: number;
@@ -44,7 +46,7 @@ export class RankedLobbyRoom extends Room {
 	/**
 	 * name of the room to create
 	 */
-	roomToCreate = GameModeEnum.First;
+	roomToCreate = GameModeEnum.Ranked;
 
 	/**
 	 * after this time, create a match with a bot
@@ -72,14 +74,15 @@ export class RankedLobbyRoom extends Room {
 	 */
 	stats: ClientStat[] = [];
 
-	onCreate(options: any) {
-		if (options.maxWaitingTime) {
-			this.maxWaitingTime = options.maxWaitingTime;
-		}
+	logger: Logger = pino({ level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info' });
 
-		if (options.numClientsToMatch) {
-			this.numClientsToMatch = options.numClientsToMatch;
-		}
+	static onAuth(token: string, req: any) {
+		return FirebaseService.verifyUser(token);
+	}
+
+	onCreate() {
+		this.logger = this.logger.child({ RoomId: this.roomId });
+		this.logger.info('created ranked lobby room');
 
 		this.onMessage('confirm', (client: Client, message: any) => {
 			const stat = this.stats.find((stat) => stat.client === client);
@@ -98,14 +101,21 @@ export class RankedLobbyRoom extends Room {
 	}
 
 	onJoin(client: Client, options: any) {
-		this.stats.push({
-			client: client,
-			rank: options.rank,
-			waitingTime: 0,
-			options,
-		});
+		this.logger.info('client: ' + client.sessionId + ' joined room');
 
-		client.send('clients', 1);
+		FirebaseService.setUserInRoom(client.auth.uid, 'rankedLobby');
+
+		getRank(client.auth.uid).then((rank) => {
+			this.stats.push({
+				client: client,
+				rank: rank,
+				waitingTime: 0,
+				options,
+			});
+
+			this.broadcast(MessageTypeEnum.PLAYERS_WAITING, this.stats.length);
+			this.logger.debug('players' + JSON.stringify(this.stats.map((s) => s.client.sessionId)));
+		});
 	}
 
 	createGroup() {
@@ -176,6 +186,8 @@ export class RankedLobbyRoom extends Room {
 		}
 
 		this.checkGroupsReady();
+
+		this.logger.debug('groups' + this.groups.map((g) => g.averageRank));
 	}
 
 	async checkGroupsReady() {
@@ -189,8 +201,8 @@ export class RankedLobbyRoom extends Room {
 					 */
 
 					const roomOptions: RoomOptions = {
-						name: this.roomToCreate,
-						icon: 'icon',
+						name: 'Ranked',
+						icon: 'ranked',
 						gameMode: GameModeEnum.First,
 						gameOptions: getDefaultGameMode(GameModeEnum.First).options,
 					};
@@ -198,12 +210,12 @@ export class RankedLobbyRoom extends Room {
 
 					await Promise.all(
 						group.clients.map(async (client) => {
-							const matchData = await matchMaker.reserveSeatFor(room, client.options);
+							const matchData = await matchMaker.reserveSeatFor(room, client.options, client.client.auth);
 
 							/**
 							 * Send room data for new WebSocket connection!
 							 */
-							client.client.send('seat', matchData);
+							client.client.send(MessageTypeEnum.RANKED_SEAT, matchData);
 						}),
 					);
 
@@ -217,21 +229,16 @@ export class RankedLobbyRoom extends Room {
 					//     stat.waitingTime = 0;
 					//   });
 					// }, this.cancelConfirmationAfter);
-				} else {
-					/**
-					 * Notify all clients within the group on how many players are in the queue
-					 */
-					group.clients.forEach((client) => {
-						client.client.send('clients', group.clients.length);
-					});
 				}
 			}),
 		);
+		this.broadcast(MessageTypeEnum.PLAYERS_WAITING, this.stats.length);
 	}
 
 	onLeave(client: Client, consented: boolean) {
 		const index = this.stats.findIndex((stat) => stat.client === client);
 		this.stats.splice(index, 1);
+		FirebaseService.setUserInRoom(client.auth.uid, null);
 	}
 
 	onDispose() {}

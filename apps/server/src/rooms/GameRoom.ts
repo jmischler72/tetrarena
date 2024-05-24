@@ -3,7 +3,6 @@ import { getOpponents } from '@jmischler72/shared';
 import { BaseRoom } from './BaseRoom';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
 import { Delayed } from 'colyseus';
-import { FirebaseService } from '../utils/firebase/FirebaseService';
 import { findWinner } from '../utils/utils';
 
 export class GameRoom extends BaseRoom {
@@ -35,11 +34,8 @@ export class GameRoom extends BaseRoom {
 		let winner = findWinner(this.state.players);
 		this.logger.info(winner ? 'winner in room: ' + winner.username : 'no winner');
 
-		let opponent = getOpponents(winner, this.state.players)[0];
-
 		if (!winner) return;
 		this.state.winner = winner.username;
-		if (this.state.winner && !opponent.isAnonymous) FirebaseService.increaseWinsForUser(winner.userId);
 	}
 
 	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {

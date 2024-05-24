@@ -5,14 +5,8 @@
 	import MenuFooter from '$lib/components/menu/subcomponents/MenuFooter.svelte';
 	import MenuHeader from '$lib/components/menu/subcomponents/MenuHeader.svelte';
 	import { roomStore, roomStateStore } from '$lib/stores/MultiplayerStore';
-	import {
-		GameModeEnum,
-		MessageTypeEnum,
-		zRoomOptions,
-		type FirstGameModeRoomState,
-		type RoomOptions,
-	} from '@jmischler72/shared';
-	import RoomOptionsMenu from '../../(room-create)/RoomOptionsMenu.svelte';
+	import { GameModeEnum, MessageTypeEnum, zRoomOptions, type RoomOptions } from '@jmischler72/shared';
+	import RoomOptionsMenu from '../(room-create)/RoomOptionsMenu.svelte';
 	import { roomOptionsDescriptionStore } from '$lib/stores/RoomOptionsDescriptionStore';
 	import { goto } from '$app/navigation';
 	import { formatZodIssue } from '$lib/functions/helpers/ZodHelper';
@@ -23,12 +17,12 @@
 	let loading = false;
 
 	let roomOptions: RoomOptions = {
-		name: $roomStateStore?.name || '',
-		icon: $roomStateStore?.icon || '',
-		gameMode: ($roomStateStore?.gameMode as GameModeEnum) || GameModeEnum.First,
+		name: $roomStateStore?.metadata.name || '',
+		icon: $roomStateStore?.metadata.icon || '',
+		gameMode: ($roomStateStore?.metadata.gameMode as GameModeEnum) || GameModeEnum.First,
 		gameOptions: {
-			goalScore: ($roomStateStore as FirstGameModeRoomState)?.goalScore,
-			opponentAttacking: ($roomStateStore as FirstGameModeRoomState)?.opponentAttacking,
+			goalScore: $roomStateStore?.metadata.goalScore || 10,
+			opponentAttacking: $roomStateStore?.metadata.opponentAttacking || false,
 		},
 	};
 	let tempRoomOptions = structuredClone(roomOptions);

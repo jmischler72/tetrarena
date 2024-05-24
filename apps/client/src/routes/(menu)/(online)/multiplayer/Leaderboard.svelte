@@ -2,7 +2,7 @@
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
 	import { getLeaderboard } from '$lib/functions/services/FirebaseService';
 
-	let users: { username: string; wins: number }[] = [];
+	let users: { username: string; rank: number }[] = [];
 
 	async function getUsers() {
 		users = await getLeaderboard();
@@ -28,7 +28,7 @@
 						<th
 							class="text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 h-12 px-4 text-center align-middle font-medium"
 						>
-							Wins
+							Rank
 						</th>
 					</tr>
 				</thead>
@@ -44,7 +44,7 @@
 								>{user.username}</td
 							>
 							<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 py-8 text-center align-middle font-medium"
-								>{user.wins}</td
+								>{user.rank}</td
 							>
 						</tr>
 					{/each}
