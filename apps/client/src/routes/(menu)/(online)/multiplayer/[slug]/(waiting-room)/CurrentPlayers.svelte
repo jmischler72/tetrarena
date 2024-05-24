@@ -24,7 +24,7 @@
 			{/each}
 		</ul>
 	</div>
-	{#if players.size < 2}
+	{#if players.size < 2 && $roomStateStore?.isCompleted === false}
 		<h1>Waiting for players<ThreePoints /></h1>
 	{/if}
 </div>
