@@ -1,5 +1,6 @@
 {
 	"name": "@jmischler72/tetrarena",
+	"version": "1.5.0",
 	"description": "A monorepo for tetrarena project",
 	"scripts": {
 		"lint": "eslint ./ --max-warnings=0 --ext .ts",
@@ -8,12 +9,13 @@
 		"client": "pnpm --filter @jmischler72/client",
 		"server": "pnpm --filter @jmischler72/server",
 		"prepare": "husky install",
+		"release": "standard-version",
 		"cz": "cz"
 	},
 	"engines": {
 		"node": ">=16.19.0"
 	},
-	"packageManager": "pnpm@9.0.2",
+	"packageManager": "pnpm@9.1.2",
 	"dependencies": {
 		"husky": "^9.0.11"
 	},
@@ -37,6 +39,7 @@
 		"prettier": "^3.2.5",
 		"prettier-plugin-svelte": "^3.2.3",
 		"prettier-plugin-tailwindcss": "^0.5.14",
+		"standard-version": "^9.5.0",
 		"ts-node": "^10.9.2",
 		"turbo": "^1.13.3",
 		"typescript": "5.4.5"
