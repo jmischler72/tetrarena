@@ -1,44 +1,72 @@
-<script>
-    import {onMount} from 'svelte';
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { beforeNavigate } from '$app/navigation';
 
-    let colors = [
-        '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5',
-        '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50',
-        '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800',
-        '#ff5722', '#795548', '#9e9e9e', '#607d8b', '#212121',
-    ];
+	const colors = ['#FFADAD', '#FFD6A5', '#FDFFB6', '#E4F1EE', '#D9EDF8', '#DEDAF4'];
 
-    let squares = [];
+	let squares: { id: string; color: string; top: number; left: number; classes: string }[] = [];
+	let squareSize = 0;
+	let numSquares = 0;
 
-    const squareSize = Math.floor(Math.min(window.innerWidth, window.innerHeight) / 10);
-    const numSquares = window.innerWidth/squareSize * window.innerHeight/squareSize;
+	function generateSquares() {
+		squareSize = Math.ceil(Math.min(window.innerWidth, window.innerHeight) / 10);
 
-    function generateSquares() {
-        for (let i = 0; i < numSquares; i++) {
-            squares.push({
-                color: colors[Math.floor(Math.random() * colors.length)],
-                left: Math.floor(i / 10) * squareSize,
-                top: (i % 10) * squareSize,
-            });
-        }
-    }
+		numSquares = (window.innerWidth / squareSize + 2) * (window.innerHeight / squareSize + 2);
+		squares = [];
 
-    onMount(() => {
-        generateSquares();
-    });
+		for (let i = 0; i < numSquares; i++) {
+			squares.push({
+				id: 'square' + i,
+				color: colors[Math.floor(Math.random() * colors.length)],
+				left: window.innerWidth >= window.innerHeight ? Math.floor(i / 10) * squareSize : (i % 10) * squareSize,
+				top: window.innerWidth >= window.innerHeight ? (i % 10) * squareSize : Math.floor(i / 10) * squareSize,
+				classes: 'opacity-25',
+			});
+		}
+	}
+
+	export const triggerRipple = () => {
+		const middleX = window.innerWidth / 2;
+		const middleY = window.innerHeight / 2;
+
+		squares.forEach((square) => {
+			const distanceX = Math.abs(square.left + squareSize / 2 - middleX);
+			const distanceY = Math.abs(square.top + squareSize / 2 - middleY);
+			const distance = Math.max(distanceX, distanceY);
+
+			const curr_square = document.getElementById(square.id);
+
+			setTimeout(() => {
+				curr_square?.classList.add('!opacity-30'); // Add the 'ripple' class to each square to start the animation
+
+				setTimeout(() => {
+					curr_square?.classList.remove('!opacity-30'); // Add the 'ripple' class to each square to start the animation
+				}, 300);
+			}, distance * 0.6); // Adjust the delay as per your preference
+		});
+	};
+
+	beforeNavigate(() => {
+		triggerRipple();
+	});
+
+	onMount(() => {
+		window.addEventListener('resize', generateSquares);
+		generateSquares();
+		triggerRipple();
+	});
 </script>
 
-<div>
-
-    {#each squares as square}
-        <div class="absolute opacity-40"
-             style="
-         width: {squareSize}px;
-        height: {squareSize}px;
-    background-color: {square.color};
-    top: {square.top}px;
-    left: {square.left}px;
-  "
-        />
-    {/each}
-</div>
+{#each squares as square}
+	<div
+		id={square.id}
+		class="absolute transition-opacity duration-200 ease-in {square.classes}"
+		style="
+			width: {squareSize}px;
+			height: {squareSize}px;
+			background-color: {square.color};
+			top: {square.top}px;
+			left: {square.left}px;
+"
+	/>
+{/each}

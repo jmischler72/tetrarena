@@ -52,7 +52,7 @@
 	});
 </script>
 
-<canvas id="pixi-canvas"></canvas>
+<canvas id="pixi-canvas" class="z-10"></canvas>
 
 <footer class="absolute bottom-5 flex w-[98%] flex-row items-end justify-end gap-2 text-gray-500">
 	<h1 class="text-3xl" class:fill-animation={escPressed}><span class="opacity-animation">to quit press </span>ESC</h1>
@@ -71,6 +71,7 @@
 		color: $main-color;
 		text-decoration: none;
 		-webkit-background-clip: text;
+		background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-image: linear-gradient(0deg, $secondary-color, $secondary-color 50%, $main-color 50%);
 		background-size: 100% 200%;

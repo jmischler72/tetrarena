@@ -10,44 +10,46 @@
 	});
 </script>
 
-<nav
-	class="animation z-10 flex h-[100px] items-center justify-between overflow-hidden rounded bg-gray-700/75 bg-none text-gray-200"
->
-	<div class="flex w-1/3 justify-start pl-16 text-xl lg:text-2xl">
-		{#if $page.url.pathname.split('/')[1] === 'multiplayer' && $page.url.pathname.split('/').length > 2}
-			<button
-				class="group flex cursor-pointer items-center"
-				class:animation-left={previousPage === '/'}
-				on:click={() => leaveRoom()}
-			>
-				<span class="translate-x-[-2px] opacity-40 transition group-hover:translate-x-[-6px]">x</span>quit
-			</button>
-		{:else}
-			<button
-				class="group flex cursor-pointer items-center"
-				class:animation-left={previousPage === '/'}
-				on:click={() => ($page.url.pathname.split('/')[1] === 'multiplayer' ? goto('/') : goto(previousPage))}
-			>
-				<span class="translate-x-[-2px] translate-y-[1px] opacity-40 transition group-hover:translate-x-[-6px]"
-					>&#60;</span
-				>back
-			</button>
-		{/if}
-	</div>
-	<MediaQuery query="(min-width: 1050px)" let:matches>
-		<div class="flex w-1/3 justify-center pr-16 text-2xl" class:animation-up={previousPage === '/'}>
-			<h1 class="border-2 border-solid border-white p-1 text-gray-200">tetrarena</h1>
+<div class=" rounded bg-black/[.6]">
+	<nav
+		class="animation z-10 flex h-[100px] items-center justify-between overflow-hidden rounded bg-gray-700/75 bg-none text-gray-200"
+	>
+		<div class="flex w-1/3 justify-start pl-16 text-xl lg:text-2xl">
+			{#if $page.url.pathname.split('/')[1] === 'multiplayer' && $page.url.pathname.split('/').length > 2}
+				<button
+					class="group flex cursor-pointer items-center"
+					class:animation-left={previousPage === '/'}
+					on:click={() => leaveRoom()}
+				>
+					<span class="translate-x-[-2px] opacity-40 transition group-hover:translate-x-[-6px]">x</span>quit
+				</button>
+			{:else}
+				<button
+					class="group flex cursor-pointer items-center"
+					class:animation-left={previousPage === '/'}
+					on:click={() => ($page.url.pathname.split('/')[1] === 'multiplayer' ? goto('/') : goto(previousPage))}
+				>
+					<span class="translate-x-[-2px] translate-y-[1px] opacity-40 transition group-hover:translate-x-[-6px]"
+						>&#60;</span
+					>back
+				</button>
+			{/if}
 		</div>
-		{#if matches}
-			<h1
-				class="flex w-1/3 justify-end text-nowrap pr-16 text-xl lg:text-2xl"
-				class:animation-right={previousPage === '/'}
-			>
-				/{$page.url.pathname.split('/')[1]}
-			</h1>
-		{/if}
-	</MediaQuery>
-</nav>
+		<MediaQuery query="(min-width: 1050px)" let:matches>
+			<div class="flex w-1/3 justify-center pr-16 text-2xl" class:animation-up={previousPage === '/'}>
+				<h1 class="border-2 border-solid border-white p-1 text-gray-200">tetrarena</h1>
+			</div>
+			{#if matches}
+				<h1
+					class="flex w-1/3 justify-end text-nowrap pr-16 text-xl lg:text-2xl"
+					class:animation-right={previousPage === '/'}
+				>
+					/{$page.url.pathname.split('/')[1]}
+				</h1>
+			{/if}
+		</MediaQuery>
+	</nav>
+</div>
 
 <style lang="scss">
 	nav {

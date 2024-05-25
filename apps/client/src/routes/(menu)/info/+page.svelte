@@ -17,13 +17,20 @@
 	/>
 </MenuHeader>
 <MenuContainer>
-	<div class="flex h-full w-full items-center justify-center">
-		<h1>Made by <span><a class=" hover:underline" href="https://github.com/jmischler72">@jmischler72</a></span></h1>
+	<div class="flex h-full w-full flex-col items-center justify-center gap-4">
+		<h1 class="text-xl">
+			Made by <span><a class=" hover:underline" href="https://github.com/jmischler72">@jmischler72</a></span>
+		</h1>
+		<h1>With Svelte, Pixi and Colyseus</h1>
 	</div>
 </MenuContainer>
 
 <MenuFooter>
 	<div class="h-[60%] w-full">
-		<Button onClick={() => {}}>Donate to help this project</Button>
+		<Button
+			onClick={() => {
+				window.location.href = 'https://ko-fi.com/tetrarena';
+			}}>Donate to help this project</Button
+		>
 	</div>
 </MenuFooter>

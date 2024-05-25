@@ -1,14 +1,14 @@
 {
-  "compilerOptions": {
-    "composite": true,
-    "incremental": true,
-    "noEmitOnError": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "experimentalDecorators": true,
-    "declarationMap": true
-  }
+	"compilerOptions": {
+		"composite": true,
+		"incremental": true,
+		"noEmitOnError": true,
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"strict": true,
+		"experimentalDecorators": true,
+		"declarationMap": true
+	}
 }
