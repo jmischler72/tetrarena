@@ -1,5 +1,4 @@
-name: tetrarena-server - Build Docker Image and Push to GHCR
-
+name: tetrarena-server - Deploy to CapRover
 on:
   workflow_dispatch:
   push:
