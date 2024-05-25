@@ -11,9 +11,6 @@
 		<ChatComponent />
 	</div>
 	<div class="flex w-1/3 flex-col">
-		{#if $roomStateStore?.winner !== ''}
-			<GameEndComponent />
-		{/if}
 		<CurrentPlayers></CurrentPlayers>
 	</div>
 	<div class="w-1/3 rounded-lg p-2 pl-8">
