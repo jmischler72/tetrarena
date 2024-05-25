@@ -8,9 +8,9 @@
 	import { GameModeEnum, MessageTypeEnum, zRoomOptions, type RoomOptions } from '@jmischler72/shared';
 	import RoomOptionsMenu from '../(room-create)/RoomOptionsMenu.svelte';
 	import { roomOptionsDescriptionStore } from '$lib/stores/RoomOptionsDescriptionStore';
-	import { goto } from '$app/navigation';
 	import { formatZodIssue } from '$lib/functions/helpers/ZodHelper';
 	import { z } from 'zod';
+	import { isRoomEditingStore } from '$lib/stores/NavigationStore';
 
 	let optionsMenu = 'room';
 
@@ -50,7 +50,7 @@
 
 		roomOptions = tempRoomOptions;
 		loading = false;
-		goto('/multiplayer/' + $roomStore?.roomId);
+		$isRoomEditingStore = false;
 	}
 
 	$: isSaved = JSON.stringify(tempRoomOptions) === JSON.stringify(roomOptions);
@@ -62,7 +62,7 @@
 		<button
 			class="group absolute left-12 flex cursor-pointer items-center"
 			on:click={() => {
-				goto('/multiplayer/' + $roomStore?.roomId);
+				$isRoomEditingStore = false;
 				tempRoomOptions = structuredClone(roomOptions);
 			}}
 		>
