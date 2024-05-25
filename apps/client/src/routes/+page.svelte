@@ -1,28 +1,12 @@
 <script lang="ts">
-    import Home from "./Home.svelte";
-    import {onMount} from "svelte";
-
-    let serverUrl = import.meta.env.VITE_BACKEND_URL + "/version";
-
-    let clientVersion = __APP_VERSION__;
-    let serverVersion = "offline";
-    onMount(() => {
-        fetch(serverUrl)
-            .then(res => res.json())
-            .then(data => serverVersion = data.version)
-    });
+	import Home from './Home.svelte';
 </script>
 
-<div class="h-[50%] w-[60%] lg:w-auto lg:aspect-square  flex flex-col gap-y-14 items-center relative mt-20">
-    <h1 class="absolute top-[-25%] text-gray-200 text-3xl lg:text-5xl border-solid border-2 border-white">tetrarena</h1>
-    <Home></Home>
+<div class="relative flex h-[50%] w-full flex-col items-center gap-y-10 pb-4 lg:h-[70%]">
+	<h1 class="border-2 border-solid border-white text-2xl text-gray-200 lg:text-5xl">tetrarena</h1>
+	<Home></Home>
 </div>
 
-<footer class="w-[98%] absolute bottom-5 text-gray-500 flex flex-row gap-2 justify-between items-end">
-    <div class="flex flex-col text-xl">
-        <h1>client - {clientVersion}</h1>
-        <h1>server - {serverVersion}</h1>
-    </div>
-
-    <a class="text-lg lg:text-3xl hover:underline" href="https://github.com/jmischler72">@jmischler72</a>
+<footer class="absolute bottom-5 flex w-[98%] flex-row items-end justify-end gap-2 text-gray-500">
+	<!-- <a class="text-lg hover:underline lg:text-3xl" href="https://github.com/jmischler72">@jmischler72</a> -->
 </footer>

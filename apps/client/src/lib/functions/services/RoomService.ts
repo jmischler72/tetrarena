@@ -1,82 +1,96 @@
 import { Room } from 'colyseus.js';
-import { clientStore, playersStore, roomStore } from '$lib/stores/multiplayerStore';
+import { clientStore, roomStore } from '$lib/stores/MultiplayerStore';
 import { goto } from '$app/navigation';
 import { get } from 'svelte/store';
-import type { RoomCreateOptions } from '$lib/data/RoomCreateOptions';
-import { MessageTypeEnum } from '@jmischler72/types';
+import { MessageTypeEnum, type RoomOptions } from '@jmischler72/shared';
+import { snackbarStore } from '$lib/stores/SnackbarStore';
 
-function resetRoom() {
-  roomStore.set(null);
-  get(playersStore).clear();
-  void goto('/multiplayer/');
-  localStorage.removeItem('reconnectionToken');
+export async function resetRoom(goToMultiplayer = true) {
+	roomStore.set(null);
+	if (goToMultiplayer) await goto('/multiplayer/');
+	localStorage.removeItem('reconnectionToken');
 }
 
-function addErrorHandling(room: Room) {
-  room.onMessage(MessageTypeEnum.PONG, (message) => {
-    // console.log('message received from server', message);
-    // console.log(Date.now() - message.time);
-  });
+function handleRoom(room: Room) {
+	roomStore.set(room);
 
-  room.onError((code, message) => {
-    console.log('oops, error ocurred:', code, message);
-    resetRoom();
-  });
-  room.onLeave(() => {
-    console.log('client left the room');
-    if (get(roomStore)) localStorage.setItem('reconnectionToken', get(roomStore)!.reconnectionToken);
-    roomStore.set(null);
-  });
+	room.onMessage(MessageTypeEnum.PONG, (message) => {
+		// console.log('message received from server', message);
+		// console.log(Date.now() - message.time);
+	});
+
+	room.onError((code, message) => {
+		snackbarStore.set('Oops, error ocurred !');
+		resetRoom();
+	});
+	room.onLeave(() => {
+		snackbarStore.set('You left the room !');
+		resetRoom();
+	});
+}
+
+export async function joinRankedReservation(reservation: any) {
+	try {
+		let room = await get(clientStore).consumeSeatReservation(reservation);
+		handleRoom(room);
+		await goto('/multiplayer/' + room.id);
+	} catch (e) {
+		await resetRoom();
+
+		snackbarStore.set('Error joining ranked room !' + e);
+	}
 }
 
 export async function joinRoom(roomId: string) {
-  if (get(roomStore)) return;
-  const reconnectionToken = localStorage.getItem('reconnectionToken');
+	if (get(roomStore)?.roomId === roomId) return;
 
-  let room: Room | null = null;
+	const reconnectionToken = localStorage.getItem('reconnectionToken');
+	if (reconnectionToken && reconnectionToken.split(':')[0] === roomId) {
+		await rejoinRoom(reconnectionToken);
+		return;
+	}
 
-  if (reconnectionToken) {
-    try {
-      room = await get(clientStore).reconnect(reconnectionToken);
-      console.log('rejoined successfully', room);
-      localStorage.removeItem('reconnectionToken');
-    } catch (e) {
-      console.error('rejoin error', e);
-      resetRoom();
-    }
-  } else {
-    try {
-      room = await get(clientStore).joinById(roomId);
-    } catch (e) {
-      console.error('join error', e);
-      resetRoom();
-    }
-  }
+	try {
+		let room = await get(clientStore).joinById(roomId);
+		handleRoom(room);
+	} catch (e) {
+		await resetRoom();
 
-  if (room) {
-    addErrorHandling(room);
-    roomStore.set(room);
-  }
+		snackbarStore.set('Error joining room !' + e);
+	}
+
+	localStorage.removeItem('reconnectionToken');
 }
 
-export async function createRoom(options: RoomCreateOptions) {
-  if (options.name === '') options.name = 'New Room';
+async function rejoinRoom(reconnectionToken: string) {
+	try {
+		let room = await get(clientStore).reconnect(reconnectionToken);
+		handleRoom(room);
+		snackbarStore.set('Rejoined successfully !');
 
-  try {
-    const room: Room | undefined = await get(clientStore).create('my_room', options);
+		localStorage.removeItem('reconnectionToken');
+	} catch (e) {
+		await resetRoom();
 
-    addErrorHandling(room);
-    roomStore.set(room);
-  } catch (e) {
-    console.error('create error', e);
-    resetRoom();
-  }
+		snackbarStore.set('Error rejoining room !' + e);
+	}
+}
+
+export async function createRoom(options: RoomOptions) {
+	if (options.name === '') options.name = 'New Room';
+
+	try {
+		let room = await get(clientStore).create(options.gameMode, options);
+		handleRoom(room);
+		await goto('/multiplayer/' + room.id);
+	} catch (e) {
+		await resetRoom();
+
+		snackbarStore.set('Error creating room !' + e);
+	}
 }
 
 export async function leaveRoom() {
-  const room = get(roomStore);
-  resetRoom();
-  await room?.leave(true).then((t: number) => {
-    console.log('left room', t);
-  });
+	await get(roomStore)?.leave(true);
+	await resetRoom();
 }

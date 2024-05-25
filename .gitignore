@@ -6,3 +6,6 @@ dist/
 .turbo/
 
 .idea
+.vscode
+
+lerna-debug.log
