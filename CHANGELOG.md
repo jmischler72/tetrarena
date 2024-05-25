@@ -20,13 +20,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-- **client:** grid bg + poc ripple effect ([fd02746](https://github.com/jmischler72/tetrarena/commit/fd02746e78965acdef6c4f1a4bf6ea4541b7b5c7))
-- **general:** ripple effect + responsive ([29d0a1f](https://github.com/jmischler72/tetrarena/commit/29d0a1f4e18c5ce0ac653582d0decf4a0e342cdb))
 - **client:** redesign current players component ([9233272](https://github.com/jmischler72/tetrarena/commit/92332727672e1fbff847da5245606d656cb4047f))
 
 ### Bug Fixes
 
-- **client:** info page + adjust ripple effect ([78b96d5](https://github.com/jmischler72/tetrarena/commit/78b96d5135d48d4edf408bbfa580b1a1f9a6702a))
 - **client:** fix back edit room options from room ([8f4e8c7](https://github.com/jmischler72/tetrarena/commit/8f4e8c7ea1bdb96800352d220c42e89817767050))
 
 ## [1.5.0](https://github.com/jmischler72/tetrarena/compare/v1.2.3...v1.5.0) (2024-05-24)
