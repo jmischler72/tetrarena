@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/jmischler72/tetrarena/compare/v1.5.0...v1.6.0) (2024-05-25)
+
+### Features
+
+- **client:** redesign current players component ([9233272](https://github.com/jmischler72/tetrarena/commit/92332727672e1fbff847da5245606d656cb4047f))
+
+### Bug Fixes
+
+- **client:** fix back edit room options from room ([8f4e8c7](https://github.com/jmischler72/tetrarena/commit/8f4e8c7ea1bdb96800352d220c42e89817767050))
+
 ## [1.5.0](https://github.com/jmischler72/tetrarena/compare/v1.2.3...v1.5.0) (2024-05-24)
 
 ### Features
