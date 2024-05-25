@@ -1,6 +1,4 @@
 <script lang="ts">
-	import GameEndComponent from './(waiting-room)/GameEndComponent.svelte';
-	import { roomStateStore } from '$lib/stores/MultiplayerStore.js';
 	import CurrentPlayers from './(waiting-room)/CurrentPlayers.svelte';
 	import RoomSummary from './(waiting-room)/RoomSummary.svelte';
 	import ChatComponent from './(waiting-room)/ChatComponent.svelte';
