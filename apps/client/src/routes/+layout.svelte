@@ -11,6 +11,7 @@
 		script.integrity = 'sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M';
 		script.crossOrigin = 'anonymous';
 		document.head.appendChild(script);
+		// @ts-ignore
 		window['jdenticon_config'] = { replaceMode: 'observe' };
 	});
 </script>

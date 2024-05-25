@@ -2,7 +2,6 @@ import config from '@colyseus/tools';
 import { playground } from '@colyseus/playground';
 import basicAuth from 'express-basic-auth';
 import { monitor } from '@colyseus/monitor';
-import pkg from '../package.json';
 import cors from 'cors';
 import express from 'express';
 import pino from 'pino';
@@ -35,11 +34,12 @@ export default config({
 		app.use(cors());
 		app.use(express.json());
 		/**
-		 * Get version of the server
+		 * Get version of the server (broken for now)
+		 * TODO : Fix this
 		 */
-		app.get('/version', (req, res) => {
-			res.status(200).json({ version: pkg.version });
-		});
+		// app.get('/version', (req, res) => {
+		// 	res.status(200).json({ version: '1.6.0' });
+		// });
 
 		/**
 		 * Use @colyseus/playground

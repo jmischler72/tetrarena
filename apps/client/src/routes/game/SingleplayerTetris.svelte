@@ -71,6 +71,7 @@
 		color: $main-color;
 		text-decoration: none;
 		-webkit-background-clip: text;
+		background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-image: linear-gradient(0deg, $secondary-color, $secondary-color 50%, $main-color 50%);
 		background-size: 100% 200%;
