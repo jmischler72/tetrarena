@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/jmischler72/tetrarena/compare/v1.6.0...v1.7.0) (2024-05-25)
+
+### Features
+
+- **client:** grid bg + poc ripple effect ([fd02746](https://github.com/jmischler72/tetrarena/commit/fd02746e78965acdef6c4f1a4bf6ea4541b7b5c7))
+- **general:** ripple effect + responsive ([29d0a1f](https://github.com/jmischler72/tetrarena/commit/29d0a1f4e18c5ce0ac653582d0decf4a0e342cdb))
+
+### Bug Fixes
+
+- **client:** info page + adjust ripple effect ([78b96d5](https://github.com/jmischler72/tetrarena/commit/78b96d5135d48d4edf408bbfa580b1a1f9a6702a))
+- **client:** remove unused component ([f982e61](https://github.com/jmischler72/tetrarena/commit/f982e61c254016915129f0574658a2605913b051))
+- **server:** broken dockerfile ([df1bf50](https://github.com/jmischler72/tetrarena/commit/df1bf505ed7e7fc2faf8c5e6a1920b8053c63c28))
+- **server:** fix build ([1473f8c](https://github.com/jmischler72/tetrarena/commit/1473f8cb7cf247a91976d5022be95001f24f6f87))
+
 ## [1.6.0](https://github.com/jmischler72/tetrarena/compare/v1.5.0...v1.6.0) (2024-05-25)
 
 ### Features
