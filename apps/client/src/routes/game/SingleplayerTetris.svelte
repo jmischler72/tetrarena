@@ -54,7 +54,7 @@
 
 <canvas id="pixi-canvas" class="z-10"></canvas>
 
-<footer class="absolute bottom-5 flex w-[98%] flex-row items-end justify-end gap-2 text-gray-500">
+<footer class="absolute bottom-5 z-20 flex w-[98%] flex-row items-end justify-end gap-2 text-gray-500">
 	<h1 class="text-3xl" class:fill-animation={escPressed}><span class="opacity-animation">to quit press </span>ESC</h1>
 </footer>
 
