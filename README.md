@@ -79,11 +79,11 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Welcome to the tetrarena repo. This project aims to bring the classic Tetris experience to both single-player and competitive multiplayer modes, with additional customization options to enhance your gameplay. Here’s an overview of what this project offers:
+Welcome to the tetrarena repo. This project aims to bring the classic Tetris experience to both single-player and competitive multiplayer modes. Here’s an overview of what this project offers:
 
 ### Game Overview
 
-Our game faithfully recreates the classic Tetris experience, but with exciting new features to cater to both solo players and competitive enthusiasts:
+This game recreates the classic Tetris experience, but with exciting new features to cater to both solo players and competitive enthusiasts:
 
 - Single-Player Mode: Enjoy the traditional Tetris gameplay on your own. Perfect for practicing your skills or playing at your own pace.
 
@@ -153,11 +153,20 @@ To enable authentication and real-time data storage, you'll need to set up a Fir
 - Enable Google Analytics (Optional): You can choose to enable Google Analytics for your project.
 - Create Project: Click "Create project" and wait for Firebase to set it up.
 
+#### Configure the firebase project
+
+Once you have created the project you need to activate Firebase Authentication with these connections methods:
+
+- Anonymous
+- Mail/Password
+
+You will also need to activate Realtime Database and enter the rules that you can find in the file `firebase.rules` in the root of the repo
+
 #### Configure client side
 
 You then need to go to the project settings and create a web application, then copy the `firebaseConfig` and replace the config from `apps/client/src/lib/data/config/firebase.config.ts`
 
-It should look like that:
+It should look like that with your credentials:
 
 ```
 export const firebaseConfig = {

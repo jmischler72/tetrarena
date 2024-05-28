@@ -55,17 +55,13 @@ export default config({
 		 * Read more: https://docs.colyseus.io/tools/monitor/#restrict-access-to-the-panel-using-a-password
 		 */
 
-		if (process.env.NODE_ENV !== 'production') {
-			app.use('/colyseus', monitor());
-		} else {
-			const basicAuthMiddleware = basicAuth({
-				users: {
-					admin: 'balisto48',
-				},
-				challenge: true,
-			});
-			app.use('/colyseus', basicAuthMiddleware, monitor());
-		}
+		const basicAuthMiddleware = basicAuth({
+			users: {
+				admin: process.env.COLYSEUS_PASSWORD,
+			},
+			challenge: true,
+		});
+		app.use('/colyseus', basicAuthMiddleware, monitor());
 	},
 
 	beforeListen: () => {

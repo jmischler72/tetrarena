@@ -1,0 +1,20 @@
+{
+  "rules": {
+    "users": {
+      ".read": true,
+      ".write": "auth.uid === 'tetrarena-server'",
+      "$user_id": {
+        "username":{
+          // to add when email verification is handled : auth.token.email_verified === false
+        	".write": "$user_id === auth.uid",
+          ".validate": "newData.isString() && newData.val().length >= 4 && newData.val().length <= 20"
+        }
+      },
+      ".indexOn": ["rank"]
+    },
+    "rooms":{
+      ".read": "auth.uid === 'tetrarena-server'",
+    	".write": "auth.uid === 'tetrarena-server'",
+    }
+  }
+}

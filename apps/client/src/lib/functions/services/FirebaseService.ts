@@ -32,7 +32,7 @@ export async function initUser() {
 
 export async function getUserInfos() {
 	if (!auth.currentUser) return null;
-	let currentUser: UserInfos = {
+	let currentUser = {
 		username: 'Guest-' + auth.currentUser.uid.substring(0, 6),
 	};
 	let snapshot = await getFromDb(ref(db, 'users/' + auth.currentUser.uid));
