@@ -8,7 +8,7 @@ import {
 import { auth, db } from './FirebaseClient';
 import { snackbarStore } from '$lib/stores/SnackbarStore';
 import { clientStore, userStore } from '$lib/stores/MultiplayerStore';
-import { ref, get as getFromDb, child, orderByChild, query, limitToFirst, set, onValue } from 'firebase/database';
+import { ref, get as getFromDb, child, orderByChild, query, limitToFirst, set } from 'firebase/database';
 import { get } from 'svelte/store';
 import type { UserInfos } from '@jmischler72/shared';
 
@@ -18,7 +18,7 @@ export async function initUser() {
 			if (!user) {
 				console.log('User is logged out');
 				snackbarStore.set('Connecting as guest');
-				let u = await signInAnonymously(auth);
+				const u = await signInAnonymously(auth);
 				user = u.user;
 			}
 
@@ -35,7 +35,7 @@ export async function getUserInfos() {
 	let currentUser = {
 		username: 'Guest-' + auth.currentUser.uid.substring(0, 6),
 	};
-	let snapshot = await getFromDb(ref(db, 'users/' + auth.currentUser.uid));
+	const snapshot = await getFromDb(ref(db, 'users/' + auth.currentUser.uid));
 	if (snapshot.exists()) {
 		currentUser = snapshot.val() as UserInfos;
 	}
@@ -51,7 +51,7 @@ export async function getLeaderboard() {
 
 	const snapshot = await getFromDb(quUsers);
 	if (snapshot.exists()) {
-		let users: { username: string; rank: number }[] = [];
+		const users: { username: string; rank: number }[] = [];
 		snapshot.forEach((userSnapshot) => {
 			if (userSnapshot.val().rank) users.push(userSnapshot.val());
 		});

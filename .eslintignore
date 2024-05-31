@@ -12,7 +12,6 @@ pnpm-lock.yaml
 package-lock.json
 yarn.lock
 
-
 # Svelte
 dist/
 *.tsbuildinfo
@@ -21,3 +20,5 @@ dist/
 
 nexus-typegen.ts
 schema.graphql
+
+.netlify/

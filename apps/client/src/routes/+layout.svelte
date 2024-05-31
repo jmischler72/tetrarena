@@ -11,7 +11,7 @@
 		script.integrity = 'sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M';
 		script.crossOrigin = 'anonymous';
 		document.head.appendChild(script);
-		// @ts-ignore
+		// @ts-expect-error: Should expect type is not number
 		window['jdenticon_config'] = { replaceMode: 'observe' };
 	});
 </script>

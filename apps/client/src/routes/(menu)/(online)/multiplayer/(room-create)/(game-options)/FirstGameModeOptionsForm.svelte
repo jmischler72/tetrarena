@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Input from '$lib/components/Input.svelte';
-	import { type FirstGameModeOptions, type RoomOptions } from '@jmischler72/shared';
+	import { type FirstGameModeOptions } from '@jmischler72/shared';
 
 	export let gameOptions: FirstGameModeOptions;
 

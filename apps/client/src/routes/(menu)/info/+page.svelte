@@ -6,6 +6,7 @@
 	import Button from '$lib/components/Button.svelte';
 
 	let currentMenu = 'about';
+	// @ts-expect-error: Should expect error is not defined
 	let appVersion = __APP_VERSION__;
 </script>
 

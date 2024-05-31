@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import Button from '$lib/components/Button.svelte';
 	import ThreePoints from '$lib/components/ThreePoints.svelte';
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';

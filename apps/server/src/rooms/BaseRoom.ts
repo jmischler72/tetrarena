@@ -15,7 +15,7 @@ export class BaseRoom extends Room<RoomState, RoomOptions> {
 	private timeout: Delayed;
 	logger: Logger = pino({ level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info' });
 
-	static onAuth(token: string, req: any) {
+	static onAuth(token: string) {
 		logger.debug('authenticating user');
 		return FirebaseService.verifyUser(token);
 	}
@@ -42,7 +42,7 @@ export class BaseRoom extends Room<RoomState, RoomOptions> {
 		if (this.clients.length <= 1) this.state.admin = client.sessionId;
 		this.initializeTimeout();
 
-		let isAnonymous = client.auth.provider_id === 'anonymous';
+		const isAnonymous = client.auth.provider_id === 'anonymous';
 
 		FirebaseService.setUserInRoom(client.auth.uid, this.roomId);
 		getUsername(client.auth.uid).then((u) => {
@@ -163,7 +163,7 @@ export class BaseRoom extends Room<RoomState, RoomOptions> {
 		this.initializeTimeout();
 	}
 
-	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {
+	protected handlePlayerAction(player: PlayerState, data: typeof ActionsEnum) {
 		if (!this.state.isPlaying) return;
 
 		player.handleAction(data);

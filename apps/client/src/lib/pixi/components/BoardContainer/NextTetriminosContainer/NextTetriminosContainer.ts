@@ -2,7 +2,6 @@ import * as PIXI from 'pixi.js';
 import TetriminoContainer from '../../Tetrimino/TetriminoContainer';
 import type { ColorEnum } from '@jmischler72/core';
 import { SMALL_BLOCK_SIZE } from '../../../constants/board';
-import { newTetriminoTween } from './NextTetriminosContainerAnimation';
 
 const PADDING = 5;
 const CONTAINER_SIZE = SMALL_BLOCK_SIZE * 3 + PADDING;

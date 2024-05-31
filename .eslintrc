@@ -35,6 +35,14 @@
 	},
 	"overrides": [
 		{
+			"files": ["./apps/client/**"],
+			"env": {
+				"browser": true,
+				"node": true,
+				"jasmine": true
+			  },
+		},
+		{
 			"files": ["*.svelte"],
 			"parser": "svelte-eslint-parser",
 			"parserOptions": {
