@@ -6,6 +6,7 @@
 	import Button from '$lib/components/Button.svelte';
 
 	let currentMenu = 'about';
+	let appVersion = __APP_VERSION__;
 </script>
 
 <MenuHeader>
@@ -22,6 +23,7 @@
 			Made by <span><a class=" hover:underline" href="https://github.com/jmischler72">@jmischler72</a></span>
 		</h1>
 		<h1>With Svelte, Pixi and Colyseus</h1>
+		<h1 class="text-gray-200">v{appVersion}</h1>
 	</div>
 </MenuContainer>
 
@@ -30,7 +32,7 @@
 		<Button
 			onClick={() => {
 				window.location.href = 'https://ko-fi.com/tetrarena';
-			}}>Donate to help this project</Button
+			}}>If you'd like to tip me</Button
 		>
 	</div>
 </MenuFooter>
