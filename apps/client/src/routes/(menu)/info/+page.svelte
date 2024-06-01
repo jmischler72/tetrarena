@@ -32,8 +32,8 @@
 	<div class="h-[60%] w-full">
 		<Button
 			onClick={() => {
-				window.location.href = 'https://ko-fi.com/tetrarena';
-			}}>If you'd like to tip me</Button
+				window.location.href = 'https://www.patreon.com/jmischler72';
+			}}>my patreon🥸</Button
 		>
 	</div>
 </MenuFooter>
