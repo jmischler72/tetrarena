@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.2](https://github.com/jmischler72/tetrarena/compare/v1.7.0...v1.7.2) (2024-06-01)
+
+### Bug Fixes
+
+- **client:** default goalscore 20 ([27668aa](https://github.com/jmischler72/tetrarena/commit/27668aa172832be0d8b8c3521b34da1446ceec9a))
+- **client:** reconnection token problems ([a948cb4](https://github.com/jmischler72/tetrarena/commit/a948cb445d772140103367d64b1d009a4fef817b))
+- **eslint:** fix config eslintrc + use correct pkg json for version ([e70e8c8](https://github.com/jmischler72/tetrarena/commit/e70e8c841b858a42b10dc3f470a173514a12f667))
+
 ### [1.7.1](https://github.com/jmischler72/tetrarena/compare/v1.7.0...v1.7.1) (2024-06-01)
 
 ### Bug Fixes

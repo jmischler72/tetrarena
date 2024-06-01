@@ -15,12 +15,6 @@
 	$: $roomStore?.state.listen('isPlaying', (value) => {
 		isPlaying = value;
 	});
-
-	onMount(() => {
-		return () => {
-			if ($roomStore) localStorage.setItem('reconnectionToken', $roomStore.reconnectionToken);
-		};
-	});
 </script>
 
 <AsyncMenu callback={() => joinRoom(data.slug)}>

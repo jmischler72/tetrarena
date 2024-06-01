@@ -8,7 +8,6 @@ import { snackbarStore } from '$lib/stores/SnackbarStore';
 export async function resetRoom(goToMultiplayer = true) {
 	roomStore.set(null);
 	if (goToMultiplayer) await goto('/multiplayer/');
-	localStorage.removeItem('reconnectionToken');
 }
 
 function handleRoom(room: Room) {
@@ -47,7 +46,7 @@ export async function joinRoom(roomId: string) {
 	const reconnectionToken = localStorage.getItem('reconnectionToken');
 	if (reconnectionToken && reconnectionToken.split(':')[0] === roomId) {
 		await rejoinRoom(reconnectionToken);
-		return;
+		if (get(roomStore)) return;
 	}
 
 	try {
