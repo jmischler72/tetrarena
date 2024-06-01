@@ -12,11 +12,6 @@
 		"release": "standard-version",
 		"cz": "cz"
 	},
-	"standard-version": {
-		"skip": {
-			"tag": true
-		}
-	},
 	"engines": {
 		"node": ">=16.19.0"
 	},
