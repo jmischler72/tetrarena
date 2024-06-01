@@ -108,6 +108,27 @@ When you first enter the game, you'll be logged in as a guest, allowing you to j
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Architecture of the repo
+
+This project is structured as a monorepo, meaning both the client and server codebases are housed within a single repository. This setup facilitates easier management of dependencies, shared code, and versioning, ensuring consistency across the entire project.
+
+The tools used are:
+
+- **PNPM**: package manager that also provides a [workspace feature](https://pnpm.io/fr/workspaces)
+- **TurboRepo**: Cache operations such as building
+
+For the different workspaces, there are two apps:
+
+- **client**
+- **server**
+
+And two packages:
+
+- **core**: all the game logic
+- **shared**: shared types or functions between client and server
+
+This repo also uses **husky** to lint commit messages, they must conform to [conventional commits specification](https://www.conventionalcommits.org/en/v1.0.0/).
+
 <!-- GETTING STARTED -->
 
 ## Getting Started
@@ -190,27 +211,6 @@ Then copy the file `.env.example` from `apps/server` to `.env` and copy from the
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Architecture of the repo
-
-This project is structured as a monorepo, meaning both the client and server codebases are housed within a single repository. This setup facilitates easier management of dependencies, shared code, and versioning, ensuring consistency across the entire project.
-
-The tools used are:
-
-- **PNPM**: package manager that also provides a [workspace feature](https://pnpm.io/fr/workspaces)
-- **TurboRepo**: Cache operations such as building
-
-For the different workspaces, there are two apps:
-
-- **client**
-- **server**
-
-And two packages:
-
-- **core**: all the game logic
-- **shared**: shared types or functions between client and server
-
-This repo also uses **husky** to lint commit messages, they must conform to [conventional commits specification](https://www.conventionalcommits.org/en/v1.0.0/).
-
 <!-- USAGE EXAMPLES -->
 
 ## Usage
@@ -236,7 +236,7 @@ If you have a suggestion that would make this better, you can simply open an iss
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
