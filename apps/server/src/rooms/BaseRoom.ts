@@ -163,7 +163,7 @@ export class BaseRoom extends Room<RoomState, RoomOptions> {
 		this.initializeTimeout();
 	}
 
-	protected handlePlayerAction(player: PlayerState, data: typeof ActionsEnum) {
+	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {
 		if (!this.state.isPlaying) return;
 
 		player.handleAction(data);

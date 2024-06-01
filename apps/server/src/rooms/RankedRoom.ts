@@ -51,7 +51,7 @@ export class RankedRoom extends BaseRoom {
 		FirebaseService.updateRankForUser(opponent.userId, -10);
 	}
 
-	protected handlePlayerAction(player: PlayerState, data: typeof ActionsEnum) {
+	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {
 		if (!this.state.isPlaying) return;
 
 		const prevLinesId = structuredClone(Array.from(player.gameState.linesId));
