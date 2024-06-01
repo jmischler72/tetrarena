@@ -1,4 +1,4 @@
-import { PlayerState, RoomState, getDeletedLines, zFirstGameModeOptions } from '@jmischler72/shared';
+import { PlayerState, getDeletedLines } from '@jmischler72/shared';
 import { getOpponents } from '@jmischler72/shared';
 import { BaseRoom } from './BaseRoom';
 import { ActionsEnum, GAME_SPEED } from '@jmischler72/core';
@@ -20,7 +20,7 @@ export class GameRoom extends BaseRoom {
 		});
 
 		this.gameTimer = this.clock.setInterval(() => {
-			this.state.players.forEach((player: PlayerState, key: string) => {
+			this.state.players.forEach((player: PlayerState) => {
 				this.handlePlayerAction(player, ActionsEnum.GO_DOWN);
 			});
 		}, GAME_SPEED);
@@ -31,24 +31,24 @@ export class GameRoom extends BaseRoom {
 
 		if (this.gameTimer) this.gameTimer.clear();
 
-		let winner = findWinner(this.state.players);
+		const winner = findWinner(this.state.players);
 		this.logger.info(winner ? 'winner in room: ' + winner.username : 'no winner');
 
 		if (!winner) return;
 		this.state.winner = winner.username;
 	}
 
-	protected handlePlayerAction(player: PlayerState, data: ActionsEnum) {
+	protected handlePlayerAction(player: PlayerState, data: typeof ActionsEnum) {
 		if (!this.state.isPlaying) return;
 
-		let prevLinesId = structuredClone(Array.from(player.gameState.linesId));
+		const prevLinesId = structuredClone(Array.from(player.gameState.linesId));
 
 		super.handlePlayerAction(player, data);
 
-		let linesToAdd = getDeletedLines(prevLinesId, Array.from(player.gameState.linesId)).length;
+		const linesToAdd = getDeletedLines(prevLinesId, Array.from(player.gameState.linesId)).length;
 
 		if (this.metadata.gameOptions.opponentAttacking) {
-			let opponent = getOpponents(player, this.state.players)[0];
+			const opponent = getOpponents(player, this.state.players)[0];
 
 			if (opponent) {
 				opponent.gameState.gameInstance.addLines(linesToAdd);

@@ -1,18 +1,18 @@
 {
-  "extends": "./tsconfig.options.json",
-  "files": [],
-  "references": [
-    {
-      "path": "packages/core"
-    },
-    {
-      "path": "packages/shared"
-    },
-    {
-      "path": "apps/server"
-    },
-    {
-      "path": "apps/client"
-    }
-  ]
+	"extends": "./tsconfig.options.json",
+	"files": [],
+	"references": [
+		{
+			"path": "packages/core"
+		},
+		{
+			"path": "packages/shared"
+		},
+		{
+			"path": "apps/server"
+		},
+		{
+			"path": "apps/client"
+		}
+	]
 }

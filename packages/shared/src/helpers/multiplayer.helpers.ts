@@ -57,7 +57,7 @@ export function getOpponents(
 	players: MapSchema<PlayerState, string> | undefined,
 ) {
 	if (!players || !currentPlayer) return [];
-	let opps: PlayerState[] = [];
+	const opps: PlayerState[] = [];
 	players.forEach((otherPlayer) => {
 		if (currentPlayer !== otherPlayer) opps.push(otherPlayer);
 	});

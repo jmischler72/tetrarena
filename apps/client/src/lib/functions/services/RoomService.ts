@@ -14,12 +14,12 @@ export async function resetRoom(goToMultiplayer = true) {
 function handleRoom(room: Room) {
 	roomStore.set(room);
 
-	room.onMessage(MessageTypeEnum.PONG, (message) => {
+	room.onMessage(MessageTypeEnum.PONG, (_message) => {
 		// console.log('message received from server', message);
 		// console.log(Date.now() - message.time);
 	});
 
-	room.onError((code, message) => {
+	room.onError((_code, _message) => {
 		snackbarStore.set('Oops, error ocurred !');
 		resetRoom();
 	});
@@ -31,7 +31,7 @@ function handleRoom(room: Room) {
 
 export async function joinRankedReservation(reservation: any) {
 	try {
-		let room = await get(clientStore).consumeSeatReservation(reservation);
+		const room = await get(clientStore).consumeSeatReservation(reservation);
 		handleRoom(room);
 		await goto('/multiplayer/' + room.id);
 	} catch (e) {
@@ -51,7 +51,7 @@ export async function joinRoom(roomId: string) {
 	}
 
 	try {
-		let room = await get(clientStore).joinById(roomId);
+		const room = await get(clientStore).joinById(roomId);
 		handleRoom(room);
 	} catch (e) {
 		await resetRoom();
@@ -64,7 +64,7 @@ export async function joinRoom(roomId: string) {
 
 async function rejoinRoom(reconnectionToken: string) {
 	try {
-		let room = await get(clientStore).reconnect(reconnectionToken);
+		const room = await get(clientStore).reconnect(reconnectionToken);
 		handleRoom(room);
 		snackbarStore.set('Rejoined successfully !');
 
@@ -80,7 +80,7 @@ export async function createRoom(options: RoomOptions) {
 	if (options.name === '') options.name = 'New Room';
 
 	try {
-		let room = await get(clientStore).create(options.gameMode, options);
+		const room = await get(clientStore).create(options.gameMode, options);
 		handleRoom(room);
 		await goto('/multiplayer/' + room.id);
 	} catch (e) {

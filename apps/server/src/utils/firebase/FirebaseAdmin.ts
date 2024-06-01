@@ -16,7 +16,7 @@ export const db = admin.database(app);
 export const authApp = admin.auth(app);
 
 function resetUsersInRoom() {
-	let usersRef = db.ref('/rooms/');
+	const usersRef = db.ref('/rooms/');
 	usersRef.remove();
 }
 resetUsersInRoom();

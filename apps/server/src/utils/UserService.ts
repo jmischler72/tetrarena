@@ -1,11 +1,11 @@
 import { FirebaseService } from './firebase/FirebaseService';
 
 export async function getUsername(userId: string) {
-	let infos = await FirebaseService.getUserInfos(userId);
+	const infos = await FirebaseService.getUserInfos(userId);
 	return infos?.username || 'Guest-' + userId.substring(0, 6);
 }
 
 export async function getRank(userId: string) {
-	let infos = await FirebaseService.getUserInfos(userId);
+	const infos = await FirebaseService.getUserInfos(userId);
 	return infos?.rank || 500;
 }

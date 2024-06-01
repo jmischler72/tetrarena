@@ -9,7 +9,7 @@ export function getDeletedLines(previousLines: string[], currentLines: string[])
 }
 
 export function getAddedLines(previousLines: string[], currentLines: string[]): number {
-	let index = currentLines.findIndex((item) => item === previousLines.at(-1));
+	const index = currentLines.findIndex((item) => item === previousLines.at(-1));
 	if (index !== -1) return currentLines.length - currentLines.findIndex((item) => item === previousLines.at(-1)) - 1;
 	return 0;
 }

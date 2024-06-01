@@ -1,7 +1,7 @@
-import { derived, writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 import { Client, Room } from 'colyseus.js';
-import { type RoomState, type UserInfos } from '@jmischler72/shared';
+import { type RoomState } from '@jmischler72/shared';
 import type { User } from 'firebase/auth';
 
 export const clientStore: Writable<Client> = writable(new Client(import.meta.env.VITE_SERVER_URL));

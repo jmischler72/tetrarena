@@ -1,5 +1,5 @@
 import { GameModeEnum, MessageTypeEnum, RoomOptions, getDefaultGameMode } from '@jmischler72/shared';
-import { Room, Client, Delayed, matchMaker, logger } from 'colyseus';
+import { Room, Client, matchMaker } from 'colyseus';
 import { FirebaseService } from '../utils/firebase/FirebaseService';
 import pino, { Logger } from 'pino';
 import { getRank } from '../utils/UserService';
@@ -76,7 +76,7 @@ export class RankedLobbyRoom extends Room {
 
 	logger: Logger = pino({ level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info' });
 
-	static onAuth(token: string, req: any) {
+	static onAuth(token: string) {
 		return FirebaseService.verifyUser(token);
 	}
 
@@ -84,7 +84,7 @@ export class RankedLobbyRoom extends Room {
 		this.logger = this.logger.child({ RoomType: 'RankedLobby' });
 		this.logger.info('created ranked lobby room');
 
-		this.onMessage('confirm', (client: Client, message: any) => {
+		this.onMessage('confirm', (client: Client) => {
 			const stat = this.stats.find((stat) => stat.client === client);
 
 			if (stat && stat.group && typeof stat.group.confirmed === 'number') {
@@ -117,7 +117,7 @@ export class RankedLobbyRoom extends Room {
 	}
 
 	createGroup() {
-		let group: MatchmakingGroup = { clients: [], averageRank: 0 };
+		const group: MatchmakingGroup = { clients: [], averageRank: 0 };
 		this.groups.push(group);
 		return group;
 	}
@@ -233,7 +233,7 @@ export class RankedLobbyRoom extends Room {
 		this.broadcast(MessageTypeEnum.PLAYERS_WAITING, this.stats.length);
 	}
 
-	onLeave(client: Client, consented: boolean) {
+	onLeave(client: Client) {
 		const index = this.stats.findIndex((stat) => stat.client === client);
 		this.stats.splice(index, 1);
 	}

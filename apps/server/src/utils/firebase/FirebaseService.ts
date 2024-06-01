@@ -4,7 +4,7 @@ import { UserInfos } from '@jmischler72/shared';
 
 export class FirebaseService {
 	static async verifyUser(token: string) {
-		let decodedToken = await authApp.verifyIdToken(token);
+		const decodedToken = await authApp.verifyIdToken(token);
 		return FirebaseService.checkIfUserNotInRoom(decodedToken.uid).then((notInRoom) => {
 			if (notInRoom) {
 				logger.info('User not in room');
@@ -17,7 +17,7 @@ export class FirebaseService {
 	static async checkIfUserNotInRoom(userId: string) {
 		const userRef = db.ref('rooms/' + userId);
 
-		let data = await userRef.once('value');
+		const data = await userRef.once('value');
 		return !data.exists();
 	}
 
@@ -45,7 +45,7 @@ export class FirebaseService {
 		logger.info('Getting user infos for : ' + userId);
 
 		const userRef = db.ref('users/' + userId);
-		let snapshot = await userRef.once('value');
+		const snapshot = await userRef.once('value');
 		if (snapshot.exists()) return snapshot.val() as UserInfos;
 		return null;
 	}

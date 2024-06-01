@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { MessageTypeEnum, type FirstGameModeRoomState } from '@jmischler72/shared';
-	import { roomStateStore, roomStore } from '$lib/stores/MultiplayerStore';
+	import { MessageTypeEnum } from '@jmischler72/shared';
+	import { roomStore } from '$lib/stores/MultiplayerStore';
 
 	let messages: { username: string; message: string }[] = [];
 

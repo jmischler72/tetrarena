@@ -15,7 +15,7 @@ export function findWinner(map: Map<string, PlayerState>): PlayerState {
 	let highestScore = -Infinity;
 	let playerWithHighestScore: PlayerState;
 
-	for (const [key, obj] of map.entries()) {
+	for (const [_key, obj] of map.entries()) {
 		if (obj.gameState.score > highestScore && !obj.gameState.isGameOver) {
 			highestScore = obj.gameState.score;
 			playerWithHighestScore = obj;
@@ -23,7 +23,7 @@ export function findWinner(map: Map<string, PlayerState>): PlayerState {
 	}
 
 	if (!playerWithHighestScore) {
-		map.forEach((player, key) => {
+		map.forEach((player) => {
 			if (!player.gameState.isGameOver) playerWithHighestScore = player;
 		});
 	}

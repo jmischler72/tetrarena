@@ -2,10 +2,9 @@ import * as PIXI from 'pixi.js';
 import Board from '../Board/Board';
 import { currentPlayerBorderTween, placedTetriminosTween, scoreAnimationTween } from './BoardContainerAnimation';
 import NextTetriminosContainer from './NextTetriminosContainer/NextTetriminosContainer';
-import { ColorEnum, type GameStateDTO } from '@jmischler72/core';
-import { getAddedLines, getDeletedLines } from '@jmischler72/shared';
+import { type GameStateDTO } from '@jmischler72/core';
+import { getDeletedLines } from '@jmischler72/shared';
 import DisconnectedOverlay from './DisconnectedOverlay';
-import { BOARD_HEIGHT } from '$lib/pixi/constants/board';
 
 export default class BoardContainer extends PIXI.Container {
 	private readonly board: Board;
