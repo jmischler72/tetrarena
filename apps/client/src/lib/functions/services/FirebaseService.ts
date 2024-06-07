@@ -51,14 +51,16 @@ export async function getLeaderboard() {
 
 	const snapshot = await getFromDb(quUsers);
 	if (snapshot.exists()) {
-		const users: { username: string; rank: number }[] = [];
+		const users: { username: string; rank: number; isAnonymous: any }[] = [];
 		snapshot.forEach((userSnapshot) => {
 			if (userSnapshot.val().rank) users.push(userSnapshot.val());
 		});
 
-		users.sort((a, b) => (a.rank > b.rank ? -1 : 1));
+		const filteredUsers = users
+			.filter((user) => user.isAnonymous === undefined || user.isAnonymous === false)
+			.sort((a, b) => (a.rank > b.rank ? -1 : 1));
 
-		return users;
+		return filteredUsers;
 	}
 	return [];
 }

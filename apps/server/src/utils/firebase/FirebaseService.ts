@@ -28,6 +28,21 @@ export class FirebaseService {
 		userRef.set(roomId);
 	}
 
+	static async checkIfUserIsAnonymous(userId: string) {
+		try {
+			const userRecord = await authApp.getUser(userId);
+			if (userRecord.providerData.length === 0) {
+				logger.debug('User is anonymous');
+				return true;
+			} else {
+				logger.debug('User is authenticated');
+				return false;
+			}
+		} catch (error) {
+			logger.error('Error fetching user data:', error);
+		}
+	}
+
 	static async updateRankForUser(userId: string, rank: number) {
 		const userRef = db.ref('users/' + userId);
 		logger.info('Updating rank for : ' + userId + ' to: ' + rank);
@@ -38,6 +53,10 @@ export class FirebaseService {
 
 		userRef.child('rank').transaction((current_value) => {
 			return (current_value || 500) + rank;
+		});
+
+		this.checkIfUserIsAnonymous(userId).then((isAnonymous) => {
+			if (isAnonymous) userRef.child('isAnonymous').set(true);
 		});
 	}
 
