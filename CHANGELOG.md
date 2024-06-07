@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/jmischler72/tetrarena/compare/v1.8.0...v1.8.1) (2024-06-07)
+
+### Bug Fixes
+
+- **changelog:** remove double lines ([5fd7f0e](https://github.com/jmischler72/tetrarena/commit/5fd7f0e5bfa8e46f169f5276cd7173d14bb5bff4))
+
 ## 1.8.0 (2024-06-07)
 
 ### Features
