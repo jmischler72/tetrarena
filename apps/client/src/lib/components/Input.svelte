@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let label: string;
 	export let value: any;
+	export let checked: boolean = false;
 	export let type: 'text' | 'checkbox' | 'number' | 'password' = 'text';
 
 	function toLowerSnakeCase(input: string): string {
@@ -12,9 +13,7 @@
 
 	function handleChange(e: any) {
 		if (type === 'checkbox') {
-			value = e.target.checked;
-		} else {
-			value = e.target.value;
+			checked = e.target.checked;
 		}
 	}
 
@@ -30,8 +29,7 @@
 		{label}
 	</label>
 	<input
-		checked={type === 'checkbox' && value}
-		{value}
+		bind:value
 		on:change={handleChange}
 		{...{ type }}
 		class="border-input flex h-10 {type !== 'checkbox'
