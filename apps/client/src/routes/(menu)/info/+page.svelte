@@ -19,12 +19,28 @@
 	/>
 </MenuHeader>
 <MenuContainer>
-	<div class="flex h-full w-full flex-col items-center justify-center gap-4">
+	<div class="flex h-full w-full flex-col items-center gap-8 pt-10">
+		<h1 class="text-gray-200">tetrarena v{appVersion}</h1>
+		<hr class="h-2 w-[80%] border-t-2 border-white" />
+
 		<h1 class="text-xl">
-			Made by <span><a class=" hover:underline" href="https://github.com/jmischler72">@jmischler72</a></span>
+			Made by <span><a class=" hover:underline" href="https://github.com/jmischler72">@jmischler72</a></span> with Svelte,
+			Pixi and Colyseus
 		</h1>
-		<h1>With Svelte, Pixi and Colyseus</h1>
-		<h1 class="text-gray-200">v{appVersion}</h1>
+		<p>
+			The code base is available on <span class="cursor-pointer text-gray-200 hover:underline"
+				><a class=" hover:underline" href="https://github.com/jmischler72/tetrarena">github.com/jmischler72/tetrarena</a
+				></span
+			>
+			<br />
+			If you find any bug, you can report them here:
+			<span class="cursor-pointer text-gray-200 hover:underline"
+				><a class=" hover:underline" href="https://github.com/jmischler72/tetrarena/issues/new/choose"
+					>github.com/jmischler72/tetrarena/issues</a
+				></span
+			>
+			<br />
+		</p>
 	</div>
 </MenuContainer>
 
