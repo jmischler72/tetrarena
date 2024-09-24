@@ -206,6 +206,7 @@ export class RankedLobbyRoom extends Room {
 						gameMode: GameModeEnum.First,
 						gameOptions: getDefaultGameMode(GameModeEnum.First).options,
 					};
+					roomOptions.gameOptions.opponentAttacking = true;
 					const room = await matchMaker.createRoom(this.roomToCreate, roomOptions);
 
 					await Promise.all(
