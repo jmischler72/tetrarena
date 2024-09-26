@@ -18,7 +18,7 @@
 	let renderer: THREE.WebGLRenderer;
 	let camera: THREE.OrthographicCamera;
 
-	let initialTextures = [texture3, texture4, texture5, texture6, texture7, texture8, texture9];
+	let initialTextures = [texture1, texture2];
 
 	let textures: THREE.Texture[] = [];
 
