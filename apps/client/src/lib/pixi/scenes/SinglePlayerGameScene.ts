@@ -13,6 +13,7 @@ export default class SinglePlayerGameScene extends GameScene implements IScene {
 		this.playerBoard = new BoardContainer();
 
 		this.addChild(this.playerBoard);
+		this.playerBoard.renderPlayerBorder();
 	}
 
 	update(): void {
@@ -22,7 +23,7 @@ export default class SinglePlayerGameScene extends GameScene implements IScene {
 		if (gameStateDTO.isGameOver) {
 			this.instance.restartGame();
 		} else {
-			this.playerBoard.updatePlayerBoard(gameStateDTO, '');
+			this.playerBoard.updatePlayerBoard(gameStateDTO);
 		}
 		this.stats.end();
 	}
