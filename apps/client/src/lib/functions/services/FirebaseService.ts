@@ -1,30 +1,22 @@
-import {
-	EmailAuthProvider,
-	linkWithCredential,
-	onAuthStateChanged,
-	sendEmailVerification,
-	signInAnonymously,
-} from 'firebase/auth';
+import { EmailAuthProvider, linkWithCredential, sendEmailVerification, signInAnonymously } from 'firebase/auth';
 import { auth, db } from './FirebaseClient';
 import { snackbarStore } from '$lib/stores/SnackbarStore';
-import { clientStore, userStore } from '$lib/stores/MultiplayerStore';
+import { clientStore } from '$lib/stores/MultiplayerStore';
 import { ref, get as getFromDb, child, orderByChild, query, limitToFirst, set } from 'firebase/database';
 import { get } from 'svelte/store';
 import type { UserInfos } from '@jmischler72/shared';
 
 export async function initUser() {
 	return new Promise<void>((resolve) => {
-		onAuthStateChanged(auth, async (user) => {
+		auth.onAuthStateChanged(async (user) => {
 			if (!user) {
 				console.log('User is logged out');
 				snackbarStore.set('Connecting as guest');
-				const u = await signInAnonymously(auth);
-				user = u.user;
+				user = (await signInAnonymously(auth)).user;
 			}
 
-			console.log('User is logged in');
+			console.log('User is logged in as ' + (user.isAnonymous ? 'anonymous' : 'registered'));
 			get(clientStore).auth.token = await user.getIdToken(true);
-			userStore.set(user);
 			resolve();
 		});
 	});
