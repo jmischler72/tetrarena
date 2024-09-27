@@ -8,7 +8,7 @@
 			console.log('Server connection only available in browser');
 			return;
 		}
-		await fetch(import.meta.env.VITE_SERVER_URL + '/version');
+		await fetch(import.meta.env.VITE_SERVER_URL);
 		await initUser();
 	}
 </script>

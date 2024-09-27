@@ -1,4 +1,4 @@
 loadtest.*
 build
 .env
-.env.production
+.env.*
