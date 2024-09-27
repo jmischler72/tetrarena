@@ -8,5 +8,5 @@
 </div>
 
 <footer class="absolute bottom-5 flex w-[98%] flex-row items-end justify-end gap-2 text-gray-500">
-	<!-- <a class="text-lg hover:underline lg:text-3xl" href="https://github.com/jmischler72">@jmischler72</a> -->
+	<a class="text-lg hover:underline lg:text-3xl" href="/info">@jmischler72</a>
 </footer>

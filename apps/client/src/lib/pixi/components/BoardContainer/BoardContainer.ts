@@ -10,12 +10,11 @@ export default class BoardContainer extends PIXI.Container {
 	private readonly board: Board;
 	private overlay: DisconnectedOverlay | null = null;
 	private readonly scoreText: PIXI.Text;
-	private readonly nameText: PIXI.Text;
 	private readonly nextTetriminosContainer: NextTetriminosContainer;
 	private currentGameState: GameStateDTO | null = null;
 	private initialPosition: number | null = null;
 
-	constructor(name: string) {
+	constructor(name?: string) {
 		super();
 		this.sortableChildren = true;
 
@@ -23,32 +22,34 @@ export default class BoardContainer extends PIXI.Container {
 
 		this.scoreText = new PIXI.Text('0', {
 			fontSize: 30,
-			stroke: '#000',
-			strokeThickness: 2,
+			fontFamily: "'Press Start 2P', cursive",
 			fill: 0xffffff,
 			align: 'center',
 		});
 		this.scoreText.anchor.set(0.5, 0.5);
 
-		this.scoreText.position.set(this.board.width / 2, 0);
+		this.scoreText.position.set(this.board.width / 2, -20);
 		this.scoreText.zIndex = 2;
-
-		this.nameText = new PIXI.Text('0', {
-			fontSize: 30,
-			stroke: '#000',
-			strokeThickness: 2,
-			fill: 0xffffff,
-			align: 'center',
-		});
-
-		this.nameText.text = name;
-
-		this.nameText.position.set(this.board.width / 2 - 100, 0);
 
 		this.nextTetriminosContainer = new NextTetriminosContainer();
 		this.nextTetriminosContainer.position.set(this.board.width + 10, 0);
 
-		this.addChild(this.board, this.scoreText, this.nextTetriminosContainer, this.nameText);
+		this.addChild(this.board, this.scoreText, this.nextTetriminosContainer);
+
+		if (name) {
+			const nameText = new PIXI.Text('0', {
+				fontSize: 15,
+				fontFamily: "'Press Start 2P', cursive",
+
+				fill: 0x5c5c5c,
+				align: 'center',
+			});
+
+			nameText.text = name;
+
+			nameText.position.set(this.board.width / 2 - nameText.width / 2, this.board.height + 10);
+			this.addChild(nameText);
+		}
 	}
 
 	renderDisconnectOverlay(connected: boolean) {
@@ -71,7 +72,7 @@ export default class BoardContainer extends PIXI.Container {
 		graphics.lineStyle(3, 0xff0000);
 		graphics.alpha = 0.3;
 		// draw a rectangle
-		graphics.drawRect(0, 0, this.width, this.height - this.scoreText.height / 2);
+		graphics.drawRect(0, 0, this.width, this.board.height);
 		graphics.zIndex = 1;
 
 		this.addChild(graphics);

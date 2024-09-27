@@ -111,6 +111,8 @@ export class RankedLobbyRoom extends Room {
 				options,
 			});
 
+			FirebaseService.setUserInRoom(client.auth.uid, this.roomId);
+
 			this.broadcast(MessageTypeEnum.PLAYERS_WAITING, this.stats.length);
 			this.logger.debug('players' + JSON.stringify(this.stats.map((s) => s.client.sessionId)));
 		});
@@ -204,6 +206,7 @@ export class RankedLobbyRoom extends Room {
 						gameMode: GameModeEnum.First,
 						gameOptions: getDefaultGameMode(GameModeEnum.First).options,
 					};
+					roomOptions.gameOptions.opponentAttacking = true;
 					const room = await matchMaker.createRoom(this.roomToCreate, roomOptions);
 
 					await Promise.all(
@@ -234,6 +237,8 @@ export class RankedLobbyRoom extends Room {
 	}
 
 	onLeave(client: Client) {
+		FirebaseService.setUserInRoom(client.auth.uid, null);
+
 		const index = this.stats.findIndex((stat) => stat.client === client);
 		this.stats.splice(index, 1);
 	}

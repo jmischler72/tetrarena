@@ -6,12 +6,16 @@
 	import ProfileComponent from './ProfileComponent.svelte';
 	import { auth } from '$lib/functions/services/FirebaseClient';
 	import WelcomeComponent from './WelcomeComponent.svelte';
-	import { userStore } from '$lib/stores/MultiplayerStore';
 
-	let currentMenu = $userStore?.isAnonymous ? 'welcome' : 'profile';
+	let currentUser = auth.currentUser;
+	let currentMenu = currentUser && !currentUser?.isAnonymous ? 'profile' : 'welcome';
+
+	auth.onAuthStateChanged((user) => {
+		if (user) currentUser = user;
+	});
 </script>
 
-{#if $userStore && !$userStore.isAnonymous}
+{#if currentUser && !currentUser.isAnonymous}
 	<MenuHeader>
 		<div class="flex h-full w-full flex-row justify-between">
 			<div class="flex flex-row">
