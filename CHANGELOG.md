@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/jmischler72/tetrarena/compare/v1.7.3...v1.9.0) (2024-09-27)
+
+### Features
+
+- **client:** new background with three js ([3975297](https://github.com/jmischler72/tetrarena/commit/397529729c25aa4650463a2f364bf510e99aeee4))
+- **leaderboard:** filter anonymous users ([283e586](https://github.com/jmischler72/tetrarena/commit/283e5861e316bd16111d9628d401fa596bad83fe))
+
+### Bug Fixes
+
+- **changelog:** remove double lines ([5fd7f0e](https://github.com/jmischler72/tetrarena/commit/5fd7f0e5bfa8e46f169f5276cd7173d14bb5bff4))
+- **client:** update infos ([58697c8](https://github.com/jmischler72/tetrarena/commit/58697c8d7af790d0217cb1247a529d81c8c90038))
+- **client:** weird behaviour save + checkbox ([b1e44d2](https://github.com/jmischler72/tetrarena/commit/b1e44d2412f9a24d641f4f909f52d0b2bccf4cf1))
+- **server:** opponent attacking in ranked games ([2892a29](https://github.com/jmischler72/tetrarena/commit/2892a2944701d1e86524825c586f64ca0d7ee136))
+- **server:** update user's room status in RankedLobbyRoom ([5ab8708](https://github.com/jmischler72/tetrarena/commit/5ab87087065f4d229467d2249c7f1cbdf1dc7c35))
+
 ### [1.8.1](https://github.com/jmischler72/tetrarena/compare/v1.8.0...v1.8.1) (2024-06-07)
 
 ### Bug Fixes
