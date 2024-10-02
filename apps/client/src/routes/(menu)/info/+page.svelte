@@ -29,15 +29,10 @@
 			Pixi and Colyseus
 		</h1>
 		<p>
-			The code base is available on <span class="cursor-pointer text-gray-200 hover:underline"
-				><a class=" hover:underline" href="https://github.com/jmischler72/tetrarena">github.com/jmischler72/tetrarena</a
-				></span
-			>
-			<br />
 			If you find any bug, you can report them here:
 			<span class="cursor-pointer text-gray-200 hover:underline"
-				><a class=" hover:underline" href="https://github.com/jmischler72/tetrarena/issues/new/choose"
-					>github.com/jmischler72/tetrarena/issues</a
+				><a class=" hover:underline" href="https://github.com/jmischler72/tetrarena-issues/issues/new/choose"
+					>github/tetrarena-issues</a
 				></span
 			>
 			<br />
