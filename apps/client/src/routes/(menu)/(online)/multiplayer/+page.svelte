@@ -21,18 +21,28 @@
 				icon="play_arrow"
 				selected={currentMenu === 'play'}
 			></MenuButtonHeader>
-			<MenuButtonHeader
-				on:click={() => (currentMenu = 'list')}
-				text="Rooms List"
-				icon="list"
-				selected={currentMenu === 'list'}
-			></MenuButtonHeader>
-			<MenuButtonHeader
-				on:click={() => (currentMenu = 'create')}
-				text="Create Room"
-				icon="add_circle"
-				selected={currentMenu === 'create'}
-			></MenuButtonHeader>
+			{#if currentMenu === 'list' || currentMenu === 'create'}
+				<MenuButtonHeader
+					on:click={() => (currentMenu = 'list')}
+					text="Rooms List"
+					icon="list"
+					selected={currentMenu === 'list'}
+				></MenuButtonHeader>
+				<MenuButtonHeader
+					on:click={() => (currentMenu = 'create')}
+					text="Create Room"
+					icon="add_circle"
+					selected={currentMenu === 'create'}
+				></MenuButtonHeader>
+			{:else}
+				<MenuButtonHeader
+					on:click={() => (currentMenu = 'list')}
+					text="Rooms"
+					icon="list"
+					selected={currentMenu === 'list'}
+				></MenuButtonHeader>
+			{/if}
+
 			<MenuButtonHeader
 				on:click={() => (currentMenu = 'leaderboard')}
 				text="Leaderboard"
