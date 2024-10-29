@@ -2,6 +2,7 @@
 	import '../app.css';
 	import { onMount } from 'svelte';
 	import ThreeBg from './ThreeBg.svelte';
+	import Analytics from '$lib/components/Analytics.svelte';
 
 	onMount(() => {
 		// setup jdenticon programmatically -> module needed for picker (data-jdenticon-value cant be used with nodejs module)
@@ -15,6 +16,8 @@
 		window['jdenticon_config'] = { replaceMode: 'observe' };
 	});
 </script>
+
+<Analytics />
 
 <div class="flex h-[100vh] w-[100vw] items-center justify-center bg-gray-800/75">
 	<slot />
