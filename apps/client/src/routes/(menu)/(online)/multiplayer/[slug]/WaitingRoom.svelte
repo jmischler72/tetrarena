@@ -9,6 +9,7 @@
 	import { onMount } from 'svelte';
 	import CountdownTimer from './CountdownTimer.svelte';
 	import { snackbarStore } from '$lib/stores/SnackbarStore';
+	import ButtonClipboard from '$lib/components/ButtonClipboard.svelte';
 
 	function playerReady() {
 		$roomStore?.send(MessageTypeEnum.READY);
@@ -42,6 +43,9 @@
 			></CountdownTimer>
 		{/key}
 	</button>
+	<div class="absolute right-0 aspect-square w-16 translate-x-[-100%] cursor-pointer">
+		<ButtonClipboard></ButtonClipboard>
+	</div>
 </MenuHeader>
 <MenuContainer hasFooter={true}>
 	<WaitingComponent></WaitingComponent>

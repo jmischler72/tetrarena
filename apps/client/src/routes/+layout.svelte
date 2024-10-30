@@ -2,7 +2,7 @@
 	import '../app.css';
 	import { onMount } from 'svelte';
 	import ThreeBg from './ThreeBg.svelte';
-	import Analytics from '$lib/components/Analytics.svelte';
+	import Analytics from '$lib/components/google/Analytics.svelte';
 
 	onMount(() => {
 		// setup jdenticon programmatically -> module needed for picker (data-jdenticon-value cant be used with nodejs module)
