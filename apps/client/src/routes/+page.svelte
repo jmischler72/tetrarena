@@ -1,11 +1,13 @@
 <script lang="ts">
 	import Home from './Home.svelte';
+	import { goto } from '$app/navigation';
 </script>
 
 <div class="relative flex h-[50%] w-full flex-col items-center gap-y-10 pb-4 lg:h-[70%]">
-	<a class="border-2 border-solid border-white text-2xl text-gray-200 hover:underline lg:text-5xl" href="/info"
-		>tetrarena</a
-	>
+	<button on:click={() => goto('/info')}>
+		<h1 class="border-2 border-solid border-white text-2xl text-gray-200 hover:underline lg:text-5xl">tetrarena</h1>
+	</button>
+
 	<Home></Home>
 </div>
 
