@@ -14,7 +14,8 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run server build
 RUN pnpm run server deploy --prod /prod/server
 
-FROM base AS server
+FROM base AS production
+
 COPY --from=build /prod/server /prod/server
 WORKDIR /prod/server
 ENV PORT=8080
