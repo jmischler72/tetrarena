@@ -1,4 +1,4 @@
-name: tetrarena/server - deployment
+name: tetrarena-server - deployment
 
 on:
   workflow_dispatch:
@@ -56,8 +56,11 @@ jobs:
     
   dokploy_deploy:
     needs: build_and_push
-    uses: jmischler72/dokploy-deploy-action@1.0.2
-    secrets: inherit
-    with:
-      PROJECT_NAME: tetrarena
-      APPLICATION_NAME: server
+    steps:
+      - name: Deploy to Dokploy
+        uses: jmischler72/dokploy-deploy-action@1.0.2
+        with:
+          PROJECT_NAME: tetrarena
+          APPLICATION_NAME: server
+          DOKPLOY_HOST: ${{ secrets.DOKPLOY_HOST }}
+          DOKPLOY_TOKEN: ${{ secrets.DOKPLOY_TOKEN }}
