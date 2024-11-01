@@ -2,12 +2,6 @@ name: tetrarena-server - deployment
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'apps/server/**'
-      - 'packages/**'
 
 permissions:
   contents: read
