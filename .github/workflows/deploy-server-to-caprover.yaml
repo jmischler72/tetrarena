@@ -52,10 +52,10 @@ jobs:
           platforms: linux/arm64
           context: .
           file: ./apps/server/Dockerfile
-      - name: Deploy Image to CapRrover
-        uses: caprover/deploy-from-github@v1.1.2
-        with:
-          server: '${{ secrets.CAPROVER_SERVER }}'
-          app: '${{ secrets.APP_NAME }}'
-          token: '${{ secrets.APP_TOKEN }}'
-          image: ${{ steps.meta.outputs.tags }}
+    
+  dokploy_deploy:
+    uses: jmischler72/dokploy-deploy-actions/.github/workflows/dokploy-deploy-actions.yaml@main
+    secrets: 
+      DOKPLOY_HOST: ${{ secrets.DOKPLOY_HOST }}
+      DOKPLOY_TOKEN: ${{ secrets.DOKPLOY_TOKEN }}
+      APPLICATION_ID: ${{ secrets.APPLICATION_ID }}
