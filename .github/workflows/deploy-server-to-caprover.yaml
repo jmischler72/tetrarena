@@ -54,6 +54,7 @@ jobs:
           file: ./apps/server/Dockerfile
     
   dokploy_deploy:
+    needs: build_and_push
     uses: jmischler72/dokploy-deploy-actions/.github/workflows/dokploy-deploy-actions.yaml@main
     secrets: 
       DOKPLOY_HOST: ${{ secrets.DOKPLOY_HOST }}
