@@ -8,7 +8,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^3.2.0",
+		"@sveltejs/adapter-node": "^5.2.9",
 		"@sveltejs/kit": "^2.5.7",
 		"@sveltejs/vite-plugin-svelte": "^3.1.0",
 		"@types/gtag.js": "^0.0.20",
@@ -30,7 +30,6 @@
 	"dependencies": {
 		"@jmischler72/core": "workspace:*",
 		"@jmischler72/shared": "workspace:*",
-		"@sveltejs/adapter-netlify": "^4.2.0",
 		"@tweenjs/tween.js": "^23.1.2",
 		"colyseus.js": "^0.15.19",
 		"firebase": "^10.11.1",
