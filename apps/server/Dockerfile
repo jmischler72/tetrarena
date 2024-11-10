@@ -8,16 +8,17 @@ RUN apk add --update python3 make g++\
    && rm -rf /var/cache/apk/*
 
 FROM base AS build
-COPY . /usr/src/app
-WORKDIR /usr/src/app
+COPY . /app
+WORKDIR /app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run server build
-RUN pnpm run server deploy --prod /prod/server
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm run server deploy --prod /prod
 
 FROM base AS production
 
-COPY --from=build /prod/server /prod/server
-WORKDIR /prod/server
+COPY --from=build /prod /prod
+
+WORKDIR /prod
 ENV PORT=8080
 
 EXPOSE 8080

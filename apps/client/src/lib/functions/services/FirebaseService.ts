@@ -48,9 +48,7 @@ export async function getLeaderboard() {
 			if (userSnapshot.val().rank) users.push(userSnapshot.val());
 		});
 
-		const filteredUsers = users
-			.filter((user) => user.isAnonymous === undefined || user.isAnonymous === false)
-			.sort((a, b) => (a.rank > b.rank ? -1 : 1));
+		const filteredUsers = users.sort((a, b) => (a.rank > b.rank ? -1 : 1));
 
 		return filteredUsers;
 	}
