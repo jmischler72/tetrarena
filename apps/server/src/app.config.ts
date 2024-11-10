@@ -33,13 +33,10 @@ export default config({
 	initializeExpress: (app) => {
 		app.use(cors());
 		app.use(express.json());
-		/**
-		 * Get version of the server (broken for now)
-		 * TODO : Fix this
-		 */
-		// app.get('/version', (req, res) => {
-		// 	res.status(200).json({ version: '1.6.0' });
-		// });
+
+		app.get('/healthcheck', (req, res) => {
+			res.status(200).json({ status: 'ok' });
+		});
 
 		/**
 		 * Use @colyseus/playground
