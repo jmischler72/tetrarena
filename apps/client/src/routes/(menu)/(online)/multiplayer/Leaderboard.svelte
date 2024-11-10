@@ -2,7 +2,7 @@
 	import AsyncMenu from '$lib/components/menu/AsyncMenu.svelte';
 	import { getLeaderboard } from '$lib/functions/services/FirebaseService';
 
-	let users: { username: string; rank: number }[] = [];
+	let users: { username: string; rank: number; isCurrentUser: boolean }[] = [];
 
 	async function getUsers() {
 		users = await getLeaderboard();
@@ -37,7 +37,10 @@
 						<tr
 							class="cursor-pointer border-b transition-colors hover:bg-gray-600 {key === 0
 								? 'bg-yellow-600/50'
-								: ''} {key === 1 ? 'bg-zinc-500/50' : ''} {key === 2 ? 'bg-orange-700/50' : ''}"
+								: ''} {key === 1 ? 'bg-zinc-500/50' : ''} {key === 2 ? 'bg-orange-700/50' : ''} {user.isCurrentUser ===
+							true
+								? 'bg-gray-700/50'
+								: ''}"
 						>
 							<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 py-8 text-center align-middle font-medium">{key + 1}</td>
 							<td class="[&amp;:has([role=checkbox])]:pr-0 p-4 py-8 text-center align-middle font-medium"

@@ -23,6 +23,7 @@ export async function initUser() {
 }
 
 export async function getUserInfos() {
+	console.log('Getting user infos', auth.currentUser);
 	if (!auth.currentUser) return null;
 	let currentUser = {
 		username: 'Guest-' + auth.currentUser.uid.substring(0, 6),
@@ -43,9 +44,10 @@ export async function getLeaderboard() {
 
 	const snapshot = await getFromDb(quUsers);
 	if (snapshot.exists()) {
-		const users: { username: string; rank: number; isAnonymous: any }[] = [];
+		const users: { username: string; rank: number; isAnonymous: any; isCurrentUser: boolean }[] = [];
 		snapshot.forEach((userSnapshot) => {
-			if (userSnapshot.val().rank) users.push(userSnapshot.val());
+			if (userSnapshot.val().rank)
+				users.push({ ...userSnapshot.val(), isCurrentUser: userSnapshot.key === auth.currentUser?.uid });
 		});
 
 		const filteredUsers = users.sort((a, b) => (a.rank > b.rank ? -1 : 1));
