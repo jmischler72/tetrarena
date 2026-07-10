@@ -40,7 +40,7 @@ export async function getUserInfos() {
 
 export async function getLeaderboard() {
 	const usersRef = ref(db, 'users');
-	const quUsers = query(usersRef, orderByChild('rank'), limitToFirst(20));
+	const quUsers = query(usersRef, orderByChild('rank'), limitToFirst(200));
 
 	const snapshot = await getFromDb(quUsers);
 	if (snapshot.exists()) {
